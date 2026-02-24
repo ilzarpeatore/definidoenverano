@@ -4,6 +4,7 @@ import SolutionSection from '@/components/SolutionSection';
 import TestimonialSection from '@/components/TestimonialSection';
 import CoachingSection from '@/components/CoachingSection';
 import NutritionSection from '@/components/NutritionSection';
+import AppSection from '@/components/AppSection';
 import CTASection from '@/components/CTASection';
 import FAQSection from '@/components/FAQSection';
 import Footer from '@/components/Footer';
@@ -27,6 +28,7 @@ export default function Home() {
         <TestimonialSection />
         <CoachingSection />
         <NutritionSection />
+        <AppSection />
         <CTASection />
         <FAQSection />
       </main>
