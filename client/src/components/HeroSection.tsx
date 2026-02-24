@@ -55,18 +55,16 @@ export default function HeroSection() {
         initial="hidden"
         animate="visible"
       >
-        {/* Main Headline */}
+        {/* Main Headline - SEO Optimized H1 */}
         <motion.h1
           className="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6 text-white"
           variants={itemVariants}
         >
-          3 MESES.
+          Definido en Verano:
           <br />
-          <span className="text-gradient-gold">UN CUERPO</span>
+          <span className="text-gradient-gold">Transforma tu Cuerpo</span>
           <br />
-          COMPLETAMENTE
-          <br />
-          DIFERENTE.
+          en 12 Semanas
         </motion.h1>
 
         {/* Divider Line */}
