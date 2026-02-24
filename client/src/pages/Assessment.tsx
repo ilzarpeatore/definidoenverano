@@ -4,8 +4,10 @@ import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Loader2 } from 'lucide-react';
 import { useLocation } from 'wouter';
+import { trpc } from '@/lib/trpc';
+import { toast } from 'sonner';
 
 /**
  * Assessment Page - Client Qualification
@@ -40,6 +42,14 @@ export default function Assessment() {
   });
 
   const [errors, setErrors] = useState<string[]>([]);
+  const [clientInfo, setClientInfo] = useState({
+    email: '',
+    phone: '',
+    firstName: '',
+    lastName: '',
+  });
+
+  const createCheckoutMutation = trpc.payments.createCheckoutSession.useMutation();
 
   const steps = [
     {
@@ -135,7 +145,6 @@ export default function Assessment() {
   const isLastStep = step === steps.length - 1;
 
   const handleNext = () => {
-    // Validar que el campo actual está completo
     const fieldValue = data[currentStep.field as keyof AssessmentData];
     if (!fieldValue || (Array.isArray(fieldValue) && fieldValue.length === 0)) {
       setErrors(['Por favor, selecciona una opción']);
@@ -170,15 +179,200 @@ export default function Assessment() {
     setErrors([]);
   };
 
-  const handleCheckout = () => {
-    // Guardar datos del assessment en localStorage
-    localStorage.setItem('assessmentData', JSON.stringify(data));
-    console.log('Assessment Data:', data);
-    // Redirigir a la página de pago
-    navigate('/checkout');
+  const handleCheckout = async () => {
+    // Validar información de contacto
+    if (!clientInfo.email || !clientInfo.phone || !clientInfo.firstName || !clientInfo.lastName) {
+      setErrors(['Por favor, completa toda tu información de contacto']);
+      return;
+    }
+
+    try {
+      // Llamar al backend para crear sesión de checkout
+      const result = await createCheckoutMutation.mutateAsync({
+        email: clientInfo.email,
+        phone: clientInfo.phone,
+        firstName: clientInfo.firstName,
+        lastName: clientInfo.lastName,
+        assessment: {
+          experienceLevel: data.experience,
+          yearsTraining: data.yearsTraining ? parseInt(data.yearsTraining.split('-')[0]) : undefined,
+          mainGoal: data.mainGoal,
+          bodyAreasToImprove: data.bodyParts,
+          musclesToDevelop: data.muscleGroups,
+          availableTime: data.timeAvailable,
+          motivation: data.motivation,
+        },
+      });
+
+      // Guardar orderId en localStorage para usar en checkout
+      localStorage.setItem('currentOrderId', result.orderId);
+      localStorage.setItem('assessmentData', JSON.stringify(data));
+      localStorage.setItem('clientInfo', JSON.stringify(clientInfo));
+
+      toast.success('¡Información guardada! Redirigiendo a pago...');
+
+      // Redirigir a checkout
+      setTimeout(() => {
+        navigate('/checkout');
+      }, 500);
+    } catch (error) {
+      console.error('Error creating checkout session:', error);
+      toast.error('Error al procesar tu información. Intenta de nuevo.');
+      setErrors(['Error al procesar tu información. Intenta de nuevo.']);
+    }
   };
 
   const progress = ((step + 1) / steps.length) * 100;
+
+  // Mostrar formulario de contacto en el último paso
+  if (isLastStep) {
+    return (
+      <div className="min-h-screen bg-background text-foreground flex flex-col">
+        {/* Header */}
+        <div className="bg-card border-b border-border py-6">
+          <div className="container max-w-2xl mx-auto px-4">
+            <h1 className="font-display text-3xl md:text-4xl text-white mb-2">
+              Casi listo
+            </h1>
+            <p className="text-gray-400">
+              Solo necesitamos tu información de contacto
+            </p>
+          </div>
+        </div>
+
+        {/* Progress Bar */}
+        <div className="bg-card border-b border-border py-4">
+          <div className="container max-w-2xl mx-auto px-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-gray-400">
+                Paso {step + 1} de {steps.length}
+              </span>
+              <span className="text-sm text-accent font-bold">{Math.round(progress)}%</span>
+            </div>
+            <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+              <motion.div
+                className="bg-accent h-full"
+                initial={{ width: 0 }}
+                animate={{ width: `${progress}%` }}
+                transition={{ duration: 0.5 }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 flex items-center justify-center py-12">
+          <motion.div
+            className="container max-w-2xl mx-auto px-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="space-y-6 mb-12">
+              <div>
+                <label className="block text-sm font-medium text-gray-200 mb-2">
+                  Email *
+                </label>
+                <input
+                  type="email"
+                  value={clientInfo.email}
+                  onChange={(e) => setClientInfo({ ...clientInfo, email: e.target.value })}
+                  placeholder="tu@email.com"
+                  className="w-full px-4 py-3 bg-card border border-border rounded-sm text-white placeholder-gray-500 focus:outline-none focus:border-accent"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-200 mb-2">
+                  Teléfono/WhatsApp *
+                </label>
+                <input
+                  type="tel"
+                  value={clientInfo.phone}
+                  onChange={(e) => setClientInfo({ ...clientInfo, phone: e.target.value })}
+                  placeholder="+34 600 123 456"
+                  className="w-full px-4 py-3 bg-card border border-border rounded-sm text-white placeholder-gray-500 focus:outline-none focus:border-accent"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-200 mb-2">
+                    Nombre *
+                  </label>
+                  <input
+                    type="text"
+                    value={clientInfo.firstName}
+                    onChange={(e) => setClientInfo({ ...clientInfo, firstName: e.target.value })}
+                    placeholder="Juan"
+                    className="w-full px-4 py-3 bg-card border border-border rounded-sm text-white placeholder-gray-500 focus:outline-none focus:border-accent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-200 mb-2">
+                    Apellido *
+                  </label>
+                  <input
+                    type="text"
+                    value={clientInfo.lastName}
+                    onChange={(e) => setClientInfo({ ...clientInfo, lastName: e.target.value })}
+                    placeholder="Pérez"
+                    className="w-full px-4 py-3 bg-card border border-border rounded-sm text-white placeholder-gray-500 focus:outline-none focus:border-accent"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Error Message */}
+            {errors.length > 0 && (
+              <motion.div
+                className="mb-8 p-4 bg-destructive/10 border border-destructive/50 rounded-sm text-destructive text-sm"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                {errors[0]}
+              </motion.div>
+            )}
+
+            {/* Navigation Buttons */}
+            <div className="flex gap-4">
+              <Button
+                variant="outline"
+                onClick={handlePrevious}
+                className="flex items-center gap-2"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Atrás
+              </Button>
+
+              <Button
+                onClick={handleCheckout}
+                disabled={createCheckoutMutation.isPending}
+                className="flex-1 bg-accent hover:bg-accent/90 text-accent-foreground font-bold btn-glow flex items-center justify-center gap-2"
+              >
+                {createCheckoutMutation.isPending ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Procesando...
+                  </>
+                ) : (
+                  'Ir a Pago'
+                )}
+              </Button>
+            </div>
+
+            {/* Trust Message */}
+            <div className="mt-8 text-center text-sm text-gray-400">
+              <p>
+                ✓ Tus datos están seguros y serán usados solo para personalizar tu programa
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
@@ -290,22 +484,13 @@ export default function Assessment() {
               Atrás
             </Button>
 
-            {!isLastStep ? (
-              <Button
-                onClick={handleNext}
-                className="flex-1 bg-accent hover:bg-accent/90 text-accent-foreground font-bold flex items-center justify-center gap-2"
-              >
-                Siguiente
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            ) : (
-              <Button
-                onClick={handleCheckout}
-                className="flex-1 bg-accent hover:bg-accent/90 text-accent-foreground font-bold btn-glow"
-              >
-                Ir a Pago
-              </Button>
-            )}
+            <Button
+              onClick={handleNext}
+              className="flex-1 bg-accent hover:bg-accent/90 text-accent-foreground font-bold flex items-center justify-center gap-2"
+            >
+              Siguiente
+              <ChevronRight className="w-4 h-4" />
+            </Button>
           </div>
 
           {/* Trust Message */}

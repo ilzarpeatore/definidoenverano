@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
-import { Check, Lock, ArrowLeft } from 'lucide-react';
+import { Check, Lock, ArrowLeft, Loader2 } from 'lucide-react';
+import { trpc } from '@/lib/trpc';
+import { toast } from 'sonner';
 
 /**
  * Checkout Page - Payment Gateway
@@ -23,7 +25,14 @@ interface PaymentMethod {
 export default function Checkout() {
   const [, navigate] = useLocation();
   const [selectedPayment, setSelectedPayment] = useState<string>('stripe');
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [orderId, setOrderId] = useState<string>('');
+
+  // tRPC mutations
+  const processStripeMutation = trpc.payments.processStripePayment.useMutation();
+  const processPayPalMutation = trpc.payments.processPayPalPayment.useMutation();
+  const processKlarnaMutation = trpc.payments.processKlarnaPayment.useMutation();
+  const processApplePayMutation = trpc.payments.processApplePayPayment.useMutation();
+  const processGooglePayMutation = trpc.payments.processGooglePayPayment.useMutation();
 
   const paymentMethods: PaymentMethod[] = [
     {
@@ -58,17 +67,100 @@ export default function Checkout() {
     },
   ];
 
+  // Cargar orderId desde localStorage
+  useEffect(() => {
+    const savedOrderId = localStorage.getItem('currentOrderId');
+    if (!savedOrderId) {
+      toast.error('Error: No se encontró la orden. Vuelve al assessment.');
+      navigate('/assessment');
+      return;
+    }
+    setOrderId(savedOrderId);
+  }, [navigate]);
+
+  const isProcessing = 
+    processStripeMutation.isPending ||
+    processPayPalMutation.isPending ||
+    processKlarnaMutation.isPending ||
+    processApplePayMutation.isPending ||
+    processGooglePayMutation.isPending;
+
   const handlePayment = async () => {
-    setIsProcessing(true);
-    
-    // Simular procesamiento de pago
-    setTimeout(() => {
-      console.log(`Procesando pago con: ${selectedPayment}`);
-      // Aquí iría la integración real con la pasarela de pago
-      // Por ahora, redirigimos a una página de éxito simulada
-      navigate('/success');
-      setIsProcessing(false);
-    }, 2000);
+    if (!orderId) {
+      toast.error('Error: No se encontró la orden.');
+      return;
+    }
+
+    try {
+      // Simular procesamiento de pago según el método seleccionado
+      // En producción, aquí irían las integraciones reales con cada pasarela
+
+      switch (selectedPayment) {
+        case 'stripe':
+          // TODO: Integrar Stripe.js para obtener token de pago
+          // const { token } = await stripe.createToken(card);
+          // const paymentIntentId = await createPaymentIntent(token);
+          const mockStripePaymentIntentId = `pi_${Math.random().toString(36).substring(7)}`;
+          await processStripeMutation.mutateAsync({
+            orderId,
+            paymentIntentId: mockStripePaymentIntentId,
+          });
+          break;
+
+        case 'paypal':
+          // TODO: Integrar PayPal SDK
+          // const paypalOrderId = await paypal.createOrder();
+          const mockPayPalOrderId = `PP-${Math.random().toString(36).substring(7)}`;
+          await processPayPalMutation.mutateAsync({
+            orderId,
+            paypalOrderId: mockPayPalOrderId,
+          });
+          break;
+
+        case 'klarna':
+          // TODO: Integrar Klarna API
+          // const klarnaOrderId = await klarna.createOrder();
+          const mockKlarnaOrderId = `KL-${Math.random().toString(36).substring(7)}`;
+          await processKlarnaMutation.mutateAsync({
+            orderId,
+            klarnaOrderId: mockKlarnaOrderId,
+          });
+          break;
+
+        case 'apple-pay':
+          // TODO: Integrar Apple Pay
+          // const applePayToken = await ApplePaySession.begin();
+          const mockApplePayToken = `APL-${Math.random().toString(36).substring(7)}`;
+          await processApplePayMutation.mutateAsync({
+            orderId,
+            paymentToken: mockApplePayToken,
+          });
+          break;
+
+        case 'google-pay':
+          // TODO: Integrar Google Pay
+          // const googlePayToken = await google.payments.api.PaymentsClient.loadPaymentData();
+          const mockGooglePayToken = `GGL-${Math.random().toString(36).substring(7)}`;
+          await processGooglePayMutation.mutateAsync({
+            orderId,
+            paymentToken: mockGooglePayToken,
+          });
+          break;
+      }
+
+      toast.success('¡Pago procesado exitosamente!');
+      
+      // Guardar orderId para la página de éxito
+      localStorage.setItem('successOrderId', orderId);
+      
+      // Redirigir a página de éxito
+      setTimeout(() => {
+        navigate('/success');
+      }, 500);
+    } catch (error) {
+      console.error('Error processing payment:', error);
+      toast.error('Error al procesar el pago. Intenta de nuevo.');
+    }
   };
 
   const containerVariants = {
@@ -132,13 +224,14 @@ export default function Checkout() {
                   <motion.button
                     key={method.id}
                     onClick={() => setSelectedPayment(method.id)}
-                    className={`w-full p-6 rounded-sm border-2 transition-all text-left card-glass ${
+                    disabled={isProcessing}
+                    className={`w-full p-6 rounded-sm border-2 transition-all text-left card-glass disabled:opacity-50 ${
                       selectedPayment === method.id
                         ? 'border-accent bg-accent/5'
                         : 'border-border hover:border-accent/50'
                     }`}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ scale: isProcessing ? 1 : 1.02 }}
+                    whileTap={{ scale: isProcessing ? 1 : 0.98 }}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
@@ -193,11 +286,11 @@ export default function Checkout() {
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between text-gray-400">
                       <span>Precio original:</span>
-                      <span className="line-through">$497</span>
+                      <span className="line-through">€497</span>
                     </div>
                     <div className="flex justify-between text-accent font-bold">
                       <span>Descuento (60%):</span>
-                      <span>-$300</span>
+                      <span>-€300</span>
                     </div>
                   </div>
                 </div>
@@ -208,9 +301,9 @@ export default function Checkout() {
                     <span className="text-gray-300">Total:</span>
                     <div>
                       <span className="font-display text-3xl text-accent font-bold">
-                        $197
+                        €197
                       </span>
-                      <span className="text-gray-400 text-sm ml-2">USD</span>
+                      <span className="text-gray-400 text-sm ml-2">EUR</span>
                     </div>
                   </div>
                   <p className="text-xs text-gray-500">Pago único - Acceso de por vida</p>
@@ -230,16 +323,16 @@ export default function Checkout() {
                 {/* Payment Button */}
                 <Button
                   onClick={handlePayment}
-                  disabled={isProcessing}
+                  disabled={isProcessing || !orderId}
                   className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-6 rounded-sm btn-glow disabled:opacity-50"
                 >
                   {isProcessing ? (
                     <span className="flex items-center gap-2">
-                      <span className="animate-spin">⏳</span>
+                      <Loader2 className="w-4 h-4 animate-spin" />
                       Procesando...
                     </span>
                   ) : (
-                    `Pagar $197 con ${paymentMethods.find(m => m.id === selectedPayment)?.name}`
+                    `Pagar €197 con ${paymentMethods.find(m => m.id === selectedPayment)?.name}`
                   )}
                 </Button>
 

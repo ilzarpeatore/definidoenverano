@@ -1,7 +1,10 @@
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
 import { Check, Download, Mail, Users } from 'lucide-react';
+import { trpc } from '@/lib/trpc';
+import { toast } from 'sonner';
 
 /**
  * Success Page - Post-Purchase Confirmation
@@ -12,8 +15,58 @@ import { Check, Download, Mail, Users } from 'lucide-react';
  * - Community access
  */
 
+interface OrderData {
+  orderId: string;
+  amount: number;
+  currency: string;
+  status: string;
+  paymentMethod: string;
+}
+
 export default function Success() {
   const [, navigate] = useLocation();
+  const [orderData, setOrderData] = useState<OrderData | null>(null);
+  const [clientInfo, setClientInfo] = useState({ email: '', firstName: '' });
+
+  const getOrderStatusQuery = trpc.payments.getOrderStatus.useQuery(
+    { orderId: orderData?.orderId || '' },
+    { enabled: !!orderData?.orderId }
+  );
+
+  useEffect(() => {
+    // Cargar datos de localStorage
+    const successOrderId = localStorage.getItem('successOrderId');
+    const savedClientInfo = localStorage.getItem('clientInfo');
+
+    if (!successOrderId) {
+      toast.error('Error: No se encontró la orden. Vuelve al inicio.');
+      navigate('/');
+      return;
+    }
+
+    if (savedClientInfo) {
+      const parsed = JSON.parse(savedClientInfo);
+      setClientInfo({
+        email: parsed.email,
+        firstName: parsed.firstName,
+      });
+    }
+
+    // Simular datos de orden (en producción, esto vendría del backend)
+    setOrderData({
+      orderId: successOrderId,
+      amount: 19700,
+      currency: 'EUR',
+      status: 'completed',
+      paymentMethod: 'stripe',
+    });
+
+    // Limpiar localStorage
+    localStorage.removeItem('successOrderId');
+    localStorage.removeItem('currentOrderId');
+    localStorage.removeItem('assessmentData');
+    localStorage.removeItem('clientInfo');
+  }, [navigate]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -53,6 +106,10 @@ export default function Success() {
     },
   ];
 
+  const formatPrice = (cents: number) => {
+    return (cents / 100).toFixed(2);
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       {/* Success Header */}
@@ -85,7 +142,7 @@ export default function Success() {
               className="font-display text-5xl md:text-6xl text-white mb-4"
               variants={itemVariants}
             >
-              ¡Bienvenido a Definido en Verano!
+              ¡Bienvenido, {clientInfo.firstName || 'campeón'}!
             </motion.h1>
 
             <motion.p
@@ -96,21 +153,34 @@ export default function Success() {
             </motion.p>
 
             {/* Order Details */}
-            <motion.div
-              className="card-glass border border-border p-8 rounded-sm mb-12"
-              variants={itemVariants}
-            >
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="text-left">
-                  <p className="text-gray-400 text-sm mb-2">Número de orden</p>
-                  <p className="font-mono text-white font-bold">#SS-2026-001847</p>
+            {orderData && (
+              <motion.div
+                className="card-glass border border-border p-8 rounded-sm mb-12"
+                variants={itemVariants}
+              >
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="text-left">
+                    <p className="text-gray-400 text-sm mb-2">Número de orden</p>
+                    <p className="font-mono text-white font-bold">#{orderData.orderId.substring(0, 12).toUpperCase()}</p>
+                  </div>
+                  <div className="text-left md:text-right">
+                    <p className="text-gray-400 text-sm mb-2">Monto pagado</p>
+                    <p className="font-display text-3xl text-accent font-bold">
+                      €{formatPrice(orderData.amount)}
+                    </p>
+                  </div>
                 </div>
-                <div className="text-left md:text-right">
-                  <p className="text-gray-400 text-sm mb-2">Monto pagado</p>
-                  <p className="font-display text-3xl text-accent font-bold">$197 USD</p>
+                <div className="mt-6 pt-6 border-t border-border">
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-400">Estado del pago:</span>
+                    <span className="flex items-center gap-2 text-accent font-bold">
+                      <Check className="w-4 h-4" />
+                      {orderData.status === 'completed' ? 'Completado' : 'Procesando'}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            )}
 
             {/* Next Steps */}
             <motion.div
@@ -180,7 +250,7 @@ export default function Success() {
                 onClick={() => navigate('/')}
                 className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-6 px-8 rounded-sm btn-glow"
               >
-                Ir a la plataforma
+                Acceder a la plataforma
               </Button>
               <Button
                 variant="outline"
@@ -197,9 +267,10 @@ export default function Success() {
               variants={itemVariants}
             >
               ¿Preguntas? Contacta a nuestro equipo de soporte en{' '}
-              <a href="mailto:support@summershred.com" className="text-accent hover:text-accent/80">
-                support@summershred.com
+              <a href="mailto:support@definidoenverano.com" className="text-accent hover:text-accent/80">
+                support@definidoenverano.com
               </a>
+              {' '}o por WhatsApp
             </motion.p>
           </motion.div>
         </div>
