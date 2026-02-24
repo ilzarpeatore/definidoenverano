@@ -10,7 +10,7 @@ import FAQSection from '@/components/FAQSection';
 import Footer from '@/components/Footer';
 
 /**
- * Summer Shred Landing Page
+ * Definido en Verano Landing Page
  * Design Philosophy: Dark Gym Aesthetic + Vibe Marketing
  * - Minimalist Industrial with Gold Accents
  * - Emotional resonance through recognition

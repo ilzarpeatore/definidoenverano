@@ -107,7 +107,7 @@ export default function Assessment() {
     },
     {
       title: '¿Cuánto tiempo puedes dedicar al entrenamiento?',
-      subtitle: 'Summer Shred es flexible con tu agenda',
+      subtitle: 'Definido en Verano es flexible con tu agenda',
       type: 'radio',
       field: 'timeAvailable',
       options: [

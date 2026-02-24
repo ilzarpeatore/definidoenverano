@@ -103,7 +103,7 @@ export default function AppSection() {
             className="font-display text-4xl md:text-5xl text-white mb-6"
             variants={itemVariants}
           >
-            App Propia Summer Shred
+            App Propia Definido en Verano
           </motion.h2>
           <motion.p
             className="text-xl text-gray-300 max-w-3xl mx-auto"
@@ -158,7 +158,7 @@ export default function AppSection() {
               Sincronización Automática
             </h3>
             <p className="text-gray-300 max-w-2xl mx-auto">
-              Conecta tu app Summer Shred con Apple Health o Google Fit. Todos tus datos de salud en un solo lugar.
+              Conecta tu app Definido en Verano con Apple Health o Google Fit. Todos tus datos de salud en un solo lugar.
             </p>
           </motion.div>
 

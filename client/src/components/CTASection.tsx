@@ -58,7 +58,7 @@ export default function CTASection() {
             ACCESO INMEDIATO
           </h2>
           <p className="text-gray-300 text-lg">
-            Al Programa Summer Shred
+            Al Programa Definido en Verano
           </p>
         </motion.div>
 

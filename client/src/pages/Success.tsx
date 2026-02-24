@@ -85,7 +85,7 @@ export default function Success() {
               className="font-display text-5xl md:text-6xl text-white mb-4"
               variants={itemVariants}
             >
-              ¡Bienvenido a Summer Shred!
+              ¡Bienvenido a Definido en Verano!
             </motion.h1>
 
             <motion.p

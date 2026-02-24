@@ -71,7 +71,7 @@ export default function Footer() {
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          <p>&copy; {currentYear} Summer Shred. Todos los derechos reservados.</p>
+          <p>&copy; {currentYear} Definido en Verano. Todos los derechos reservados.</p>
           <p className="mt-4 md:mt-0">
             Hecho con determinación para hombres comprometidos.
           </p>

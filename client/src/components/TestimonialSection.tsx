@@ -48,7 +48,7 @@ export default function TestimonialSection() {
       age: 41,
       role: 'Padre de dos hijos',
       quote:
-        'No creía en los programas online. Pero el sistema de Summer Shred es diferente. Entrenamientos cortos, resultados reales. Recomendado 100%.',
+        'No creía en los programas online. Pero el sistema de Definido en Verano es diferente. Entrenamientos cortos, resultados reales. Recomendado 100%.',
       image:
         'https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/nZdZLnvpNxknbvov.jpg',
       results: '8 kg grasa + músculo definido',
@@ -59,7 +59,7 @@ export default function TestimonialSection() {
       age: 28,
       role: 'Emprendedor',
       quote:
-        'Pensé que necesitaba 2 horas en el gym. Con Summer Shred logré más en 45 minutos. Eficiencia pura. Ahora tengo el cuerpo que siempre quise.',
+        'Pensé que necesitaba 2 horas en el gym. Con Definido en Verano logré más en 45 minutos. Eficiencia pura. Ahora tengo el cuerpo que siempre quise.',
       image:
         'https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/ZgXiVDlwTuQvJLAH.jpg',
       results: '12 kg transformación',

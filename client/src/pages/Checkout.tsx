@@ -107,7 +107,7 @@ export default function Checkout() {
             Completa tu compra
           </h1>
           <p className="text-gray-400 mt-2">
-            Acceso inmediato al programa Summer Shred
+            Acceso inmediato al programa Definido en Verano
           </p>
         </div>
       </div>
@@ -184,7 +184,7 @@ export default function Checkout() {
 
                 {/* Product */}
                 <div className="mb-6 pb-6 border-b border-border">
-                  <p className="text-gray-300 mb-2">Summer Shred Program</p>
+                  <p className="text-gray-300 mb-2">Definido en Verano Program</p>
                   <p className="text-sm text-gray-400 mb-4">
                     Acceso completo de por vida + actualizaciones
                   </p>

@@ -207,7 +207,7 @@ export default function NutritionSection() {
           variants={containerVariants}
         >
           <h3 className="font-display text-2xl text-white mb-10 text-center">
-            Los 4 Principios de Nutrición Summer Shred
+            Los 4 Principios de Nutrición Definido en Verano
           </h3>
           <div className="grid md:grid-cols-2 gap-8">
             {nutritionPrinciples.map((item, index) => (
@@ -243,7 +243,7 @@ export default function NutritionSection() {
           transition={{ duration: 0.6 }}
         >
           <p className="text-xl text-gray-200 italic mb-6">
-            "Lo mejor de Summer Shred es que no me siento en dieta. Como bien, disfruto la comida, y los resultados vienen solos. Es la primera vez que puedo mantener esto de por vida."
+            "Lo mejor de Definido en Verano es que no me siento en dieta. Como bien, disfruto la comida, y los resultados vienen solos. Es la primera vez que puedo mantener esto de por vida."
           </p>
           <p className="text-accent font-bold">— Carlos M., Ejecutivo, 34 años</p>
         </motion.div>

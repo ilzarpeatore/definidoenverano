@@ -39,7 +39,7 @@ export default function FAQSection() {
     {
       question: '¿Es una dieta restrictiva?',
       answer:
-        'No. La nutrición en Summer Shred es simplificada, no restrictiva. Aprendes reglas claras que puedes seguir de por vida. Nada de contar calorías obsesivamente.',
+        'No. La nutrición en Definido en Verano es simplificada, no restrictiva. Aprendes reglas claras que puedes seguir de por vida. Nada de contar calorías obsesivamente.',
     },
     {
       question: '¿Tendré acceso de por vida?',
