@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
+import { useLocation } from 'wouter';
 
 /**
  * Hero Section - Dark Gym Aesthetic
@@ -12,6 +13,8 @@ import { ChevronDown } from 'lucide-react';
  */
 
 export default function HeroSection() {
+  const [, navigate] = useLocation();
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -81,6 +84,7 @@ export default function HeroSection() {
         <motion.div variants={itemVariants} className="mb-12">
           <Button
             size="lg"
+            onClick={() => navigate('/assessment')}
             className="btn-glow bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-lg px-8 py-6 rounded-sm"
           >
             ACCESO INMEDIATO

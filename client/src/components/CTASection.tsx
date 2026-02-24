@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Check, Shield } from 'lucide-react';
+import { useLocation } from 'wouter';
 
 /**
  * CTA Section - Final Conversion
@@ -12,6 +13,8 @@ import { Check, Shield } from 'lucide-react';
  */
 
 export default function CTASection() {
+  const [, navigate] = useLocation();
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -125,12 +128,13 @@ export default function CTASection() {
             className="mb-8"
             variants={itemVariants}
           >
-            <Button
-              size="lg"
-              className="btn-glow w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-lg py-6 rounded-sm"
-            >
-              ACCESO INMEDIATO AL PROGRAMA
-            </Button>
+          <Button
+            size="lg"
+            onClick={() => navigate('/assessment')}
+            className="btn-glow w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-lg py-6 rounded-sm"
+          >
+            ACCESO INMEDIATO AL PROGRAMA
+          </Button>
           </motion.div>
 
           {/* Guarantee */}
