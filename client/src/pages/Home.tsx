@@ -1,5 +1,6 @@
 import HeroSection from '@/components/HeroSection';
 import ProblemSection from '@/components/ProblemSection';
+import TransformationGallery from '@/components/TransformationGallery';
 import SolutionSection from '@/components/SolutionSection';
 import TestimonialSection from '@/components/TestimonialSection';
 import CoachingSection from '@/components/CoachingSection';
@@ -24,6 +25,7 @@ export default function Home() {
       <main className="flex-1">
         <HeroSection />
         <ProblemSection />
+        <TransformationGallery />
         <SolutionSection />
         <TestimonialSection />
         <CoachingSection />

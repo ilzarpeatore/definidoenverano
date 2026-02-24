@@ -40,8 +40,8 @@ export default function HeroSection() {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/fTQWtJysKQskInsW.jpg"
-          alt="Muscular transformation"
+          src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/JQRutXWXNFhZNqCU.jpg"
+          alt="Hombre musculado definido fitness transformación"
           className="w-full h-full object-cover"
         />
         {/* Dark Overlay */}
