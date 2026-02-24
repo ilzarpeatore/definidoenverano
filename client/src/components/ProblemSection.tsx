@@ -51,7 +51,7 @@ export default function ProblemSection() {
             viewport={{ once: true }}
           >
             <img
-              src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/olIvwSDTQRLGlfak.webp"
+              src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/yorwLapMmHuuuaWM.webp"
               alt="Transformación antes y después"
               className="w-full rounded-sm"
             />

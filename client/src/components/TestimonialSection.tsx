@@ -39,7 +39,7 @@ export default function TestimonialSection() {
       quote:
         'Llegué pensando que era imposible con mi agenda. En 12 semanas perdí 10 kg de grasa y gané músculo visible. Mi confianza cambió completamente.',
       image:
-        'https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/fTQWtJysKQskInsW.jpg',
+        'https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/JmZrJJcuaHZyZxEz.jpg',
       results: '10 kg grasa',
       rating: 5,
     },
@@ -50,7 +50,7 @@ export default function TestimonialSection() {
       quote:
         'No creía en los programas online. Pero el sistema de Summer Shred es diferente. Entrenamientos cortos, resultados reales. Recomendado 100%.',
       image:
-        'https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/XtrRfbJGMRsRJhnx.jpg',
+        'https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/nZdZLnvpNxknbvov.jpg',
       results: '8 kg grasa + músculo definido',
       rating: 5,
     },
@@ -61,7 +61,7 @@ export default function TestimonialSection() {
       quote:
         'Pensé que necesitaba 2 horas en el gym. Con Summer Shred logré más en 45 minutos. Eficiencia pura. Ahora tengo el cuerpo que siempre quise.',
       image:
-        'https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/ZdJFaSCrCjrgraYT.jpg',
+        'https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/ZgXiVDlwTuQvJLAH.jpg',
       results: '12 kg transformación',
       rating: 5,
     },
