@@ -2,6 +2,7 @@ import HeroSection from '@/components/HeroSection';
 import ProblemSection from '@/components/ProblemSection';
 import SolutionSection from '@/components/SolutionSection';
 import TestimonialSection from '@/components/TestimonialSection';
+import CoachingSection from '@/components/CoachingSection';
 import CTASection from '@/components/CTASection';
 import FAQSection from '@/components/FAQSection';
 import Footer from '@/components/Footer';
@@ -23,6 +24,7 @@ export default function Home() {
         <ProblemSection />
         <SolutionSection />
         <TestimonialSection />
+        <CoachingSection />
         <CTASection />
         <FAQSection />
       </main>
