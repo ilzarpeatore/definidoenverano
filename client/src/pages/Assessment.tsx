@@ -5,6 +5,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { useLocation } from 'wouter';
 
 /**
  * Assessment Page - Client Qualification
@@ -26,6 +27,7 @@ interface AssessmentData {
 }
 
 export default function Assessment() {
+  const [, navigate] = useLocation();
   const [step, setStep] = useState(0);
   const [data, setData] = useState<AssessmentData>({
     experience: '',
@@ -169,11 +171,11 @@ export default function Assessment() {
   };
 
   const handleCheckout = () => {
-    // Aquí iría la redirección a Stripe o pasarela de pago
-    // Por ahora, mostramos los datos recopilados
+    // Guardar datos del assessment en localStorage
+    localStorage.setItem('assessmentData', JSON.stringify(data));
     console.log('Assessment Data:', data);
-    // TODO: Redirigir a pasarela de pago con datos
-    alert('Redirigiendo a pasarela de pago...\n\nDatos recopilados:\n' + JSON.stringify(data, null, 2));
+    // Redirigir a la página de pago
+    navigate('/checkout');
   };
 
   const progress = ((step + 1) / steps.length) * 100;
