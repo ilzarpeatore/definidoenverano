@@ -1,25 +1,32 @@
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { Streamdown } from 'streamdown';
+import HeroSection from '@/components/HeroSection';
+import ProblemSection from '@/components/ProblemSection';
+import SolutionSection from '@/components/SolutionSection';
+import TestimonialSection from '@/components/TestimonialSection';
+import CTASection from '@/components/CTASection';
+import FAQSection from '@/components/FAQSection';
+import Footer from '@/components/Footer';
 
 /**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Best Practices, Design Guide and Common Pitfalls
+ * Summer Shred Landing Page
+ * Design Philosophy: Dark Gym Aesthetic + Vibe Marketing
+ * - Minimalist Industrial with Gold Accents
+ * - Emotional resonance through recognition
+ * - High-conversion copywriting
+ * - Smooth animations and interactions
  */
-export default function Home() {
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
 
+export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <main>
-        {/* Example: lucide-react for icons */}
-        <Loader2 className="animate-spin" />
-        Example Page
-        {/* Example: Streamdown for markdown rendering */}
-        <Streamdown>Any **markdown** content</Streamdown>
-        <Button variant="default">Example Button</Button>
+    <div className="min-h-screen flex flex-col bg-background text-foreground">
+      <main className="flex-1">
+        <HeroSection />
+        <ProblemSection />
+        <SolutionSection />
+        <TestimonialSection />
+        <CTASection />
+        <FAQSection />
       </main>
+      <Footer />
     </div>
   );
 }
