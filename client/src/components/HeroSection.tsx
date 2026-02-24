@@ -37,7 +37,7 @@ export default function HeroSection() {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://private-us-east-1.manuscdn.com/sessionFile/mRmfCjNnpCQhVJQwdHAGRn/sandbox/ED1tvYEdp9wDXpJKe0YIa9-img-1_1771949422000_na1fn_aGVyby1tdXNjdWxhci1kYXJr.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvbVJtZkNqTm5wQ1FoVkpRd2RIQUdSbi9zYW5kYm94L0VEMXR2WUVkcDl3RFhwSktlMFlJYTktaW1nLTFfMTc3MTk0OTQyMjAwMF9uYTFmbl9hR1Z5YnkxdGRYTmpkV3hoY2kxa1lYSnIucG5nP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHdfMTkyMCxoXzE5MjAvZm9ybWF0LHdlYnAvcXVhbGl0eSxxXzgwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzk4NzYxNjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=qTN9S9Kv3LPIM80nVNyuBFUjQRGaJoqxl7Ql~tshgqot6WsHY-CTunxWEEWDgFAIS9GirkfCAjhdUfOaFquhO7NmHwa43lzxRufY4xASumAXGStmGWUp6pu-B29J7eHYW07NszJdM9gn0n-mcrCJBEVnbQY5EqvpyO0i1BWAUqiC9fXNyq44dbjv9Wk75Yp-xfS1SmPZyKPInIgontmduit5MZqdd6yELloJWXl-krYwInar82MKlj4OWD2dhu~rZy8DWPHqqQMsS5jdoRfmqOP79iDebLcAVsvlltHQNb0UDyiivOZkb1QfNzhCmTkuneUi3Nw3QZFA0FqelLaFgg__"
+          src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/fTQWtJysKQskInsW.jpg"
           alt="Muscular transformation"
           className="w-full h-full object-cover"
         />

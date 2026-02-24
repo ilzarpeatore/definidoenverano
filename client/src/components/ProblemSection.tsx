@@ -51,7 +51,7 @@ export default function ProblemSection() {
             viewport={{ once: true }}
           >
             <img
-              src="https://private-us-east-1.manuscdn.com/sessionFile/mRmfCjNnpCQhVJQwdHAGRn/sandbox/ED1tvYEdp9wDXpJKe0YIa9-img-2_1771949425000_na1fn_dHJhbnNmb3JtYXRpb24tYmVmb3JlLWFmdGVy.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvbVJtZkNqTm5wQ1FoVkpRd2RIQUdSbi9zYW5kYm94L0VEMXR2WUVkcDl3RFhwSktlMFlJYTktaW1nLTJfMTc3MTk0OTQyNTAwMF9uYTFmbl9kSEpoYm5ObWIzSnRZWFJwYjI0dFltVm1iM0psTFdGbWRHVnkucG5nP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHdfMTkyMCxoXzE5MjAvZm9ybWF0LHdlYnAvcXVhbGl0eSxxXzgwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzk4NzYxNjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=nKoL56U11-L9T7H-QvWiq-L~bS4NHPdXPZgKIn8l~nVgi3DQGfKSey0QdENq3s-2AiejmzxxIexTW5UI1ktU1-TXnFjoEDK85amCBS5fPb8JPjvtYrGa8wiRufhKeGr1VtElICi6Nm2uleyq8eBTd0TwxhS3IRtpgZD18w7MVXoTxeTmKgkuPERTWFSD6GS7wAr9Cvo3LGVD8hmLS8M1TYH~C7W-x-UANbjIQpkS3xOnjv04spi7aARtQcc67~NMzGwVo-eNjUQk-96hK1rkjYHG~NXMwCsntQcDws7KUw3fHOKh1b7Wnotpo49lk-x1rqnydvKwe5lSPq7P4Vpdlw__"
+              src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/olIvwSDTQRLGlfak.webp"
               alt="Transformación antes y después"
               className="w-full rounded-sm"
             />
