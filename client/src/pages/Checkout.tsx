@@ -1,165 +1,73 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
-import { Check, Lock, ArrowLeft, Loader2 } from 'lucide-react';
+import { Lock, ArrowLeft, Loader2 } from 'lucide-react';
 import { trpc } from '@/lib/trpc';
 import { toast } from 'sonner';
 
 /**
- * Checkout Page - Payment Gateway
- * Design Philosophy: Trust, Security, Multiple Payment Options
- * - Clean, minimal design
- * - Multiple payment methods
+ * Checkout Page - Stripe Payment Gateway
+ * Design Philosophy: Trust, Security, Simple Payment Flow
+ * - Single payment button
+ * - Stripe handles all payment methods
  * - Security badges
  * - Clear pricing and guarantee
  */
 
-interface PaymentMethod {
-  id: string;
-  name: string;
-  icon: string;
-  description: string;
-}
-
 export default function Checkout() {
   const [, navigate] = useLocation();
-  const [selectedPayment, setSelectedPayment] = useState<string>('stripe');
-  const [orderId, setOrderId] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  // tRPC mutations
-  const processStripeMutation = trpc.payments.processStripePayment.useMutation();
-  const processPayPalMutation = trpc.payments.processPayPalPayment.useMutation();
-  const processKlarnaMutation = trpc.payments.processKlarnaPayment.useMutation();
-  const processApplePayMutation = trpc.payments.processApplePayPayment.useMutation();
-  const processGooglePayMutation = trpc.payments.processGooglePayPayment.useMutation();
+  // tRPC mutation for creating checkout session
+  const createCheckoutSession = trpc.payments.createCheckoutSession.useMutation();
 
-  const paymentMethods: PaymentMethod[] = [
-    {
-      id: 'stripe',
-      name: 'Tarjeta de Crédito',
-      icon: '💳',
-      description: 'Visa, Mastercard, American Express',
-    },
-    {
-      id: 'paypal',
-      name: 'PayPal',
-      icon: '🅿️',
-      description: 'Pago seguro con tu cuenta PayPal',
-    },
-    {
-      id: 'klarna',
-      name: 'Klarna',
-      icon: '📦',
-      description: 'Compra ahora, paga después',
-    },
-    {
-      id: 'apple-pay',
-      name: 'Apple Pay',
-      icon: '🍎',
-      description: 'Pago rápido y seguro',
-    },
-    {
-      id: 'google-pay',
-      name: 'Google Pay',
-      icon: '🔵',
-      description: 'Pago con tu cuenta Google',
-    },
-  ];
-
-  // Cargar orderId desde localStorage
-  useEffect(() => {
-    const savedOrderId = localStorage.getItem('currentOrderId');
-    if (!savedOrderId) {
-      toast.error('Error: No se encontró la orden. Vuelve al assessment.');
-      navigate('/assessment');
-      return;
-    }
-    setOrderId(savedOrderId);
-  }, [navigate]);
-
-  const isProcessing = 
-    processStripeMutation.isPending ||
-    processPayPalMutation.isPending ||
-    processKlarnaMutation.isPending ||
-    processApplePayMutation.isPending ||
-    processGooglePayMutation.isPending;
-
-  const handlePayment = async () => {
-    if (!orderId) {
-      toast.error('Error: No se encontró la orden.');
-      return;
-    }
+  const handleStripePayment = async () => {
+    setIsLoading(true);
 
     try {
-      // Simular procesamiento de pago según el método seleccionado
-      // En producción, aquí irían las integraciones reales con cada pasarela
-
-      switch (selectedPayment) {
-        case 'stripe':
-          // TODO: Integrar Stripe.js para obtener token de pago
-          // const { token } = await stripe.createToken(card);
-          // const paymentIntentId = await createPaymentIntent(token);
-          const mockStripePaymentIntentId = `pi_${Math.random().toString(36).substring(7)}`;
-          await processStripeMutation.mutateAsync({
-            orderId,
-            paymentIntentId: mockStripePaymentIntentId,
-          });
-          break;
-
-        case 'paypal':
-          // TODO: Integrar PayPal SDK
-          // const paypalOrderId = await paypal.createOrder();
-          const mockPayPalOrderId = `PP-${Math.random().toString(36).substring(7)}`;
-          await processPayPalMutation.mutateAsync({
-            orderId,
-            paypalOrderId: mockPayPalOrderId,
-          });
-          break;
-
-        case 'klarna':
-          // TODO: Integrar Klarna API
-          // const klarnaOrderId = await klarna.createOrder();
-          const mockKlarnaOrderId = `KL-${Math.random().toString(36).substring(7)}`;
-          await processKlarnaMutation.mutateAsync({
-            orderId,
-            klarnaOrderId: mockKlarnaOrderId,
-          });
-          break;
-
-        case 'apple-pay':
-          // TODO: Integrar Apple Pay
-          // const applePayToken = await ApplePaySession.begin();
-          const mockApplePayToken = `APL-${Math.random().toString(36).substring(7)}`;
-          await processApplePayMutation.mutateAsync({
-            orderId,
-            paymentToken: mockApplePayToken,
-          });
-          break;
-
-        case 'google-pay':
-          // TODO: Integrar Google Pay
-          // const googlePayToken = await google.payments.api.PaymentsClient.loadPaymentData();
-          const mockGooglePayToken = `GGL-${Math.random().toString(36).substring(7)}`;
-          await processGooglePayMutation.mutateAsync({
-            orderId,
-            paymentToken: mockGooglePayToken,
-          });
-          break;
+      // Get assessment data from localStorage
+      const assessmentData = localStorage.getItem('assessmentData');
+      const contactData = localStorage.getItem('contactData');
+      
+      if (!assessmentData || !contactData) {
+        toast.error('Error: Datos del assessment no encontrados.');
+        setIsLoading(false);
+        return;
       }
 
-      toast.success('¡Pago procesado exitosamente!');
-      
-      // Guardar orderId para la página de éxito
-      localStorage.setItem('successOrderId', orderId);
-      
-      // Redirigir a página de éxito
-      setTimeout(() => {
-        navigate('/success');
-      }, 500);
+      const assessment = JSON.parse(assessmentData);
+      const contact = JSON.parse(contactData);
+
+      console.log('Creating checkout session with:', {
+        email: contact.email,
+        firstName: contact.firstName,
+        lastName: contact.lastName,
+        assessment: assessment
+      });
+
+      // Create checkout session with Stripe
+      const response = await createCheckoutSession.mutateAsync({
+        email: contact.email,
+        phone: contact.phone,
+        firstName: contact.firstName,
+        lastName: contact.lastName,
+        assessment: assessment,
+      });
+
+      console.log('Checkout session response:', response);
+
+      if (response.checkoutUrl) {
+        // Redirect to Stripe Checkout
+        window.location.href = response.checkoutUrl;
+      } else {
+        toast.error('Error al crear la sesión de pago. Intenta de nuevo.');
+        setIsLoading(false);
+      }
     } catch (error) {
-      console.error('Error processing payment:', error);
+      console.error('Error creating checkout session:', error);
       toast.error('Error al procesar el pago. Intenta de nuevo.');
+      setIsLoading(false);
     }
   };
 
@@ -213,45 +121,31 @@ export default function Checkout() {
             initial="hidden"
             animate="visible"
           >
-            {/* Payment Methods */}
+            {/* Payment Section */}
             <motion.div className="md:col-span-2" variants={itemVariants}>
               <h2 className="font-display text-2xl text-white mb-6">
                 Selecciona tu método de pago
               </h2>
 
-              <div className="space-y-4">
-                {paymentMethods.map((method) => (
-                  <motion.button
-                    key={method.id}
-                    onClick={() => setSelectedPayment(method.id)}
-                    disabled={isProcessing}
-                    className={`w-full p-6 rounded-sm border-2 transition-all text-left card-glass disabled:opacity-50 ${
-                      selectedPayment === method.id
-                        ? 'border-accent bg-accent/5'
-                        : 'border-border hover:border-accent/50'
-                    }`}
-                    whileHover={{ scale: isProcessing ? 1 : 1.02 }}
-                    whileTap={{ scale: isProcessing ? 1 : 0.98 }}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <span className="text-4xl">{method.icon}</span>
-                        <div>
-                          <h3 className="font-heading text-white font-bold">
-                            {method.name}
-                          </h3>
-                          <p className="text-sm text-gray-400">{method.description}</p>
-                        </div>
-                      </div>
-                      {selectedPayment === method.id && (
-                        <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center">
-                          <Check className="w-4 h-4 text-accent-foreground" />
-                        </div>
-                      )}
-                    </div>
-                  </motion.button>
-                ))}
-              </div>
+              <motion.div
+                className="p-6 rounded-sm border-2 border-accent bg-accent/5 card-glass"
+                variants={itemVariants}
+              >
+                <div className="flex items-center gap-4 mb-4">
+                  <span className="text-4xl">💳</span>
+                  <div>
+                    <h3 className="font-heading text-white font-bold text-lg">
+                      Tarjeta de Crédito & Más
+                    </h3>
+                    <p className="text-sm text-gray-400">
+                      Visa, Mastercard, Apple Pay, Google Pay, PayPal, Klarna
+                    </p>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-300 mt-4">
+                  Podrás elegir tu método de pago preferido en la siguiente pantalla. Stripe soporta múltiples opciones de pago seguras.
+                </p>
+              </motion.div>
 
               {/* Security Info */}
               <motion.div
@@ -322,17 +216,17 @@ export default function Checkout() {
 
                 {/* Payment Button */}
                 <Button
-                  onClick={handlePayment}
-                  disabled={isProcessing || !orderId}
+                  onClick={handleStripePayment}
+                  disabled={isLoading}
                   className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-6 rounded-sm btn-glow disabled:opacity-50"
                 >
-                  {isProcessing ? (
+                  {isLoading ? (
                     <span className="flex items-center gap-2">
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      Procesando...
+                      Redirigiendo a Stripe...
                     </span>
                   ) : (
-                    `Pagar €197 con ${paymentMethods.find(m => m.id === selectedPayment)?.name}`
+                    'Pagar €197 con Stripe'
                   )}
                 </Button>
 
@@ -351,29 +245,6 @@ export default function Checkout() {
               </div>
             </motion.div>
           </motion.div>
-        </div>
-      </div>
-
-      {/* Footer Info */}
-      <div className="bg-card border-t border-border py-6">
-        <div className="container max-w-4xl mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-6 text-center md:text-left">
-            <div>
-              <p className="text-sm text-gray-400">
-                <span className="text-accent font-bold">✓</span> Acceso inmediato
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-400">
-                <span className="text-accent font-bold">✓</span> Soporte 24/7
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-400">
-                <span className="text-accent font-bold">✓</span> Garantía de 30 días
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
