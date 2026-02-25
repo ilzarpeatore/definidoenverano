@@ -84,3 +84,34 @@ export const assessmentResponses = mysqlTable("assessmentResponses", {
 
 export type AssessmentResponse = typeof assessmentResponses.$inferSelect;
 export type InsertAssessmentResponse = typeof assessmentResponses.$inferInsert;
+
+/**
+ * Customer Notes - Notas internas sobre clientes
+ */
+export const customerNotes = mysqlTable("customerNotes", {
+  id: int("id").autoincrement().primaryKey(),
+  customerId: int("customerId").notNull(),
+  note: text("note").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type CustomerNote = typeof customerNotes.$inferSelect;
+export type InsertCustomerNote = typeof customerNotes.$inferInsert;
+
+/**
+ * Audit Log - Historial de cambios y acciones
+ */
+export const auditLog = mysqlTable("auditLog", {
+  id: int("id").autoincrement().primaryKey(),
+  customerId: int("customerId"),
+  orderId: int("orderId"),
+  action: varchar("action", { length: 100 }).notNull(),
+  description: text("description"),
+  oldValue: text("oldValue"),
+  newValue: text("newValue"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type AuditLog = typeof auditLog.$inferSelect;
+export type InsertAuditLog = typeof auditLog.$inferInsert;
