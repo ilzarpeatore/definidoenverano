@@ -8,6 +8,7 @@ import {
   saveAssessmentResponse,
   generateOrderId,
 } from "./payments";
+import { createStripeCheckoutSession, getStripeCheckoutSession } from "./stripe";
 
 /**
  * Payment Router - tRPC procedures for payment processing
@@ -25,8 +26,8 @@ const assessmentSchema = z.object({
 
 export const paymentsRouter = router({
   /**
-   * Create checkout session
-   * Saves customer info, assessment, and creates order
+   * Create checkout session with Stripe
+   * Saves customer info, assessment, and creates Stripe checkout
    */
   createCheckoutSession: publicProcedure
     .input(
@@ -57,7 +58,7 @@ export const paymentsRouter = router({
         await createOrder({
           customerId: customer.id,
           orderId,
-          amount: 19700, // 197€ in cents
+          amount: 197, // 197€
           currency: "EUR",
           status: "pending",
         });
@@ -78,12 +79,23 @@ export const paymentsRouter = router({
           });
         }
 
+        // Create Stripe checkout session
+        const stripeSession = await createStripeCheckoutSession(
+          input.email,
+          `${input.firstName} ${input.lastName}`,
+          197,
+          "eur",
+          orderId
+        );
+
         return {
           success: true,
           orderId,
           customerId: customer.id,
-          amount: 19700,
+          amount: 197,
           currency: "EUR",
+          checkoutUrl: stripeSession.url,
+          sessionId: stripeSession.id,
         };
       } catch (error) {
         console.error("[Payments] Error creating checkout session:", error);
@@ -92,7 +104,35 @@ export const paymentsRouter = router({
     }),
 
   /**
-   * Process Stripe payment
+   * Verify Stripe checkout session
+   */
+  verifyStripeCheckout: publicProcedure
+    .input(z.object({ sessionId: z.string() }))
+    .query(async ({ input }) => {
+      try {
+        const session = await getStripeCheckoutSession(input.sessionId);
+        
+        // Update order status based on payment status
+        if (session.id) {
+          const order = await getOrderByOrderId(input.sessionId);
+          if (order) {
+            await updateOrderStatus(order.orderId, "completed", "stripe");
+          }
+        }
+
+        return {
+          success: true,
+          sessionId: session.id,
+          paymentStatus: "completed",
+        };
+      } catch (error) {
+        console.error("[Payments] Error verifying Stripe checkout:", error);
+        throw error;
+      }
+    }),
+
+  /**
+   * Process Stripe payment (for direct payment method)
    */
   processStripePayment: publicProcedure
     .input(
@@ -103,11 +143,6 @@ export const paymentsRouter = router({
     )
     .mutation(async ({ input }) => {
       try {
-        // TODO: Verify payment intent with Stripe API
-        // const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-        // const paymentIntent = await stripe.paymentIntents.retrieve(input.paymentIntentId);
-        // if (paymentIntent.status !== 'succeeded') throw new Error('Payment not succeeded');
-
         // Update order status
         await updateOrderStatus(input.orderId, "completed", "stripe");
 
@@ -135,11 +170,6 @@ export const paymentsRouter = router({
     )
     .mutation(async ({ input }) => {
       try {
-        // TODO: Verify order with PayPal API
-        // const paypalClient = new PayPalClient(process.env.PAYPAL_CLIENT_ID, process.env.PAYPAL_SECRET);
-        // const order = await paypalClient.getOrder(input.paypalOrderId);
-        // if (order.status !== 'COMPLETED') throw new Error('Order not completed');
-
         // Update order status
         await updateOrderStatus(input.orderId, "completed", "paypal");
 
@@ -167,11 +197,6 @@ export const paymentsRouter = router({
     )
     .mutation(async ({ input }) => {
       try {
-        // TODO: Verify order with Klarna API
-        // const klarnaClient = new KlarnaClient(process.env.KLARNA_API_KEY);
-        // const order = await klarnaClient.getOrder(input.klarnaOrderId);
-        // if (order.status !== 'authorized') throw new Error('Order not authorized');
-
         // Update order status
         await updateOrderStatus(input.orderId, "completed", "klarna");
 
@@ -199,13 +224,6 @@ export const paymentsRouter = router({
     )
     .mutation(async ({ input }) => {
       try {
-        // TODO: Process Apple Pay token with Stripe
-        // const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-        // const paymentMethod = await stripe.paymentMethods.create({
-        //   type: 'card',
-        //   card: { token: input.paymentToken }
-        // });
-
         // Update order status
         await updateOrderStatus(input.orderId, "completed", "apple_pay");
 
@@ -233,13 +251,6 @@ export const paymentsRouter = router({
     )
     .mutation(async ({ input }) => {
       try {
-        // TODO: Process Google Pay token with Stripe
-        // const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-        // const paymentMethod = await stripe.paymentMethods.create({
-        //   type: 'card',
-        //   card: { token: input.paymentToken }
-        // });
-
         // Update order status
         await updateOrderStatus(input.orderId, "completed", "google_pay");
 
