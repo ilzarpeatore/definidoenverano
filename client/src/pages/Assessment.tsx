@@ -188,6 +188,14 @@ export default function Assessment() {
 
     try {
       // Llamar al backend para crear sesión de checkout
+      // Parse yearsTraining to number
+      const yearsTrainingMap: { [key: string]: number } = {
+        'none': 0,
+        '1-3': 2,
+        '3-5': 4,
+        '5plus': 5,
+      };
+
       const result = await createCheckoutMutation.mutateAsync({
         email: clientInfo.email,
         phone: clientInfo.phone,
@@ -195,7 +203,7 @@ export default function Assessment() {
         lastName: clientInfo.lastName,
         assessment: {
           experienceLevel: data.experience,
-          yearsTraining: data.yearsTraining ? parseInt(data.yearsTraining.split('-')[0]) : undefined,
+          yearsTraining: yearsTrainingMap[data.yearsTraining] || 0,
           mainGoal: data.mainGoal,
           bodyAreasToImprove: data.bodyParts,
           musclesToDevelop: data.muscleGroups,

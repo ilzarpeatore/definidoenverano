@@ -6,6 +6,7 @@ import { ENV } from "./_core/env";
  */
 
 const STRIPE_API_URL = "https://api.stripe.com/v1";
+const PRODUCTION_DOMAIN = "https://definidoenverano.bestronger.es";
 
 export interface StripeCheckoutSession {
   id: string;
