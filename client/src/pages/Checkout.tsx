@@ -28,19 +28,20 @@ export default function Checkout() {
     try {
       // Get assessment data from localStorage
       const assessmentData = localStorage.getItem('assessmentData');
-      const contactData = localStorage.getItem('contactData');
+      const clientInfo = localStorage.getItem('clientInfo');
       
-      if (!assessmentData || !contactData) {
+      if (!assessmentData || !clientInfo) {
         toast.error('Error: Datos del assessment no encontrados.');
         setIsLoading(false);
         return;
       }
 
       const assessment = JSON.parse(assessmentData);
-      const contact = JSON.parse(contactData);
+      const contact = JSON.parse(clientInfo);
 
       console.log('Creating checkout session with:', {
         email: contact.email,
+        phone: contact.phone,
         firstName: contact.firstName,
         lastName: contact.lastName,
         assessment: assessment
