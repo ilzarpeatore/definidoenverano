@@ -9,6 +9,7 @@ import {
   generateOrderId,
 } from "./payments";
 import { createStripeCheckoutSession, getStripeCheckoutSession } from "./stripe";
+import { createPayPalOrder, capturePayPalOrder } from "./paypal";
 
 /**
  * Payment Router - tRPC procedures for payment processing
@@ -262,6 +263,74 @@ export const paymentsRouter = router({
       } catch (error) {
         console.error("[Payments] Error processing Google Pay payment:", error);
         await updateOrderStatus(input.orderId, "failed", "google_pay");
+        throw error;
+      }
+    }),
+
+  /**
+   * Create PayPal order
+   */
+  createPayPalOrder: publicProcedure
+    .input(
+      z.object({
+        orderId: z.string(),
+        amount: z.number(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      try {
+        const returnUrl = `${process.env.VITE_FRONTEND_FORGE_API_URL || "https://definidoenverano.bestronger.es"}/success?orderId=${input.orderId}`;
+        const cancelUrl = `${process.env.VITE_FRONTEND_FORGE_API_URL || "https://definidoenverano.bestronger.es"}/checkout`;
+
+        const paypalOrder = await createPayPalOrder(
+          input.amount,
+          input.orderId,
+          returnUrl,
+          cancelUrl
+        );
+
+        // Get approval link
+        const approvalLink = paypalOrder.links.find(
+          (link) => link.rel === "approve"
+        );
+
+        return {
+          success: true,
+          paypalOrderId: paypalOrder.id,
+          approvalUrl: approvalLink?.href,
+        };
+      } catch (error) {
+        console.error("[Payments] Error creating PayPal order:", error);
+        throw error;
+      }
+    }),
+
+  /**
+   * Capture PayPal order
+   */
+  capturePayPalOrder: publicProcedure
+    .input(
+      z.object({
+        orderId: z.string(),
+        paypalOrderId: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      try {
+        const capturedOrder = await capturePayPalOrder(input.paypalOrderId);
+
+        // Update order status
+        await updateOrderStatus(input.orderId, "completed", "paypal");
+
+        return {
+          success: true,
+          orderId: input.orderId,
+          paypalOrderId: capturedOrder.id,
+          status: capturedOrder.status,
+        };
+      } catch (error) {
+        console.error("[Payments] Error capturing PayPal order:", error);
+        await updateOrderStatus(input.orderId, "failed", "paypal");
         throw error;
       }
     }),

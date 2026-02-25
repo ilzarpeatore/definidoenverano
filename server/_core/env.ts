@@ -9,4 +9,6 @@ export const ENV = {
   forgeApiKey: process.env.BUILT_IN_FORGE_API_KEY ?? "",
   brevoApiKey: process.env.BREVO_API_KEY ?? "",
   stripeSecretKey: process.env.STRIPE_SECRET_KEY ?? "",
+  paypalClientId: process.env.PAYPAL_CLIENT_ID ?? "",
+  paypalSecret: process.env.PAYPAL_SECRET ?? "",
 };
