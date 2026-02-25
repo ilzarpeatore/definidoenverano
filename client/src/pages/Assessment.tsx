@@ -10,17 +10,13 @@ import { trpc } from '@/lib/trpc';
 import { toast } from 'sonner';
 
 /**
- * Helper function to convert yearsTraining string to number
+ * Assessment Page - Client Qualification
+ * Design Philosophy: Conversational, empathetic, builds trust
+ * - Multi-step form that feels like a conversation
+ * - Validates client fit for the program
+ * - Collects data for personalization
+ * - Maintains Dark Gym Aesthetic
  */
-function parseYearsTraining(value: string): number | undefined {
-  if (value === 'none') return 0;
-  if (value === '1-3') return 2;
-  if (value === '3-5') return 4;
-  if (value === '5plus') return 5;
-  return undefined;
-}
-
-
 
 interface AssessmentData {
   experience: string;
@@ -199,7 +195,7 @@ export default function Assessment() {
         lastName: clientInfo.lastName,
         assessment: {
           experienceLevel: data.experience,
-          yearsTraining: data.yearsTraining ? parseYearsTraining(data.yearsTraining) : undefined,
+          yearsTraining: data.yearsTraining ? parseInt(data.yearsTraining.split('-')[0]) : undefined,
           mainGoal: data.mainGoal,
           bodyAreasToImprove: data.bodyParts,
           musclesToDevelop: data.muscleGroups,
