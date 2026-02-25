@@ -55,3 +55,17 @@
 3. Configure Brevo welcome email flow
 4. Add real tracking IDs
 5. Test complete funnel
+
+## Payment Methods Implementation
+- [x] Stripe LIVE integration (fully working)
+- [ ] PayPal SDK integration (frontend + backend)
+- [ ] Apple Pay integration (frontend)
+- [ ] Google Pay integration (frontend)
+- [ ] Klarna integration (frontend + backend)
+
+## Frontend Payment Implementation
+- [ ] Add PayPal SDK script to index.html
+- [ ] Create PayPal button component in Checkout.tsx
+- [ ] Add Apple Pay session handling
+- [ ] Add Google Pay API integration
+- [ ] Test all payment methods with real transactions
