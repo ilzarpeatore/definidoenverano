@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { publicProcedure, router } from "./_core/trpc";
 import { createLead, getLeadByEmail, recordFreeResourceDownload, getAllLeads, getLeadsBySource } from "./leads";
+import { addContactToBrevo } from "./brevo";
 
 export const leadsRouter = router({
   /**
@@ -34,6 +35,22 @@ export const leadsRouter = router({
           lastName: input.lastName,
           source: "popup_free_week",
         });
+
+        // Sincronizar con Brevo automáticamente
+        try {
+          await addContactToBrevo({
+            email: input.email,
+            firstName: input.firstName,
+            lastName: input.lastName,
+            attributes: {
+              source: "popup_free_week",
+              registeredAt: new Date().toISOString(),
+            },
+          });
+        } catch (brevoError) {
+          console.error("[Leads] Brevo sync failed, but lead was created:", brevoError);
+          // Don't fail the whole operation if Brevo sync fails
+        }
 
         const newLead = await getLeadByEmail(input.email);
 
