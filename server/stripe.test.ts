@@ -9,18 +9,18 @@ describe("Stripe Integration", () => {
     expect(publicKey).toMatch(/^pk_(test|live)_/);
   });
 
-  it("should have STRIPE_SECRET_KEY configured", async () => {
-    const secretKey = process.env.STRIPE_SECRET_KEY;
+  it("should have STRIPE_SK configured", async () => {
+    const secretKey = process.env.STRIPE_SK || ENV.stripeSecretKey;
     expect(secretKey).toBeDefined();
     expect(secretKey).toBeTruthy();
     expect(secretKey).toMatch(/^sk_(test|live)_/);
   });
 
   it("should validate Stripe API connectivity with secret key", async () => {
-    const secretKey = process.env.STRIPE_SECRET_KEY;
+    const secretKey = process.env.STRIPE_SK || ENV.stripeSecretKey;
     
     if (!secretKey) {
-      throw new Error("STRIPE_SECRET_KEY not configured");
+      throw new Error("STRIPE_SK not configured");
     }
 
     try {
