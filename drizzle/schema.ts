@@ -115,3 +115,33 @@ export const auditLog = mysqlTable("auditLog", {
 
 export type AuditLog = typeof auditLog.$inferSelect;
 export type InsertAuditLog = typeof auditLog.$inferInsert;
+
+/**
+ * Leads table - Contactos capturados por popup y recursos gratuitos
+ */
+export const leads = mysqlTable("leads", {
+  id: int("id").autoincrement().primaryKey(),
+  email: varchar("email", { length: 320 }).notNull().unique(),
+  firstName: varchar("firstName", { length: 100 }).notNull(),
+  lastName: varchar("lastName", { length: 100 }).notNull(),
+  source: mysqlEnum("source", ["popup_free_week", "free_resource_guide", "free_resource_calculator", "free_resource_checklist"]).notNull(),
+  status: mysqlEnum("status", ["subscribed", "unsubscribed"]).default("subscribed").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Lead = typeof leads.$inferSelect;
+export type InsertLead = typeof leads.$inferInsert;
+
+/**
+ * Free Resources - Gestión de descargas de recursos gratuitos
+ */
+export const freeResources = mysqlTable("freeResources", {
+  id: int("id").autoincrement().primaryKey(),
+  leadId: int("leadId").notNull(),
+  resourceType: mysqlEnum("resourceType", ["guide_7_errors", "calculator_macros", "checklist_30_days"]).notNull(),
+  downloadedAt: timestamp("downloadedAt").defaultNow().notNull(),
+});
+
+export type FreeResource = typeof freeResources.$inferSelect;
+export type InsertFreeResource = typeof freeResources.$inferInsert;

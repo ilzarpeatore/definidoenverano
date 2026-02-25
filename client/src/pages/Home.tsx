@@ -1,4 +1,5 @@
 import HeroSection from '@/components/HeroSection';
+import LeadMagnetPopup from '@/components/LeadMagnetPopup';
 import ProblemSection from '@/components/ProblemSection';
 import TransformationGallery from '@/components/TransformationGallery';
 import SolutionSection from '@/components/SolutionSection';
@@ -9,6 +10,7 @@ import AppSection from '@/components/AppSection';
 import CTASection from '@/components/CTASection';
 import FAQSection from '@/components/FAQSection';
 import Footer from '@/components/Footer';
+import FreeResourcesSection from '@/components/FreeResourcesSection';
 
 /**
  * Definido en Verano Landing Page
@@ -31,10 +33,12 @@ export default function Home() {
         <CoachingSection />
         <NutritionSection />
         <AppSection />
+        <FreeResourcesSection />
         <CTASection />
         <FAQSection />
       </main>
       <Footer />
+      <LeadMagnetPopup />
     </div>
   );
 }
