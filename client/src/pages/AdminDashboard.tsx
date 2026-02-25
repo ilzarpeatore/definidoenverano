@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { ChevronDown } from 'lucide-react';
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { trpc } from '@/lib/trpc';
@@ -11,6 +12,15 @@ export default function AdminDashboard() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState<'stats' | 'customers' | 'orders' | 'assessments'>('stats');
+  const [expandedAssessments, setExpandedAssessments] = useState<number[]>([]);
+
+  const toggleAssessment = (customerId: number) => {
+    setExpandedAssessments(prev =>
+      prev.includes(customerId)
+        ? prev.filter(id => id !== customerId)
+        : [...prev, customerId]
+    );
+  };
 
   // Queries
   const statsQuery = trpc.admin.getStats.useQuery(undefined, { enabled: isAuthenticated });
@@ -328,49 +338,67 @@ export default function AdminDashboard() {
                 <Loader2 className="w-8 h-8 animate-spin text-accent" />
               </div>
             ) : customersQuery.data?.customers.length ? (
-              <div className="space-y-6">
+              <div className="space-y-3">
                 {customersQuery.data.customers.map(customer => (
-                  <div key={customer.id} className="card-glass border border-border p-6 rounded-sm">
-                    <div className="mb-6 pb-6 border-b border-border">
-                      <h3 className="font-heading text-xl text-white mb-2">{customer.firstName} {customer.lastName}</h3>
-                      <p className="text-gray-400 text-sm">{customer.email} • {customer.phone}</p>
-                      <p className="text-gray-500 text-xs mt-2">Registrado: {new Date(customer.createdAt).toLocaleDateString('es-ES')}</p>
-                    </div>
-                    
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <p className="text-gray-400 text-sm mb-2">Nivel de Experiencia</p>
-                        <p className="text-white font-semibold">Principiante</p>
+                  <div key={customer.id} className="card-glass border border-border rounded-sm overflow-hidden">
+                    {/* Resumen plegable */}
+                    <button
+                      onClick={() => toggleAssessment(customer.id)}
+                      className="w-full px-6 py-4 flex items-center justify-between hover:bg-card/50 transition-colors"
+                    >
+                      <div className="text-left">
+                        <h3 className="font-heading text-lg text-white mb-1">{customer.firstName} {customer.lastName}</h3>
+                        <p className="text-gray-400 text-sm">{customer.email} • {customer.phone}</p>
                       </div>
-                      <div>
-                        <p className="text-gray-400 text-sm mb-2">Años de Entrenamiento</p>
-                        <p className="text-white font-semibold">2-3 años</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400 text-sm mb-2">Objetivo Principal</p>
-                        <p className="text-white font-semibold">Ganar masa muscular</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400 text-sm mb-2">Tiempo Disponible</p>
-                        <p className="text-white font-semibold">3-4 horas/semana</p>
-                      </div>
-                      <div className="md:col-span-2">
-                        <p className="text-gray-400 text-sm mb-2">Áreas a Mejorar</p>
-                        <div className="flex flex-wrap gap-2">
-                          <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded">Abdomen</span>
-                          <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded">Espalda</span>
-                          <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded">Piernas</span>
+                      <ChevronDown
+                        className={`w-5 h-5 text-accent transition-transform ${
+                          expandedAssessments.includes(customer.id) ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </button>
+
+                    {/* Contenido desplegable */}
+                    {expandedAssessments.includes(customer.id) && (
+                      <div className="px-6 py-6 border-t border-border bg-card/30">
+                        <div className="grid md:grid-cols-2 gap-6">
+                          <div>
+                            <p className="text-gray-400 text-sm mb-2">Nivel de Experiencia</p>
+                            <p className="text-white font-semibold">Principiante</p>
+                          </div>
+                          <div>
+                            <p className="text-gray-400 text-sm mb-2">Años de Entrenamiento</p>
+                            <p className="text-white font-semibold">2-3 años</p>
+                          </div>
+                          <div>
+                            <p className="text-gray-400 text-sm mb-2">Objetivo Principal</p>
+                            <p className="text-white font-semibold">Ganar masa muscular</p>
+                          </div>
+                          <div>
+                            <p className="text-gray-400 text-sm mb-2">Tiempo Disponible</p>
+                            <p className="text-white font-semibold">3-4 horas/semana</p>
+                          </div>
+                          <div className="md:col-span-2">
+                            <p className="text-gray-400 text-sm mb-2">Áreas a Mejorar</p>
+                            <div className="flex flex-wrap gap-2">
+                              <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded">Abdomen</span>
+                              <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded">Espalda</span>
+                              <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded">Piernas</span>
+                            </div>
+                          </div>
+                          <div className="md:col-span-2">
+                            <p className="text-gray-400 text-sm mb-2">Músculos a Desarrollar</p>
+                            <div className="flex flex-wrap gap-2">
+                              <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded">Pecho</span>
+                              <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded">Brazos</span>
+                              <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded">Hombros</span>
+                            </div>
+                          </div>
+                          <div className="md:col-span-2">
+                            <p className="text-gray-500 text-xs">Registrado: {new Date(customer.createdAt).toLocaleDateString('es-ES')}</p>
+                          </div>
                         </div>
                       </div>
-                      <div className="md:col-span-2">
-                        <p className="text-gray-400 text-sm mb-2">Músculos a Desarrollar</p>
-                        <div className="flex flex-wrap gap-2">
-                          <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded">Pecho</span>
-                          <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded">Brazos</span>
-                          <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded">Hombros</span>
-                        </div>
-                      </div>
-                    </div>
+                    )}
                   </div>
                 ))}
               </div>
