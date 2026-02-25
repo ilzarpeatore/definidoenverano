@@ -1,13 +1,5 @@
 import { motion } from 'framer-motion';
-import { Mail, MapPin } from 'lucide-react';
-
-/**
- * Footer - Trust & Accessibility
- * Design Philosophy: Professional, minimal, accessible
- * - Legal compliance
- * - Contact information
- * - Trust signals
- */
+import { Mail, BookOpen, ExternalLink } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -25,37 +17,54 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <h3 className="font-display text-2xl text-accent font-bold mb-2">
-              SUMMER SHRED
+              DEFINIDO EN VERANO
             </h3>
             <p className="text-gray-400 text-sm">
-              Transformación en 3 meses para hombres ocupados.
+              Transformación en 12 semanas para hombres ocupados. Sin excusas, sin restricciones.
             </p>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="font-heading text-white mb-4">Contacto</h4>
+            <h4 className="font-semibold text-white mb-4">Contacto</h4>
             <div className="space-y-2 text-sm text-gray-400">
               <div className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-accent" />\n                <a href="mailto:support@summershred.com" className="hover:text-accent transition-colors">
-                  support@summershred.com
+                <Mail className="w-4 h-4 text-accent flex-shrink-0" />
+                <a
+                  href="mailto:Bestronger.es@gmail.com"
+                  className="hover:text-accent transition-colors"
+                >
+                  Bestronger.es@gmail.com
                 </a>
               </div>
               <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-accent" />\n                <span>Disponible 24/7</span>
+                <BookOpen className="w-4 h-4 text-accent flex-shrink-0" />
+                <a
+                  href="https://bestronger.es/blog"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-accent transition-colors flex items-center gap-1"
+                >
+                  Blog de Fitness
+                  <ExternalLink size={12} />
+                </a>
               </div>
             </div>
           </div>
 
           {/* Legal */}
           <div>
-            <h4 className="font-heading text-white mb-4">Legal</h4>
+            <h4 className="font-semibold text-white mb-4">Legal</h4>
             <div className="space-y-2 text-sm">
-              <a href="#" className="text-gray-400 hover:text-accent transition-colors">\n                Términos de Servicio\n              </a>
-              <br />
-              <a href="#" className="text-gray-400 hover:text-accent transition-colors">\n                Política de Privacidad\n              </a>
-              <br />
-              <a href="#" className="text-gray-400 hover:text-accent transition-colors">\n                Garantía de Devolución\n              </a>
+              <a href="#" className="block text-gray-400 hover:text-accent transition-colors">
+                Términos de Servicio
+              </a>
+              <a href="#" className="block text-gray-400 hover:text-accent transition-colors">
+                Política de Privacidad
+              </a>
+              <a href="#" className="block text-gray-400 hover:text-accent transition-colors">
+                Garantía de Devolución
+              </a>
             </div>
           </div>
         </motion.div>
@@ -71,7 +80,7 @@ export default function Footer() {
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          <p>&copy; {currentYear} Definido en Verano. Todos los derechos reservados.</p>
+          <p>&copy; {currentYear} Definido en Verano · BeStronger. Todos los derechos reservados.</p>
           <p className="mt-4 md:mt-0">
             Hecho con determinación para hombres comprometidos.
           </p>
