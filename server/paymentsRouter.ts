@@ -57,10 +57,12 @@ export const paymentsRouter = router({
         const orderId = generateOrderId();
 
         // Create order (pending status)
+        // TEST: Using 0.50€ for testing, change to 197 for production
+        const amount = 0.50; // DEMO: Change to 197 for production
         await createOrder({
           customerId: customer.id,
           orderId,
-          amount: 197, // 197€
+          amount,
           currency: "EUR",
           status: "pending",
         });
@@ -85,7 +87,7 @@ export const paymentsRouter = router({
         const stripeSession = await createStripeCheckoutSession(
           input.email,
           `${input.firstName} ${input.lastName}`,
-          197,
+          amount,
           "eur",
           orderId,
           input.origin
@@ -95,7 +97,7 @@ export const paymentsRouter = router({
           success: true,
           orderId,
           customerId: customer.id,
-          amount: 197,
+          amount,
           currency: "EUR",
           checkoutUrl: stripeSession.url,
           sessionId: stripeSession.id,

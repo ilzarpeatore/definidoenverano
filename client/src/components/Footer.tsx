@@ -31,10 +31,10 @@ export default function Footer() {
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-accent flex-shrink-0" />
                 <a
-                  href="mailto:Bestronger.es@gmail.com"
+                  href="mailto:contacto@bestronger.es"
                   className="hover:text-accent transition-colors"
                 >
-                  Bestronger.es@gmail.com
+                  contacto@bestronger.es
                 </a>
               </div>
               <div className="flex items-center gap-2">

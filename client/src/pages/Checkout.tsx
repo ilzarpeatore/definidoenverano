@@ -157,6 +157,10 @@ export default function Checkout() {
                       <span>Descuento (60%):</span>
                       <span>-€300</span>
                     </div>
+                    <div className="flex justify-between text-orange-400 text-xs font-bold bg-orange-400/10 p-2 rounded">
+                      <span>⚠️ DEMO: Precio de prueba</span>
+                      <span>€0.50</span>
+                    </div>
                   </div>
                 </div>
 
@@ -165,8 +169,8 @@ export default function Checkout() {
                   <div className="flex justify-between items-baseline mb-2">
                     <span className="text-gray-300">Total:</span>
                     <div>
-                      <span className="font-display text-3xl text-accent font-bold">
-                        €197
+                      <span className="font-display text-3xl text-orange-400 font-bold">
+                        €0.50
                       </span>
                       <span className="text-gray-400 text-sm ml-2">EUR</span>
                     </div>
@@ -197,7 +201,7 @@ export default function Checkout() {
                       Redirigiendo a Stripe...
                     </span>
                   ) : (
-                    'Pagar €197 con Stripe'
+                    'Pagar €0.50 con Stripe (DEMO)'
                   )}
                 </Button>
 

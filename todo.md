@@ -44,6 +44,13 @@
 - [x] Real domain configuration (definidoenverano.bestronger.es)
 - [ ] Real tracking IDs (GA4, Facebook Pixel, Google Ads)
 
+## Email & Notifications
+- [x] Actualizar emails en landing (contacto, newsletter, noreply)
+- [x] Implementar webhook de Stripe para pagos completados
+- [x] Configurar notificaciones en Manus para notificaciones@bestronger.es
+- [ ] Integrar Brevo para emails de bienvenida automáticos
+- [ ] Cambiar precio de vuelta a €197 (actualmente es €0.50 para pruebas)
+
 ## Testing
 - [x] Stripe LIVE payment flow (tested successfully)
 - [x] Stripe Checkout redirect (tested successfully)

@@ -267,8 +267,8 @@ export default function Success() {
               variants={itemVariants}
             >
               ¿Preguntas? Contacta a nuestro equipo de soporte en{' '}
-              <a href="mailto:support@definidoenverano.com" className="text-accent hover:text-accent/80">
-                support@definidoenverano.com
+              <a href="mailto:contacto@bestronger.es" className="text-accent hover:text-accent/80">
+                contacto@bestronger.es
               </a>
               {' '}o por WhatsApp
             </motion.p>
