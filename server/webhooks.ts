@@ -5,6 +5,7 @@ import { orders } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
 import { trackMetaConversion } from "./meta";
 import { getOrderByOrderId, getCustomerByEmail } from "./payments";
+import { sendBrevoEmail } from "./brevo";
 
 const stripe = new Stripe(process.env.STRIPE_SK || "", {
   apiVersion: "2026-02-25.clover",
@@ -148,6 +149,28 @@ async function handleCheckoutSessionCompleted(
       console.error("[Webhook] Error tracking Meta conversion:", err.message);
       // Don't throw - conversion tracking failure shouldn't block the webhook
     }
+  }
+
+  // Send "Post compra" email with Brevo (Template ID: 1)
+  try {
+    const customer = await getCustomerByEmail(customerId);
+    if (customer) {
+      await sendBrevoEmail(
+        customer.email,
+        1,
+        {
+          firstName: customer.firstName || "Cliente",
+          lastName: customer.lastName || "",
+          orderId: session.metadata?.orderId || "",
+          amount: (amount / 100).toFixed(2),
+          currency: currency.toUpperCase(),
+        }
+      );
+      console.log(`[Webhook] Post compra email sent to: ${customer.email}`);
+    }
+  } catch (error) {
+    const err = error as Error;
+    console.error("[Webhook] Error sending post compra email:", err.message);
   }
 }
 

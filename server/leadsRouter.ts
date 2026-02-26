@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { publicProcedure, router } from "./_core/trpc";
 import { createLead, getLeadByEmail, recordFreeResourceDownload, getAllLeads, getLeadsBySource } from "./leads";
-import { addContactToBrevo } from "./brevo";
+import { addContactToBrevo, sendBrevoEmail } from "./brevo";
 
 export const leadsRouter = router({
   /**
@@ -50,6 +50,23 @@ export const leadsRouter = router({
         } catch (brevoError) {
           console.error("[Leads] Brevo sync failed, but lead was created:", brevoError);
           // Don't fail the whole operation if Brevo sync fails
+        }
+
+        // Send "Semana gratis de entrenamiento" email (Template ID: 2)
+        try {
+          await sendBrevoEmail(
+            input.email,
+            2,
+            {
+              firstName: input.firstName,
+              lastName: input.lastName,
+              trialEndDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString("es-ES"),
+            }
+          );
+          console.log(`[Leads] Free trial email sent to: ${input.email}`);
+        } catch (emailError) {
+          console.error("[Leads] Error sending free trial email:", emailError);
+          // Don't fail the whole operation if email sending fails
         }
 
         const newLead = await getLeadByEmail(input.email);
