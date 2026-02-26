@@ -38,6 +38,7 @@ export const paymentsRouter = router({
         firstName: z.string(),
         lastName: z.string(),
         assessment: assessmentSchema,
+        origin: z.string().optional(),
       })
     )
     .mutation(async ({ input }) => {
@@ -86,7 +87,8 @@ export const paymentsRouter = router({
           `${input.firstName} ${input.lastName}`,
           197,
           "eur",
-          orderId
+          orderId,
+          input.origin
         );
 
         return {

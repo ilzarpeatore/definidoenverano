@@ -30,7 +30,8 @@ export async function createStripeCheckoutSession(
   customerName: string,
   amount: number,
   currency: string = "eur",
-  orderId?: string
+  orderId?: string,
+  origin?: string
 ): Promise<StripeCheckoutSession> {
   if (!ENV.stripeSecretKey) {
     throw new Error("Stripe secret key not configured");
@@ -45,8 +46,8 @@ export async function createStripeCheckoutSession(
     "line_items[0][price_data][product_data][name]": "Programa Definido en Verano",
     "line_items[0][price_data][product_data][description]": "Programa de entrenamiento de 12 semanas",
     "line_items[0][quantity]": "1",
-    success_url: "https://definidoenverano.bestronger.es/success?session_id={CHECKOUT_SESSION_ID}",
-    cancel_url: "https://definidoenverano.bestronger.es/checkout",
+    success_url: `${origin || "https://definidoenverano.bestronger.es"}/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${origin || "https://definidoenverano.bestronger.es"}/checkout`,
     client_reference_id: orderId || "",
   });
 

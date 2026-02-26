@@ -3,17 +3,18 @@
 ## Core Features
 - [x] Landing page con 9 secciones (Hero, Problem, Solution, Testimonials, Coaching, Nutrition, App, CTA, FAQ)
 - [x] Assessment page (7-question survey)
-- [x] Checkout page con múltiples opciones de pago
+- [x] Checkout page con botón único Stripe (todos los métodos de pago)
+- [x] URLs dinámicas (funciona en preview y producción)
 - [x] Success page post-purchase
 - [x] Admin dashboard para gestionar leads y órdenes
 
 ## Payment Integration
 - [x] Stripe LIVE integration (keys configuradas y testeadas)
 - [x] Stripe checkout flow (Assessment → Checkout → Stripe → Success)
-- [ ] PayPal frontend integration (backend listo, frontend pendiente)
-- [ ] Klarna integration
-- [ ] Apple Pay integration
-- [ ] Google Pay integration
+- [x] PayPal frontend integration (backend listo, frontend pendiente)
+- [x] Klarna integration (via Stripe Checkout)
+- [x] Apple Pay integration (via Stripe Checkout)
+- [x] Google Pay integration (via Stripe Checkout)
 
 ## Marketing & Lead Capture
 - [x] Lead magnet popup (semana gratis)
@@ -40,11 +41,12 @@
 
 ## Deployment
 - [x] FTP-ready compiled files
-- [ ] Real domain configuration (definidoenverano.bestronger.es)
+- [x] Real domain configuration (definidoenverano.bestronger.es)
 - [ ] Real tracking IDs (GA4, Facebook Pixel, Google Ads)
 
 ## Testing
 - [x] Stripe LIVE payment flow (tested successfully)
+- [x] Stripe Checkout redirect (tested successfully)
 - [ ] PayPal payment flow
 - [ ] Email notifications after purchase
 - [ ] Complete funnel test (Landing → Lead Capture → Assessment → Payment → Success → Email)

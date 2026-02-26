@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
 import { Lock, ArrowLeft, Loader2 } from 'lucide-react';
-import { trpc } from '@/lib/trpc';
 import { toast } from 'sonner';
 
 /**
@@ -19,54 +18,25 @@ export default function Checkout() {
   const [, navigate] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
 
-  // tRPC mutation for creating checkout session
-  const createCheckoutSession = trpc.payments.createCheckoutSession.useMutation();
-
   const handleStripePayment = async () => {
     setIsLoading(true);
 
     try {
-      // Get assessment data from localStorage
-      const assessmentData = localStorage.getItem('assessmentData');
-      const clientInfo = localStorage.getItem('clientInfo');
+      // Get checkout URL from localStorage (saved by Assessment)
+      const checkoutUrl = localStorage.getItem('checkoutUrl');
       
-      if (!assessmentData || !clientInfo) {
-        toast.error('Error: Datos del assessment no encontrados.');
-        setIsLoading(false);
+      if (checkoutUrl) {
+        // Redirect to Stripe Checkout
+        window.location.href = checkoutUrl;
         return;
       }
 
-      const assessment = JSON.parse(assessmentData);
-      const contact = JSON.parse(clientInfo);
-
-      console.log('Creating checkout session with:', {
-        email: contact.email,
-        phone: contact.phone,
-        firstName: contact.firstName,
-        lastName: contact.lastName,
-        assessment: assessment
-      });
-
-      // Create checkout session with Stripe
-      const response = await createCheckoutSession.mutateAsync({
-        email: contact.email,
-        phone: contact.phone,
-        firstName: contact.firstName,
-        lastName: contact.lastName,
-        assessment: assessment,
-      });
-
-      console.log('Checkout session response:', response);
-
-      if (response.checkoutUrl) {
-        // Redirect to Stripe Checkout
-        window.location.href = response.checkoutUrl;
-      } else {
-        toast.error('Error al crear la sesión de pago. Intenta de nuevo.');
-        setIsLoading(false);
-      }
+      // Fallback: if no checkoutUrl, show error
+      toast.error('Error: Sesión de pago no encontrada. Por favor, completa el assessment de nuevo.');
+      setIsLoading(false);
+      setTimeout(() => navigate('/assessment'), 2000);
     } catch (error) {
-      console.error('Error creating checkout session:', error);
+      console.error('Error processing payment:', error);
       toast.error('Error al procesar el pago. Intenta de nuevo.');
       setIsLoading(false);
     }

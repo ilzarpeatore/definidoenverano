@@ -212,8 +212,9 @@ export default function Assessment() {
         },
       });
 
-      // Guardar orderId en localStorage para usar en checkout
+      // Guardar orderId y checkoutUrl en localStorage para usar en checkout
       localStorage.setItem('currentOrderId', result.orderId);
+      localStorage.setItem('checkoutUrl', result.checkoutUrl || '');
       localStorage.setItem('assessmentData', JSON.stringify(data));
       localStorage.setItem('clientInfo', JSON.stringify(clientInfo));
 
