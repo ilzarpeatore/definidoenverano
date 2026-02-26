@@ -11,4 +11,6 @@ export const ENV = {
   stripeSecretKey: process.env.STRIPE_SK ?? "",
   paypalClientId: process.env.PAYPAL_CLIENT_ID ?? "",
   paypalSecret: process.env.PAYPAL_SECRET ?? "",
+  metaPixelId: process.env.META_PIXEL_ID ?? "",
+  metaAccessToken: process.env.META_ACCESS_TOKEN ?? "",
 };

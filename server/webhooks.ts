@@ -3,6 +3,8 @@ import { notifyOwner } from "./_core/notification";
 import { getDb } from "./db";
 import { orders } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
+import { trackMetaConversion } from "./meta";
+import { getOrderByOrderId, getCustomerByEmail } from "./payments";
 
 const stripe = new Stripe(process.env.STRIPE_SK || "", {
   apiVersion: "2026-02-25.clover",
@@ -122,6 +124,31 @@ async function handleCheckoutSessionCompleted(
   });
 
   console.log("[Webhook] Notificación enviada al propietario");
+
+  // Track conversion with Meta Conversions API
+  if (session.metadata?.orderId) {
+    try {
+      const order = await getOrderByOrderId(session.metadata.orderId);
+      if (order) {
+        const customer = await getCustomerByEmail(customerId);
+        if (customer) {
+          await trackMetaConversion({
+            email: customer.email,
+            phone: customer.phone || undefined,
+            firstName: customer.firstName || undefined,
+            lastName: customer.lastName || undefined,
+            amount: amount / 100,
+            currency: currency,
+            orderId: session.metadata.orderId,
+          });
+        }
+      }
+    } catch (error) {
+      const err = error as Error;
+      console.error("[Webhook] Error tracking Meta conversion:", err.message);
+      // Don't throw - conversion tracking failure shouldn't block the webhook
+    }
+  }
 }
 
 /**
