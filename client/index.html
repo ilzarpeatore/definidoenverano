@@ -111,47 +111,67 @@
     }
     </script>
     
-    <!-- Google Analytics 4 - Reemplaza G-XXXXXXXXXX con tu Measurement ID -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PCDCWDKF');</script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-41FFD2KJX7"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX', {
+      gtag('config', 'G-41FFD2KJX7', {
         'anonymize_ip': true,
         'allow_google_signals': true,
         'send_page_view': true
       });
-      // Eventos de conversión
-      gtag('event', 'page_view', {
-        'page_title': document.title,
-        'page_location': window.location.href
-      });
     </script>
 
-    <!-- Facebook Pixel - Reemplaza XXXXXXXXXXXXXXX con tu Pixel ID -->
+    <!-- Google Ads Conversion Tracking -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17978359025"></script>
     <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-17978359025');
+      
+      // Track conversion on purchase
+      function trackPurchaseConversion(value, currency = 'EUR') {
+        gtag('event', 'conversion', {
+          'value': value,
+          'currency': currency,
+          'transaction_id': 'purchase_' + Date.now()
+        });
+      }
+      
+      // Make function available globally for use in app
+      window.trackPurchaseConversion = trackPurchaseConversion;
+    </script>
+
+    <!-- Facebook Pixel - Pendiente de ID -->
+    <!-- Cuando tengas el Facebook Pixel ID, descomenta el código abajo -->
+    <!-- <script>
       !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};n.push=n;n.loaded=!0;n.version='2.0';
       n.queue=[];t=b.createElement(e);t.async=!0;
       t.src=v;s=b.getElementsByTagName(e)[0];
       s.parentNode.insertBefore(t,s)}(window, document,'script',
       'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', 'XXXXXXXXXXXXXXX'); // Reemplaza con tu Pixel ID
+      fbq('init', 'TU_PIXEL_ID_AQUI');
       fbq('track', 'PageView');
-    </script>
-    <noscript>
+    </script> -->
+    <!-- <noscript>
       <img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=XXXXXXXXXXXXXXX&ev=PageView&noscript=1"/>
-    </noscript>
+      src="https://www.facebook.com/tr?id=TU_PIXEL_ID_AQUI&ev=PageView&noscript=1"/>
+    </noscript> -->
 
-    <!-- Google Ads Conversion Tracking - Reemplaza AW-XXXXXXXXX con tu ID -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXX"></script>
-    <script>
-      gtag('config', 'AW-XXXXXXXXX');
-    </script>
+
   </head>
 
   <body>
