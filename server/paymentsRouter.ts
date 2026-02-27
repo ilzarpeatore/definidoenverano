@@ -57,8 +57,8 @@ export const paymentsRouter = router({
         const orderId = generateOrderId();
 
         // Create order (pending status)
-        // TEST: Using 0.50€ for testing, change to 197 for production
-        const amount = 0.50; // DEMO: Change to 197 for production
+        // Production price: 197€
+        const amount = 197; // Production price
         await createOrder({
           customerId: customer.id,
           orderId,
