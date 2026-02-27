@@ -82,7 +82,7 @@ export default function SolutionSection() {
           viewport={{ once: true }}
         >
           <h2 className="font-display text-5xl md:text-6xl font-bold text-white mb-4">
-            SUMMER SHRED
+            DEFINIDO EN VERANO
           </h2>
           <p className="text-accent text-xl font-heading">
             El Sistema de 3 Meses para Hombres Que No Tienen Tiempo

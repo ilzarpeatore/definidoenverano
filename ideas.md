@@ -1,4 +1,4 @@
-# Summer Shred: Brainstorming de Diseño
+# Definido en Verano: Brainstorming de Diseño
 
 ## Contexto del Proyecto
 Landing page de alta conversión para un programa de entrenamiento de 3 meses orientado a hombres comprometidos con poco tiempo y motivación. El objetivo es convertir visitantes en clientes mediante una experiencia emocional inmersiva que combine vibe marketing con copywriting persuasivo.

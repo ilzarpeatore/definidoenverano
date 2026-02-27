@@ -1,4 +1,4 @@
-# Summer Shred: Estrategia de Copywriting y Arquitectura de Conversión
+# Definido en Verano: Estrategia de Copywriting y Arquitectura de Conversión
 
 ## Arquitectura de Conversión (Customer Journey)
 
@@ -52,7 +52,7 @@ El verano no espera."
 
 **Copy:**
 ```
-"SUMMER SHRED: El Sistema de 3 Meses para Hombres Que No Tienen Tiempo"
+"DEFINIDO EN VERANO: El Sistema de 3 Meses para Hombres Que No Tienen Tiempo"
 
 Lo que obtienes:
 ✓ Entrenamientos de 45 minutos (máximo)
@@ -92,7 +92,7 @@ Mi confianza cambió completamente."
 
 [Foto + Nombre]
 "No creía en los programas online. 
-Pero el sistema de Summer Shred es diferente. 
+Pero el sistema de Definido en Verano es diferente. 
 Entrenamientos cortos, resultados reales."
 — Juan P., 41 años, Padre de dos hijos
 ```
@@ -134,7 +134,7 @@ devolvemos tu dinero. Sin preguntas."
 |---------|----------|-----------------|-----------------|
 | **Hero** | Capturar atención | "3 MESES. UN CUERPO COMPLETAMENTE DIFERENTE." | Imagen de hombre musculado (hero-muscular-dark.png) |
 | **Problem** | Amplificar dolor | "Te miras al espejo..." | Transformación antes/después (transformation-before-after.png) |
-| **Solution** | Presentar programa | "SUMMER SHRED: El Sistema..." | Equipo de gym (gym-equipment-dark.png) |
+| **Solution** | Presentar programa | "DEFINIDO EN VERANO: El Sistema..." | Equipo de gym (gym-equipment-dark.png) |
 | **Features** | Detallar beneficios | "Entrenamientos de 45 minutos..." | Iconos + descripción |
 | **Training** | Mostrar intensidad | "Entrenamientos científicamente diseñados..." | Imagen de entrenamiento (training-intensity.png) |
 | **Social Proof** | Credibilidad | "2,847 hombres transformados..." | Testimonios + fotos |
@@ -186,7 +186,7 @@ devolvemos tu dinero. Sin preguntas."
 
 **Ejemplos:**
 - ❌ "Nuestro programa es bastante bueno"
-- ✅ "SUMMER SHRED es el único sistema diseñado específicamente para hombres ocupados"
+- ✅ "DEFINIDO EN VERANO es el único sistema diseñado específicamente para hombres ocupados"
 
 - ❌ "Muchas personas logran resultados"
 - ✅ "2,847 hombres transformaron sus cuerpos en 3 meses"
