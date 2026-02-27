@@ -60,11 +60,11 @@ export default function HeroSection() {
           className="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6 text-white"
           variants={itemVariants}
         >
-          Definido en Verano:
+          Recupera tu Mejor Versión
           <br />
-          <span className="text-gradient-gold">Transforma tu Cuerpo</span>
+          <span className="text-gradient-gold">en 12 Semanas</span>
           <br />
-          en 12 Semanas
+          Sin Vivir en el Gimnasio
         </motion.h1>
 
         {/* Divider Line */}
@@ -75,7 +75,7 @@ export default function HeroSection() {
           className="font-body text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed"
           variants={itemVariants}
         >
-          De hombre ocupado a máquina de verano. Sin excusas, sin tiempo perdido.
+          Para hombres ocupados que quieren volver a mirarse al espejo con confianza. Sin dietas extremas, sin sacrificar tu vida profesional.
         </motion.p>
 
         {/* CTA Button */}

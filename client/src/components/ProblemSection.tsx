@@ -32,10 +32,11 @@ export default function ProblemSection() {
   };
 
   const painPoints = [
-    'Rutinas genéricas que no funcionan',
-    'Entrenamientos de 2 horas que no tienes',
-    'Dietas complicadas que abandonas',
-    'La culpa de no estar donde deberías estar',
+    'Trabajas 10+ horas al día y no tienes tiempo para entrenar "bien"',
+    'Has intentado 3, 4, 5 veces... y siempre abandonas',
+    'Pagas gimnasio que no usas. Compras planes que no funcionan.',
+    'La barriga crece mientras tu confianza desaparece',
+    'Te comparas con tu versión de hace 5 años y te duele',
   ];
 
   return (
@@ -69,10 +70,10 @@ export default function ProblemSection() {
           >
             <motion.div variants={itemVariants}>
               <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-4">
-                Te miras al espejo
+                El Problema Real
               </h2>
-              <p className="text-gray-300 text-lg">
-                Y ves lo que podrías ser. Pero entre tú y ese cuerpo hay...
+              <p className="text-gray-300 text-lg leading-relaxed">
+                No es falta de capacidad. Tú ya entrenaste antes. Tú sabes lo que funciona. El problema es que tienes una vida ocupada, intentos fallidos, y ningún sistema que se adapte a tu realidad.
               </p>
             </motion.div>
 
@@ -96,10 +97,10 @@ export default function ProblemSection() {
               variants={itemVariants}
             >
               <p className="text-xl text-accent font-display font-bold">
-                Cada día que pasa, es otro día perdido.
+                Pero aquí está lo importante:
               </p>
-              <p className="text-gray-400 mt-2">
-                El verano no espera.
+              <p className="text-gray-300 mt-3 text-lg leading-relaxed">
+                No necesitas más motivación. Necesitas un sistema estructurado diseñado específicamente para hombres como tú.
               </p>
             </motion.div>
           </motion.div>
