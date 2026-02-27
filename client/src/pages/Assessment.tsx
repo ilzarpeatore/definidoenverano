@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -50,6 +50,32 @@ export default function Assessment() {
   });
 
   const createCheckoutMutation = trpc.payments.createCheckoutSession.useMutation();
+
+  // Track assessment event for retargeting
+  useEffect(() => {
+    if (window.fbq) {
+      window.fbq('track', 'ViewContent', {
+        content_name: 'Assessment Page',
+        content_type: 'page',
+      });
+    }
+  }, []);
+
+  // Track when user completes assessment
+  const trackAssessmentCompletion = () => {
+    if (window.fbq) {
+      window.fbq('track', 'Lead', {
+        content_name: 'Assessment Completed',
+        content_type: 'page',
+      });
+    }
+    // Google Ads conversion
+    if (window.gtag) {
+      window.gtag('event', 'conversion', {
+        'allow_custom_events': true,
+      });
+    }
+  };
 
   const steps = [
     {
@@ -187,6 +213,8 @@ export default function Assessment() {
     }
 
     try {
+      // Track assessment completion
+      trackAssessmentCompletion();
       // Llamar al backend para crear sesión de checkout
       // Parse yearsTraining to number
       const yearsTrainingMap: { [key: string]: number } = {
@@ -218,11 +246,11 @@ export default function Assessment() {
       localStorage.setItem('assessmentData', JSON.stringify(data));
       localStorage.setItem('clientInfo', JSON.stringify(clientInfo));
 
-      toast.success('¡Información guardada! Redirigiendo a pago...');
+      toast.success('¡Información guardada! Mostrando tu plan personalizado...');
 
-      // Redirigir a checkout
+      // Redirigir a resultados del assessment
       setTimeout(() => {
-        navigate('/checkout');
+        navigate('/assessment-results');
       }, 500);
     } catch (error) {
       console.error('Error creating checkout session:', error);

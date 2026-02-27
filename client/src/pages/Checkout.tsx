@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
@@ -18,10 +18,40 @@ export default function Checkout() {
   const [, navigate] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
 
+  // Track checkout page view for retargeting
+  useEffect(() => {
+    // Meta Pixel - ViewContent event
+    if (window.fbq) {
+      window.fbq('track', 'ViewContent', {
+        content_name: 'Checkout Page',
+        content_type: 'product',
+        value: 197,
+        currency: 'EUR',
+      });
+    }
+    // Google Ads - Page view
+    if (window.gtag) {
+      window.gtag('event', 'page_view', {
+        page_path: '/checkout',
+        page_title: 'Checkout',
+      });
+    }
+  }, []);
+
   const handleStripePayment = async () => {
     setIsLoading(true);
 
     try {
+      // Track AddToCart event for retargeting
+      if (window.fbq) {
+        window.fbq('track', 'AddToCart', {
+          content_name: 'Definido en Verano Program',
+          content_type: 'product',
+          value: 197,
+          currency: 'EUR',
+        });
+      }
+
       // Get checkout URL from localStorage (saved by Assessment)
       const checkoutUrl = localStorage.getItem('checkoutUrl');
       
