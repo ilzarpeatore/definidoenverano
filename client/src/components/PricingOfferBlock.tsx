@@ -114,7 +114,7 @@ export default function PricingOfferBlock() {
             >
               <Button
                 onClick={handleCTA}
-                className="w-full bg-accent hover:bg-accent/90 text-orange-950 font-bold text-base md:text-lg py-3 md:py-4 h-auto rounded-xl transition-all duration-300 transform hover:scale-105"
+                className="w-full bg-accent hover:bg-accent/90 text-orange-950 font-bold text-sm md:text-base py-3 md:py-4 h-auto rounded-xl transition-all duration-300 transform hover:scale-105"
               >
                 ACCESO INMEDIATO AL PROGRAMA
               </Button>

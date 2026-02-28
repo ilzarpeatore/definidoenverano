@@ -131,7 +131,7 @@ export default function CTASection() {
           <Button
             size="lg"
             onClick={() => navigate('/assessment')}
-            className="btn-glow w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-lg py-6 rounded-sm"
+            className="btn-glow w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-base md:text-lg py-6 rounded-sm"
           >
             ACCESO INMEDIATO AL PROGRAMA
           </Button>

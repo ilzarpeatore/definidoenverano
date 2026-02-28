@@ -96,7 +96,7 @@ export default function HeroSection() {
           <Button
             size="lg"
             onClick={() => navigate('/assessment')}
-            className="btn-glow bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-lg px-8 py-6 rounded-sm"
+            className="btn-glow bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-base md:text-lg px-8 py-6 rounded-sm"
           >
             ACCESO INMEDIATO
           </Button>
