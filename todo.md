@@ -79,3 +79,10 @@
 - [x] Crear página de Política de Privacidad
 - [x] Agregar ruta /privacy a App.tsx
 - [x] Agregar enlace en Footer
+
+## Política de Cookies y Banner AEPD 2023
+- [x] Crear página de Política de Cookies
+- [x] Crear componente CookieBanner con gestión de consentimiento
+- [x] Agregar ruta /cookies a App.tsx
+- [x] Integrar CookieBanner en App.tsx
+- [x] Agregar enlace en Footer

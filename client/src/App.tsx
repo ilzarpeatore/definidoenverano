@@ -5,6 +5,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import WhatsAppButton from "./components/WhatsAppButton";
+import CookieBanner from "./components/CookieBanner";
 import Home from "./pages/Home";
 import Assessment from "./pages/Assessment";
 import AssessmentResults from "./pages/AssessmentResults";
@@ -13,6 +14,7 @@ import Success from "./pages/Success";
 import AdminDashboard from "./pages/AdminDashboard";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import CookiePolicy from "./pages/CookiePolicy";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -26,6 +28,7 @@ function Router() {
       <Route path={"/admin"} component={AdminDashboard} />
       <Route path={"/terms"} component={TermsAndConditions} />
       <Route path={"/privacy"} component={PrivacyPolicy} />
+      <Route path={"/cookies"} component={CookiePolicy} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
@@ -48,6 +51,7 @@ function App() {
           <Toaster />
           <Router />
           <WhatsAppButton />
+          <CookieBanner />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

@@ -62,6 +62,9 @@ export default function Footer() {
               <a href="/privacy" className="block text-gray-400 hover:text-accent transition-colors">
                 Política de Privacidad
               </a>
+              <a href="/cookies" className="block text-gray-400 hover:text-accent transition-colors">
+                Política de Cookies
+              </a>
               <a href="#" className="block text-gray-400 hover:text-accent transition-colors">
                 Garantía de Devolución
               </a>
