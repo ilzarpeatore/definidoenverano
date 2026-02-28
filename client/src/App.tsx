@@ -18,6 +18,7 @@ import CookiePolicy from "./pages/CookiePolicy";
 import LegalNotice from "./pages/LegalNotice";
 import InformedConsent from "./pages/InformedConsent";
 import RefundPolicy from "./pages/RefundPolicy";
+import Guide7Mistakes from "./pages/Guide7Mistakes";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -35,6 +36,7 @@ function Router() {
       <Route path={"/legal"} component={LegalNotice} />
       <Route path={"/informed-consent"} component={InformedConsent} />
       <Route path={"/refund-policy"} component={RefundPolicy} />
+      <Route path={"/guide"} component={Guide7Mistakes} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
