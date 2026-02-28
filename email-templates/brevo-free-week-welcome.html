@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Bienvenido a tu Semana Gratuita!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #0a0a0a;
+            color: #e4e4e7;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+            border: 1px solid #27272a;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #b8860b 0%, #d4af37 100%);
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 3px solid #b8860b;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #000;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+        
+        .header p {
+            color: #1a1a1a;
+            font-size: 14px;
+            margin-top: 8px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .greeting {
+            font-size: 20px;
+            font-weight: 600;
+            color: #d4af37;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .section {
+            margin-bottom: 32px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #d4af37;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            background-color: #d4af37;
+            border-radius: 50%;
+        }
+        
+        .section-text {
+            color: #e4e4e7;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+        
+        .highlight {
+            background-color: rgba(212, 175, 55, 0.1);
+            border-left: 3px solid #d4af37;
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .highlight-text {
+            color: #d4af37;
+            font-weight: 600;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            margin: 24px 0;
+            border-collapse: collapse;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .comparison-table th {
+            background-color: rgba(212, 175, 55, 0.15);
+            color: #d4af37;
+            padding: 14px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            font-size: 14px;
+        }
+        
+        .comparison-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            font-size: 14px;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .check-mark {
+            color: #22c55e;
+            font-weight: 700;
+        }
+        
+        .cross-mark {
+            color: #ef4444;
+            font-weight: 700;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #b8860b 0%, #d4af37 100%);
+            color: #000;
+            padding: 14px 32px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            text-align: center;
+            margin: 20px 0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 2px solid #d4af37;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(212, 175, 55, 0.3);
+        }
+        
+        .whatsapp-button {
+            display: inline-block;
+            background-color: #25d366;
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            text-align: center;
+            margin: 20px 0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 2px solid #25d366;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .whatsapp-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(37, 211, 102, 0.3);
+            background-color: #1faa50;
+        }
+        
+        .footer {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #27272a;
+        }
+        
+        .footer-text {
+            font-size: 13px;
+            color: #a1a1a1;
+            margin-bottom: 12px;
+        }
+        
+        .footer-links {
+            font-size: 12px;
+            color: #71717a;
+        }
+        
+        .footer-links a {
+            color: #d4af37;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+            margin: 32px 0;
+        }
+        
+        .icon {
+            font-size: 24px;
+            margin-right: 8px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                border: none;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .content {
+                padding: 24px 16px;
+            }
+            
+            .section-title {
+                font-size: 16px;
+            }
+            
+            .section-text {
+                font-size: 14px;
+            }
+            
+            .comparison-table {
+                font-size: 12px;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>DEFINIDO EN VERANO</h1>
+            <p>Tu Semana Gratuita de Entrenamiento</p>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <!-- Greeting -->
+            <div class="greeting">
+                🎉 ¡Bienvenido a tu Semana Gratuita!
+            </div>
+            
+            <!-- Introduction Section -->
+            <div class="section">
+                <p class="section-text">
+                    Hola {{CONTACT_FIRSTNAME}},
+                </p>
+                <p class="section-text">
+                    Nos alegra enormemente que hayas decidido unirte a <span class="highlight-text">Definido en Verano</span>. Tu decisión de invertir en tu transformación física es el primer paso hacia los resultados que deseas.
+                </p>
+            </div>
+            
+            <!-- Highlight Box -->
+            <div class="highlight">
+                <p class="section-text" style="margin: 0;">
+                    <span class="highlight-text">✓ Tu entrenamiento se está preparando</span><br>
+                    Nuestro equipo está configurando tu plan personalizado. En breve recibirás los datos de acceso a la app con tu primer entrenamiento listo para comenzar.
+                </p>
+            </div>
+            
+            <!-- What's Included Section -->
+            <div class="section">
+                <div class="section-title">📋 Tu Semana de Prueba Incluye</div>
+                <p class="section-text">
+                    Durante estos 7 días tendrás acceso completo a:
+                </p>
+                <ul style="list-style: none; padding: 0; margin: 12px 0;">
+                    <li style="margin-bottom: 10px; color: #e4e4e7;">
+                        <span class="check-mark">✓</span> Entrenamientos científicamente diseñados
+                    </li>
+                    <li style="margin-bottom: 10px; color: #e4e4e7;">
+                        <span class="check-mark">✓</span> Acceso completo a la app móvil
+                    </li>
+                    <li style="margin-bottom: 10px; color: #e4e4e7;">
+                        <span class="check-mark">✓</span> Seguimiento de tu progreso
+                    </li>
+                    <li style="color: #e4e4e7;">
+                        <span class="check-mark">✓</span> Comunidad privada de apoyo
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Divider -->
+            <div class="divider"></div>
+            
+            <!-- Comparison Section -->
+            <div class="section">
+                <div class="section-title">🚀 Semana Gratuita vs Programa Completo</div>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Característica</th>
+                            <th style="text-align: center;">Semana Gratuita</th>
+                            <th style="text-align: center;">Programa Completo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Entrenamientos</td>
+                            <td style="text-align: center;"><span class="check-mark">✓</span></td>
+                            <td style="text-align: center;"><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>Plan Nutricional</td>
+                            <td style="text-align: center;"><span class="cross-mark">✗</span></td>
+                            <td style="text-align: center;"><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>Guías y Recursos</td>
+                            <td style="text-align: center;"><span class="cross-mark">✗</span></td>
+                            <td style="text-align: center;"><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>Configuración de Hábitos</td>
+                            <td style="text-align: center;"><span class="cross-mark">✗</span></td>
+                            <td style="text-align: center;"><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>Seguimiento Avanzado</td>
+                            <td style="text-align: center;"><span class="cross-mark">✗</span></td>
+                            <td style="text-align: center;"><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>Soporte del Coach</td>
+                            <td style="text-align: center;"><span class="cross-mark">✗</span></td>
+                            <td style="text-align: center;"><span class="check-mark">✓</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Divider -->
+            <div class="divider"></div>
+            
+            <!-- Program Details Section -->
+            <div class="section">
+                <div class="section-title">💪 El Programa Completo Incluye</div>
+                <p class="section-text">
+                    Si decides continuar después de tu semana gratuita, accederás a:
+                </p>
+                <ul style="list-style: none; padding: 0; margin: 12px 0;">
+                    <li style="margin-bottom: 10px; color: #e4e4e7;">
+                        <span class="highlight-text">•</span> Plan de nutrición personalizado adaptado a tus objetivos
+                    </li>
+                    <li style="margin-bottom: 10px; color: #e4e4e7;">
+                        <span class="highlight-text">•</span> Guías completas y recursos exclusivos
+                    </li>
+                    <li style="margin-bottom: 10px; color: #e4e4e7;">
+                        <span class="highlight-text">•</span> Configuración de hábitos en la app para facilitar tus objetivos
+                    </li>
+                    <li style="margin-bottom: 10px; color: #e4e4e7;">
+                        <span class="highlight-text">•</span> Acceso de por vida a todas las actualizaciones
+                    </li>
+                    <li style="color: #e4e4e7;">
+                        <span class="highlight-text">•</span> Soporte directo del coach
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Support Section -->
+            <div class="section">
+                <div class="section-title">❓ ¿Tienes Dudas?</div>
+                <p class="section-text">
+                    Estamos aquí para ayudarte. Si tienes cualquier pregunta sobre tu semana gratuita, el programa o cómo maximizar tus resultados, no dudes en contactarnos por WhatsApp.
+                </p>
+            </div>
+            
+            <!-- CTA Buttons -->
+            <div style="text-align: center;">
+                <a href="https://app.bestronger.es/login" class="cta-button">
+                    Acceder a la App
+                </a>
+                
+                <a href="https://wa.me/34XXXXXXXXX?text=Hola%20Be%20Stronger%2C%20tengo%20una%20duda%20sobre%20mi%20semana%20gratuita" class="whatsapp-button">
+                    💬 Contactar por WhatsApp
+                </a>
+            </div>
+            
+            <!-- Closing -->
+            <div class="section" style="text-align: center; margin-top: 32px;">
+                <p class="section-text">
+                    Estamos emocionados de acompañarte en esta transformación.
+                </p>
+                <p class="section-text" style="color: #d4af37; font-weight: 600;">
+                    ¡Vamos a lograrlo juntos!
+                </p>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p class="footer-text">
+                © 2026 Be Stronger. Todos los derechos reservados.
+            </p>
+            <div class="footer-links">
+                <a href="https://definidoenverano.bestronger.es/terms">Términos y Condiciones</a>
+                <a href="https://definidoenverano.bestronger.es/privacy">Política de Privacidad</a>
+                <a href="https://definidoenverano.bestronger.es/contact">Contacto</a>
+            </div>
+            <p class="footer-text" style="margin-top: 16px; font-size: 12px;">
+                Si no deseas recibir más correos, puedes <a href="{{UNSUBSCRIBE_LINK}}" style="color: #d4af37;">darte de baja aquí</a>.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -152,3 +152,7 @@
 - [x] Mover Fase de Consolidación antes de CTASection
 - [x] Identificar y arreglar caracteres escapados \n
 - [x] Testear y guardar checkpoint
+
+## Plantilla de Correo Brevo
+- [x] Crear plantilla HTML para semana gratuita
+- [x] Guardar y documentar uso en proyecto
