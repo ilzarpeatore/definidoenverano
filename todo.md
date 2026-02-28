@@ -74,3 +74,8 @@
 - [x] Crear página de Términos y Condiciones
 - [x] Agregar ruta /terms a App.tsx
 - [x] Agregar enlace en Footer
+
+## Política de Privacidad
+- [x] Crear página de Política de Privacidad
+- [x] Agregar ruta /privacy a App.tsx
+- [x] Agregar enlace en Footer

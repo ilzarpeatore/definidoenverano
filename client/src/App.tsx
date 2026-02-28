@@ -12,6 +12,7 @@ import Checkout from "./pages/Checkout";
 import Success from "./pages/Success";
 import AdminDashboard from "./pages/AdminDashboard";
 import TermsAndConditions from "./pages/TermsAndConditions";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -24,6 +25,7 @@ function Router() {
       <Route path={"/success"} component={Success} />
       <Route path={"/admin"} component={AdminDashboard} />
       <Route path={"/terms"} component={TermsAndConditions} />
+      <Route path={"/privacy"} component={PrivacyPolicy} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
