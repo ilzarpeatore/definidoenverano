@@ -46,7 +46,7 @@ export type InsertCustomer = typeof customers.$inferInsert;
  */
 export const orders = mysqlTable("orders", {
   id: int("id").autoincrement().primaryKey(),
-  customerId: int("customerId").notNull(),
+  customerId: int("customerId").notNull().references(() => customers.id, { onDelete: "cascade" }),
   orderId: varchar("orderId", { length: 100 }).notNull().unique(),
   amount: int("amount").notNull(),
   currency: varchar("currency", { length: 3 }).default("EUR").notNull(),
@@ -69,8 +69,8 @@ export type InsertOrder = typeof orders.$inferInsert;
  */
 export const assessmentResponses = mysqlTable("assessmentResponses", {
   id: int("id").autoincrement().primaryKey(),
-  customerId: int("customerId").notNull(),
-  orderId: int("orderId").notNull(),
+  customerId: int("customerId").notNull().references(() => customers.id, { onDelete: "cascade" }),
+  orderId: int("orderId").notNull().references(() => orders.id, { onDelete: "cascade" }),
   experienceLevel: varchar("experienceLevel", { length: 50 }),
   yearsTraining: int("yearsTraining"),
   mainGoal: varchar("mainGoal", { length: 100 }),
@@ -90,7 +90,7 @@ export type InsertAssessmentResponse = typeof assessmentResponses.$inferInsert;
  */
 export const customerNotes = mysqlTable("customerNotes", {
   id: int("id").autoincrement().primaryKey(),
-  customerId: int("customerId").notNull(),
+  customerId: int("customerId").notNull().references(() => customers.id, { onDelete: "cascade" }),
   note: text("note").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
@@ -151,8 +151,8 @@ export type InsertFreeResource = typeof freeResources.$inferInsert;
  */
 export const informedConsents = mysqlTable("informedConsents", {
   id: int("id").autoincrement().primaryKey(),
-  customerId: int("customerId").notNull(),
-  orderId: int("orderId").notNull(),
+  customerId: int("customerId").notNull().references(() => customers.id, { onDelete: "cascade" }),
+  orderId: int("orderId").notNull().references(() => orders.id, { onDelete: "cascade" }),
   consentText: text("consentText").notNull(),
   ipAddress: varchar("ipAddress", { length: 45 }).notNull(),
   userAgent: text("userAgent"),

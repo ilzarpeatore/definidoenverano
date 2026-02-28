@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, informedConsents, InsertInformedConsent } from "../drizzle/schema";
+import { InsertUser, users, informedConsents, InsertInformedConsent, customers, orders, assessmentResponses } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -100,6 +100,123 @@ export async function saveInformedConsent(consent: InsertInformedConsent): Promi
     await db.insert(informedConsents).values(consent);
   } catch (error) {
     console.error("[Database] Failed to save informed consent:", error);
+    throw error;
+  }
+}
+
+/**
+ * Get customer with all related orders and assessments
+ */
+export async function getCustomerWithDetails(customerId: number) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get customer: database not available");
+    return undefined;
+  }
+
+  try {
+    const customer = await db.select().from(customers).where(eq(customers.id, customerId)).limit(1);
+    if (!customer.length) return undefined;
+
+    const customerOrders = await db.select().from(orders).where(eq(orders.customerId, customerId)).orderBy(desc(orders.createdAt));
+    const customerAssessments = await db.select().from(assessmentResponses).where(eq(assessmentResponses.customerId, customerId));
+
+    return {
+      ...customer[0],
+      orders: customerOrders,
+      assessments: customerAssessments,
+    };
+  } catch (error) {
+    console.error("[Database] Failed to get customer with details:", error);
+    throw error;
+  }
+}
+
+/**
+ * Get all customers with their latest order and assessment status
+ */
+export async function getAllCustomersWithStatus() {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get customers: database not available");
+    return [];
+  }
+
+  try {
+    const allCustomers = await db.select().from(customers).orderBy(desc(customers.createdAt));
+    
+    const customersWithStatus = await Promise.all(
+      allCustomers.map(async (customer) => {
+        const latestOrder = await db.select().from(orders).where(eq(orders.customerId, customer.id)).orderBy(desc(orders.createdAt)).limit(1);
+        const assessment = await db.select().from(assessmentResponses).where(eq(assessmentResponses.customerId, customer.id)).limit(1);
+        
+        return {
+          ...customer,
+          latestOrder: latestOrder[0] || null,
+          assessment: assessment[0] || null,
+        };
+      })
+    );
+
+    return customersWithStatus;
+  } catch (error) {
+    console.error("[Database] Failed to get customers with status:", error);
+    throw error;
+  }
+}
+
+/**
+ * Get order with customer and assessment details
+ */
+export async function getOrderWithDetails(orderId: number) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get order: database not available");
+    return undefined;
+  }
+
+  try {
+    const order = await db.select().from(orders).where(eq(orders.id, orderId)).limit(1);
+    if (!order.length) return undefined;
+
+    const customer = await db.select().from(customers).where(eq(customers.id, order[0].customerId)).limit(1);
+    const assessment = await db.select().from(assessmentResponses).where(eq(assessmentResponses.orderId, orderId)).limit(1);
+
+    return {
+      ...order[0],
+      customer: customer[0] || null,
+      assessment: assessment[0] || null,
+    };
+  } catch (error) {
+    console.error("[Database] Failed to get order with details:", error);
+    throw error;
+  }
+}
+
+/**
+ * Get assessment with customer and order details
+ */
+export async function getAssessmentWithDetails(assessmentId: number) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get assessment: database not available");
+    return undefined;
+  }
+
+  try {
+    const assessment = await db.select().from(assessmentResponses).where(eq(assessmentResponses.id, assessmentId)).limit(1);
+    if (!assessment.length) return undefined;
+
+    const customer = await db.select().from(customers).where(eq(customers.id, assessment[0].customerId)).limit(1);
+    const order = await db.select().from(orders).where(eq(orders.id, assessment[0].orderId)).limit(1);
+
+    return {
+      ...assessment[0],
+      customer: customer[0] || null,
+      order: order[0] || null,
+    };
+  } catch (error) {
+    console.error("[Database] Failed to get assessment with details:", error);
     throw error;
   }
 }

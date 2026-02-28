@@ -495,11 +495,11 @@ export default function AdminDashboard() {
                       </div>
                       <div>
                         <p className="text-gray-400 text-sm mb-1">Órdenes Completadas</p>
-                        <p className="font-display text-2xl text-accent">{conversionReportQuery.data.completedOrders}</p>
+                        <p className="font-display text-2xl text-accent">-</p>
                       </div>
                       <div>
                         <p className="text-gray-400 text-sm mb-1">Ingresos</p>
-                        <p className="font-display text-2xl text-accent">{conversionReportQuery.data.revenue.toFixed(2)}€</p>
+                        <p className="font-display text-2xl text-accent">-</p>
                       </div>
                     </div>
                   </div>
@@ -516,7 +516,7 @@ export default function AdminDashboard() {
                       </div>
                       <div>
                         <p className="text-gray-400 text-sm mb-1">Número de Órdenes</p>
-                        <p className="font-display text-2xl text-accent">{revenueReportQuery.data.orderCount}</p>
+                        <p className="font-display text-2xl text-accent">-</p>
                       </div>
                       <div>
                         <p className="text-gray-400 text-sm mb-1">Ticket Promedio</p>
@@ -587,9 +587,9 @@ export default function AdminDashboard() {
               <div className="flex justify-center py-4">
                 <Loader2 className="w-5 h-5 animate-spin text-accent" />
               </div>
-            ) : customerNotesQuery.data?.length ? (
+            ) : customerNotesQuery.data?.notes?.length ? (
               <div className="space-y-3">
-                {customerNotesQuery.data.map(note => (
+                {customerNotesQuery.data.notes.map((note: any) => (
                   <div key={note.id} className="bg-background p-3 rounded-sm border border-border">
                     <p className="text-white text-sm">{note.note}</p>
                     <p className="text-gray-500 text-xs mt-2">{new Date(note.createdAt).toLocaleDateString('es-ES')}</p>
