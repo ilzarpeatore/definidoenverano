@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Bienvenido a Definido en Verano!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #0a0a0a;
+            color: #e4e4e7;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+            border: 1px solid #27272a;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #b8860b 0%, #d4af37 100%);
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 3px solid #b8860b;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #000;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+        
+        .header p {
+            color: #1a1a1a;
+            font-size: 14px;
+            margin-top: 8px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .greeting {
+            font-size: 20px;
+            font-weight: 600;
+            color: #d4af37;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .section {
+            margin-bottom: 32px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #d4af37;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            background-color: #d4af37;
+            border-radius: 50%;
+        }
+        
+        .section-text {
+            color: #e4e4e7;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+        
+        .highlight {
+            background-color: rgba(212, 175, 55, 0.1);
+            border-left: 3px solid #d4af37;
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .highlight-text {
+            color: #d4af37;
+            font-weight: 600;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0;
+        }
+        
+        .feature-list li {
+            margin-bottom: 12px;
+            color: #e4e4e7;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .feature-list li::before {
+            content: '✓';
+            color: #22c55e;
+            font-weight: 700;
+            font-size: 16px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .testimonial-card {
+            background-color: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .testimonial-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #b8860b 0%, #d4af37 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #000;
+            font-size: 16px;
+        }
+        
+        .testimonial-info h4 {
+            color: #d4af37;
+            font-size: 14px;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .testimonial-info p {
+            color: #a1a1a1;
+            font-size: 12px;
+            margin: 2px 0 0 0;
+        }
+        
+        .testimonial-text {
+            color: #e4e4e7;
+            font-size: 13px;
+            line-height: 1.6;
+            font-style: italic;
+        }
+        
+        .stars {
+            color: #d4af37;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+        
+        .cta-button {
+            display: block;
+            background: linear-gradient(135deg, #b8860b 0%, #d4af37 100%);
+            color: #000;
+            padding: 14px 32px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            text-align: center;
+            margin: 20px 0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 2px solid #d4af37;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(212, 175, 55, 0.3);
+        }
+        
+        .whatsapp-button {
+            display: block;
+            background-color: #25d366;
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            text-align: center;
+            margin: 20px 0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 2px solid #25d366;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .whatsapp-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(37, 211, 102, 0.3);
+            background-color: #1faa50;
+        }
+        
+        .footer {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #27272a;
+        }
+        
+        .footer-text {
+            font-size: 13px;
+            color: #a1a1a1;
+            margin-bottom: 12px;
+        }
+        
+        .footer-links {
+            font-size: 12px;
+            color: #71717a;
+        }
+        
+        .footer-links a {
+            color: #d4af37;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+            margin: 32px 0;
+        }
+        
+        .success-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                border: none;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .content {
+                padding: 24px 16px;
+            }
+            
+            .section-title {
+                font-size: 16px;
+            }
+            
+            .section-text {
+                font-size: 14px;
+            }
+            
+            .testimonial-card {
+                padding: 12px;
+            }
+            
+            .testimonial-avatar {
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>DEFINIDO EN VERANO</h1>
+            <p>¡Tu Transformación Comienza Ahora!</p>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <!-- Greeting -->
+            <div class="greeting">
+                🎉 ¡Bienvenido {{CONTACT_FIRSTNAME}}!
+            </div>
+            
+            <!-- Thank You Section -->
+            <div class="section">
+                <p class="section-text">
+                    Gracias por unirte a <span class="highlight-text">Definido en Verano</span>. Tu decisión de invertir en tu transformación es el primer paso hacia los resultados extraordinarios que vas a conseguir.
+                </p>
+                <p class="section-text">
+                    Nos alegra enormemente tenerte como parte de nuestra comunidad de hombres ocupados que están transformando sus cuerpos y sus vidas.
+                </p>
+            </div>
+            
+            <!-- Highlight Box -->
+            <div class="highlight">
+                <p class="section-text" style="margin: 0;">
+                    <span class="highlight-text">⏱️ En breve recibirás los datos de acceso</span><br>
+                    Nuestro equipo está preparando tu acceso al programa. Dentro de las próximas 24 horas recibirás un correo con tu nombre de usuario, contraseña y enlace directo a la app.
+                </p>
+            </div>
+            
+            <!-- Divider -->
+            <div class="divider"></div>
+            
+            <!-- What You Get Section -->
+            <div class="section">
+                <div class="section-title">📦 Lo Que Recibirás en Tu Programa</div>
+                <p class="section-text">
+                    Tu acceso incluye:
+                </p>
+                
+                <ul class="feature-list">
+                    <li>
+                        <strong>Programa de 12 Semanas Completo</strong><br>
+                        <span style="font-size: 13px; color: #a1a1a1;">Entrenamientos científicamente diseñados, progresivos y adaptados a tu nivel</span>
+                    </li>
+                    <li>
+                        <strong>Plan de Nutrición Personalizado</strong><br>
+                        <span style="font-size: 13px; color: #a1a1a1;">Macros calculadas según tus objetivos, preferencias y estilo de vida</span>
+                    </li>
+                    <li>
+                        <strong>Guías y Recursos Exclusivos</strong><br>
+                        <span style="font-size: 13px; color: #a1a1a1;">PDFs descargables, videos tutoriales y guías de ejercicios</span>
+                    </li>
+                    <li>
+                        <strong>Configuración de Hábitos en la App</strong><br>
+                        <span style="font-size: 13px; color: #a1a1a1;">Herramientas para establecer y mantener hábitos saludables</span>
+                    </li>
+                    <li>
+                        <strong>Seguimiento Avanzado</strong><br>
+                        <span style="font-size: 13px; color: #a1a1a1;">Métricas detalladas de progreso, fotos antes/después y estadísticas</span>
+                    </li>
+                    <li>
+                        <strong>Comunidad Privada</strong><br>
+                        <span style="font-size: 13px; color: #a1a1a1;">Acceso a grupo exclusivo de hombres con los mismos objetivos</span>
+                    </li>
+                    <li>
+                        <strong>Soporte Directo del Coach</strong><br>
+                        <span style="font-size: 13px; color: #a1a1a1;">Respuestas a tus preguntas y ajustes personalizados</span>
+                    </li>
+                    <li>
+                        <strong>Actualizaciones de Por Vida</strong><br>
+                        <span style="font-size: 13px; color: #a1a1a1;">Acceso permanente a nuevos contenidos y mejoras</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Divider -->
+            <div class="divider"></div>
+            
+            <!-- Success Stories Section -->
+            <div class="section">
+                <div class="section-title">💪 Historias de Éxito de Nuestros Clientes</div>
+                <p class="section-text">
+                    Mira cómo otros hombres ocupados como tú han transformado sus cuerpos:
+                </p>
+                
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">JM</div>
+                        <div class="testimonial-info">
+                            <h4>Juan Martínez</h4>
+                            <p>Ejecutivo, 42 años</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "Perdí 12kg en 12 semanas sin dejar de comer bien. El programa se adapta perfectamente a mi horario ocupado. Increíble."
+                    </div>
+                    <div class="stars">★★★★★ 5/5</div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">CR</div>
+                        <div class="testimonial-info">
+                            <h4>Carlos Rodríguez</h4>
+                            <p>Emprendedor, 38 años</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "Gané 8kg de músculo en 3 meses. El plan nutricional es exacto y los entrenamientos son eficientes. Recomendado 100%."
+                    </div>
+                    <div class="stars">★★★★★ 5/5</div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">AP</div>
+                        <div class="testimonial-info">
+                            <h4>Andrés Pérez</h4>
+                            <p>Profesional de Ventas, 45 años</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "Finalmente conseguí los abdominales que quería. El soporte del coach fue clave para mantener la consistencia."
+                    </div>
+                    <div class="stars">★★★★★ 5/5</div>
+                </div>
+                
+                <!-- Testimonial 4 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">DL</div>
+                        <div class="testimonial-info">
+                            <h4>David López</h4>
+                            <p>Consultor, 36 años</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "Mi energía aumentó muchísimo. No solo cambió mi cuerpo, también mi confianza y calidad de vida."
+                    </div>
+                    <div class="stars">★★★★★ 5/5</div>
+                </div>
+            </div>
+            
+            <!-- Divider -->
+            <div class="divider"></div>
+            
+            <!-- Next Steps Section -->
+            <div class="section">
+                <div class="section-title">📋 Próximos Pasos</div>
+                <p class="section-text">
+                    1. <span class="highlight-text">Espera el correo de acceso</span> - Lo recibirás en las próximas 24 horas<br>
+                    2. <span class="highlight-text">Descarga la app</span> - Disponible en iOS y Android<br>
+                    3. <span class="highlight-text">Completa tu perfil</span> - Información personal y objetivos<br>
+                    4. <span class="highlight-text">Comienza tu transformación</span> - Tu primer entrenamiento te espera
+                </p>
+            </div>
+            
+            <!-- Support Section -->
+            <div class="section">
+                <div class="section-title">❓ ¿Preguntas?</div>
+                <p class="section-text">
+                    Si tienes cualquier duda sobre tu acceso, el programa o cómo comenzar, estamos aquí para ayudarte. Contáctanos por WhatsApp y te responderemos en menos de 2 horas.
+                </p>
+            </div>
+            
+            <!-- CTA Buttons -->
+            <div style="text-align: center;">
+                <a href="https://app.bestronger.es/login" class="cta-button">
+                    Acceder a Mi Programa
+                </a>
+                
+                <a href="https://wa.me/34XXXXXXXXX?text=Hola%20Be%20Stronger%2C%20acabo%20de%20comprar%20el%20programa%20y%20tengo%20una%20duda" class="whatsapp-button">
+                    💬 Contactar por WhatsApp
+                </a>
+            </div>
+            
+            <!-- Closing -->
+            <div class="section" style="text-align: center; margin-top: 32px;">
+                <p class="section-text">
+                    Tu transformación comienza hoy. Estamos emocionados de acompañarte en este viaje.
+                </p>
+                <p class="section-text" style="color: #d4af37; font-weight: 600;">
+                    ¡Vamos a lograrlo juntos!
+                </p>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p class="footer-text">
+                © 2026 Be Stronger. Todos los derechos reservados.
+            </p>
+            <div class="footer-links">
+                <a href="https://definidoenverano.bestronger.es/terms">Términos y Condiciones</a>
+                <a href="https://definidoenverano.bestronger.es/privacy">Política de Privacidad</a>
+                <a href="https://definidoenverano.bestronger.es/contact">Contacto</a>
+            </div>
+            <p class="footer-text" style="margin-top: 16px; font-size: 12px;">
+                Si no deseas recibir más correos, puedes <a href="{{UNSUBSCRIBE_LINK}}" style="color: #d4af37;">darte de baja aquí</a>.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
