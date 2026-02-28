@@ -110,3 +110,8 @@
 - [x] Crear página de Garantía y Devolución
 - [x] Agregar ruta /refund-policy a App.tsx
 - [x] Agregar enlace en Footer
+
+## Recuadros de Fases de Precios
+- [x] Crear componente PricingPhaseCard
+- [x] Agregar recuadros de fases a Home.tsx (2-3 veces)
+- [x] Testear y guardar checkpoint
