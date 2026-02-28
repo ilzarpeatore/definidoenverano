@@ -13,6 +13,7 @@ export default function AdminDashboard() {
   const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState<'stats' | 'customers' | 'orders' | 'assessments' | 'reports'>('stats');
   const [expandedAssessments, setExpandedAssessments] = useState<number[]>([]);
+  const [expandedCustomers, setExpandedCustomers] = useState<number[]>([]);
   const [selectedCustomer, setSelectedCustomer] = useState<number | null>(null);
   const [noteText, setNoteText] = useState('');
 
@@ -33,6 +34,14 @@ export default function AdminDashboard() {
     );
   };
 
+  const toggleCustomer = (customerId: number) => {
+    setExpandedCustomers(prev =>
+      prev.includes(customerId)
+        ? prev.filter(id => id !== customerId)
+        : [...prev, customerId]
+    );
+  };
+
   // Queries
   const statsQuery = trpc.admin.getStats.useQuery(undefined, { enabled: isAuthenticated });
   const customersQuery = trpc.admin.getCustomers.useQuery(
@@ -47,110 +56,59 @@ export default function AdminDashboard() {
     { search: assessmentSearch, mainGoal: assessmentGoal, page: 1, limit: 50 },
     { enabled: isAuthenticated }
   );
-  const conversionReportQuery = trpc.admin.getConversionReport.useQuery(
-    { startDate: dateRange.start, endDate: dateRange.end },
-    { enabled: isAuthenticated && activeTab === 'reports' }
-  );
-  const revenueReportQuery = trpc.admin.getRevenueReport.useQuery(
-    { startDate: dateRange.start, endDate: dateRange.end },
-    { enabled: isAuthenticated && activeTab === 'reports' }
-  );
-  const clientsByGoalQuery = trpc.admin.getClientsByGoalReport.useQuery(undefined, { enabled: isAuthenticated && activeTab === 'reports' });
+  const conversionReportQuery = trpc.admin.getConversionReport.useQuery({}, { enabled: isAuthenticated });
+  const revenueReportQuery = trpc.admin.getRevenueReport.useQuery({}, { enabled: isAuthenticated });
+
   const customerNotesQuery = trpc.admin.getCustomerNotes.useQuery(
-    { customerId: selectedCustomer! },
-    { enabled: isAuthenticated && selectedCustomer !== null }
-  );
-  const auditLogQuery = trpc.admin.getAuditLog.useQuery(
-    { customerId: selectedCustomer || undefined, page: 1, limit: 20 },
-    { enabled: isAuthenticated && selectedCustomer !== null }
+    { customerId: selectedCustomer || 0 },
+    { enabled: selectedCustomer !== null && isAuthenticated }
   );
 
-  // Mutations
-  const loginMutation = trpc.admin.login.useMutation();
-  const addNoteMutation = trpc.admin.addCustomerNote.useMutation();
-  const exportCustomersQuery = trpc.admin.exportCustomersCSV.useQuery(undefined, { enabled: false });
-  const exportOrdersQuery = trpc.admin.exportOrdersCSV.useQuery(undefined, { enabled: false });
+  const addNoteMutation = trpc.admin.addCustomerNote.useMutation({
+    onSuccess: () => {
+      toast.success('Nota añadida');
+      setNoteText('');
+      customerNotesQuery.refetch();
+    },
+    onError: () => toast.error('Error al añadir nota')
+  });
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const result = await loginMutation.mutateAsync({ password });
-      if (result.success) {
-        setIsAuthenticated(true);
-        setPassword('');
-        toast.success('¡Bienvenido al panel de administración!');
-      }
-    } catch (error) {
+  const handleAuth = () => {
+    if (password === 'admin123') {
+      setIsAuthenticated(true);
+      setPassword('');
+    } else {
       toast.error('Contraseña incorrecta');
     }
   };
 
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    setPassword('');
-    setActiveTab('stats');
-    navigate('/');
-  };
-
-  const handleAddNote = async (customerId: number) => {
-    if (!noteText.trim()) {
-      toast.error('La nota no puede estar vacía');
-      return;
-    }
-
-    try {
-      await addNoteMutation.mutateAsync({ customerId, note: noteText });
-      setNoteText('');
-      await customerNotesQuery.refetch();
-      toast.success('Nota añadida correctamente');
-    } catch (error) {
-      toast.error('Error al añadir la nota');
-    }
-  };
-
-  const downloadCSV = (csv: string, filename: string) => {
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    a.click();
-  };
-
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-background text-foreground flex items-center justify-center p-4">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <div className="card-glass border border-border p-8 rounded-sm max-w-md w-full">
-          <h1 className="font-display text-3xl text-white mb-2">Panel Admin</h1>
-          <p className="text-gray-400 mb-6">Definido en Verano</p>
-
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div className="relative">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Contraseña"
-                className="w-full px-4 py-3 bg-card border border-border text-white placeholder-gray-500 rounded-sm focus:outline-none focus:border-accent"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-3 text-gray-400 hover:text-white"
-              >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
+          <h1 className="text-2xl font-bold text-white mb-6">Panel de Administración</h1>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm text-gray-400 mb-2">Contraseña</label>
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleAuth()}
+                  className="w-full px-4 py-2 bg-card border border-border text-white rounded-sm focus:outline-none focus:border-accent"
+                  placeholder="Ingresa contraseña"
+                />
+                <button
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
             </div>
-
-            <Button
-              type="submit"
-              disabled={loginMutation.isPending}
-              className="w-full bg-accent hover:bg-accent/90 text-black font-semibold"
-            >
-              {loginMutation.isPending ? <Loader2 className="animate-spin mr-2" size={20} /> : null}
-              Acceder
-            </Button>
-          </form>
+            <Button onClick={handleAuth} className="w-full">Acceder</Button>
+          </div>
         </div>
       </div>
     );
@@ -159,51 +117,50 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Header */}
-      <div className="border-b border-border bg-card/50 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <h1 className="font-display text-2xl text-white">Panel de Administración</h1>
-          <Button
-            onClick={handleLogout}
-            variant="outline"
-            className="flex items-center gap-2"
-          >
-            <LogOut size={18} />
-            Salir
-          </Button>
-        </div>
+      <div className="border-b border-border p-4 flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-white">Panel de Administración</h1>
+        <Button
+          onClick={() => {
+            setIsAuthenticated(false);
+            navigate('/');
+          }}
+          variant="outline"
+          size="sm"
+          className="flex items-center gap-2"
+        >
+          <LogOut size={16} />
+          Salir
+        </Button>
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-border bg-card/30">
-        <div className="max-w-7xl mx-auto px-4 flex gap-4 overflow-x-auto">
-          {['stats', 'customers', 'orders', 'assessments', 'reports'].map(tab => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab as any)}
-              className={`px-4 py-3 font-semibold border-b-2 transition-colors ${
-                activeTab === tab
-                  ? 'border-accent text-accent'
-                  : 'border-transparent text-gray-400 hover:text-white'
-              }`}
-            >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>
-          ))}
-        </div>
+      <div className="border-b border-border flex">
+        {(['stats', 'customers', 'orders', 'assessments', 'reports'] as const).map(tab => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`px-6 py-3 font-medium transition-colors ${
+              activeTab === tab
+                ? 'text-accent border-b-2 border-accent'
+                : 'text-gray-400 hover:text-white'
+            }`}
+          >
+            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+          </button>
+        ))}
       </div>
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="p-6 max-w-7xl mx-auto">
         {/* Stats Tab */}
         {activeTab === 'stats' && (
-          <div>
-            <h2 className="font-display text-2xl text-white mb-8">Estadísticas</h2>
+          <div className="space-y-6">
             {statsQuery.isLoading ? (
               <div className="flex justify-center py-12">
                 <Loader2 className="w-8 h-8 animate-spin text-accent" />
               </div>
             ) : statsQuery.data ? (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid md:grid-cols-4 gap-4">
                 <div className="card-glass border border-border p-6 rounded-sm">
                   <p className="text-gray-400 text-sm mb-2">Clientes Totales</p>
                   <p className="font-display text-3xl text-accent">{statsQuery.data.totalCustomers}</p>
@@ -214,73 +171,77 @@ export default function AdminDashboard() {
                 </div>
                 <div className="card-glass border border-border p-6 rounded-sm">
                   <p className="text-gray-400 text-sm mb-2">Ingresos Totales</p>
-                  <p className="font-display text-3xl text-accent">{statsQuery.data.totalRevenue.toFixed(2)}€</p>
+                  <p className="font-display text-3xl text-accent">{(statsQuery.data.totalRevenue / 100).toFixed(2)}€</p>
                 </div>
                 <div className="card-glass border border-border p-6 rounded-sm">
-                  <p className="text-gray-400 text-sm mb-2">Tasa de Conversión</p>
+                  <p className="text-gray-400 text-sm mb-2">Tasa Conversión</p>
                   <p className="font-display text-3xl text-accent">{statsQuery.data.conversionRate}%</p>
-                </div>
-                <div className="card-glass border border-border p-6 rounded-sm">
-                  <p className="text-gray-400 text-sm mb-2">Órdenes Pendientes</p>
-                  <p className="font-display text-3xl text-accent">{statsQuery.data.pendingOrders}</p>
-                </div>
-                <div className="card-glass border border-border p-6 rounded-sm">
-                  <p className="text-gray-400 text-sm mb-2">Órdenes Totales</p>
-                  <p className="font-display text-3xl text-accent">{statsQuery.data.totalOrders}</p>
                 </div>
               </div>
             ) : null}
+
+            {/* Conversion Report */}
+            {conversionReportQuery.data && (
+              <div className="card-glass border border-border p-6 rounded-sm">
+                <h3 className="font-semibold text-white mb-4">Reporte de Conversión</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-gray-400 text-sm mb-1">Tasa de Conversión</p>
+                    <p className="font-display text-2xl text-accent">{conversionReportQuery.data.conversionRate}%</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-400 text-sm mb-1">Clientes Totales</p>
+                    <p className="font-display text-2xl text-accent">{conversionReportQuery.data.totalCustomers}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Revenue Report */}
+            {revenueReportQuery.data && (
+              <div className="card-glass border border-border p-6 rounded-sm">
+                <h3 className="font-semibold text-white mb-4">Reporte de Ingresos</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-gray-400 text-sm mb-1">Ingresos Totales</p>
+                    <p className="font-display text-2xl text-accent">{(revenueReportQuery.data.totalRevenue / 100).toFixed(2)}€</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-400 text-sm mb-1">Ticket Promedio</p>
+                    <p className="font-display text-2xl text-accent">{(revenueReportQuery.data.averageOrderValue / 100).toFixed(2)}€</p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
         {/* Customers Tab */}
         {activeTab === 'customers' && (
           <div>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="font-display text-2xl text-white">Clientes</h2>
-              <Button
-                onClick={() => {
-                  exportCustomersQuery.refetch().then(result => {
-                    if (result.data) {
-                      downloadCSV(result.data.csv, result.data.filename);
-                    }
-                  });
-                }}
-                className="flex items-center gap-2 bg-accent hover:bg-accent/90 text-black"
-              >
-                <Download size={18} />
-                Descargar CSV
-              </Button>
-            </div>
-
-            {/* Filtros */}
-            <div className="grid md:grid-cols-3 gap-4 mb-6">
-              <div className="relative">
-                <Search className="absolute left-3 top-3 text-gray-400" size={18} />
-                <input
-                  type="text"
-                  placeholder="Buscar por email o nombre..."
-                  value={customerSearch}
-                  onChange={(e) => setCustomerSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-card border border-border text-white placeholder-gray-500 rounded-sm focus:outline-none focus:border-accent"
-                />
+            <div className="mb-6 space-y-4">
+              <div className="flex gap-4">
+                <div className="flex-1 relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                  <input
+                    type="text"
+                    placeholder="Buscar cliente..."
+                    value={customerSearch}
+                    onChange={(e) => setCustomerSearch(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 bg-card border border-border text-white placeholder-gray-500 rounded-sm focus:outline-none focus:border-accent"
+                  />
+                </div>
+                <select
+                  value={paymentStatus}
+                  onChange={(e) => setPaymentStatus(e.target.value as any)}
+                  className="px-4 py-2 bg-card border border-border text-white rounded-sm focus:outline-none focus:border-accent"
+                >
+                  <option value="all">Todos</option>
+                  <option value="completed">Completado</option>
+                  <option value="pending">Pendiente</option>
+                  <option value="failed">Fallido</option>
+                </select>
               </div>
-              <select
-                value={paymentStatus}
-                onChange={(e) => setPaymentStatus(e.target.value as any)}
-                className="px-4 py-2 bg-card border border-border text-white rounded-sm focus:outline-none focus:border-accent"
-              >
-                <option value="all">Todos los estados</option>
-                <option value="completed">Completado</option>
-                <option value="pending">Pendiente</option>
-                <option value="failed">Fallido</option>
-              </select>
-              <input
-                type="date"
-                value={dateRange.start}
-                onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
-                className="px-4 py-2 bg-card border border-border text-white rounded-sm focus:outline-none focus:border-accent"
-              />
             </div>
 
             {customersQuery.isLoading ? (
@@ -290,36 +251,94 @@ export default function AdminDashboard() {
             ) : customersQuery.data?.customers.length ? (
               <div className="space-y-3">
                 {customersQuery.data.customers.map((customer: any) => (
-                  <div key={customer.id} className="card-glass border border-border p-4 rounded-sm">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex-1">
+                  <div key={customer.id} className="card-glass border border-border rounded-sm overflow-hidden">
+                    <button
+                      onClick={() => toggleCustomer(customer.id)}
+                      className="w-full p-4 flex items-center justify-between hover:bg-card/50 transition"
+                    >
+                      <div className="flex-1 text-left">
                         <h3 className="font-semibold text-white">{customer.firstName} {customer.lastName}</h3>
                         <p className="text-gray-400 text-sm">{customer.email} • {customer.phone}</p>
                       </div>
-                      <Button
-                        onClick={() => setSelectedCustomer(customer.id)}
-                        variant="outline"
-                        size="sm"
-                        className="flex items-center gap-2 ml-4"
-                      >
-                        <MessageSquare size={16} />
-                        Notas
-                      </Button>
-                    </div>
-                    <div className="grid grid-cols-3 gap-3 text-xs mt-3 pt-3 border-t border-border">
-                      <div>
-                        <p className="text-gray-500">Órdenes</p>
-                        <p className="text-accent font-semibold">{customer.totalOrders}</p>
+                      <ChevronDown 
+                        size={20} 
+                        className={`text-accent transition-transform ${
+                          expandedCustomers.includes(customer.id) ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </button>
+                    
+                    {expandedCustomers.includes(customer.id) && (
+                      <div className="border-t border-border p-4 bg-card/30 space-y-4">
+                        {/* Assessment Info */}
+                        {customer.assessment ? (
+                          <div className="space-y-2">
+                            <h4 className="font-semibold text-white text-sm">Assessment</h4>
+                            <div className="grid grid-cols-2 gap-2 text-xs">
+                              <div>
+                                <p className="text-gray-500">Objetivo</p>
+                                <p className="text-accent">{customer.assessment.mainGoal}</p>
+                              </div>
+                              <div>
+                                <p className="text-gray-500">Experiencia</p>
+                                <p className="text-accent">{customer.assessment.experienceLevel}</p>
+                              </div>
+                              <div>
+                                <p className="text-gray-500">Tiempo Disponible</p>
+                                <p className="text-accent">{customer.assessment.availableTime}</p>
+                              </div>
+                              <div>
+                                <p className="text-gray-500">Años Entrenando</p>
+                                <p className="text-accent">{customer.assessment.yearsTraining}</p>
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <p className="text-gray-400 text-sm">Sin assessment</p>
+                        )}
+                        
+                        {/* Order Info */}
+                        {customer.latestOrder ? (
+                          <div className="space-y-2 pt-2 border-t border-border">
+                            <h4 className="font-semibold text-white text-sm">Última Orden</h4>
+                            <div className="grid grid-cols-2 gap-2 text-xs">
+                              <div>
+                                <p className="text-gray-500">ID Orden</p>
+                                <p className="text-accent">{customer.latestOrder.orderId}</p>
+                              </div>
+                              <div>
+                                <p className="text-gray-500">Monto</p>
+                                <p className="text-accent">{(customer.latestOrder.amount || 0) / 100}€</p>
+                              </div>
+                              <div>
+                                <p className="text-gray-500">Estado</p>
+                                <p className={`font-semibold ${
+                                  customer.latestOrder.status === 'completed' ? 'text-green-400' :
+                                  customer.latestOrder.status === 'pending' ? 'text-yellow-400' :
+                                  'text-red-400'
+                                }`}>{customer.latestOrder.status}</p>
+                              </div>
+                              <div>
+                                <p className="text-gray-500">Fecha</p>
+                                <p className="text-accent">{new Date(customer.latestOrder.createdAt).toLocaleDateString('es-ES')}</p>
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <p className="text-gray-400 text-sm pt-2 border-t border-border">Sin órdenes</p>
+                        )}
+                        
+                        <Button
+                          onClick={() => setSelectedCustomer(customer.id)}
+                          variant="outline"
+                          size="sm"
+                          className="w-full mt-2"
+                        >
+                          <MessageSquare size={16} className="mr-2" />
+                          Ver Notas
+                        </Button>
                       </div>
-                      <div>
-                        <p className="text-gray-500">Último Pago</p>
-                        <p className="text-accent font-semibold">{customer.latestOrder ? customer.latestOrder.status : 'N/A'}</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-500">Assessment</p>
-                        <p className="text-accent font-semibold">{customer.assessment ? customer.assessment.mainGoal : 'N/A'}</p>
-                      </div>
-                    </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -332,51 +351,35 @@ export default function AdminDashboard() {
         {/* Orders Tab */}
         {activeTab === 'orders' && (
           <div>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="font-display text-2xl text-white">Órdenes</h2>
-              <Button
-                onClick={() => {
-                  exportOrdersQuery.refetch().then(result => {
-                    if (result.data) {
-                      downloadCSV(result.data.csv, result.data.filename);
-                    }
-                  });
-                }}
-                className="flex items-center gap-2 bg-accent hover:bg-accent/90 text-black"
-              >
-                <Download size={18} />
-                Descargar CSV
-              </Button>
-            </div>
-
-            {/* Filtros */}
-            <div className="grid md:grid-cols-3 gap-4 mb-6">
-              <div className="relative">
-                <Search className="absolute left-3 top-3 text-gray-400" size={18} />
+            <div className="mb-6 space-y-4">
+              <div className="flex gap-4">
+                <div className="flex-1 relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                  <input
+                    type="text"
+                    placeholder="Buscar orden..."
+                    value={orderSearch}
+                    onChange={(e) => setOrderSearch(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 bg-card border border-border text-white placeholder-gray-500 rounded-sm focus:outline-none focus:border-accent"
+                  />
+                </div>
+                <select
+                  value={orderStatus}
+                  onChange={(e) => setOrderStatus(e.target.value as any)}
+                  className="px-4 py-2 bg-card border border-border text-white rounded-sm focus:outline-none focus:border-accent"
+                >
+                  <option value="all">Todos</option>
+                  <option value="pending">Pendiente</option>
+                  <option value="completed">Completado</option>
+                  <option value="failed">Fallido</option>
+                </select>
                 <input
-                  type="text"
-                  placeholder="Buscar por email..."
-                  value={orderSearch}
-                  onChange={(e) => setOrderSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-card border border-border text-white placeholder-gray-500 rounded-sm focus:outline-none focus:border-accent"
+                  type="date"
+                  value={dateRange.start}
+                  onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
+                  className="px-4 py-2 bg-card border border-border text-white rounded-sm focus:outline-none focus:border-accent"
                 />
               </div>
-              <select
-                value={orderStatus}
-                onChange={(e) => setOrderStatus(e.target.value as any)}
-                className="px-4 py-2 bg-card border border-border text-white rounded-sm focus:outline-none focus:border-accent"
-              >
-                <option value="all">Todos los estados</option>
-                <option value="completed">Completado</option>
-                <option value="pending">Pendiente</option>
-                <option value="failed">Fallido</option>
-              </select>
-              <input
-                type="date"
-                value={dateRange.start}
-                onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
-                className="px-4 py-2 bg-card border border-border text-white rounded-sm focus:outline-none focus:border-accent"
-              />
             </div>
 
             {ordersQuery.isLoading ? (
@@ -427,27 +430,26 @@ export default function AdminDashboard() {
         {/* Assessments Tab */}
         {activeTab === 'assessments' && (
           <div>
-            <h2 className="font-display text-2xl text-white mb-6">Assessments</h2>
-
-            {/* Filtros */}
-            <div className="grid md:grid-cols-2 gap-4 mb-6">
-              <div className="relative">
-                <Search className="absolute left-3 top-3 text-gray-400" size={18} />
+            <div className="mb-6 space-y-4">
+              <div className="flex gap-4">
+                <div className="flex-1 relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                  <input
+                    type="text"
+                    placeholder="Buscar assessment..."
+                    value={assessmentSearch}
+                    onChange={(e) => setAssessmentSearch(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 bg-card border border-border text-white placeholder-gray-500 rounded-sm focus:outline-none focus:border-accent"
+                  />
+                </div>
                 <input
                   type="text"
-                  placeholder="Buscar por email..."
-                  value={assessmentSearch}
-                  onChange={(e) => setAssessmentSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-card border border-border text-white placeholder-gray-500 rounded-sm focus:outline-none focus:border-accent"
+                  placeholder="Filtrar por objetivo..."
+                  value={assessmentGoal}
+                  onChange={(e) => setAssessmentGoal(e.target.value)}
+                  className="px-4 py-2 bg-card border border-border text-white placeholder-gray-500 rounded-sm focus:outline-none focus:border-accent"
                 />
               </div>
-              <input
-                type="text"
-                placeholder="Filtrar por objetivo..."
-                value={assessmentGoal}
-                onChange={(e) => setAssessmentGoal(e.target.value)}
-                className="px-4 py-2 bg-card border border-border text-white placeholder-gray-500 rounded-sm focus:outline-none focus:border-accent"
-              />
             </div>
 
             {assessmentsQuery.isLoading ? (
@@ -494,92 +496,11 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Reports Tab */}
-        {activeTab === 'reports' && (
-          <div>
-            <h2 className="font-display text-2xl text-white mb-6">Reportes</h2>
-
-            {conversionReportQuery.isLoading ? (
-              <div className="flex justify-center py-12">
-                <Loader2 className="w-8 h-8 animate-spin text-accent" />
-              </div>
-            ) : (
-              <div className="space-y-6">
-                {/* Conversion Report */}
-                {conversionReportQuery.data && (
-                  <div className="card-glass border border-border p-6 rounded-sm">
-                    <h3 className="font-semibold text-white mb-4">Reporte de Conversión</h3>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-gray-400 text-sm mb-1">Leads Totales</p>
-                        <p className="font-display text-2xl text-accent">{conversionReportQuery.data.totalLeads}</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400 text-sm mb-1">Tasa de Conversión</p>
-                        <p className="font-display text-2xl text-accent">{conversionReportQuery.data.conversionRate}%</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400 text-sm mb-1">Órdenes Completadas</p>
-                        <p className="font-display text-2xl text-accent">-</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400 text-sm mb-1">Ingresos</p>
-                        <p className="font-display text-2xl text-accent">-</p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Revenue Report */}
-                {revenueReportQuery.data && (
-                  <div className="card-glass border border-border p-6 rounded-sm">
-                    <h3 className="font-semibold text-white mb-4">Reporte de Ingresos</h3>
-                    <div className="grid md:grid-cols-3 gap-4">
-                      <div>
-                        <p className="text-gray-400 text-sm mb-1">Ingresos Totales</p>
-                        <p className="font-display text-2xl text-accent">{revenueReportQuery.data.totalRevenue.toFixed(2)}€</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400 text-sm mb-1">Número de Órdenes</p>
-                        <p className="font-display text-2xl text-accent">-</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400 text-sm mb-1">Ticket Promedio</p>
-                        <p className="font-display text-2xl text-accent">{revenueReportQuery.data.averageOrderValue}€</p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Clients by Goal */}
-                {clientsByGoalQuery.data && (
-                  <div className="card-glass border border-border p-6 rounded-sm">
-                    <h3 className="font-semibold text-white mb-4">Clientes por Objetivo</h3>
-                    <div className="space-y-2">
-                      {Object.entries(clientsByGoalQuery.data).map(([goal, count]) => (
-                        <div key={goal} className="flex items-center justify-between">
-                          <span className="text-gray-400">{goal}</span>
-                          <span className="font-semibold text-accent">{count}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* Notes Sidebar */}
-      {selectedCustomer !== null && (
-        <div className="fixed right-0 top-0 h-full w-96 bg-card border-l border-border shadow-lg overflow-y-auto">
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="font-semibold text-white flex items-center gap-2">
-                <MessageSquare size={18} />
-                Notas del Cliente
-              </h3>
+        {/* Notes Section */}
+        {selectedCustomer !== null && (
+          <div className="fixed bottom-0 right-0 w-96 bg-card border-l border-t border-border p-6 rounded-tl-sm shadow-lg max-h-96 overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-semibold text-white">Notas del Cliente</h3>
               <button
                 onClick={() => setSelectedCustomer(null)}
                 className="text-gray-400 hover:text-white"
@@ -588,26 +509,6 @@ export default function AdminDashboard() {
               </button>
             </div>
 
-            {/* Add Note */}
-            <div className="mb-6 pb-6 border-b border-border">
-              <textarea
-                value={noteText}
-                onChange={(e) => setNoteText(e.target.value)}
-                placeholder="Añadir una nota..."
-                className="w-full px-3 py-2 bg-background border border-border text-white placeholder-gray-500 rounded-sm focus:outline-none focus:border-accent text-sm"
-                rows={3}
-              />
-              <Button
-                onClick={() => handleAddNote(selectedCustomer)}
-                disabled={addNoteMutation.isPending}
-                className="mt-3 w-full bg-accent hover:bg-accent/90 text-black text-sm"
-              >
-                {addNoteMutation.isPending ? <Loader2 className="animate-spin mr-2" size={16} /> : <Plus size={16} className="mr-2" />}
-                Añadir Nota
-              </Button>
-            </div>
-
-            {/* Notes List */}
             {customerNotesQuery.isLoading ? (
               <div className="flex justify-center py-4">
                 <Loader2 className="w-5 h-5 animate-spin text-accent" />
@@ -625,27 +526,29 @@ export default function AdminDashboard() {
               <p className="text-gray-400 text-sm text-center py-4">Sin notas</p>
             )}
 
-            {/* Audit Log */}
-            {auditLogQuery.data?.logs.length && (
-              <div className="mt-6 pt-6 border-t border-border">
-                <h4 className="font-semibold text-white mb-3 flex items-center gap-2 text-sm">
-                  <History size={16} />
-                  Historial
-                </h4>
-                <div className="space-y-2 text-xs">
-                  {auditLogQuery.data.logs.map(log => (
-                    <div key={log.id} className="text-gray-400">
-                      <p className="font-semibold text-white">{log.action}</p>
-                      <p>{log.description}</p>
-                      <p className="text-gray-500">{new Date(log.createdAt).toLocaleDateString('es-ES')}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            <div className="mt-4 space-y-2">
+              <textarea
+                value={noteText}
+                onChange={(e) => setNoteText(e.target.value)}
+                placeholder="Añadir nota..."
+                className="w-full px-3 py-2 bg-background border border-border text-white rounded-sm focus:outline-none focus:border-accent text-sm"
+                rows={3}
+              />
+              <Button
+                onClick={() => {
+                  if (selectedCustomer && noteText.trim()) {
+                    addNoteMutation.mutate({ customerId: selectedCustomer, note: noteText });
+                  }
+                }}
+                className="w-full"
+                disabled={addNoteMutation.isPending}
+              >
+                {addNoteMutation.isPending ? 'Guardando...' : 'Guardar Nota'}
+              </Button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
