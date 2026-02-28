@@ -68,7 +68,7 @@ export default function Footer() {
               <a href="/legal" className="block text-gray-400 hover:text-accent transition-colors">
                 Aviso Legal
               </a>
-              <a href="#" className="block text-gray-400 hover:text-accent transition-colors">
+              <a href="/refund-policy" className="block text-gray-400 hover:text-accent transition-colors">
                 Garantía de Devolución
               </a>
             </div>

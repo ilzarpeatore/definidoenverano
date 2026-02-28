@@ -105,3 +105,8 @@
 - [x] Integrar checkbox de consentimiento en Checkout
 - [x] Crear procedimiento tRPC para guardar consentimiento (IP, fecha, hora)
 - [x] Testear flujo completo
+
+## Garantía y Política de Devolución
+- [x] Crear página de Garantía y Devolución
+- [x] Agregar ruta /refund-policy a App.tsx
+- [x] Agregar enlace en Footer
