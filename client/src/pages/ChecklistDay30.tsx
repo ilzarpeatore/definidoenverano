@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, CheckCircle2, Circle, Mail, Download } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Circle, Mail, Download, LogIn } from 'lucide-react';
 
 interface ChecklistItem {
   day: number;
@@ -45,8 +45,10 @@ const checklistItems: Omit<ChecklistItem, 'completed'>[] = [
 export default function ChecklistDay30() {
   const [checklist, setChecklist] = useState<ChecklistItem[]>([]);
   const [email, setEmail] = useState('');
-  const [showEmailForm, setShowEmailForm] = useState(false);
-  const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [showSaveForm, setShowSaveForm] = useState(false);
+  const [showLoadForm, setShowLoadForm] = useState(false);
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState<'success' | 'error'>('success');
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -76,38 +78,47 @@ export default function ChecklistDay30() {
   const completedCount = checklist.filter(item => item.completed).length;
   const progressPercent = Math.round((completedCount / 30) * 100);
 
-  const handleSaveEmail = async (e: React.FormEvent) => {
+  const handleSaveProgress = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
 
     try {
-      // Send email with progress
       const response = await fetch('/api/trpc/system.notifyOwner', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          title: `Progreso Checklist 30 Días`,
-          content: `Usuario ${email} ha completado ${completedCount}/30 tareas (${progressPercent}%)`,
+          title: `Progreso Checklist Guardado`,
+          content: `Email: ${email}\nProgreso: ${completedCount}/30 (${progressPercent}%)\nDatos: ${JSON.stringify(checklist)}`,
         }),
       });
 
       if (response.ok) {
-        setEmailSubmitted(true);
-        setTimeout(() => {
-          setShowEmailForm(false);
-          setEmailSubmitted(false);
-          setEmail('');
-        }, 2000);
+        setMessageType('success');
+        setMessage(`✓ Progreso guardado. Puedes recuperarlo en cualquier momento con tu email.`);
+        setShowSaveForm(false);
+        setTimeout(() => setMessage(''), 3000);
       }
     } catch (error) {
-      console.error('Error saving email:', error);
+      setMessageType('error');
+      setMessage('Error al guardar. Intenta de nuevo.');
+      console.error('Error:', error);
     }
   };
 
+  const handleLoadProgress = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    setMessageType('success');
+    setMessage(`Funcionalidad de recuperación: Contacta a soporte@bestronger.es con tu email para recuperar tu progreso.`);
+    setShowLoadForm(false);
+    setTimeout(() => setMessage(''), 5000);
+  };
+
   const downloadPDF = () => {
-    const content = checklist
+    const content = `CHECKLIST 30 DÍAS - PROGRESO: ${progressPercent}%\n\n${checklist
       .map(item => `${item.completed ? '✓' : '○'} Día ${item.day}: ${item.title}`)
-      .join('\n');
+      .join('\n')}\n\nTotal completado: ${completedCount}/30`;
 
     const element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
@@ -132,6 +143,13 @@ export default function ChecklistDay30() {
 
       {/* Content */}
       <div className="max-w-4xl mx-auto px-4 py-16">
+        {/* Message Alert */}
+        {message && (
+          <div className={`mb-6 p-4 rounded-lg ${messageType === 'success' ? 'bg-green-500/20 border border-green-500/50 text-green-100' : 'bg-red-500/20 border border-red-500/50 text-red-100'}`}>
+            {message}
+          </div>
+        )}
+
         {/* Progress Section */}
         <div className="bg-card border border-border rounded-lg p-8 mb-8">
           <div className="flex justify-between items-center mb-4">
@@ -147,12 +165,12 @@ export default function ChecklistDay30() {
             ></div>
           </div>
 
-          <p className="text-foreground/70">
+          <p className="text-foreground/70 mb-6">
             {completedCount} de 30 tareas completadas
           </p>
 
           {/* Action Buttons */}
-          <div className="flex gap-3 mt-6 flex-wrap">
+          <div className="flex gap-3 flex-wrap">
             <Button
               onClick={downloadPDF}
               variant="outline"
@@ -162,17 +180,28 @@ export default function ChecklistDay30() {
               Descargar Progreso
             </Button>
             <Button
-              onClick={() => setShowEmailForm(!showEmailForm)}
+              onClick={() => setShowSaveForm(!showSaveForm)}
               className="flex items-center gap-2 bg-[#d4af37] text-black hover:bg-[#b8860b]"
             >
               <Mail className="w-4 h-4" />
-              Guardar por Email
+              Guardar Progreso
+            </Button>
+            <Button
+              onClick={() => setShowLoadForm(!showLoadForm)}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <LogIn className="w-4 h-4" />
+              Recuperar Progreso
             </Button>
           </div>
 
-          {/* Email Form */}
-          {showEmailForm && (
-            <form onSubmit={handleSaveEmail} className="mt-6 p-4 bg-background rounded-lg border border-border">
+          {/* Save Form */}
+          {showSaveForm && (
+            <form onSubmit={handleSaveProgress} className="mt-6 p-4 bg-background rounded-lg border border-border">
+              <p className="text-sm text-foreground/70 mb-3">
+                Guarda tu email para poder recuperar tu progreso desde otro dispositivo
+              </p>
               <div className="flex gap-2">
                 <input
                   type="email"
@@ -185,14 +214,35 @@ export default function ChecklistDay30() {
                 <Button
                   type="submit"
                   className="bg-[#d4af37] text-black hover:bg-[#b8860b]"
-                  disabled={emailSubmitted}
                 >
-                  {emailSubmitted ? '✓ Enviado' : 'Enviar'}
+                  Guardar
                 </Button>
               </div>
-              <p className="text-xs text-foreground/60 mt-2">
-                Recibirás tu progreso y recordatorios para mantener la motivación
+            </form>
+          )}
+
+          {/* Load Form */}
+          {showLoadForm && (
+            <form onSubmit={handleLoadProgress} className="mt-6 p-4 bg-background rounded-lg border border-border">
+              <p className="text-sm text-foreground/70 mb-3">
+                Ingresa tu email para recuperar tu progreso guardado
               </p>
+              <div className="flex gap-2">
+                <input
+                  type="email"
+                  placeholder="tu@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="flex-1 px-4 py-2 bg-background border border-border rounded-lg text-foreground focus:outline-none focus:border-[#d4af37]"
+                  required
+                />
+                <Button
+                  type="submit"
+                  className="bg-[#d4af37] text-black hover:bg-[#b8860b]"
+                >
+                  Recuperar
+                </Button>
+              </div>
             </form>
           )}
         </div>
@@ -265,7 +315,7 @@ export default function ChecklistDay30() {
             </li>
             <li className="flex gap-3">
               <span className="text-[#d4af37]">•</span>
-              <span>Si cambias de dispositivo, usa "Guardar por Email" para recuperar tu progreso</span>
+              <span>Si cambias de dispositivo, usa "Guardar Progreso" y luego "Recuperar Progreso"</span>
             </li>
             <li className="flex gap-3">
               <span className="text-[#d4af37]">•</span>

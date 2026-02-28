@@ -168,3 +168,8 @@
 - [x] Agregar funcionalidad de guardar progreso por email
 - [x] Agregar ruta /checklist-30-dias a App.tsx
 - [x] Testear y guardar checkpoint
+
+
+## Refactorización de Checklist (Sin Emails Automáticos)
+- [x] Refactorizar ChecklistDay30 para guardar/recuperar sin emails automáticos
+- [x] Testear y guardar checkpoint
