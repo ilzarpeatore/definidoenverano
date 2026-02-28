@@ -92,3 +92,8 @@
 - [x] Implementar dos pasos: banner compacto + modal de configuración
 - [x] Agregar funcionalidad deslizable y minimizable
 - [x] Testear en versión móvil
+
+## Aviso Legal
+- [x] Crear página de Aviso Legal
+- [x] Agregar ruta /legal a App.tsx
+- [x] Agregar enlace en Footer
