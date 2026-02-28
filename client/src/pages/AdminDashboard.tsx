@@ -289,10 +289,10 @@ export default function AdminDashboard() {
               </div>
             ) : customersQuery.data?.customers.length ? (
               <div className="space-y-3">
-                {customersQuery.data.customers.map(customer => (
+                {customersQuery.data.customers.map((customer: any) => (
                   <div key={customer.id} className="card-glass border border-border p-4 rounded-sm">
-                    <div className="flex items-center justify-between">
-                      <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex-1">
                         <h3 className="font-semibold text-white">{customer.firstName} {customer.lastName}</h3>
                         <p className="text-gray-400 text-sm">{customer.email} • {customer.phone}</p>
                       </div>
@@ -300,11 +300,25 @@ export default function AdminDashboard() {
                         onClick={() => setSelectedCustomer(customer.id)}
                         variant="outline"
                         size="sm"
-                        className="flex items-center gap-2"
+                        className="flex items-center gap-2 ml-4"
                       >
                         <MessageSquare size={16} />
                         Notas
                       </Button>
+                    </div>
+                    <div className="grid grid-cols-3 gap-3 text-xs mt-3 pt-3 border-t border-border">
+                      <div>
+                        <p className="text-gray-500">Órdenes</p>
+                        <p className="text-accent font-semibold">{customer.totalOrders}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500">Último Pago</p>
+                        <p className="text-accent font-semibold">{customer.latestOrder ? customer.latestOrder.status : 'N/A'}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500">Assessment</p>
+                        <p className="text-accent font-semibold">{customer.assessment ? customer.assessment.mainGoal : 'N/A'}</p>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -375,16 +389,18 @@ export default function AdminDashboard() {
                   <thead>
                     <tr className="border-b border-border">
                       <th className="text-left py-3 px-4 text-gray-400">ID Orden</th>
+                      <th className="text-left py-3 px-4 text-gray-400">Cliente</th>
                       <th className="text-left py-3 px-4 text-gray-400">Monto</th>
                       <th className="text-left py-3 px-4 text-gray-400">Estado</th>
-                      <th className="text-left py-3 px-4 text-gray-400">Método</th>
+                      <th className="text-left py-3 px-4 text-gray-400">Assessment</th>
                       <th className="text-left py-3 px-4 text-gray-400">Fecha</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {ordersQuery.data.orders.map(order => (
+                    {ordersQuery.data.orders.map((order: any) => (
                       <tr key={order.id} className="border-b border-border hover:bg-card/50">
                         <td className="py-3 px-4 text-white">{order.orderId}</td>
+                        <td className="py-3 px-4 text-white">{order.customer ? `${order.customer.firstName} ${order.customer.lastName}` : 'N/A'}</td>
                         <td className="py-3 px-4 text-white">{(order.amount || 0) / 100}€</td>
                         <td className="py-3 px-4">
                           <span className={`px-2 py-1 rounded text-xs font-semibold ${
@@ -395,7 +411,7 @@ export default function AdminDashboard() {
                             {order.status}
                           </span>
                         </td>
-                        <td className="py-3 px-4 text-gray-400">{order.paymentMethod}</td>
+                        <td className="py-3 px-4 text-gray-400">{order.assessment ? order.assessment.mainGoal : 'N/A'}</td>
                         <td className="py-3 px-4 text-gray-400">{new Date(order.createdAt).toLocaleDateString('es-ES')}</td>
                       </tr>
                     ))}
@@ -440,9 +456,14 @@ export default function AdminDashboard() {
               </div>
             ) : assessmentsQuery.data?.assessments.length ? (
               <div className="space-y-3">
-                {assessmentsQuery.data.assessments.map(assessment => (
+                {assessmentsQuery.data.assessments.map((assessment: any) => (
                   <div key={assessment.id} className="card-glass border border-border p-4 rounded-sm">
-                    <div className="grid md:grid-cols-2 gap-4 text-sm">
+                    <div className="mb-3 pb-3 border-b border-border">
+                      <p className="text-gray-400 text-xs mb-1">Cliente</p>
+                      <p className="text-white font-semibold">{assessment.customer ? `${assessment.customer.firstName} ${assessment.customer.lastName}` : 'N/A'}</p>
+                      <p className="text-gray-500 text-xs">{assessment.customer?.email}</p>
+                    </div>
+                    <div className="grid md:grid-cols-3 gap-3 text-sm">
                       <div>
                         <p className="text-gray-400 mb-1">Objetivo</p>
                         <p className="text-white font-semibold">{assessment.mainGoal}</p>
@@ -450,6 +471,10 @@ export default function AdminDashboard() {
                       <div>
                         <p className="text-gray-400 mb-1">Experiencia</p>
                         <p className="text-white font-semibold">{assessment.experienceLevel}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-400 mb-1">Orden ID</p>
+                        <p className="text-white font-semibold">{assessment.order ? assessment.order.orderId : 'N/A'}</p>
                       </div>
                       <div>
                         <p className="text-gray-400 mb-1">Tiempo Disponible</p>
