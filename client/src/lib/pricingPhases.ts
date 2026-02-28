@@ -3,8 +3,8 @@
  * Defines the launch date and phases for dynamic pricing
  */
 
-// Launch date: March 1, 2026 at 00:00 GMT+1
-const LAUNCH_DATE = new Date('2026-03-01T00:00:00+01:00');
+// Launch date: February 28, 2026 at 00:00 GMT+1 (today)
+const LAUNCH_DATE = new Date('2026-02-28T00:00:00+01:00');
 
 export interface Phase {
   name: string;
@@ -32,22 +32,22 @@ const PHASES: Phase[] = [
     name: 'Fase de Lanzamiento',
     price: 197,
     durationDays: 15,
-    startDate: new Date('2026-03-01T00:00:00+01:00'),
-    endDate: new Date('2026-03-16T00:00:00+01:00'),
+    startDate: new Date('2026-02-28T00:00:00+01:00'),
+    endDate: new Date('2026-03-15T00:00:00+01:00'),
   },
   {
     name: 'Fase de Expansión',
     price: 247,
     durationDays: 30,
-    startDate: new Date('2026-03-16T00:00:00+01:00'),
-    endDate: new Date('2026-04-15T00:00:00+01:00'),
+    startDate: new Date('2026-03-15T00:00:00+01:00'),
+    endDate: new Date('2026-04-14T00:00:00+01:00'),
   },
   {
     name: 'Fase de Consolidación',
     price: 297,
     durationDays: 60,
-    startDate: new Date('2026-04-15T00:00:00+01:00'),
-    endDate: new Date('2026-06-14T00:00:00+01:00'),
+    startDate: new Date('2026-04-14T00:00:00+01:00'),
+    endDate: new Date('2026-06-13T00:00:00+01:00'),
   },
 ];
 

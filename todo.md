@@ -136,3 +136,9 @@
 - [x] Refactorizar PricingPhaseCard para renderizar todas las variantes
 - [x] Testear que se muestren los 3 recuadros
 - [x] Guardar checkpoint
+
+## Bug Fix: Recuadros de Fases No Se Muestran Correctamente
+- [x] Ajustar fecha de lanzamiento a hoy (28 feb 2026)
+- [x] Revisar lógica de cálculo de fases en pricingPhases.ts
+- [x] Verificar que los tres recuadros se muestren
+- [x] Testear y guardar checkpoint
