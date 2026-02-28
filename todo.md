@@ -115,3 +115,9 @@
 - [x] Crear componente PricingPhaseCard
 - [x] Agregar recuadros de fases a Home.tsx (2-3 veces)
 - [x] Testear y guardar checkpoint
+
+## Modificación de Recuadros de Fases Dinámicos
+- [x] Crear lógica de cálculo de fases basada en tiempo real
+- [x] Refactorizar PricingPhaseCard para mostrar fase actual
+- [x] Reorganizar posiciones (inicio, mitad, final)
+- [x] Testear y guardar checkpoint

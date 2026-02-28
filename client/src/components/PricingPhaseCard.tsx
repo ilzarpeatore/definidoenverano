@@ -1,25 +1,34 @@
 import { motion } from 'framer-motion';
 import { AlertCircle } from 'lucide-react';
-
-interface PricingPhaseCardProps {
-  phaseName: string;
-  currentPrice: number;
-  nextPrice: number;
-  daysUntilIncrease: number;
-  completionPercentage: number;
-}
+import { useEffect, useState } from 'react';
+import { getCurrentPhaseInfo, type CurrentPhaseInfo } from '@/lib/pricingPhases';
 
 /**
  * Pricing Phase Card Component
- * Displays current pricing phase with urgency indicator
+ * Displays current pricing phase with real-time urgency indicator
  */
-export default function PricingPhaseCard({
-  phaseName,
-  currentPrice,
-  nextPrice,
-  daysUntilIncrease,
-  completionPercentage,
-}: PricingPhaseCardProps) {
+export default function PricingPhaseCard() {
+  const [phaseInfo, setPhaseInfo] = useState<CurrentPhaseInfo | null>(null);
+
+  useEffect(() => {
+    // Get current phase info
+    const info = getCurrentPhaseInfo();
+    setPhaseInfo(info);
+
+    // Update every minute to keep percentage accurate
+    const interval = setInterval(() => {
+      setPhaseInfo(getCurrentPhaseInfo());
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  if (!phaseInfo) {
+    return null;
+  }
+
+  const { phase, completionPercentage, daysUntilNextPrice, nextPrice, phaseNumber, totalPhases } = phaseInfo;
+
   return (
     <motion.div
       className="relative rounded-2xl border-2 border-accent/60 bg-gradient-to-br from-orange-950 to-orange-900 p-8 overflow-hidden"
@@ -36,13 +45,18 @@ export default function PricingPhaseCard({
       <div className="relative z-10">
         {/* Header: Phase Name and Price */}
         <div className="flex justify-between items-start mb-6">
-          <h3 className="font-display text-4xl md:text-5xl font-bold text-accent">
-            {phaseName}
-          </h3>
+          <div>
+            <p className="text-accent/80 text-sm font-semibold mb-2">
+              {phaseNumber} de {totalPhases}
+            </p>
+            <h3 className="font-display text-4xl md:text-5xl font-bold text-accent">
+              {phase.name}
+            </h3>
+          </div>
           <div className="text-right">
             <p className="text-gray-300 text-sm mb-1">Precio actual</p>
             <p className="font-display text-4xl md:text-5xl font-bold text-accent">
-              €{currentPrice}
+              €{phase.price}
             </p>
           </div>
         </div>
@@ -53,9 +67,8 @@ export default function PricingPhaseCard({
             <motion.div
               className="h-full bg-gradient-to-r from-accent to-orange-400"
               initial={{ width: 0 }}
-              whileInView={{ width: `${completionPercentage}%` }}
-              transition={{ duration: 1, delay: 0.2 }}
-              viewport={{ once: true }}
+              animate={{ width: `${completionPercentage}%` }}
+              transition={{ duration: 0.8 }}
             ></motion.div>
           </div>
           <p className="text-gray-300 text-sm mt-2">
@@ -74,7 +87,7 @@ export default function PricingPhaseCard({
           <AlertCircle className="w-6 h-6 text-accent flex-shrink-0 mt-0.5" />
           <div>
             <p className="text-accent font-bold text-lg">
-              ⏰ En {daysUntilIncrease} días: El precio subirá a €{nextPrice}
+              ⏰ En {daysUntilNextPrice} días: El precio subirá a €{nextPrice}
             </p>
             <p className="text-gray-300 text-sm mt-1">
               Asegúrate de acceder al programa antes de que termine esta fase de precios especiales.
