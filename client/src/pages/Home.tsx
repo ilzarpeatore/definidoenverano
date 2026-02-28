@@ -28,9 +28,10 @@ export default function Home() {
       <main className="flex-1">
         <HeroSection />
         
-        {/* Pricing Phases Section 1 - At the Beginning */}
+        {/* Pricing Phases Section 1 - Fase de Lanzamiento (After Hero) */}
         <section className="py-16 md:py-24 bg-background">
           <div className="container max-w-4xl mx-auto px-4">
+            <h2 className="text-center text-accent font-display text-3xl md:text-4xl font-bold mb-8">Fases de Precios</h2>
             <PricingPhaseCard variant="current" />
           </div>
         </section>
@@ -40,7 +41,7 @@ export default function Home() {
         <SolutionSection />
         <TestimonialSection />
         
-        {/* Pricing Phases Section 2 - At the Middle */}
+        {/* Pricing Phases Section 2 - Fase de Expansión (After Testimonials) */}
         <section className="py-16 md:py-24 bg-card border-t border-border">
           <div className="container max-w-4xl mx-auto px-4">
             <PricingPhaseCard variant="next" />
@@ -54,8 +55,8 @@ export default function Home() {
         <CTASection />
         <FAQSection />
         
-        {/* Pricing Phases Section 3 - At the End */}
-        <section className="py-16 md:py-24 bg-background">
+        {/* Pricing Phases Section 3 - Fase de Consolidación (Before Pricing & Access) */}
+        <section className="py-16 md:py-24 bg-background border-t border-border">
           <div className="container max-w-4xl mx-auto px-4">
             <PricingPhaseCard variant="future" />
           </div>

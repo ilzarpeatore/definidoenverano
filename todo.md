@@ -127,3 +127,7 @@
 - [x] Ajustar tamaño y visibilidad del contenido
 - [x] Actualizar Home.tsx con variantes correctas
 - [x] Testear y guardar checkpoint
+
+## Reorganización de Posiciones de Fases
+- [x] Actualizar Home.tsx con orden correcto (Lanzamiento, Expansión, Consolidación)
+- [x] Testear y guardar checkpoint
