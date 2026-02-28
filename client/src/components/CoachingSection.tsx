@@ -78,7 +78,7 @@ export default function CoachingSection() {
     {
       number: '04',
       title: 'Mentalidad Ganadora',
-      description: 'Psicología del éxito. Supera limitaciones mentales. Construye hábitos que duren de por vida.',
+      description: 'Psicología del éxito. Supera limitaciones mentales. Construye hábitos duraderos.',
       icon: '🧠',
     },
   ];

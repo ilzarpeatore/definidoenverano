@@ -183,7 +183,7 @@ export default function Checkout() {
                 <div className="mb-6 pb-6 border-b border-border">
                   <p className="text-gray-300 mb-2">Definido en Verano Program</p>
                   <p className="text-sm text-gray-400 mb-4">
-                    Acceso completo de por vida + actualizaciones
+                    Acceso de 3 meses al programa completo
                   </p>
 
                   {/* Price Breakdown */}
@@ -213,7 +213,7 @@ export default function Checkout() {
                       <span className="text-gray-400 text-sm ml-2">EUR</span>
                     </div>
                   </div>
-                  <p className="text-xs text-gray-500">Pago único - Acceso de por vida</p>
+                  <p className="text-xs text-gray-500">Pago único - Acceso de 3 meses</p>
                 </div>
 
                 {/* Guarantee Badge */}

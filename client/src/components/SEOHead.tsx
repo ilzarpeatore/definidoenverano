@@ -61,7 +61,7 @@ export const generateSchemaFAQ = () => ({
       name: '¿Cuánto tiempo dura el programa Definido en Verano?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'El programa dura 12 semanas, pero tienes acceso de por vida a todos los materiales, actualizaciones y la app.',
+        text: 'El programa dura 12 semanas con acceso de 3 meses a todos los materiales, entrenamientos y la app. Puedes renovar cuando quieras.',
       },
     },
     {
@@ -77,7 +77,7 @@ export const generateSchemaFAQ = () => ({
       name: '¿Es necesaria una dieta restrictiva?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'No. La nutrición en Definido en Verano es simplificada y flexible. Aprendes reglas claras que puedes seguir de por vida.',
+        text: 'No. La nutrición en Definido en Verano es simplificada y flexible. Aprendes reglas claras que puedes aplicar siempre.',
       },
     },
     {

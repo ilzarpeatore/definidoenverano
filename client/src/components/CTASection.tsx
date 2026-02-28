@@ -41,7 +41,7 @@ export default function CTASection() {
     'Plan de nutrición personalizado',
     'Acceso a comunidad privada',
     'Soporte directo del coach',
-    'Actualizaciones de por vida',
+    'Acceso durante 3 meses',
   ];
 
   return (

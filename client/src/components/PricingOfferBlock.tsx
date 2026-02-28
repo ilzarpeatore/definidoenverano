@@ -16,7 +16,7 @@ export default function PricingOfferBlock() {
     'Plan de nutrición personalizado',
     'Acceso a comunidad privada',
     'Soporte directo del coach',
-    'Actualizaciones de por vida',
+    'Acceso de 3 meses',
   ];
 
   const handleCTA = () => {

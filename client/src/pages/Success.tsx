@@ -236,7 +236,7 @@ export default function Success() {
                 </div>
                 <div className="flex items-center gap-3">
                   <Check className="w-5 h-5 text-accent flex-shrink-0" />
-                  <span className="text-gray-200">Actualizaciones de por vida</span>
+                  <span className="text-gray-200">Acceso de 3 meses</span>
                 </div>
               </div>
             </motion.div>

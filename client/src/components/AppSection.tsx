@@ -237,7 +237,7 @@ export default function AppSection() {
           <div className="grid md:grid-cols-2 gap-6">
             {[
               'App iOS y Android',
-              'Actualizaciones de por vida',
+              'Acceso durante 3 meses',
               'Sincronización Apple Health',
               'Sincronización Google Fit',
               'Análisis de datos automático',

@@ -54,8 +54,8 @@ export default function SolutionSection() {
     },
     {
       icon: Award,
-      title: 'Acceso de por vida',
-      description: 'Actualizaciones perpetuas. Valor que crece.',
+      title: 'Acceso de 3 meses',
+      description: 'Programa completo. Renovable cuando quieras.',
     },
     {
       icon: Check,

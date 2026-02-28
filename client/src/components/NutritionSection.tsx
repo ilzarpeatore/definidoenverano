@@ -61,7 +61,7 @@ export default function NutritionSection() {
       icon: <Zap className="w-6 h-6" />,
     },
     {
-      title: 'Sostenible de Por Vida',
+      title: 'Sostenible y Duradero',
       description: 'No es una dieta temporal. Construimos hábitos que duran. Comer bien se convierte en tu estilo de vida.',
       icon: <Heart className="w-6 h-6" />,
     },
@@ -243,7 +243,7 @@ export default function NutritionSection() {
           transition={{ duration: 0.6 }}
         >
           <p className="text-xl text-gray-200 italic mb-6">
-            "Lo mejor de Definido en Verano es que no me siento en dieta. Como bien, disfruto la comida, y los resultados vienen solos. Es la primera vez que puedo mantener esto de por vida."
+            "Lo mejor de Definido en Verano es que no me siento en dieta. Como bien, disfruto la comida, y los resultados vienen solos. Finalmente encontré algo que puedo mantener."
           </p>
           <p className="text-accent font-bold">— Carlos M., Ejecutivo, 34 años</p>
         </motion.div>

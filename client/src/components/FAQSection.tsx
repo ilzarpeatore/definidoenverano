@@ -39,12 +39,12 @@ export default function FAQSection() {
     {
       question: '¿Es una dieta restrictiva?',
       answer:
-        'No. La nutrición en Definido en Verano es simplificada, no restrictiva. Aprendes reglas claras que puedes seguir de por vida. Nada de contar calorías obsesivamente.',
+        'No. La nutrición en Definido en Verano es simplificada, no restrictiva. Aprendes reglas claras que puedes aplicar siempre. Nada de contar calórias obsesivamente.',
     },
     {
-      question: '¿Tendré acceso de por vida?',
+      question: '¿Cuánto tiempo tengo acceso?',
       answer:
-        'Sí. Cuando compres, tienes acceso perpetuo al programa. Recibiras todas las actualizaciones y mejoras que hagamos sin costo adicional.',
+        'Tu acceso es de 3 meses desde la fecha de compra. Después, puedes renovar el programa si deseas continuar. Todos los materiales y la app funcionan durante tu período de acceso.',
     },
     {
       question: '¿Hay soporte disponible?',

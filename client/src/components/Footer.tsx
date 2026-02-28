@@ -106,7 +106,7 @@ export default function Footer() {
           </span>
           <span className="flex items-center gap-1">
             <span className="w-2 h-2 bg-accent rounded-full"></span>
-            Acceso de por vida
+            Acceso de 3 meses
           </span>
           <span className="flex items-center gap-1">
             <span className="w-2 h-2 bg-accent rounded-full"></span>
