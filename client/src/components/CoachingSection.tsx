@@ -56,32 +56,7 @@ export default function CoachingSection() {
     },
   ];
 
-  const trainingPillars = [
-    {
-      number: '01',
-      title: 'Entrenamiento Inteligente',
-      description: 'Programas basados en ciencia. Máximo resultado en mínimo tiempo. Enfoque en compound movements y progresión sistemática.',
-      icon: '💪',
-    },
-    {
-      number: '02',
-      title: 'Nutrición Estratégica',
-      description: 'Planes de comidas adaptados a tu objetivo. Sin dietas restrictivas. Sostenible y delicioso.',
-      icon: '🍎',
-    },
-    {
-      number: '03',
-      title: 'Recuperación Óptima',
-      description: 'Sueño, estrés y descanso. Los músculos crecen en reposo. Te enseñamos cómo maximizar tu recuperación.',
-      icon: '😴',
-    },
-    {
-      number: '04',
-      title: 'Mentalidad Ganadora',
-      description: 'Psicología del éxito. Supera limitaciones mentales. Construye hábitos duraderos.',
-      icon: '🧠',
-    },
-  ];
+
 
   return (
     <div className="bg-background py-8 md:py-32">
@@ -143,56 +118,6 @@ export default function CoachingSection() {
               </div>
             </motion.div>
           ))}
-        </motion.div>
-
-        {/* Divider */}
-        <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent mb-20" />
-
-        {/* Training Pillars */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          variants={containerVariants}
-        >
-          <motion.div className="text-center mb-16" variants={itemVariants}>
-            <h3 className="font-display text-3xl md:text-4xl text-white mb-4">
-              Los 4 Pilares de tu Éxito
-            </h3>
-            <p className="text-gray-300 max-w-2xl mx-auto">
-              Un programa completo que abarca todo lo que necesitas para transformarte
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-            {trainingPillars.map((pillar, index) => (
-              <motion.div
-                key={index}
-                className="relative"
-                variants={itemVariants}
-              >
-                <div className="card-glass border border-border p-8 rounded-sm h-full">
-                  {/* Number Badge */}
-                  <div className="absolute -top-4 -left-4 w-16 h-16 bg-accent/20 border-2 border-accent rounded-full flex items-center justify-center">
-                    <span className="font-display text-2xl text-accent font-bold">
-                      {pillar.number}
-                    </span>
-                  </div>
-
-                  {/* Content */}
-                  <div className="pt-8">
-                    <div className="text-5xl mb-4">{pillar.icon}</div>
-                    <h4 className="font-heading text-white text-xl mb-3">
-                      {pillar.title}
-                    </h4>
-                    <p className="text-gray-400 leading-relaxed">
-                      {pillar.description}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
         </motion.div>
 
         {/* Coaching Guarantee */}

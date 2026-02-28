@@ -70,18 +70,7 @@ export default function AppSection() {
     },
   ];
 
-  const syncBenefits = [
-    {
-      platform: 'Apple Health',
-      features: ['Pasos', 'Calorías quemadas', 'Frecuencia cardíaca', 'Sueño', 'Agua'],
-      icon: '🍎',
-    },
-    {
-      platform: 'Google Fit',
-      features: ['Pasos', 'Calorías quemadas', 'Frecuencia cardíaca', 'Sueño', 'Agua'],
-      icon: '🔵',
-    },
-  ];
+
 
   return (
     <div className="bg-background py-8 md:py-32">
@@ -143,80 +132,7 @@ export default function AppSection() {
           ))}
         </motion.div>
 
-        {/* Divider */}
-        <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent mb-20" />
 
-        {/* Sync Integration */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          variants={containerVariants}
-        >
-          <motion.div className="text-center mb-16" variants={itemVariants}>
-            <h3 className="font-display text-3xl md:text-4xl text-white mb-4">
-              Sincronización Automática
-            </h3>
-            <p className="text-gray-300 max-w-2xl mx-auto">
-              Conecta tu app Definido en Verano con Apple Health o Google Fit. Todos tus datos de salud en un solo lugar.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-8 md:mb-12">
-            {syncBenefits.map((sync, index) => (
-              <motion.div
-                key={index}
-                className="card-glass border border-border p-8 rounded-sm"
-                variants={itemVariants}
-              >
-                <div className="flex items-center gap-4 mb-6">
-                  <span className="text-4xl">{sync.icon}</span>
-                  <h4 className="font-heading text-white text-xl">
-                    {sync.platform}
-                  </h4>
-                </div>
-                <div className="space-y-3">
-                  {sync.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-center gap-3">
-                      <div className="w-2 h-2 bg-accent rounded-full" />
-                      <span className="text-gray-300">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Sync Benefit Box */}
-          <motion.div
-            className="bg-gradient-to-r from-accent/10 to-accent/5 border border-accent/30 rounded-sm p-8"
-            variants={itemVariants}
-          >
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
-              <div className="text-center">
-                <div className="text-3xl mb-3">📱</div>
-                <h4 className="font-heading text-white mb-2">Un Solo Dashboard</h4>
-                <p className="text-gray-400 text-sm">
-                  Toda tu información en un lugar. Entrenamientos, nutrición, hábitos y salud integrados.
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl mb-3">🔄</div>
-                <h4 className="font-heading text-white mb-2">Sincronización Automática</h4>
-                <p className="text-gray-400 text-sm">
-                  Sin duplicar datos. Tu app habla con Apple Health y Google Fit automáticamente.
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl mb-3">📊</div>
-                <h4 className="font-heading text-white mb-2">Análisis Inteligente</h4>
-                <p className="text-gray-400 text-sm">
-                  IA que analiza tus datos. Recomendaciones personalizadas basadas en tu progreso.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
 
         {/* Divider */}
         <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent my-20" />

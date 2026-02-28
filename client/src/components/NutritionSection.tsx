@@ -72,28 +72,7 @@ export default function NutritionSection() {
     },
   ];
 
-  const nutritionPrinciples = [
-    {
-      number: '1',
-      principle: 'Proteína Suficiente',
-      detail: '1.6-2.2g por kg de peso corporal. Es la base para construir músculo.',
-    },
-    {
-      number: '2',
-      principle: 'Calorías Inteligentes',
-      detail: 'Ni muy pocas (sin energía), ni excesivas. El balance perfecto para tu objetivo.',
-    },
-    {
-      number: '3',
-      principle: 'Alimentos Reales',
-      detail: 'Comida de verdad. Pollo, arroz, verduras, frutas. Nada complicado.',
-    },
-    {
-      number: '4',
-      principle: 'Consistencia > Perfección',
-      detail: 'Hacer bien el 80% consistentemente supera hacer perfecto el 100% ocasionalmente.',
-    },
-  ];
+
 
   return (
     <div className="bg-background py-8 md:py-32">
@@ -198,41 +177,6 @@ export default function NutritionSection() {
 
         {/* Divider */}
         <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent mb-20" />
-
-        {/* Core Principles */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          variants={containerVariants}
-        >
-          <h3 className="font-display text-2xl text-white mb-10 text-center">
-            Los 4 Principios de Nutrición Definido en Verano
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-            {nutritionPrinciples.map((item, index) => (
-              <motion.div
-                key={index}
-                className="card-glass border border-border p-8 rounded-sm flex gap-6"
-                variants={itemVariants}
-              >
-                <div className="flex-shrink-0">
-                  <div className="w-12 h-12 bg-accent/20 border-2 border-accent rounded-full flex items-center justify-center">
-                    <span className="font-display text-xl text-accent font-bold">
-                      {item.number}
-                    </span>
-                  </div>
-                </div>
-                <div>
-                  <h4 className="font-heading text-white text-lg mb-2">
-                    {item.principle}
-                  </h4>
-                  <p className="text-gray-400">{item.detail}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
 
         {/* Testimonial Quote */}
         <motion.div
