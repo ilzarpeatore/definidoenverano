@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, CheckCircle2, Circle, Mail, Download, LogIn } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Circle, Mail, LogIn } from 'lucide-react';
 
 interface ChecklistItem {
   day: number;
@@ -115,19 +115,7 @@ export default function ChecklistDay30() {
     setTimeout(() => setMessage(''), 5000);
   };
 
-  const downloadPDF = () => {
-    const content = `CHECKLIST 30 DÍAS - PROGRESO: ${progressPercent}%\n\n${checklist
-      .map(item => `${item.completed ? '✓' : '○'} Día ${item.day}: ${item.title}`)
-      .join('\n')}\n\nTotal completado: ${completedCount}/30`;
 
-    const element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
-    element.setAttribute('download', `checklist-30-dias-${progressPercent}porciento.txt`);
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -171,14 +159,6 @@ export default function ChecklistDay30() {
 
           {/* Action Buttons */}
           <div className="flex gap-3 flex-wrap">
-            <Button
-              onClick={downloadPDF}
-              variant="outline"
-              className="flex items-center gap-2"
-            >
-              <Download className="w-4 h-4" />
-              Descargar Progreso
-            </Button>
             <Button
               onClick={() => setShowSaveForm(!showSaveForm)}
               className="flex items-center gap-2 bg-[#d4af37] text-black hover:bg-[#b8860b]"
