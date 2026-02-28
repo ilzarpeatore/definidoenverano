@@ -131,3 +131,8 @@
 ## Reorganización de Posiciones de Fases
 - [x] Actualizar Home.tsx con orden correcto (Lanzamiento, Expansión, Consolidación)
 - [x] Testear y guardar checkpoint
+
+## Bug Fix: PricingPhaseCard Solo Muestra Un Recuadro
+- [x] Refactorizar PricingPhaseCard para renderizar todas las variantes
+- [x] Testear que se muestren los 3 recuadros
+- [x] Guardar checkpoint

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { AlertCircle, Calendar, TrendingUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { getCurrentPhaseInfo, getAllPhases, type CurrentPhaseInfo } from '@/lib/pricingPhases';
+import { getCurrentPhaseInfo, getAllPhases, type CurrentPhaseInfo, type Phase } from '@/lib/pricingPhases';
 
 interface PricingPhaseCardProps {
   variant?: 'current' | 'next' | 'future';
@@ -16,11 +16,12 @@ interface PricingPhaseCardProps {
  */
 export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCardProps) {
   const [phaseInfo, setPhaseInfo] = useState<CurrentPhaseInfo | null>(null);
-  const [allPhases] = useState(getAllPhases());
+  const [allPhases, setAllPhases] = useState<Phase[]>([]);
 
   useEffect(() => {
     const info = getCurrentPhaseInfo();
     setPhaseInfo(info);
+    setAllPhases(getAllPhases());
 
     const interval = setInterval(() => {
       setPhaseInfo(getCurrentPhaseInfo());
@@ -29,7 +30,7 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
     return () => clearInterval(interval);
   }, []);
 
-  if (!phaseInfo) {
+  if (!phaseInfo || allPhases.length === 0) {
     return null;
   }
 
