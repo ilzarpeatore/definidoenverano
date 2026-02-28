@@ -156,3 +156,9 @@
 ## Plantilla de Correo Brevo
 - [x] Crear plantilla HTML para semana gratuita
 - [x] Guardar y documentar uso en proyecto
+
+
+## Calculadora de Calorías y Macros
+- [x] Crear componente CalorieCalculator
+- [x] Agregar ruta /calculadora a App.tsx
+- [x] Testear y guardar checkpoint

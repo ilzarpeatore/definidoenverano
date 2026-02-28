@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7 Errores que Impiden tu Definición</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #b8860b 0%, #d4af37 100%);
+            padding: 60px 40px;
+            text-align: center;
+            color: #0a0a0a;
+        }
+        
+        .header h1 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+        
+        .header p {
+            font-size: 18px;
+            color: rgba(10, 10, 10, 0.8);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Content */
+        .content {
+            padding: 60px 40px;
+        }
+        
+        /* Introduction */
+        .intro {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .intro p {
+            margin-bottom: 15px;
+            color: #d0d0d0;
+        }
+        
+        .intro p strong {
+            color: #d4af37;
+        }
+        
+        /* Error Cards */
+        .error-card {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 25px;
+            page-break-inside: avoid;
+        }
+        
+        .error-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .error-number {
+            background-color: #d4af37;
+            color: #0a0a0a;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .error-title {
+            flex: 1;
+        }
+        
+        .error-title h3 {
+            font-size: 22px;
+            color: #d4af37;
+            margin: 0;
+            font-weight: 700;
+        }
+        
+        .error-section {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+        }
+        
+        .error-section h4 {
+            color: #d4af37;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .error-section.impact h4 {
+            color: #ff6b6b;
+        }
+        
+        .error-section.solution h4 {
+            color: #51cf66;
+        }
+        
+        .error-section p {
+            color: #c0c0c0;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        
+        /* CTA Boxes */
+        .cta-box {
+            background: linear-gradient(135deg, rgba(184, 134, 11, 0.2) 0%, rgba(212, 175, 55, 0.2) 100%);
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            margin: 50px 0;
+            page-break-inside: avoid;
+        }
+        
+        .cta-box h2 {
+            font-size: 28px;
+            color: #d4af37;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .cta-box p {
+            color: #c0c0c0;
+            font-size: 16px;
+            margin-bottom: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: #d4af37;
+            color: #0a0a0a;
+            padding: 15px 40px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 16px;
+            text-decoration: none;
+            margin: 10px 0;
+        }
+        
+        /* Key Takeaways */
+        .takeaways {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 50px 0;
+            page-break-inside: avoid;
+        }
+        
+        .takeaways h3 {
+            color: #d4af37;
+            font-size: 24px;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+        
+        .takeaways ul {
+            list-style: none;
+        }
+        
+        .takeaways li {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+            color: #c0c0c0;
+            font-size: 15px;
+        }
+        
+        .takeaways li:before {
+            content: "✓";
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 18px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        /* Final CTA */
+        .final-cta {
+            background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+            color: #0a0a0a;
+            padding: 50px 40px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 50px;
+            page-break-inside: avoid;
+        }
+        
+        .final-cta h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+        
+        .final-cta p {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: rgba(10, 10, 10, 0.9);
+        }
+        
+        .final-cta .guarantee {
+            font-size: 14px;
+            margin-top: 20px;
+            color: rgba(10, 10, 10, 0.8);
+            font-weight: 600;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #0a0a0a;
+            border-top: 1px solid #333;
+            padding: 40px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+            margin-top: 60px;
+        }
+        
+        .footer p {
+            margin-bottom: 10px;
+        }
+        
+        /* Page Break */
+        @media print {
+            .error-card {
+                page-break-inside: avoid;
+            }
+            .cta-box {
+                page-break-inside: avoid;
+            }
+            .takeaways {
+                page-break-inside: avoid;
+            }
+            .final-cta {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>7 Errores que Impiden tu Definición</h1>
+            <p>Descubre qué está saboteando tu transformación y cómo solucionarlo</p>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <!-- Introduction -->
+            <div class="intro">
+                <p>Hemos trabajado con cientos de hombres ocupados y hemos identificado los 7 errores más comunes que impiden la definición muscular. Esta guía te mostrará exactamente qué estás haciendo mal y hacia dónde dirigirte.</p>
+                <p><strong>Nota:</strong> Esta guía te da las pistas. La solución completa está en nuestro programa, donde te enseñamos exactamente cómo implementar cada solución en tu vida.</p>
+            </div>
+            
+            <!-- Error 1 -->
+            <div class="error-card">
+                <div class="error-header">
+                    <div class="error-number">1</div>
+                    <div class="error-title">
+                        <h3>No tener un plan de entrenamiento estructurado</h3>
+                    </div>
+                </div>
+                <div class="error-section">
+                    <h4>Descripción</h4>
+                    <p>Entrenar sin una estrategia clara: hacer ejercicios al azar, cambiar constantemente de rutina, o simplemente seguir lo que ves en redes sociales sin coherencia.</p>
+                </div>
+                <div class="error-section impact">
+                    <h4>⚠️ Impacto</h4>
+                    <p>Progreso lento o nulo, desperdicio de tiempo, falta de motivación al no ver resultados claros.</p>
+                </div>
+                <div class="error-section solution">
+                    <h4>💡 Dirección de Solución</h4>
+                    <p>Necesitas un programa progresivo que aumente gradualmente en intensidad. Debe estar diseñado específicamente para tu objetivo (hipertrofia, definición, fuerza) y adaptado a tu disponibilidad de tiempo como hombre ocupado.</p>
+                </div>
+            </div>
+            
+            <!-- Error 2 -->
+            <div class="error-card">
+                <div class="error-header">
+                    <div class="error-number">2</div>
+                    <div class="error-title">
+                        <h3>Ignorar la nutrición o hacer dietas extremas</h3>
+                    </div>
+                </div>
+                <div class="error-section">
+                    <h4>Descripción</h4>
+                    <p>Pensar que solo el entrenamiento es suficiente, o hacer dietas muy restrictivas que no puedes mantener a largo plazo.</p>
+                </div>
+                <div class="error-section impact">
+                    <h4>⚠️ Impacto</h4>
+                    <p>Imposible lograr definición sin nutrición adecuada. Las dietas extremas generan efecto rebote y pérdida de masa muscular.</p>
+                </div>
+                <div class="error-section solution">
+                    <h4>💡 Dirección de Solución</h4>
+                    <p>Tu nutrición debe ser sostenible y adaptada a tu estilo de vida. No se trata de restricción extrema, sino de macros calculados inteligentemente para tu objetivo.</p>
+                </div>
+            </div>
+            
+            <!-- Error 3 -->
+            <div class="error-card">
+                <div class="error-header">
+                    <div class="error-number">3</div>
+                    <div class="error-title">
+                        <h3>Entrenar sin progresión ni seguimiento</h3>
+                    </div>
+                </div>
+                <div class="error-section">
+                    <h4>Descripción</h4>
+                    <p>Hacer los mismos ejercicios con los mismos pesos semana tras semana, sin medir progreso ni ajustar variables.</p>
+                </div>
+                <div class="error-section impact">
+                    <h4>⚠️ Impacto</h4>
+                    <p>Meseta de progreso, aburrimiento, falta de estímulo muscular para crecer o definirse.</p>
+                </div>
+                <div class="error-section solution">
+                    <h4>💡 Dirección de Solución</h4>
+                    <p>Debes registrar tus entrenamientos y buscar progresión constante: más peso, más repeticiones, mejor técnica. El seguimiento es clave para mantener la motivación.</p>
+                </div>
+            </div>
+            
+            <!-- CTA 1 -->
+            <div class="cta-box">
+                <h2>¿Reconoces algunos de estos errores?</h2>
+                <p>Si identificas 3 o más de estos errores en tu rutina actual, es hora de hacer un cambio. Nuestro programa te da la solución completa y personalizada.</p>
+                <div class="cta-button">Acceder al Programa →</div>
+            </div>
+            
+            <!-- Error 4 -->
+            <div class="error-card">
+                <div class="error-header">
+                    <div class="error-number">4</div>
+                    <div class="error-title">
+                        <h3>Falta de consistencia y disciplina</h3>
+                    </div>
+                </div>
+                <div class="error-section">
+                    <h4>Descripción</h4>
+                    <p>Entrenar 2 semanas intenso, luego desaparecer 1 mes. Saltarse entrenamientos por cualquier razón o no seguir el plan.</p>
+                </div>
+                <div class="error-section impact">
+                    <h4>⚠️ Impacto</h4>
+                    <p>Pérdida de progreso acumulado, resultados nulos, frustración constante.</p>
+                </div>
+                <div class="error-section solution">
+                    <h4>💡 Dirección de Solución</h4>
+                    <p>La consistencia es más importante que la intensidad. Un programa moderado que hagas 4 veces por semana durante 12 semanas supera cualquier programa extremo que abandones.</p>
+                </div>
+            </div>
+            
+            <!-- Error 5 -->
+            <div class="error-card">
+                <div class="error-header">
+                    <div class="error-number">5</div>
+                    <div class="error-title">
+                        <h3>No adaptar el programa a tu estilo de vida ocupado</h3>
+                    </div>
+                </div>
+                <div class="error-section">
+                    <h4>Descripción</h4>
+                    <p>Intentar seguir programas que requieren 2 horas diarias o 6 días a la semana cuando tienes poco tiempo disponible.</p>
+                </div>
+                <div class="error-section impact">
+                    <h4>⚠️ Impacto</h4>
+                    <p>Imposible mantener consistencia, abandono del programa, culpa y frustración.</p>
+                </div>
+                <div class="error-section solution">
+                    <h4>💡 Dirección de Solución</h4>
+                    <p>Tu programa debe ser eficiente: entrenamientos de 45-60 minutos, 4 veces por semana máximo. La calidad supera la cantidad. Existen métodos científicos para maximizar resultados en poco tiempo.</p>
+                </div>
+            </div>
+            
+            <!-- Error 6 -->
+            <div class="error-card">
+                <div class="error-header">
+                    <div class="error-number">6</div>
+                    <div class="error-title">
+                        <h3>Entrenar sin técnica correcta (lesiones)</h3>
+                    </div>
+                </div>
+                <div class="error-section">
+                    <h4>Descripción</h4>
+                    <p>Usar pesos muy pesados con forma incorrecta, no calentar, no hacer movilidad, ignorar el dolor.</p>
+                </div>
+                <div class="error-section impact">
+                    <h4>⚠️ Impacto</h4>
+                    <p>Lesiones que pueden dejarte fuera semanas o meses, dolor crónico, imposibilidad de progresar.</p>
+                </div>
+                <div class="error-section solution">
+                    <h4>💡 Dirección de Solución</h4>
+                    <p>La técnica correcta es fundamental. Necesitas aprender la ejecución adecuada de cada ejercicio y progresar gradualmente. Una lesión te retrasará más que entrenar con técnica perfecta.</p>
+                </div>
+            </div>
+            
+            <!-- Error 7 -->
+            <div class="error-card">
+                <div class="error-header">
+                    <div class="error-number">7</div>
+                    <div class="error-title">
+                        <h3>Falta de mentalidad y objetivos claros</h3>
+                    </div>
+                </div>
+                <div class="error-section">
+                    <h4>Descripción</h4>
+                    <p>No tener claridad sobre qué quieres lograr, por qué lo quieres, o no creer realmente que es posible para ti.</p>
+                </div>
+                <div class="error-section impact">
+                    <h4>⚠️ Impacto</h4>
+                    <p>Falta de motivación sostenida, abandono ante el primer obstáculo, resultados mediocres.</p>
+                </div>
+                <div class="error-section solution">
+                    <h4>💡 Dirección de Solución</h4>
+                    <p>Define objetivos específicos y medibles. Entiende tu por qué profundo. Visualiza el resultado y cultiva la mentalidad de ganador. La transformación física comienza en la mente.</p>
+                </div>
+            </div>
+            
+            <!-- Key Takeaways -->
+            <div class="takeaways">
+                <h3>Puntos Clave</h3>
+                <ul>
+                    <li>La consistencia supera la intensidad</li>
+                    <li>Tu programa debe adaptarse a tu vida, no al revés</li>
+                    <li>Nutrición y entrenamiento van de la mano</li>
+                    <li>El seguimiento y la progresión son clave</li>
+                    <li>La mentalidad es el 50% del éxito</li>
+                </ul>
+            </div>
+            
+            <!-- Final CTA -->
+            <div class="final-cta">
+                <h2>Estás a un paso de tu transformación</h2>
+                <p>Ahora que conoces los errores, es momento de implementar las soluciones. Únete a cientos de hombres que ya están viendo resultados.</p>
+                <div class="cta-button" style="background-color: #0a0a0a; color: #d4af37;">Comenzar Mi Transformación →</div>
+                <p class="guarantee">Garantía de 30 días. Si no ves resultados, devolvemos tu dinero.</p>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Be Stronger - Definido en Verano</strong></p>
+            <p>www.definidoenverano.bestronger.es</p>
+            <p>© 2026 Be Stronger. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</body>
+</html>
