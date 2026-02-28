@@ -88,7 +88,7 @@ export default function TransformationGallery() {
   };
 
   return (
-    <section className="bg-background py-20 md:py-32">
+    <section className="bg-background py-8 md:py-32">
       <div className="container max-w-6xl mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -201,7 +201,7 @@ export default function TransformationGallery() {
 
         {/* Stats */}
         <motion.div
-          className="grid md:grid-cols-3 gap-8 bg-accent/10 border border-accent/30 rounded-sm p-8"
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 bg-accent/10 border border-accent/30 rounded-sm p-6 md:p-8"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}

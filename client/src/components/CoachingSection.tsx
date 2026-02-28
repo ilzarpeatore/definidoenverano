@@ -84,7 +84,7 @@ export default function CoachingSection() {
   ];
 
   return (
-    <div className="bg-background py-20 md:py-32">
+    <div className="bg-background py-8 md:py-32">
       <div className="container max-w-6xl mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -115,7 +115,7 @@ export default function CoachingSection() {
 
         {/* Support Features Grid */}
         <motion.div
-          className="grid md:grid-cols-2 gap-6 mb-20"
+          className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 mb-12 md:mb-20"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -164,7 +164,7 @@ export default function CoachingSection() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
             {trainingPillars.map((pillar, index) => (
               <motion.div
                 key={index}

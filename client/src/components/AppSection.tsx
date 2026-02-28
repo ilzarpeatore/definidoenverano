@@ -84,7 +84,7 @@ export default function AppSection() {
   ];
 
   return (
-    <div className="bg-background py-20 md:py-32">
+    <div className="bg-background py-8 md:py-32">
       <div className="container max-w-6xl mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -115,7 +115,7 @@ export default function AppSection() {
 
         {/* Features Grid */}
         <motion.div
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 mb-12 md:mb-20"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -162,7 +162,7 @@ export default function AppSection() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-8 md:mb-12">
             {syncBenefits.map((sync, index) => (
               <motion.div
                 key={index}
@@ -192,7 +192,7 @@ export default function AppSection() {
             className="bg-gradient-to-r from-accent/10 to-accent/5 border border-accent/30 rounded-sm p-8"
             variants={itemVariants}
           >
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
               <div className="text-center">
                 <div className="text-3xl mb-3">📱</div>
                 <h4 className="font-heading text-white mb-2">Un Solo Dashboard</h4>

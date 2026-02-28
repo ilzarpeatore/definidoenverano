@@ -195,7 +195,7 @@ export default function FreeResourcesSection() {
   };
 
   return (
-    <section className="relative py-16 md:py-24 bg-background">
+    <section className="relative py-6 md:py-24 bg-background">
       <div className="container max-w-6xl mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -229,7 +229,7 @@ export default function FreeResourcesSection() {
         </motion.div>
 
         {/* Resources Grid */}
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           {resources.map((resource, index) => (
             <motion.div
               key={resource.id}

@@ -24,7 +24,7 @@ export default function PricingOfferBlock() {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-br from-orange-950 via-orange-900 to-orange-950 relative overflow-hidden">
+    <section className="py-6 md:py-24 bg-gradient-to-br from-orange-950 via-orange-900 to-orange-950 relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 left-0 w-96 h-96 bg-accent rounded-full blur-3xl"></div>

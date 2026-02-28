@@ -96,7 +96,7 @@ export default function NutritionSection() {
   ];
 
   return (
-    <div className="bg-background py-20 md:py-32">
+    <div className="bg-background py-8 md:py-32">
       <div className="container max-w-6xl mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -136,7 +136,7 @@ export default function NutritionSection() {
           <h3 className="font-display text-2xl text-white mb-10 text-center">
             Destruyamos los Mitos
           </h3>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
             {myths.map((item, index) => (
               <motion.div
                 key={index}
@@ -174,7 +174,7 @@ export default function NutritionSection() {
           <h3 className="font-display text-2xl text-white mb-10 text-center">
             Lo Que Obtienes
           </h3>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
             {nutritionBenefits.map((benefit, index) => (
               <motion.div
                 key={index}
@@ -209,7 +209,7 @@ export default function NutritionSection() {
           <h3 className="font-display text-2xl text-white mb-10 text-center">
             Los 4 Principios de Nutrición Definido en Verano
           </h3>
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
             {nutritionPrinciples.map((item, index) => (
               <motion.div
                 key={index}

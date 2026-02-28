@@ -59,7 +59,7 @@ export default function FAQSection() {
   ];
 
   return (
-    <section className="relative py-20 md:py-32 bg-background overflow-hidden">
+    <section className="relative py-8 md:py-32 bg-background overflow-hidden">
       <div className="container max-w-3xl mx-auto px-4">
         {/* Header */}
         <motion.div
