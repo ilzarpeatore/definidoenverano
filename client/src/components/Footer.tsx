@@ -56,8 +56,8 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-white mb-4">Legal</h4>
             <div className="space-y-2 text-sm">
-              <a href="#" className="block text-gray-400 hover:text-accent transition-colors">
-                Términos de Servicio
+              <a href="/terms" className="block text-gray-400 hover:text-accent transition-colors">
+                Términos y Condiciones
               </a>
               <a href="#" className="block text-gray-400 hover:text-accent transition-colors">
                 Política de Privacidad

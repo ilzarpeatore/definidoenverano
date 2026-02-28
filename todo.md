@@ -69,3 +69,8 @@
 3. Configure Brevo welcome email flow
 4. Add real tracking IDs
 5. Test complete funnel
+
+## Términos y Condiciones
+- [x] Crear página de Términos y Condiciones
+- [x] Agregar ruta /terms a App.tsx
+- [x] Agregar enlace en Footer

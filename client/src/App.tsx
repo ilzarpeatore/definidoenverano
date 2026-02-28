@@ -11,6 +11,7 @@ import AssessmentResults from "./pages/AssessmentResults";
 import Checkout from "./pages/Checkout";
 import Success from "./pages/Success";
 import AdminDashboard from "./pages/AdminDashboard";
+import TermsAndConditions from "./pages/TermsAndConditions";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -22,6 +23,7 @@ function Router() {
       <Route path={"/checkout"} component={Checkout} />
       <Route path={"/success"} component={Success} />
       <Route path={"/admin"} component={AdminDashboard} />
+      <Route path={"/terms"} component={TermsAndConditions} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
