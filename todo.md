@@ -86,3 +86,9 @@
 - [x] Agregar ruta /cookies a App.tsx
 - [x] Integrar CookieBanner en App.tsx
 - [x] Agregar enlace en Footer
+
+## Optimización de Banner de Cookies para Móvil
+- [x] Refactorizar CookieBanner con diseño responsive
+- [x] Implementar dos pasos: banner compacto + modal de configuración
+- [x] Agregar funcionalidad deslizable y minimizable
+- [x] Testear en versión móvil
