@@ -74,7 +74,7 @@ export default function AdminDashboard() {
   });
 
   const handleAuth = () => {
-    if (password === 'admin123') {
+    if (password === 'Adminbs1998') {
       setIsAuthenticated(true);
       setPassword('');
     } else {
