@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
 import { Lock, ArrowLeft, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { trpc } from '@/lib/trpc';
+import { PricingProgressBar } from '@/components/PricingProgressBar';
 
 /**
  * Checkout Page - Stripe Payment Gateway
@@ -17,6 +19,7 @@ import { toast } from 'sonner';
 export default function Checkout() {
   const [, navigate] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
+  const { data: pricing } = trpc.pricing.getCurrent.useQuery();
 
   // Track checkout page view for retargeting
   useEffect(() => {
@@ -180,18 +183,15 @@ export default function Checkout() {
                   {/* Price Breakdown */}
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between text-gray-400">
-                      <span>Precio original:</span>
-                      <span className="line-through">€497</span>
-                    </div>
-                    <div className="flex justify-between text-accent font-bold">
-                      <span>Descuento (60%):</span>
-                      <span>-€300</span>
-                    </div>
-                    <div className="flex justify-between text-orange-400 text-xs font-bold bg-orange-400/10 p-2 rounded">
-                      <span>⚠️ Precio especial de lanzamiento</span>
-                      <span>€197</span>
+                      <span>Precio actual:</span>
+                      <span className="font-bold text-white">€{pricing?.currentPrice || 197}</span>
                     </div>
                   </div>
+                </div>
+
+                {/* Pricing Progress */}
+                <div className="mb-6">
+                  <PricingProgressBar />
                 </div>
 
                 {/* Total */}
@@ -200,7 +200,7 @@ export default function Checkout() {
                     <span className="text-gray-300">Total:</span>
                     <div>
                       <span className="font-display text-3xl text-orange-400 font-bold">
-                        €197
+                        €{pricing?.currentPrice || 197}
                       </span>
                       <span className="text-gray-400 text-sm ml-2">EUR</span>
                     </div>
