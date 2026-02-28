@@ -145,3 +145,20 @@ export const freeResources = mysqlTable("freeResources", {
 
 export type FreeResource = typeof freeResources.$inferSelect;
 export type InsertFreeResource = typeof freeResources.$inferInsert;
+
+/**
+ * Informed Consent - Consentimiento informado para entrenamiento
+ */
+export const informedConsents = mysqlTable("informedConsents", {
+  id: int("id").autoincrement().primaryKey(),
+  customerId: int("customerId").notNull(),
+  orderId: int("orderId").notNull(),
+  consentText: text("consentText").notNull(),
+  ipAddress: varchar("ipAddress", { length: 45 }).notNull(),
+  userAgent: text("userAgent"),
+  consentedAt: timestamp("consentedAt").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type InformedConsent = typeof informedConsents.$inferSelect;
+export type InsertInformedConsent = typeof informedConsents.$inferInsert;

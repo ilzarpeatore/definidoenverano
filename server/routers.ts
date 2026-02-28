@@ -6,6 +6,8 @@ import { paymentsRouter } from "./paymentsRouter";
 import { adminRouter } from "./adminRouter";
 import { leadsRouter } from "./leadsRouter";
 import { getPricingInfo } from "./pricing";
+import { saveInformedConsent } from "./db";
+import { z } from "zod";
 
 export const appRouter = router({
   system: systemRouter,
@@ -25,6 +27,35 @@ export const appRouter = router({
   payments: paymentsRouter,
   admin: adminRouter,
   leads: leadsRouter,
+  consent: router({
+    save: publicProcedure
+      .input(
+        z.object({
+          customerId: z.number(),
+          orderId: z.number(),
+          consentText: z.string(),
+          ipAddress: z.string(),
+          userAgent: z.string().optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        try {
+          await saveInformedConsent({
+            customerId: input.customerId,
+            orderId: input.orderId,
+            consentText: input.consentText,
+            ipAddress: input.ipAddress,
+            userAgent: input.userAgent,
+            consentedAt: new Date(),
+            createdAt: new Date(),
+          });
+          return { success: true };
+        } catch (error) {
+          console.error("[Consent] Failed to save consent:", error);
+          throw new Error("Failed to save consent");
+        }
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

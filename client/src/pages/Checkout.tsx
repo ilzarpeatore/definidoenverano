@@ -19,6 +19,7 @@ import { PricingProgressBar } from '@/components/PricingProgressBar';
 export default function Checkout() {
   const [, navigate] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
+  const [consentAccepted, setConsentAccepted] = useState(false);
   const { data: pricing } = trpc.pricing.getCurrent.useQuery();
 
   // Track checkout page view for retargeting
@@ -42,6 +43,11 @@ export default function Checkout() {
   }, []);
 
   const handleStripePayment = async () => {
+    if (!consentAccepted) {
+      toast.error('Debes aceptar el consentimiento informado para continuar');
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -221,10 +227,37 @@ export default function Checkout() {
                   </p>
                 </motion.div>
 
+                {/* Informed Consent Checkbox */}
+                <motion.div
+                  className="mb-6 p-4 bg-accent/5 border border-accent/30 rounded-sm"
+                  variants={itemVariants}
+                >
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={consentAccepted}
+                      onChange={(e) => setConsentAccepted(e.target.checked)}
+                      className="w-5 h-5 accent-accent rounded mt-0.5 flex-shrink-0"
+                    />
+                    <div className="flex-1">
+                      <p className="text-sm text-gray-300">
+                        Acepto el{' '}
+                        <a href="/informed-consent" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline font-semibold">
+                          Consentimiento Informado
+                        </a>
+                        {' '}para la practica de ejercicio fisico
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Declaro que he leido y acepto los terminos del consentimiento informado
+                      </p>
+                    </div>
+                  </label>
+                </motion.div>
+
                 {/* Payment Button */}
                 <Button
                   onClick={handleStripePayment}
-                  disabled={isLoading}
+                  disabled={isLoading || !consentAccepted}
                   className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-6 rounded-sm btn-glow disabled:opacity-50"
                 >
                   {isLoading ? (

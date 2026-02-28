@@ -97,3 +97,11 @@
 - [x] Crear página de Aviso Legal
 - [x] Agregar ruta /legal a App.tsx
 - [x] Agregar enlace en Footer
+
+## Consentimiento Informado
+- [x] Crear tabla de consentimientos en base de datos
+- [x] Crear página de Consentimiento Informado
+- [x] Agregar ruta /informed-consent a App.tsx
+- [x] Integrar checkbox de consentimiento en Checkout
+- [x] Crear procedimiento tRPC para guardar consentimiento (IP, fecha, hora)
+- [x] Testear flujo completo
