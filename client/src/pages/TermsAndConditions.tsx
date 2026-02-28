@@ -203,6 +203,22 @@ export default function TermsAndConditions() {
     },
     {
       id: 15,
+      title: 'RECURSOS GRATUITOS Y COMUNICACIONES COMERCIALES',
+      content: (
+        <div className="space-y-4 text-gray-300">
+          <p>Al solicitar acceso a recursos gratuitos (Guía 7 Errores, Calculadora de Calorías, Checklist 30 días) o la semana de prueba del programa, el usuario autoriza expresamente a Be Stronger para:</p>
+          <ul className="list-disc list-inside space-y-2">
+            <li>Recopilar y almacenar su dirección de correo electrónico.</li>
+            <li>Enviar información promocional sobre el programa Definido en Verano y otros servicios relacionados.</li>
+            <li>Utilizar su correo para comunicaciones de marketing y ofertas especiales.</li>
+          </ul>
+          <p className="mt-4">El usuario podrá darse de baja en cualquier momento mediante el enlace de desuscripción presente en cada comunicación o contactando a contacto@bestronger.es.</p>
+          <p className="mt-4">Esta autorización es independiente de la Política de Privacidad y constituye consentimiento expreso para el envío de comunicaciones comerciales.</p>
+        </div>
+      ),
+    },
+    {
+      id: 16,
       title: 'ACEPTACIÓN EXPRESA',
       content: (
         <div className="space-y-4 text-gray-300">
@@ -215,7 +231,7 @@ export default function TermsAndConditions() {
           </ul>
         </div>
       ),
-    },
+    }
   ];
 
   const toggleSection = (id: number) => {

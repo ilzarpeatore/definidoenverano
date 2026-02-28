@@ -144,6 +144,13 @@ export default function LeadMagnetPopup() {
                 />
               </div>
 
+              {/* Acceptance text */}
+              <div className="bg-accent/5 border border-accent/20 rounded-lg p-3 mb-3">
+                <p className="text-xs text-gray-300 leading-relaxed">
+                  Al registrarte, aceptas recibir información promocional sobre Definido en Verano en tu email. Puedes darte de baja en cualquier momento. Lee nuestros <a href="/terms" target="_blank" className="text-accent hover:underline">Términos y Condiciones</a> para más información.
+                </p>
+              </div>
+
               <button
                 type="submit"
                 disabled={isLoading}
