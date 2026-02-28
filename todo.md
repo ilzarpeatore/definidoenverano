@@ -147,3 +147,8 @@
 - [x] Crear componente PricingOfferBlock
 - [x] Agregar bloque a Home.tsx a mitad de página
 - [x] Testear y guardar checkpoint
+
+## Arreglos de Página
+- [x] Mover Fase de Consolidación antes de CTASection
+- [x] Identificar y arreglar caracteres escapados \n
+- [x] Testear y guardar checkpoint

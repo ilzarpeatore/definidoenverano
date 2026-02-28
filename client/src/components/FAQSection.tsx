@@ -98,7 +98,8 @@ export default function FAQSection() {
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
-            ))}\n          </Accordion>
+            ))}
+          </Accordion>
         </motion.div>
 
         {/* Divider */}

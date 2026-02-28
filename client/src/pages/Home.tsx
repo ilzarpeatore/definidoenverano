@@ -56,8 +56,6 @@ export default function Home() {
         <NutritionSection />
         <AppSection />
         <FreeResourcesSection />
-        <CTASection />
-        <FAQSection />
         
         {/* Pricing Phases Section 3 - Fase de Consolidación (Before Pricing & Access) */}
         <section className="py-16 md:py-24 bg-background border-t border-border">
@@ -65,6 +63,9 @@ export default function Home() {
             <PricingPhaseCard variant="future" />
           </div>
         </section>
+        
+        <CTASection />
+        <FAQSection />
       </main>
       <Footer />
       <LeadMagnetPopup />
