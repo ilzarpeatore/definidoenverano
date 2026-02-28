@@ -142,3 +142,8 @@
 - [x] Revisar lógica de cálculo de fases en pricingPhases.ts
 - [x] Verificar que los tres recuadros se muestren
 - [x] Testear y guardar checkpoint
+
+## Bloque de Oferta Destacada
+- [x] Crear componente PricingOfferBlock
+- [x] Agregar bloque a Home.tsx a mitad de página
+- [x] Testear y guardar checkpoint

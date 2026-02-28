@@ -12,6 +12,7 @@ import FAQSection from '@/components/FAQSection';
 import Footer from '@/components/Footer';
 import FreeResourcesSection from '@/components/FreeResourcesSection';
 import PricingPhaseCard from '@/components/PricingPhaseCard';
+import PricingOfferBlock from '@/components/PricingOfferBlock';
 
 /**
  * Definido en Verano Landing Page
@@ -47,6 +48,9 @@ export default function Home() {
             <PricingPhaseCard variant="next" />
           </div>
         </section>
+        
+        {/* Featured Pricing Offer Block (Middle of Page) */}
+        <PricingOfferBlock />
         
         <CoachingSection />
         <NutritionSection />
