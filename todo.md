@@ -162,3 +162,9 @@
 - [x] Crear componente CalorieCalculator
 - [x] Agregar ruta /calculadora a App.tsx
 - [x] Testear y guardar checkpoint
+
+## Checklist Interactivo de 30 Días
+- [x] Crear componente ChecklistDay30 con localStorage
+- [x] Agregar funcionalidad de guardar progreso por email
+- [x] Agregar ruta /checklist-30-dias a App.tsx
+- [x] Testear y guardar checkpoint
