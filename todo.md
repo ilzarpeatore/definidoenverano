@@ -121,3 +121,9 @@
 - [x] Refactorizar PricingPhaseCard para mostrar fase actual
 - [x] Reorganizar posiciones (inicio, mitad, final)
 - [x] Testear y guardar checkpoint
+
+## Variantes de Recuadros de Fases
+- [x] Crear variantes de PricingPhaseCard (Current, Next, Future)
+- [x] Ajustar tamaño y visibilidad del contenido
+- [x] Actualizar Home.tsx con variantes correctas
+- [x] Testear y guardar checkpoint

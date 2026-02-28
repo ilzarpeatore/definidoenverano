@@ -31,7 +31,7 @@ export default function Home() {
         {/* Pricing Phases Section 1 - At the Beginning */}
         <section className="py-16 md:py-24 bg-background">
           <div className="container max-w-4xl mx-auto px-4">
-            <PricingPhaseCard />
+            <PricingPhaseCard variant="current" />
           </div>
         </section>
         
@@ -43,7 +43,7 @@ export default function Home() {
         {/* Pricing Phases Section 2 - At the Middle */}
         <section className="py-16 md:py-24 bg-card border-t border-border">
           <div className="container max-w-4xl mx-auto px-4">
-            <PricingPhaseCard />
+            <PricingPhaseCard variant="next" />
           </div>
         </section>
         
@@ -57,7 +57,7 @@ export default function Home() {
         {/* Pricing Phases Section 3 - At the End */}
         <section className="py-16 md:py-24 bg-background">
           <div className="container max-w-4xl mx-auto px-4">
-            <PricingPhaseCard />
+            <PricingPhaseCard variant="future" />
           </div>
         </section>
       </main>
