@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useLocation } from 'wouter';
 import { MessageSquare, Users, Zap, TrendingUp, Clock, Target } from 'lucide-react';
 
 /**
@@ -11,6 +12,7 @@ import { MessageSquare, Users, Zap, TrendingUp, Clock, Target } from 'lucide-rea
  */
 
 export default function CoachingSection() {
+  const [, navigate] = useLocation();
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -248,12 +250,12 @@ export default function CoachingSection() {
           <p className="text-gray-300 mb-6">
             ¿Listo para transformarte con apoyo profesional?
           </p>
-          <a
-            href="#cta"
-            className="inline-block bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-4 px-8 rounded-sm btn-glow transition-all"
+          <button
+            onClick={() => navigate('/assessment')}
+            className="inline-block bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-4 px-8 rounded-sm btn-glow transition-all cursor-pointer"
           >
             Comenzar Ahora
-          </a>
+          </button>
         </motion.div>
       </div>
     </div>

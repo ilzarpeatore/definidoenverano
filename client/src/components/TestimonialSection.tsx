@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
+import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState } from 'react';
 
 /**
  * Testimonial Section - Social Proof & Credibility
@@ -8,28 +9,11 @@ import { Star } from 'lucide-react';
  * - Relatable contexts (age, profession, challenges)
  * - Visual hierarchy with images and quotes
  * - Reduces perceived risk
+ * - Horizontal slider for better engagement
  */
 
 export default function TestimonialSection() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  };
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const testimonials = [
     {
@@ -67,6 +51,14 @@ export default function TestimonialSection() {
     },
   ];
 
+  const next = () => {
+    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+  };
+
+  const prev = () => {
+    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
   return (
     <section className="relative py-20 md:py-32 bg-background overflow-hidden">
       <div className="container max-w-6xl mx-auto px-4">
@@ -86,54 +78,92 @@ export default function TestimonialSection() {
           </h2>
         </motion.div>
 
-        {/* Testimonials Grid */}
+        {/* Testimonials Slider */}
         <motion.div
-          className="grid md:grid-cols-3 gap-8 mb-16"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
+          className="relative"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          {testimonials.map((testimonial, index) => (
+          {/* Slider Container */}
+          <div className="overflow-hidden">
             <motion.div
-              key={index}
-              className="card-glass p-8 flex flex-col"
-              variants={itemVariants}
+              className="flex transition-transform duration-500 ease-out"
+              animate={{ x: -currentIndex * 100 + '%' }}
             >
-              {/* Rating */}
-              <div className="flex gap-1 mb-4">
-                {Array.from({ length: testimonial.rating }).map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-accent text-accent" />
-                ))}
-              </div>
+              {testimonials.map((testimonial, index) => (
+                <div key={index} className="w-full flex-shrink-0 px-4">
+                  <motion.div className="card-glass p-8 md:p-12 flex flex-col max-w-2xl mx-auto">
+                    {/* Rating */}
+                    <div className="flex gap-1 mb-6">
+                      {Array.from({ length: testimonial.rating }).map((_, i) => (
+                        <Star key={i} className="w-5 h-5 fill-accent text-accent" />
+                      ))}
+                    </div>
 
-              {/* Quote */}
-              <p className="text-gray-200 text-sm mb-6 flex-grow italic">
-                "{testimonial.quote}"
-              </p>
+                    {/* Quote */}
+                    <p className="text-gray-200 text-lg md:text-xl mb-8 flex-grow italic leading-relaxed">
+                      "{testimonial.quote}"
+                    </p>
 
-              {/* Divider */}
-              <div className="h-px bg-border mb-6"></div>
+                    {/* Divider */}
+                    <div className="h-px bg-border mb-8"></div>
 
-              {/* Author Info */}
-              <div className="flex items-center gap-4">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-12 h-12 rounded-full object-cover border border-accent/30"
-                />
-                <div>
-                  <p className="font-heading text-white text-sm">{testimonial.name}</p>
-                  <p className="text-gray-400 text-xs">{testimonial.age} años • {testimonial.role}</p>
-                  <p className="text-accent text-xs font-bold mt-1">{testimonial.results}</p>
+                    {/* Author Info */}
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={testimonial.image}
+                        alt={testimonial.name}
+                        className="w-16 h-16 rounded-full object-cover border-2 border-accent/30"
+                      />
+                      <div>
+                        <p className="font-heading text-white text-lg">{testimonial.name}</p>
+                        <p className="text-gray-400 text-sm">{testimonial.age} años • {testimonial.role}</p>
+                        <p className="text-accent text-sm font-bold mt-2">{testimonial.results}</p>
+                      </div>
+                    </div>
+                  </motion.div>
                 </div>
-              </div>
+              ))}
             </motion.div>
-          ))}
+          </div>
+
+          {/* Navigation Buttons */}
+          <div className="flex justify-center gap-4 mt-8">
+            <button
+              onClick={prev}
+              className="p-3 rounded-full bg-accent/10 hover:bg-accent/20 text-accent transition-colors"
+              aria-label="Previous testimonial"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+              onClick={next}
+              className="p-3 rounded-full bg-accent/10 hover:bg-accent/20 text-accent transition-colors"
+              aria-label="Next testimonial"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </div>
+
+          {/* Dots Indicator */}
+          <div className="flex justify-center gap-2 mt-6">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  index === currentIndex ? 'bg-accent' : 'bg-gray-600'
+                }`}
+                aria-label={`Go to testimonial ${index + 1}`}
+              />
+            ))}
+          </div>
         </motion.div>
 
         {/* Divider */}
-        <div className="divider-gold"></div>
+        <div className="divider-gold mt-16"></div>
       </div>
     </section>
   );

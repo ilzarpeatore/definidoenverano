@@ -1,15 +1,19 @@
 import { motion } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState } from 'react';
 
 /**
  * Transformation Gallery - Social Proof Through Visuals
  * Design Philosophy: Real Results, Real People
  * - Multiple before/after comparisons
- * - Grid layout for maximum impact
+ * - Horizontal slider for better engagement
  * - Subtle animations on scroll
  * - Gold accents for consistency
  */
 
 export default function TransformationGallery() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   const transformations = [
     {
       id: 1,
@@ -35,7 +39,33 @@ export default function TransformationGallery() {
       title: 'Transformación 4',
       description: 'Cuerpo completamente diferente',
     },
+    {
+      id: 5,
+      image: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/ovvPetUYCIuneRFJ.webp',
+      title: 'Transformación 5',
+      description: 'Pérdida de grasa visible',
+    },
+    {
+      id: 6,
+      image: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/XJMaXAoygdoBdaxp.webp',
+      title: 'Transformación 6',
+      description: 'Ganancia muscular progresiva',
+    },
+    {
+      id: 7,
+      image: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/GvqtOJAsCqfLpUCB.webp',
+      title: 'Transformación 7',
+      description: 'Cambio total de composición',
+    },
   ];
+
+  const next = () => {
+    setCurrentIndex((prev) => (prev + 1) % transformations.length);
+  };
+
+  const prev = () => {
+    setCurrentIndex((prev) => (prev - 1 + transformations.length) % transformations.length);
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -87,46 +117,86 @@ export default function TransformationGallery() {
           </motion.p>
         </motion.div>
 
-        {/* Gallery Grid */}
+        {/* Gallery Slider */}
         <motion.div
-          className="grid md:grid-cols-2 gap-6 mb-12"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
+          className="relative mb-12"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true, margin: '-100px' }}
         >
-          {transformations.map((transformation) => (
+          {/* Slider Container */}
+          <div className="overflow-hidden">
             <motion.div
-              key={transformation.id}
-              className="relative group overflow-hidden rounded-sm"
-              variants={itemVariants}
-              whileHover={{ y: -5 }}
+              className="flex transition-transform duration-500 ease-out"
+              animate={{ x: -currentIndex * 100 + '%' }}
             >
-              {/* Image Container */}
-              <div className="relative overflow-hidden bg-black">
-                <img
-                  src={transformation.image}
-                  alt={transformation.title}
-                  className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300"
-                />
+              {transformations.map((transformation) => (
+                <div key={transformation.id} className="w-full flex-shrink-0 px-2 md:px-4">
+                  <motion.div
+                    className="relative group overflow-hidden rounded-sm h-96 md:h-96"
+                    whileHover={{ y: -5 }}
+                  >
+                    {/* Image Container */}
+                    <div className="relative overflow-hidden bg-black h-full">
+                      <img
+                        src={transformation.image}
+                        alt={transformation.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
 
-                {/* Overlay on Hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-start p-6">
-                  <div>
-                    <h3 className="font-heading text-white text-lg mb-1">
-                      {transformation.title}
-                    </h3>
-                    <p className="text-accent text-sm font-bold">
-                      {transformation.description}
-                    </p>
-                  </div>
+                      {/* Overlay on Hover */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-start p-6">
+                        <div>
+                          <h3 className="font-heading text-white text-lg mb-1">
+                            {transformation.title}
+                          </h3>
+                          <p className="text-accent text-sm font-bold">
+                            {transformation.description}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Gold Border */}
+                      <div className="absolute inset-0 border-2 border-accent/30 pointer-events-none group-hover:border-accent/60 transition-colors duration-300"></div>
+                    </div>
+                  </motion.div>
                 </div>
-
-                {/* Gold Border */}
-                <div className="absolute inset-0 border-2 border-accent/30 pointer-events-none group-hover:border-accent/60 transition-colors duration-300"></div>
-              </div>
+              ))}
             </motion.div>
-          ))}
+          </div>
+
+          {/* Navigation Buttons */}
+          <div className="flex justify-center gap-4 mt-8">
+            <button
+              onClick={prev}
+              className="p-3 rounded-full bg-accent/10 hover:bg-accent/20 text-accent transition-colors"
+              aria-label="Previous transformation"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+              onClick={next}
+              className="p-3 rounded-full bg-accent/10 hover:bg-accent/20 text-accent transition-colors"
+              aria-label="Next transformation"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </div>
+
+          {/* Dots Indicator */}
+          <div className="flex justify-center gap-2 mt-6 flex-wrap">
+            {transformations.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  index === currentIndex ? 'bg-accent' : 'bg-gray-600'
+                }`}
+                aria-label={`Go to transformation ${index + 1}`}
+              />
+            ))}
+          </div>
         </motion.div>
 
         {/* Stats */}
@@ -149,25 +219,6 @@ export default function TransformationGallery() {
             <div className="text-4xl font-bold text-accent mb-2">92%</div>
             <p className="text-gray-300">Tasa de Satisfacción</p>
           </div>
-        </motion.div>
-
-        {/* CTA */}
-        <motion.div
-          className="text-center mt-16"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
-          <p className="text-gray-300 mb-6 text-lg">
-            ¿Listo para ser la próxima transformación?
-          </p>
-          <a
-            href="#cta"
-            className="inline-block bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-4 px-8 rounded-sm btn-glow transition-all"
-          >
-            Comienza tu Transformación
-          </a>
         </motion.div>
       </div>
     </section>

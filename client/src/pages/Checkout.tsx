@@ -190,9 +190,11 @@ export default function Checkout() {
                 </div>
 
                 {/* Pricing Progress */}
-                <div className="mb-6">
-                  <PricingProgressBar />
-                </div>
+                {pricing && (
+                  <div className="mb-6">
+                    <PricingProgressBar />
+                  </div>
+                )}
 
                 {/* Total */}
                 <div className="mb-6">

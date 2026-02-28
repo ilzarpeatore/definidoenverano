@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
 import { useLocation } from 'wouter';
+import { trpc } from '@/lib/trpc';
 
 /**
  * Hero Section - Dark Gym Aesthetic
@@ -14,6 +15,7 @@ import { useLocation } from 'wouter';
 
 export default function HeroSection() {
   const [, navigate] = useLocation();
+  const { data: pricing } = trpc.pricing.getCurrent.useQuery();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -77,6 +79,17 @@ export default function HeroSection() {
         >
           Para hombres ocupados que quieren volver a mirarse al espejo con confianza. Sin dietas extremas, sin sacrificar tu vida profesional.
         </motion.p>
+
+        {/* Price Display */}
+        {pricing && (
+          <motion.div variants={itemVariants} className="mb-8">
+            <p className="text-sm text-amber-400 font-semibold">PRECIO ACTUAL</p>
+            <p className="text-4xl font-bold text-amber-300">€{pricing.currentPrice}</p>
+            {!pricing.isLastPhase && (
+              <p className="text-xs text-amber-200 mt-2">Sube a €{pricing.nextPrice} en {pricing.daysUntilNextPhase} día{pricing.daysUntilNextPhase !== 1 ? 's' : ''}</p>
+            )}
+          </motion.div>
+        )}
 
         {/* CTA Button */}
         <motion.div variants={itemVariants} className="mb-12">

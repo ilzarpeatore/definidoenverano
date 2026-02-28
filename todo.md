@@ -51,6 +51,11 @@
 - [ ] Integrar Brevo para emails de bienvenida automáticos
 - [ ] Cambiar precio de vuelta a €197 (actualmente es €0.50 para pruebas)
 
+## UX Improvements (Current Session)
+- [x] Convertir TestimonialSection a slider horizontal
+- [x] Expandir TransformationGallery con 7 transformaciones
+- [x] Convertir TransformationGallery a slider horizontal
+
 ## Testing
 - [x] Stripe LIVE payment flow (tested successfully)
 - [x] Stripe Checkout redirect (tested successfully)
