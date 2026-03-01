@@ -8,6 +8,7 @@ import { leadsRouter } from "./leadsRouter";
 import { getPricingInfo } from "./pricing";
 import { saveInformedConsent } from "./db";
 import { z } from "zod";
+import { freeWeekRouter } from "./freeWeekRouter";
 
 export const appRouter = router({
   system: systemRouter,
@@ -27,6 +28,7 @@ export const appRouter = router({
   payments: paymentsRouter,
   admin: adminRouter,
   leads: leadsRouter,
+  freeWeek: freeWeekRouter,
   consent: router({
     save: publicProcedure
       .input(

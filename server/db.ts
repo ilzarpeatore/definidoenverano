@@ -1,6 +1,6 @@
 import { eq, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, informedConsents, InsertInformedConsent, customers, orders, assessmentResponses } from "../drizzle/schema";
+import { InsertUser, users, informedConsents, InsertInformedConsent, customers, orders, assessmentResponses, freeWeekSignups, InsertFreeWeekSignup } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -217,6 +217,40 @@ export async function getAssessmentWithDetails(assessmentId: number) {
     };
   } catch (error) {
     console.error("[Database] Failed to get assessment with details:", error);
+    throw error;
+  }
+}
+
+export async function createFreeWeekSignup(data: Omit<InsertFreeWeekSignup, 'createdAt' | 'updatedAt' | 'accessToken' | 'accessExpiresAt'> & { accessToken: string; accessExpiresAt: Date }) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  try {
+    const result = await db.insert(freeWeekSignups).values({
+      ...data,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+    return result;
+  } catch (error) {
+    console.error("[Database] Failed to create free week signup:", error);
+    throw error;
+  }
+}
+
+export async function getFreeWeekSignup(email: string) {
+  const db = await getDb();
+  if (!db) {
+    return undefined;
+  }
+
+  try {
+    const result = await db.select().from(freeWeekSignups).where(eq(freeWeekSignups.email, email)).limit(1);
+    return result[0] || undefined;
+  } catch (error) {
+    console.error("[Database] Failed to get free week signup:", error);
     throw error;
   }
 }

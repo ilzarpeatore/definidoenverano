@@ -21,6 +21,7 @@ import RefundPolicy from "./pages/RefundPolicy";
 import Guide7Mistakes from "./pages/Guide7Mistakes";
 import CalorieCalculator from "./pages/CalorieCalculator";
 import ChecklistDay30 from "./pages/ChecklistDay30";
+import FreeWeekLanding from "./pages/FreeWeekLanding";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -41,6 +42,7 @@ function Router() {
       <Route path={"/guide"} component={Guide7Mistakes} />
       <Route path={"/calculadora"} component={CalorieCalculator} />
       <Route path={"/checklist-30-dias"} component={ChecklistDay30} />
+      <Route path={"/free-week"} component={FreeWeekLanding} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

@@ -43,6 +43,13 @@
       "when": 1772286849759,
       "tag": "0005_unusual_gabe_jones",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1772381732889,
+      "tag": "0006_brainy_talkback",
+      "breakpoints": true
     }
   ]
 }

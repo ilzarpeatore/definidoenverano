@@ -162,3 +162,24 @@ export const informedConsents = mysqlTable("informedConsents", {
 
 export type InformedConsent = typeof informedConsents.$inferSelect;
 export type InsertInformedConsent = typeof informedConsents.$inferInsert;
+
+/**
+ * Free Week Signups - Registros para acceso a semana gratuita
+ */
+export const freeWeekSignups = mysqlTable("freeWeekSignups", {
+  id: int("id").autoincrement().primaryKey(),
+  email: varchar("email", { length: 320 }).notNull().unique(),
+  firstName: varchar("firstName", { length: 100 }).notNull(),
+  objective: varchar("objective", { length: 100 }).notNull(),
+  experience: varchar("experience", { length: 50 }).notNull(),
+  availableTime: varchar("availableTime", { length: 50 }).notNull(),
+  yearsTraining: varchar("yearsTraining", { length: 50 }).notNull(),
+  accessToken: varchar("accessToken", { length: 255 }).notNull().unique(),
+  accessExpiresAt: timestamp("accessExpiresAt").notNull(),
+  status: mysqlEnum("status", ["active", "expired", "converted"]).default("active").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type FreeWeekSignup = typeof freeWeekSignups.$inferSelect;
+export type InsertFreeWeekSignup = typeof freeWeekSignups.$inferInsert;
