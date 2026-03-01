@@ -1,238 +1,410 @@
-import { useState } from 'react';
-import { useLocation } from 'wouter';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Label } from '@/components/ui/label';
+import { ChevronRight, ChevronLeft, Loader2 } from 'lucide-react';
+import { useLocation } from 'wouter';
 import { trpc } from '@/lib/trpc';
-import { Loader2, CheckCircle2 } from 'lucide-react';
+import { toast } from 'sonner';
+
+/**
+ * Free Week Landing - Dynamic Assessment
+ * Design Philosophy: Same as Assessment but for free trial signup
+ * - Multi-step form with smooth animations
+ * - Builds excitement for free week access
+ * - Collects assessment data for personalization
+ * - Maintains Dark Gym Aesthetic
+ */
+
+interface FreeWeekData {
+  firstName: string;
+  email: string;
+  objective: string;
+  experience: string;
+  availableTime: string;
+  yearsTraining: string;
+}
 
 export default function FreeWeekLanding() {
   const [, navigate] = useLocation();
-  const [step, setStep] = useState<'form' | 'success'>('form');
-  const [formData, setFormData] = useState({
-    email: '',
+  const [step, setStep] = useState(0);
+  const [data, setData] = useState<FreeWeekData>({
     firstName: '',
+    email: '',
     objective: '',
     experience: '',
     availableTime: '',
     yearsTraining: '',
   });
-  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const createFreeWeekMutation = trpc.freeWeek.create.useMutation({
-    onSuccess: () => {
-      setStep('success');
-      setTimeout(() => {
-        navigate('/');
-      }, 3000);
-    },
-    onError: (error: any) => {
-      setErrors({ submit: error.message });
-    },
-  });
+  const [errors, setErrors] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const validateForm = () => {
-    const newErrors: Record<string, string> = {};
+  const createFreeWeekMutation = trpc.freeWeek.create.useMutation();
 
-    if (!formData.email) newErrors.email = 'Email requerido';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = 'Email inválido';
+  // Track free week page view
+  useEffect(() => {
+    if (window.fbq) {
+      window.fbq('track', 'ViewContent', {
+        content_name: 'Free Week Landing',
+        content_type: 'page',
+      });
+    }
+  }, []);
 
-    if (!formData.firstName) newErrors.firstName = 'Nombre requerido';
-    if (!formData.objective) newErrors.objective = 'Selecciona tu objetivo';
-    if (!formData.experience) newErrors.experience = 'Selecciona tu experiencia';
-    if (!formData.availableTime) newErrors.availableTime = 'Selecciona tu disponibilidad';
-    if (!formData.yearsTraining) newErrors.yearsTraining = 'Selecciona tus años de entrenamiento';
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validateForm()) {
-      createFreeWeekMutation.mutate(formData);
+  // Track when user completes free week signup
+  const trackFreeWeekSignup = () => {
+    if (window.fbq) {
+      window.fbq('track', 'Lead', {
+        content_name: 'Free Week Signup',
+        content_type: 'page',
+      });
     }
   };
 
-  if (step === 'success') {
+  const steps = [
+    {
+      title: '¿Cuál es tu objetivo principal?',
+      subtitle: 'Personalizaremos tu plan según tu meta',
+      type: 'radio',
+      field: 'objective',
+      options: [
+        { value: 'lose-fat', label: 'Perder grasa y definir' },
+        { value: 'gain-muscle', label: 'Ganar músculo' },
+        { value: 'both', label: 'Ambos (recomposición)' },
+        { value: 'strength', label: 'Aumentar fuerza' },
+      ],
+    },
+    {
+      title: '¿Cuál es tu nivel de experiencia?',
+      subtitle: 'Esto nos ayuda a ajustar la intensidad',
+      type: 'radio',
+      field: 'experience',
+      options: [
+        { value: 'beginner', label: 'Principiante (nunca he entrenado)' },
+        { value: 'intermediate', label: 'Intermedio (entreno ocasionalmente)' },
+        { value: 'advanced', label: 'Avanzado (entreno regularmente)' },
+      ],
+    },
+    {
+      title: '¿Cuántos años llevas entrenando?',
+      subtitle: 'Queremos entender tu trayectoria',
+      type: 'radio',
+      field: 'yearsTraining',
+      options: [
+        { value: 'none', label: 'Menos de 1 año' },
+        { value: '1-3', label: '1-3 años' },
+        { value: '3-5', label: '3-5 años' },
+        { value: '5plus', label: 'Más de 5 años' },
+      ],
+    },
+    {
+      title: '¿Cuánto tiempo puedes dedicar a entrenar?',
+      subtitle: 'Crearemos un plan realista para ti',
+      type: 'radio',
+      field: 'availableTime',
+      options: [
+        { value: '30min', label: 'Menos de 30 minutos/día' },
+        { value: '30-60min', label: '30-60 minutos/día' },
+        { value: '60-90min', label: '60-90 minutos/día' },
+        { value: '90plus', label: 'Más de 90 minutos/día' },
+      ],
+    },
+  ];
+
+  const isLastStep = step === steps.length;
+  const currentStep = steps[step];
+  const progress = ((step + 1) / (steps.length + 1)) * 100;
+
+  const handleNext = () => {
+    if (currentStep && !data[currentStep.field as keyof FreeWeekData]) {
+      setErrors(['Por favor, selecciona una opción']);
+      return;
+    }
+    setErrors([]);
+    setStep(step + 1);
+  };
+
+  const handlePrev = () => {
+    setErrors([]);
+    setStep(Math.max(0, step - 1));
+  };
+
+  const handleSubmit = async () => {
+    // Validar todos los campos
+    if (!data.firstName || !data.email) {
+      setErrors(['Por favor, completa tu nombre y email']);
+      return;
+    }
+
+    if (!data.objective || !data.experience || !data.availableTime || !data.yearsTraining) {
+      setErrors(['Por favor, completa todas las preguntas']);
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      trackFreeWeekSignup();
+      
+      await createFreeWeekMutation.mutateAsync({
+        email: data.email,
+        firstName: data.firstName,
+        objective: data.objective,
+        experience: data.experience,
+        availableTime: data.availableTime,
+        yearsTraining: data.yearsTraining,
+      });
+
+      toast.success('¡Bienvenido! Revisa tu email para acceder a tu semana gratuita');
+      
+      // Redirigir a home después de 2 segundos
+      setTimeout(() => {
+        navigate('/');
+      }, 2000);
+    } catch (error) {
+      console.error('Error creating free week signup:', error);
+      toast.error('Error al procesar tu solicitud. Intenta de nuevo.');
+      setErrors(['Error al procesar tu solicitud. Intenta de nuevo.']);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Mostrar formulario de contacto en el último paso
+  if (isLastStep) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-background to-background/80 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md p-8 text-center border-gold/30 bg-card/50">
-          <CheckCircle2 className="w-16 h-16 mx-auto mb-4 text-gold" />
-          <h1 className="text-2xl font-bold mb-2">¡Bienvenido!</h1>
-          <p className="text-foreground/80 mb-4">
-            Hemos enviado tu acceso a la semana gratuita a <strong>{formData.email}</strong>
-          </p>
-          <p className="text-sm text-foreground/60">
-            Redirigiendo a la landing en unos segundos...
-          </p>
-        </Card>
+      <div className="min-h-screen bg-background text-foreground flex flex-col">
+        {/* Header */}
+        <div className="bg-card border-b border-border py-6">
+          <div className="container max-w-2xl mx-auto px-4">
+            <h1 className="font-display text-3xl md:text-4xl text-white mb-2">
+              Casi listo
+            </h1>
+            <p className="text-gray-400">
+              Solo necesitamos tu información de contacto
+            </p>
+          </div>
+        </div>
+
+        {/* Progress Bar */}
+        <div className="bg-card border-b border-border py-4">
+          <div className="container max-w-2xl mx-auto px-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-gray-400">
+                Paso {step + 1} de {steps.length + 1}
+              </span>
+              <span className="text-sm text-accent font-bold">{Math.round(progress)}%</span>
+            </div>
+            <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+              <motion.div
+                className="bg-accent h-full"
+                initial={{ width: 0 }}
+                animate={{ width: `${progress}%` }}
+                transition={{ duration: 0.5 }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 flex items-center justify-center py-12">
+          <motion.div
+            className="container max-w-2xl mx-auto px-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="space-y-6 mb-12">
+              <div>
+                <label className="block text-sm font-medium text-gray-200 mb-2">
+                  Nombre *
+                </label>
+                <input
+                  type="text"
+                  value={data.firstName}
+                  onChange={(e) => setData({ ...data, firstName: e.target.value })}
+                  placeholder="Juan"
+                  className="w-full px-4 py-3 bg-card border border-border rounded-sm text-white placeholder-gray-500 focus:outline-none focus:border-accent"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-200 mb-2">
+                  Email *
+                </label>
+                <input
+                  type="email"
+                  value={data.email}
+                  onChange={(e) => setData({ ...data, email: e.target.value })}
+                  placeholder="tu@email.com"
+                  className="w-full px-4 py-3 bg-card border border-border rounded-sm text-white placeholder-gray-500 focus:outline-none focus:border-accent"
+                />
+              </div>
+
+              <p className="text-xs text-gray-400">
+                Al continuar, aceptas nuestra <a href="/terms" className="text-accent hover:underline">Política de Privacidad</a> y recibirás información sobre el programa.
+              </p>
+            </div>
+
+            {/* Errors */}
+            {errors.length > 0 && (
+              <motion.div
+                className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-sm text-red-400 text-sm"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                {errors[0]}
+              </motion.div>
+            )}
+
+            {/* Navigation Buttons */}
+            <div className="flex gap-4">
+              <Button
+                variant="outline"
+                onClick={handlePrev}
+                className="flex-1"
+              >
+                <ChevronLeft className="w-4 h-4 mr-2" />
+                Atrás
+              </Button>
+              <Button
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                className="flex-1 bg-accent hover:bg-accent/90 text-black"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Procesando...
+                  </>
+                ) : (
+                  <>
+                    Acceder a mi Semana Gratis
+                    <ChevronRight className="w-4 h-4 ml-2" />
+                  </>
+                )}
+              </Button>
+            </div>
+          </motion.div>
+        </div>
       </div>
     );
   }
 
+  // Mostrar preguntas del assessment
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-background/80 py-12 px-4">
-      <div className="max-w-2xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="text-gold">7 Días Gratis</span>
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
+      {/* Header */}
+      <div className="bg-card border-b border-border py-6">
+        <div className="container max-w-2xl mx-auto px-4">
+          <h1 className="font-display text-3xl md:text-4xl text-white mb-2">
+            Tu Semana Gratuita
           </h1>
-          <p className="text-xl text-foreground/80 mb-2">
-            Acceso completo al Protocolo APEX 90™
-          </p>
-          <p className="text-foreground/60">
-            Sin tarjeta de crédito. Sin compromiso. Solo resultados.
+          <p className="text-gray-400">
+            Responde estas preguntas para personalizar tu plan
           </p>
         </div>
+      </div>
 
-        {/* Form Card */}
-        <Card className="border-gold/30 bg-card/50 p-8 mb-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email and Name */}
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="email" className="text-foreground">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="tu@email.com"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="mt-2 bg-background/50 border-border/50"
-                />
-                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-              </div>
-              <div>
-                <Label htmlFor="firstName" className="text-foreground">Nombre</Label>
-                <Input
-                  id="firstName"
-                  type="text"
-                  placeholder="Tu nombre"
-                  value={formData.firstName}
-                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                  className="mt-2 bg-background/50 border-border/50"
-                />
-                {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>}
-              </div>
-            </div>
+      {/* Progress Bar */}
+      <div className="bg-card border-b border-border py-4">
+        <div className="container max-w-2xl mx-auto px-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm text-gray-400">
+              Paso {step + 1} de {steps.length + 1}
+            </span>
+            <span className="text-sm text-accent font-bold">{Math.round(progress)}%</span>
+          </div>
+          <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+            <motion.div
+              className="bg-accent h-full"
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.5 }}
+            />
+          </div>
+        </div>
+      </div>
 
-            {/* Objective */}
-            <div>
-              <Label className="text-foreground mb-3 block">¿Cuál es tu objetivo principal?</Label>
-              <RadioGroup value={formData.objective} onValueChange={(value) => setFormData({ ...formData, objective: value })}>
-                <div className="space-y-2">
-                  {['Perder grasa', 'Ganar músculo', 'Mejorar rendimiento', 'Transformación completa'].map((opt) => (
-                    <div key={opt} className="flex items-center space-x-2">
-                      <RadioGroupItem value={opt} id={`obj-${opt}`} />
-                      <Label htmlFor={`obj-${opt}`} className="font-normal cursor-pointer">{opt}</Label>
-                    </div>
-                  ))}
-                </div>
-              </RadioGroup>
-              {errors.objective && <p className="text-red-500 text-sm mt-2">{errors.objective}</p>}
-            </div>
+      {/* Main Content */}
+      <div className="flex-1 flex items-center justify-center py-12">
+        <motion.div
+          className="container max-w-2xl mx-auto px-4"
+          key={step}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="mb-12">
+            <h2 className="font-display text-2xl md:text-3xl text-white mb-3">
+              {currentStep.title}
+            </h2>
+            <p className="text-gray-400 text-lg">
+              {currentStep.subtitle}
+            </p>
+          </div>
 
-            {/* Experience Level */}
-            <div>
-              <Label htmlFor="experience" className="text-foreground">¿Cuál es tu nivel de experiencia?</Label>
-              <Select value={formData.experience} onValueChange={(value) => setFormData({ ...formData, experience: value })}>
-                <SelectTrigger id="experience" className="mt-2 bg-background/50 border-border/50">
-                  <SelectValue placeholder="Selecciona tu nivel" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="principiante">Principiante (0-1 año)</SelectItem>
-                  <SelectItem value="intermedio">Intermedio (1-3 años)</SelectItem>
-                  <SelectItem value="avanzado">Avanzado (3+ años)</SelectItem>
-                </SelectContent>
-              </Select>
-              {errors.experience && <p className="text-red-500 text-sm mt-1">{errors.experience}</p>}
-            </div>
-
-            {/* Available Time */}
-            <div>
-              <Label htmlFor="availableTime" className="text-foreground">¿Cuánto tiempo puedes dedicar por semana?</Label>
-              <Select value={formData.availableTime} onValueChange={(value) => setFormData({ ...formData, availableTime: value })}>
-                <SelectTrigger id="availableTime" className="mt-2 bg-background/50 border-border/50">
-                  <SelectValue placeholder="Selecciona tu disponibilidad" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="menos-3">Menos de 3 horas</SelectItem>
-                  <SelectItem value="3-5">3-5 horas</SelectItem>
-                  <SelectItem value="5-7">5-7 horas</SelectItem>
-                  <SelectItem value="mas-7">Más de 7 horas</SelectItem>
-                </SelectContent>
-              </Select>
-              {errors.availableTime && <p className="text-red-500 text-sm mt-1">{errors.availableTime}</p>}
-            </div>
-
-            {/* Years Training */}
-            <div>
-              <Label htmlFor="yearsTraining" className="text-foreground">¿Cuántos años llevas entrenando?</Label>
-              <Select value={formData.yearsTraining} onValueChange={(value) => setFormData({ ...formData, yearsTraining: value })}>
-                <SelectTrigger id="yearsTraining" className="mt-2 bg-background/50 border-border/50">
-                  <SelectValue placeholder="Selecciona tu experiencia" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="0">Nunca he entrenado</SelectItem>
-                  <SelectItem value="1">Menos de 1 año</SelectItem>
-                  <SelectItem value="2">1-2 años</SelectItem>
-                  <SelectItem value="5">2-5 años</SelectItem>
-                  <SelectItem value="10">5-10 años</SelectItem>
-                  <SelectItem value="10+">Más de 10 años</SelectItem>
-                </SelectContent>
-              </Select>
-              {errors.yearsTraining && <p className="text-red-500 text-sm mt-1">{errors.yearsTraining}</p>}
-            </div>
-
-            {/* Legal Notice */}
-            <div className="bg-background/50 border border-border/30 rounded-lg p-4 text-sm text-foreground/70">
-              <p className="mb-2">
-                ✓ Al registrarte, aceptas recibir información sobre el Protocolo APEX 90™ y promociones especiales.
-              </p>
-              <p>
-                Puedes darte de baja en cualquier momento. <a href="/privacy-policy" className="text-gold hover:underline">Ver política de privacidad</a>
-              </p>
-            </div>
-
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              disabled={createFreeWeekMutation.isPending}
-              className="w-full bg-gold hover:bg-gold/90 text-black font-bold py-6 text-lg"
+          {/* Radio Options */}
+          <div className="space-y-4 mb-12">
+            <RadioGroup
+              value={data[currentStep.field as keyof FreeWeekData] as string}
+              onValueChange={(value) => {
+                setData({ ...data, [currentStep.field]: value });
+                setErrors([]);
+              }}
             >
-              {createFreeWeekMutation.isPending ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Procesando...
-                </>
-              ) : (
-                'ACCESO INMEDIATO A 7 DÍAS GRATIS'
-              )}
+              {currentStep.options.map((option) => (
+                <motion.div
+                  key={option.value}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex items-center space-x-3 p-4 rounded-sm border border-border hover:border-accent/50 cursor-pointer transition-colors"
+                >
+                  <RadioGroupItem value={option.value} id={option.value} />
+                  <Label
+                    htmlFor={option.value}
+                    className="flex-1 cursor-pointer text-base text-gray-200 hover:text-white"
+                  >
+                    {option.label}
+                  </Label>
+                </motion.div>
+              ))}
+            </RadioGroup>
+          </div>
+
+          {/* Errors */}
+          {errors.length > 0 && (
+            <motion.div
+              className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-sm text-red-400 text-sm"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              {errors[0]}
+            </motion.div>
+          )}
+
+          {/* Navigation Buttons */}
+          <div className="flex gap-4">
+            <Button
+              variant="outline"
+              onClick={handlePrev}
+              disabled={step === 0}
+              className="flex-1"
+            >
+              <ChevronLeft className="w-4 h-4 mr-2" />
+              Atrás
             </Button>
-
-            {errors.submit && <p className="text-red-500 text-center">{errors.submit}</p>}
-          </form>
-        </Card>
-
-        {/* Benefits */}
-        <div className="grid md:grid-cols-3 gap-4">
-          {[
-            { icon: '✓', title: 'Acceso Completo', desc: 'App + Entrenamientos + Nutrición' },
-            { icon: '✓', title: 'Sin Tarjeta', desc: 'No requiere datos de pago' },
-            { icon: '✓', title: 'Sin Compromiso', desc: 'Cancela cuando quieras' },
-          ].map((benefit, idx) => (
-            <Card key={idx} className="border-border/30 bg-background/50 p-4 text-center">
-              <div className="text-2xl text-gold mb-2">{benefit.icon}</div>
-              <h3 className="font-bold mb-1">{benefit.title}</h3>
-              <p className="text-sm text-foreground/60">{benefit.desc}</p>
-            </Card>
-          ))}
-        </div>
+            <Button
+              onClick={handleNext}
+              className="flex-1 bg-accent hover:bg-accent/90 text-black"
+            >
+              Siguiente
+              <ChevronRight className="w-4 h-4 ml-2" />
+            </Button>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
