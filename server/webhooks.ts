@@ -151,13 +151,13 @@ async function handleCheckoutSessionCompleted(
     }
   }
 
-  // Send "Post compra" email with Brevo (Template ID: 1)
+  // Send "Confirmación de compra" email with Brevo (Template ID: 5)
   try {
     const customer = await getCustomerByEmail(customerId);
     if (customer) {
       await sendBrevoEmail(
         customer.email,
-        1,
+        5, // Template ID for "Confirmación de compra"
         {
           firstName: customer.firstName || "Cliente",
           lastName: customer.lastName || "",
@@ -166,11 +166,11 @@ async function handleCheckoutSessionCompleted(
           currency: currency.toUpperCase(),
         }
       );
-      console.log(`[Webhook] Post compra email sent to: ${customer.email}`);
+      console.log(`[Webhook] Confirmación de compra email sent to: ${customer.email}`);
     }
   } catch (error) {
     const err = error as Error;
-    console.error("[Webhook] Error sending post compra email:", err.message);
+    console.error("[Webhook] Error sending confirmación de compra email:", err.message);
   }
 }
 

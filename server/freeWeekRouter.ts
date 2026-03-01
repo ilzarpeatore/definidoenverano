@@ -2,7 +2,7 @@ import { publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
 import { createFreeWeekSignup } from "./db";
 import { randomBytes } from "crypto";
-import axios from "axios";
+import { sendBrevoEmail } from "./brevo";
 
 export const freeWeekRouter = router({
   create: publicProcedure
@@ -34,39 +34,17 @@ export const freeWeekRouter = router({
           accessExpiresAt,
         });
 
-        // Send welcome email with access link
+        // Send welcome email with access link using Brevo template #4
         const accessLink = `${process.env.VITE_APP_URL || "https://definidoenverano.bestronger.es"}/free-week-access?token=${accessToken}`;
 
-        // Send email via BREVO
+        // Send email via BREVO using template #4
         try {
-          await axios.post(
-            "https://api.brevo.com/v3/smtp/email",
+          await sendBrevoEmail(
+            input.email,
+            4, // Template ID for "Semana Gratuita"
             {
-              sender: { name: "Definido en Verano", email: "noreply@definidoenverano.com" },
-              to: [{ email: input.email, name: input.firstName }],
-              subject: "Tu acceso a 7 dias gratis esta listo!",
-              htmlContent: `
-                <h2>Hola ${input.firstName},</h2>
-                <p>Bienvenido al Protocolo APEX 90!</p>
-                <p>Tu acceso a 7 dias gratis esta listo. Haz clic en el boton de abajo para acceder:</p>
-                <p><a href="${accessLink}" style="background-color: #D4AF37; color: black; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block; font-weight: bold;">ACCEDER A MI SEMANA GRATIS</a></p>
-                <p>Este enlace es valido por 7 dias. Accede a:</p>
-                <ul>
-                  <li>App completa con entrenamientos personalizados</li>
-                  <li>Plan de nutricion adaptado a tu objetivo</li>
-                  <li>Seguimiento de progreso en tiempo real</li>
-                  <li>Acceso a la comunidad privada</li>
-                </ul>
-                <p>Si tienes alguna pregunta, responde a este email.</p>
-                <p>Que comience tu transformacion!</p>
-                <p>Equipo Definido en Verano</p>
-              `,
-            },
-            {
-              headers: {
-                "api-key": process.env.BREVO_API_KEY,
-                "Content-Type": "application/json",
-              },
+              firstName: input.firstName,
+              accessLink: accessLink,
             }
           );
           console.log("[FreeWeek] Email sent successfully to:", input.email);
