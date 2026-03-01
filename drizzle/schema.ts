@@ -176,6 +176,7 @@ export const freeWeekSignups = mysqlTable("freeWeekSignups", {
   yearsTraining: varchar("yearsTraining", { length: 50 }).notNull(),
   accessToken: varchar("accessToken", { length: 255 }).notNull().unique(),
   accessExpiresAt: timestamp("accessExpiresAt").notNull(),
+  source: mysqlEnum("source", ["ads", "popup", "direct"]).default("direct").notNull(),
   status: mysqlEnum("status", ["active", "expired", "converted"]).default("active").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

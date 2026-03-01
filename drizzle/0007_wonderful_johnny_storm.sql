@@ -1,0 +1,1 @@
+ALTER TABLE `freeWeekSignups` ADD `source` enum('ads','popup','direct') DEFAULT 'direct' NOT NULL;

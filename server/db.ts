@@ -1,4 +1,4 @@
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { InsertUser, users, informedConsents, InsertInformedConsent, customers, orders, assessmentResponses, freeWeekSignups, InsertFreeWeekSignup } from "../drizzle/schema";
 import { ENV } from './_core/env';
@@ -251,6 +251,62 @@ export async function getFreeWeekSignup(email: string) {
     return result[0] || undefined;
   } catch (error) {
     console.error("[Database] Failed to get free week signup:", error);
+    throw error;
+  }
+}
+
+export async function getAllFreeWeekSignups(limit: number = 50, offset: number = 0) {
+  const db = await getDb();
+  if (!db) {
+    return [];
+  }
+
+  try {
+    const result = await db
+      .select()
+      .from(freeWeekSignups)
+      .orderBy(desc(freeWeekSignups.createdAt))
+      .limit(limit)
+      .offset(offset);
+    return result;
+  } catch (error) {
+    console.error("[Database] Failed to get free week signups:", error);
+    throw error;
+  }
+}
+
+export async function getFreeWeekSignupsCount() {
+  const db = await getDb();
+  if (!db) {
+    return 0;
+  }
+
+  try {
+    const result = await db
+      .select({ count: sql`COUNT(*)` })
+      .from(freeWeekSignups);
+    return (result[0]?.count as number) || 0;
+  } catch (error) {
+    console.error("[Database] Failed to count free week signups:", error);
+    throw error;
+  }
+}
+
+export async function getFreeWeekSignupsBySource(source: 'ads' | 'popup' | 'direct') {
+  const db = await getDb();
+  if (!db) {
+    return [];
+  }
+
+  try {
+    const result = await db
+      .select()
+      .from(freeWeekSignups)
+      .where(eq(freeWeekSignups.source, source))
+      .orderBy(desc(freeWeekSignups.createdAt));
+    return result;
+  } catch (error) {
+    console.error("[Database] Failed to get free week signups by source:", error);
     throw error;
   }
 }

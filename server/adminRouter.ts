@@ -473,4 +473,41 @@ export const adminRouter = router({
       goals: [],
     };
   }),
+
+  // Obtener registros de semana gratuita
+  getFreeWeekSignups: publicProcedure
+    .input(
+      z.object({
+        limit: z.number().default(50),
+        offset: z.number().default(0),
+        source: z.enum(["ads", "popup", "direct", "all"]).optional(),
+      })
+    )
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+
+      try {
+        const { getAllFreeWeekSignups, getFreeWeekSignupsBySource, getFreeWeekSignupsCount } = await import("./db");
+
+        let signups;
+        if (input.source && input.source !== "all") {
+          signups = await getFreeWeekSignupsBySource(input.source);
+        } else {
+          signups = await getAllFreeWeekSignups(input.limit, input.offset);
+        }
+
+        const total = await getFreeWeekSignupsCount();
+
+        return {
+          signups,
+          total,
+          limit: input.limit,
+          offset: input.offset,
+        };
+      } catch (error) {
+        console.error("[Admin] Error getting free week signups:", error);
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      }
+    }),
 });

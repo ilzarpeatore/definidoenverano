@@ -11,7 +11,7 @@ export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [activeTab, setActiveTab] = useState<'stats' | 'customers' | 'orders' | 'assessments' | 'reports'>('stats');
+  const [activeTab, setActiveTab] = useState<'stats' | 'customers' | 'orders' | 'assessments' | 'freeWeek' | 'reports'>('stats');
   const [expandedAssessments, setExpandedAssessments] = useState<number[]>([]);
   const [expandedCustomers, setExpandedCustomers] = useState<number[]>([]);
   const [selectedCustomer, setSelectedCustomer] = useState<number | null>(null);
@@ -25,6 +25,7 @@ export default function AdminDashboard() {
   const [assessmentSearch, setAssessmentSearch] = useState('');
   const [assessmentGoal, setAssessmentGoal] = useState('');
   const [dateRange, setDateRange] = useState({ start: '', end: '' });
+  const [freeWeekSource, setFreeWeekSource] = useState<'all' | 'ads' | 'popup' | 'direct'>('all');
 
   const toggleAssessment = (customerId: number) => {
     setExpandedAssessments(prev =>
@@ -62,6 +63,10 @@ export default function AdminDashboard() {
   const customerNotesQuery = trpc.admin.getCustomerNotes.useQuery(
     { customerId: selectedCustomer || 0 },
     { enabled: selectedCustomer !== null && isAuthenticated }
+  );
+  const freeWeekQuery = trpc.admin.getFreeWeekSignups.useQuery(
+    { limit: 50, offset: 0, source: freeWeekSource !== 'all' ? freeWeekSource : undefined },
+    { enabled: isAuthenticated }
   );
 
   const addNoteMutation = trpc.admin.addCustomerNote.useMutation({
@@ -135,7 +140,7 @@ export default function AdminDashboard() {
 
       {/* Tabs */}
       <div className="border-b border-border flex">
-        {(['stats', 'customers', 'orders', 'assessments', 'reports'] as const).map(tab => (
+        {(['stats', 'customers', 'orders', 'assessments', 'freeWeek', 'reports'] as const).map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -546,6 +551,83 @@ export default function AdminDashboard() {
                 {addNoteMutation.isPending ? 'Guardando...' : 'Guardar Nota'}
               </Button>
             </div>
+          </div>
+        )}
+
+        {activeTab === 'freeWeek' && (
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-2xl font-bold text-white mb-4">Registros de Semana Gratuita</h2>
+              <div className="flex gap-4 mb-6">
+                <select
+                  value={freeWeekSource}
+                  onChange={(e) => setFreeWeekSource(e.target.value as any)}
+                  className="px-4 py-2 bg-card border border-border text-white rounded-sm focus:outline-none focus:border-accent"
+                >
+                  <option value="all">Todos los orígenes</option>
+                  <option value="ads">Publicidad</option>
+                  <option value="popup">Pop-up</option>
+                  <option value="direct">Directo</option>
+                </select>
+              </div>
+            </div>
+
+            {freeWeekQuery.isLoading ? (
+              <div className="flex justify-center py-12">
+                <Loader2 className="w-8 h-8 animate-spin text-accent" />
+              </div>
+            ) : freeWeekQuery.data?.signups?.length ? (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-gray-300">
+                  <thead className="bg-card border-b border-border">
+                    <tr>
+                      <th className="px-4 py-3 text-left font-semibold text-white">Email</th>
+                      <th className="px-4 py-3 text-left font-semibold text-white">Nombre</th>
+                      <th className="px-4 py-3 text-left font-semibold text-white">Objetivo</th>
+                      <th className="px-4 py-3 text-left font-semibold text-white">Origen</th>
+                      <th className="px-4 py-3 text-left font-semibold text-white">Estado</th>
+                      <th className="px-4 py-3 text-left font-semibold text-white">Fecha</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border">
+                    {freeWeekQuery.data.signups.map((signup: any) => (
+                      <tr key={signup.id} className="hover:bg-card/50">
+                        <td className="px-4 py-3">{signup.email}</td>
+                        <td className="px-4 py-3">{signup.firstName}</td>
+                        <td className="px-4 py-3 capitalize">{signup.objective}</td>
+                        <td className="px-4 py-3">
+                          <span className={`px-2 py-1 rounded-sm text-xs font-medium ${
+                            signup.source === 'ads' ? 'bg-blue-500/20 text-blue-400' :
+                            signup.source === 'popup' ? 'bg-purple-500/20 text-purple-400' :
+                            'bg-gray-500/20 text-gray-400'
+                          }`}>
+                            {signup.source === 'ads' ? 'Publicidad' :
+                             signup.source === 'popup' ? 'Pop-up' :
+                             'Directo'}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3">
+                          <span className={`px-2 py-1 rounded-sm text-xs font-medium ${
+                            signup.status === 'active' ? 'bg-green-500/20 text-green-400' :
+                            signup.status === 'converted' ? 'bg-accent/20 text-accent' :
+                            'bg-red-500/20 text-red-400'
+                          }`}>
+                            {signup.status === 'active' ? 'Activo' :
+                             signup.status === 'converted' ? 'Convertido' :
+                             'Expirado'}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3">{new Date(signup.createdAt).toLocaleDateString('es-ES')}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="text-center py-12 text-gray-400">
+                <p>No hay registros de semana gratuita</p>
+              </div>
+            )}
           </div>
         )}
       </div>
