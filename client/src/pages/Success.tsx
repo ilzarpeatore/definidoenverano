@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
 import { Check, Download, Mail, Users } from 'lucide-react';
 import { trpc } from '@/lib/trpc';
 import { toast } from 'sonner';
+import { fbTrackPurchase, fbTrackFreeWeekConversion } from '@/lib/pixels';
 
 /**
  * Success Page - Post-Purchase Confirmation
@@ -42,6 +43,16 @@ export default function Success() {
       toast.error('Error: No se encontró la orden. Vuelve al inicio.');
       navigate('/');
       return;
+    }
+
+    // Track purchase in Meta Pixel
+    if (successOrderId && orderData?.amount) {
+      fbTrackPurchase(successOrderId, orderData.amount);
+      // Also track if this is a free week conversion
+      const isFreeWeekConversion = localStorage.getItem('isFreeWeekUser') === 'true';
+      if (isFreeWeekConversion) {
+        fbTrackFreeWeekConversion(successOrderId, orderData.amount);
+      }
     }
 
     if (savedClientInfo) {

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Download, BookOpen, Calculator, CheckCircle2, X } from 'lucide-react';
 import { trpc } from '@/lib/trpc';
 import { toast } from 'sonner';
+import { fbTrackLeadMagnetDownload } from '@/lib/pixels';
 
 interface ResourceDownloadModalProps {
   resource: {
@@ -46,6 +47,9 @@ function ResourceDownloadModal({ resource, onClose, savedEmail, onEmailSaved }: 
         // Save email to localStorage for future access
         localStorage.setItem('resourceEmail', email);
         onEmailSaved(email);
+        
+        // Track lead magnet download in Meta Pixel
+        fbTrackLeadMagnetDownload(resource.id);
         
         // Open resource in new window
         window.open(resource.url, '_blank');

@@ -7,6 +7,7 @@ import { ChevronRight, ChevronLeft, Loader2 } from 'lucide-react';
 import { useLocation } from 'wouter';
 import { trpc } from '@/lib/trpc';
 import { toast } from 'sonner';
+import { fbTrackFreeWeekSignup } from '@/lib/pixels';
 
 /**
  * Free Week Landing - Dynamic Assessment
@@ -65,12 +66,7 @@ export default function FreeWeekLanding() {
 
   // Track when user completes free week signup
   const trackFreeWeekSignup = () => {
-    if (window.fbq) {
-      window.fbq('track', 'Lead', {
-        content_name: 'Free Week Signup',
-        content_type: 'page',
-      });
-    }
+    fbTrackFreeWeekSignup(data.email);
   };
 
   const steps = [

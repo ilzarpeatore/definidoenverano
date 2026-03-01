@@ -86,6 +86,33 @@ export function fbTrackLead(email: string) {
   });
 }
 
+export function fbTrackFreeWeekSignup(email: string) {
+  trackFBEvent(FB_EVENTS.LEAD, {
+    content_name: 'Free Week Signup',
+    content_category: 'Free Trial',
+    value: 0,
+    currency: 'EUR',
+  });
+}
+
+export function fbTrackFreeWeekConversion(orderId: string, amount: number) {
+  trackFBEvent(FB_EVENTS.PURCHASE, {
+    transaction_id: orderId,
+    value: amount,
+    currency: 'EUR',
+    content_name: 'Free Week Conversion',
+  });
+}
+
+export function fbTrackLeadMagnetDownload(magnetType: string) {
+  trackFBEvent(FB_EVENTS.LEAD, {
+    content_name: 'Lead Magnet Download',
+    content_category: magnetType,
+    value: 0,
+    currency: 'EUR',
+  });
+}
+
 // ============================================================
 // GOOGLE ADS PIXEL
 // ============================================================
