@@ -40,8 +40,18 @@ export default function FreeWeekLanding() {
 
   const [errors, setErrors] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [source, setSource] = useState<'ads' | 'popup' | 'direct'>('direct');
 
   const createFreeWeekMutation = trpc.freeWeek.create.useMutation();
+
+  // Capture source from URL parameter
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const sourceParam = params.get('source');
+    if (sourceParam === 'ads' || sourceParam === 'popup') {
+      setSource(sourceParam as 'ads' | 'popup');
+    }
+  }, []);
 
   // Track free week page view
   useEffect(() => {
@@ -154,6 +164,7 @@ export default function FreeWeekLanding() {
         experience: data.experience,
         availableTime: data.availableTime,
         yearsTraining: data.yearsTraining,
+        source: source,
       });
 
       toast.success('¡Bienvenido! Revisa tu email para acceder a tu semana gratuita');

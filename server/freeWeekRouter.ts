@@ -14,6 +14,7 @@ export const freeWeekRouter = router({
         experience: z.string(),
         availableTime: z.string(),
         yearsTraining: z.string(),
+        source: z.enum(["ads", "popup", "direct"]).optional(),
       })
     )
     .mutation(async ({ input }) => {
@@ -32,6 +33,7 @@ export const freeWeekRouter = router({
           yearsTraining: input.yearsTraining,
           accessToken,
           accessExpiresAt,
+          source: input.source || "direct",
         });
 
         // Send welcome email with access link using Brevo template #4
