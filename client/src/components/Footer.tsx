@@ -16,6 +16,13 @@ export default function Footer() {
         >
           {/* Brand */}
           <div>
+            <div className="mb-4">
+              <img
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/definido-en-verano-logo-fFFCQACJubwVFdVgqtnXMt.webp"
+                alt="Definido en Verano Logo"
+                className="h-16 w-16 object-contain"
+              />
+            </div>
             <h3 className="font-display text-2xl text-accent font-bold mb-2">
               DEFINIDO EN VERANO
             </h3>
