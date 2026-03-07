@@ -113,10 +113,10 @@ export function fbTrackLeadMagnetDownload(magnetType: string) {
   });
 }
 
-export function fbTrackSubmitApplication() {
+export function fbTrackStartTrial() {
   if (typeof window === 'undefined' || !(window as any).fbq) return;
-  (window as any).fbq('track', 'SubmitApplication');
-  console.log('[FB Pixel] Event: SubmitApplication');
+  (window as any).fbq('track', 'StartTrial');
+  console.log('[FB Pixel] Event: StartTrial');
 }
 
 // ============================================================

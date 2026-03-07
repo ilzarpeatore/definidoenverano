@@ -7,7 +7,7 @@ import { ChevronRight, ChevronLeft, Loader2 } from 'lucide-react';
 import { useLocation } from 'wouter';
 import { trpc } from '@/lib/trpc';
 import { toast } from 'sonner';
-import { fbTrackFreeWeekSignup, fbTrackSubmitApplication } from '@/lib/pixels';
+import { fbTrackFreeWeekSignup, fbTrackStartTrial } from '@/lib/pixels';
 
 /**
  * Free Week Landing - Dynamic Assessment
@@ -151,7 +151,7 @@ export default function FreeWeekLanding() {
 
     setIsSubmitting(true);
     try {
-      fbTrackSubmitApplication();
+      fbTrackStartTrial();
       trackFreeWeekSignup();
       
       await createFreeWeekMutation.mutateAsync({
