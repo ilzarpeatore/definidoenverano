@@ -113,6 +113,12 @@ export function fbTrackLeadMagnetDownload(magnetType: string) {
   });
 }
 
+export function fbTrackSubmitApplication() {
+  if (typeof window === 'undefined' || !(window as any).fbq) return;
+  (window as any).fbq('track', 'SubmitApplication');
+  console.log('[FB Pixel] Event: SubmitApplication');
+}
+
 // ============================================================
 // GOOGLE ADS PIXEL
 // ============================================================
