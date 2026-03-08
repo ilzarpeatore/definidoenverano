@@ -151,7 +151,7 @@ export default function FreeWeekLanding() {
 
     setIsSubmitting(true);
     try {
-      fbTrackStartTrial();
+      fbTrackStartTrial(0, 'EUR'); // Valor 0 para prueba gratuita
       trackFreeWeekSignup();
       
       await createFreeWeekMutation.mutateAsync({

@@ -113,10 +113,15 @@ export function fbTrackLeadMagnetDownload(magnetType: string) {
   });
 }
 
-export function fbTrackStartTrial() {
+export function fbTrackStartTrial(value: number = 0, currency: string = 'EUR') {
   if (typeof window === 'undefined' || !(window as any).fbq) return;
-  (window as any).fbq('track', 'StartTrial');
-  console.log('[FB Pixel] Event: StartTrial');
+  (window as any).fbq('track', 'StartTrial', {
+    value: value,
+    currency: currency,
+    content_name: 'Semana Gratuita - Definido en Verano',
+    content_category: 'Free Trial',
+  });
+  console.log('[FB Pixel] Event: StartTrial', { value, currency });
 }
 
 // ============================================================
