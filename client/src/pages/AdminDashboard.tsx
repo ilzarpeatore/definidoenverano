@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import React from 'react';
 import { ChevronDown, Plus, MessageSquare, History } from 'lucide-react';
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
@@ -600,8 +601,8 @@ export default function AdminDashboard() {
                   </thead>
                   <tbody className="divide-y divide-border">
                     {freeWeekQuery.data.signups.map((signup: any) => (
-                      <>
-                        <tr key={signup.id} className="hover:bg-card/50 cursor-pointer" onClick={() => toggleFreeWeek(signup.id)}>
+                      <React.Fragment key={signup.id}>
+                        <tr className="hover:bg-card/50 cursor-pointer" onClick={() => toggleFreeWeek(signup.id)}>
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-2">
                               <ChevronDown className={`w-4 h-4 transition-transform ${
@@ -690,7 +691,7 @@ export default function AdminDashboard() {
                             </td>
                           </tr>
                         )}
-                      </>
+                      </React.Fragment>
                     ))}
                   </tbody>
                 </table>
