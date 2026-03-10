@@ -57,6 +57,13 @@
       "when": 1772383538409,
       "tag": "0007_wonderful_johnny_storm",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1773174548278,
+      "tag": "0008_goofy_tag",
+      "breakpoints": true
     }
   ]
 }

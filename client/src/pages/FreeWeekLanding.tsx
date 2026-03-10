@@ -21,6 +21,7 @@ import { fbTrackFreeWeekSignup, fbTrackStartTrial } from '@/lib/pixels';
 interface FreeWeekData {
   firstName: string;
   email: string;
+  phone: string;
   objective: string;
   experience: string;
   availableTime: string;
@@ -33,6 +34,7 @@ export default function FreeWeekLanding() {
   const [data, setData] = useState<FreeWeekData>({
     firstName: '',
     email: '',
+    phone: '',
     objective: '',
     experience: '',
     availableTime: '',
@@ -139,8 +141,8 @@ export default function FreeWeekLanding() {
 
   const handleSubmit = async () => {
     // Validar todos los campos
-    if (!data.firstName || !data.email) {
-      setErrors(['Por favor, completa tu nombre y email']);
+    if (!data.firstName || !data.email || !data.phone) {
+      setErrors(['Por favor, completa tu nombre, email y teléfono']);
       return;
     }
 
@@ -157,6 +159,7 @@ export default function FreeWeekLanding() {
       await createFreeWeekMutation.mutateAsync({
         email: data.email,
         firstName: data.firstName,
+        phone: data.phone,
         objective: data.objective,
         experience: data.experience,
         availableTime: data.availableTime,
@@ -246,6 +249,19 @@ export default function FreeWeekLanding() {
                   value={data.email}
                   onChange={(e) => setData({ ...data, email: e.target.value })}
                   placeholder="tu@email.com"
+                  className="w-full px-4 py-3 bg-card border border-border rounded-sm text-white placeholder-gray-500 focus:outline-none focus:border-accent"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-200 mb-2">
+                  Teléfono *
+                </label>
+                <input
+                  type="tel"
+                  value={data.phone}
+                  onChange={(e) => setData({ ...data, phone: e.target.value })}
+                  placeholder="+34 600 123 456"
                   className="w-full px-4 py-3 bg-card border border-border rounded-sm text-white placeholder-gray-500 focus:outline-none focus:border-accent"
                 />
               </div>

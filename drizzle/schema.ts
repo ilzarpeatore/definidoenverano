@@ -170,6 +170,7 @@ export const freeWeekSignups = mysqlTable("freeWeekSignups", {
   id: int("id").autoincrement().primaryKey(),
   email: varchar("email", { length: 320 }).notNull().unique(),
   firstName: varchar("firstName", { length: 100 }).notNull(),
+  phone: varchar("phone", { length: 20 }).notNull(),
   objective: varchar("objective", { length: 100 }).notNull(),
   experience: varchar("experience", { length: 50 }).notNull(),
   availableTime: varchar("availableTime", { length: 50 }).notNull(),

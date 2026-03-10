@@ -10,6 +10,7 @@ export const freeWeekRouter = router({
       z.object({
         email: z.string().email(),
         firstName: z.string().min(1),
+        phone: z.string().min(1),
         objective: z.string(),
         experience: z.string(),
         availableTime: z.string(),
@@ -27,6 +28,7 @@ export const freeWeekRouter = router({
         await createFreeWeekSignup({
           email: input.email,
           firstName: input.firstName,
+          phone: input.phone,
           objective: input.objective,
           experience: input.experience,
           availableTime: input.availableTime,

@@ -1,0 +1,13 @@
+{
+  "query": "DELETE FROM orders; DELETE FROM customers; SELECT 'Tablas customers y orders limpiadas correctamente' as resultado;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2vfgwC4vzUfMfK9.2c1a4cbae257 --database AekyKHQG93WNj9axqr5o89 --execute DELETE FROM orders; DELETE FROM customers; SELECT 'Tablas customers y orders limpiadas correctamente' as resultado;",
+  "rows": [
+    {
+      "resultado": "Tablas customers y orders limpiadas correctamente"
+    }
+  ],
+  "messages": [],
+  "stdout": "resultado\nTablas customers y orders limpiadas correctamente\n",
+  "stderr": "",
+  "execution_time_ms": 1438
+}
