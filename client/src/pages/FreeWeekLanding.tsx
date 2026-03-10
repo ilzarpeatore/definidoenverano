@@ -20,6 +20,7 @@ import { fbTrackFreeWeekSignup, fbTrackStartTrial } from '@/lib/pixels';
 
 interface FreeWeekData {
   firstName: string;
+  lastName: string;
   email: string;
   phone: string;
   objective: string;
@@ -33,6 +34,7 @@ export default function FreeWeekLanding() {
   const [step, setStep] = useState(0);
   const [data, setData] = useState<FreeWeekData>({
     firstName: '',
+    lastName: '',
     email: '',
     phone: '',
     objective: '',
@@ -141,8 +143,8 @@ export default function FreeWeekLanding() {
 
   const handleSubmit = async () => {
     // Validar todos los campos
-    if (!data.firstName || !data.email || !data.phone) {
-      setErrors(['Por favor, completa tu nombre, email y teléfono']);
+    if (!data.firstName || !data.lastName || !data.email || !data.phone) {
+      setErrors(['Por favor, completa tu nombre, apellidos, email y teléfono']);
       return;
     }
 
@@ -159,6 +161,7 @@ export default function FreeWeekLanding() {
       await createFreeWeekMutation.mutateAsync({
         email: data.email,
         firstName: data.firstName,
+        lastName: data.lastName,
         phone: data.phone,
         objective: data.objective,
         experience: data.experience,
@@ -236,6 +239,19 @@ export default function FreeWeekLanding() {
                   value={data.firstName}
                   onChange={(e) => setData({ ...data, firstName: e.target.value })}
                   placeholder="Juan"
+                  className="w-full px-4 py-3 bg-card border border-border rounded-sm text-white placeholder-gray-500 focus:outline-none focus:border-accent"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-200 mb-2">
+                  Apellidos *
+                </label>
+                <input
+                  type="text"
+                  value={data.lastName}
+                  onChange={(e) => setData({ ...data, lastName: e.target.value })}
+                  placeholder="García"
                   className="w-full px-4 py-3 bg-card border border-border rounded-sm text-white placeholder-gray-500 focus:outline-none focus:border-accent"
                 />
               </div>

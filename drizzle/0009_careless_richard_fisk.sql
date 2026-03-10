@@ -1,0 +1,1 @@
+ALTER TABLE `freeWeekSignups` ADD `lastName` varchar(100) NOT NULL;
