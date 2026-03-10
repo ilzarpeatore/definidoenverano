@@ -14,6 +14,7 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<'stats' | 'customers' | 'orders' | 'assessments' | 'freeWeek' | 'reports'>('stats');
   const [expandedAssessments, setExpandedAssessments] = useState<number[]>([]);
   const [expandedCustomers, setExpandedCustomers] = useState<number[]>([]);
+  const [expandedFreeWeek, setExpandedFreeWeek] = useState<number[]>([]);
   const [selectedCustomer, setSelectedCustomer] = useState<number | null>(null);
   const [noteText, setNoteText] = useState('');
 
@@ -40,6 +41,14 @@ export default function AdminDashboard() {
       prev.includes(customerId)
         ? prev.filter(id => id !== customerId)
         : [...prev, customerId]
+    );
+  };
+
+  const toggleFreeWeek = (signupId: number) => {
+    setExpandedFreeWeek(prev =>
+      prev.includes(signupId)
+        ? prev.filter(id => id !== signupId)
+        : [...prev, signupId]
     );
   };
 
@@ -591,34 +600,97 @@ export default function AdminDashboard() {
                   </thead>
                   <tbody className="divide-y divide-border">
                     {freeWeekQuery.data.signups.map((signup: any) => (
-                      <tr key={signup.id} className="hover:bg-card/50">
-                        <td className="px-4 py-3">{signup.email}</td>
-                        <td className="px-4 py-3">{signup.firstName}</td>
-                        <td className="px-4 py-3 capitalize">{signup.objective}</td>
-                        <td className="px-4 py-3">
-                          <span className={`px-2 py-1 rounded-sm text-xs font-medium ${
-                            signup.source === 'ads' ? 'bg-blue-500/20 text-blue-400' :
-                            signup.source === 'popup' ? 'bg-purple-500/20 text-purple-400' :
-                            'bg-gray-500/20 text-gray-400'
-                          }`}>
-                            {signup.source === 'ads' ? 'Publicidad' :
-                             signup.source === 'popup' ? 'Pop-up' :
-                             'Directo'}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3">
-                          <span className={`px-2 py-1 rounded-sm text-xs font-medium ${
-                            signup.status === 'active' ? 'bg-green-500/20 text-green-400' :
-                            signup.status === 'converted' ? 'bg-accent/20 text-accent' :
-                            'bg-red-500/20 text-red-400'
-                          }`}>
-                            {signup.status === 'active' ? 'Activo' :
-                             signup.status === 'converted' ? 'Convertido' :
-                             'Expirado'}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3">{new Date(signup.createdAt).toLocaleDateString('es-ES')}</td>
-                      </tr>
+                      <>
+                        <tr key={signup.id} className="hover:bg-card/50 cursor-pointer" onClick={() => toggleFreeWeek(signup.id)}>
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-2">
+                              <ChevronDown className={`w-4 h-4 transition-transform ${
+                                expandedFreeWeek.includes(signup.id) ? 'rotate-180' : ''
+                              }`} />
+                              {signup.email}
+                            </div>
+                          </td>
+                          <td className="px-4 py-3">{signup.firstName} {signup.lastName}</td>
+                          <td className="px-4 py-3 capitalize">{signup.objective}</td>
+                          <td className="px-4 py-3">
+                            <span className={`px-2 py-1 rounded-sm text-xs font-medium ${
+                              signup.source === 'ads' ? 'bg-blue-500/20 text-blue-400' :
+                              signup.source === 'popup' ? 'bg-purple-500/20 text-purple-400' :
+                              'bg-gray-500/20 text-gray-400'
+                            }`}>
+                              {signup.source === 'ads' ? 'Publicidad' :
+                               signup.source === 'popup' ? 'Pop-up' :
+                               'Directo'}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3">
+                            <span className={`px-2 py-1 rounded-sm text-xs font-medium ${
+                              signup.status === 'active' ? 'bg-green-500/20 text-green-400' :
+                              signup.status === 'converted' ? 'bg-accent/20 text-accent' :
+                              'bg-red-500/20 text-red-400'
+                            }`}>
+                              {signup.status === 'active' ? 'Activo' :
+                               signup.status === 'converted' ? 'Convertido' :
+                               'Expirado'}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3">{new Date(signup.createdAt).toLocaleDateString('es-ES')}</td>
+                        </tr>
+                        {expandedFreeWeek.includes(signup.id) && (
+                          <tr className="bg-card/50">
+                            <td colSpan={6} className="px-4 py-4">
+                              <div className="grid grid-cols-2 gap-6 text-sm">
+                                <div>
+                                  <p className="text-gray-400 mb-1">Nombre Completo</p>
+                                  <p className="text-white font-medium">{signup.firstName} {signup.lastName}</p>
+                                </div>
+                                <div>
+                                  <p className="text-gray-400 mb-1">Email</p>
+                                  <p className="text-white font-medium">{signup.email}</p>
+                                </div>
+                                <div>
+                                  <p className="text-gray-400 mb-1">Teléfono</p>
+                                  <p className="text-white font-medium">{signup.phone}</p>
+                                </div>
+                                <div>
+                                  <p className="text-gray-400 mb-1">Objetivo</p>
+                                  <p className="text-white font-medium capitalize">{signup.objective}</p>
+                                </div>
+                                <div>
+                                  <p className="text-gray-400 mb-1">Experiencia</p>
+                                  <p className="text-white font-medium capitalize">{signup.experience}</p>
+                                </div>
+                                <div>
+                                  <p className="text-gray-400 mb-1">Tiempo Disponible</p>
+                                  <p className="text-white font-medium capitalize">{signup.availableTime}</p>
+                                </div>
+                                <div>
+                                  <p className="text-gray-400 mb-1">Años Entrenando</p>
+                                  <p className="text-white font-medium capitalize">{signup.yearsTraining}</p>
+                                </div>
+                                <div>
+                                  <p className="text-gray-400 mb-1">Origen</p>
+                                  <p className="text-white font-medium capitalize">{signup.source}</p>
+                                </div>
+                                <div>
+                                  <p className="text-gray-400 mb-1">Estado</p>
+                                  <p className="text-white font-medium capitalize">{signup.status}</p>
+                                </div>
+                                <div>
+                                  <p className="text-gray-400 mb-1">Fecha Registro</p>
+                                  <p className="text-white font-medium">{new Date(signup.createdAt).toLocaleDateString('es-ES')} {new Date(signup.createdAt).toLocaleTimeString('es-ES')}</p>
+                                </div>
+                                {signup.accessExpiresAt && (
+                                  <div>
+                                    <p className="text-gray-400 mb-1">Acceso Expira</p>
+                                    <p className="text-white font-medium">{new Date(signup.accessExpiresAt).toLocaleDateString('es-ES')}</p>
+                                  </div>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </>
                     ))}
                   </tbody>
                 </table>
