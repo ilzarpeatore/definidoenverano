@@ -36,12 +36,12 @@ export default function CTASection() {
   };
 
   const includes = [
-    'Programa completo de 12 semanas',
-    'Entrenamientos científicamente diseñados',
-    'Plan de nutrición personalizado',
+    'Valoración postural en vídeo',
+    '6 fases progresivas del Método RESET',
+    'Seguimiento semanal en vivo',
     'Acceso a comunidad privada',
-    'Soporte directo del coach',
-    'Acceso durante 3 meses',
+    'Plantillas y guías paso a paso',
+    'Garantía de dinero devuelto',
   ];
 
   return (
@@ -55,10 +55,10 @@ export default function CTASection() {
           viewport={{ once: true }}
         >
           <h2 className="font-display text-5xl md:text-6xl font-bold text-white mb-4">
-            ACCESO INMEDIATO
+            COMIENZA TU RESET HOY
           </h2>
           <p className="text-gray-300 text-lg">
-            Al Programa Definido en Verano
+            Lanzamiento Especial: -50€ para los Primeros 20
           </p>
         </motion.div>
 
@@ -78,23 +78,22 @@ export default function CTASection() {
           >
             {/* Original Price */}
             <motion.div variants={itemVariants} className="mb-4">
-              <p className="text-gray-400 text-sm line-through">Precio normal: $497 USD</p>
+              <p className="text-gray-400 text-sm line-through">Precio normal: €247</p>
             </motion.div>
 
             {/* Discount Badge */}
             <motion.div variants={itemVariants} className="mb-6">
               <span className="inline-block bg-accent/20 border border-accent text-accent px-4 py-2 rounded-sm font-bold text-sm">
-                60% DE DESCUENTO
+                EARLY ACCESS: -50€
               </span>
             </motion.div>
 
             {/* Final Price */}
             <motion.div variants={itemVariants}>
               <div className="flex items-baseline justify-center gap-2">
-                <span className="text-accent font-display text-6xl font-bold">$197</span>
-                <span className="text-gray-400 text-lg">USD</span>
+                <span className="text-accent font-display text-6xl font-bold">€197</span>
               </div>
-              <p className="text-gray-400 text-sm mt-2">Precio especial de lanzamiento</p>
+              <p className="text-gray-400 text-sm mt-2">O 3 cuotas de €66</p>
             </motion.div>
           </motion.div>
 
@@ -130,10 +129,10 @@ export default function CTASection() {
           >
           <Button
             size="lg"
-            onClick={() => navigate('/assessment')}
+            onClick={() => navigate('/free-week')}
             className="btn-glow w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-base md:text-lg py-6 rounded-sm"
           >
-            ACCESO INMEDIATO AL PROGRAMA
+            COMIENZA TU RESET AHORA
           </Button>
           </motion.div>
 
@@ -144,7 +143,7 @@ export default function CTASection() {
           >
             <Shield className="w-5 h-5" />
             <p className="font-body text-sm">
-              Garantía de 30 días. Si no ves resultados, devolvemos tu dinero. Sin preguntas.
+              Garantía de dinero devuelto. Si no reduces tu dolor en un 50% en 3 semanas, te devolvemos el 100%.
             </p>
           </motion.div>
         </motion.div>

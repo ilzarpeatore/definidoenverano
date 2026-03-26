@@ -17,44 +17,44 @@ import {
 export default function FAQSection() {
   const faqs = [
     {
-      question: '¿Cuánto tiempo toma cada entrenamiento?',
+      question: '¿Cuánto tiempo necesito dedicar?',
       answer:
-        'Los entrenamientos duran máximo 45 minutos. Están diseñados para ser intensos pero eficientes. 4 días a la semana es el programa estándar, pero puedes ajustar según tu agenda.',
+        'Solo 10-20 minutos al día, 3-4 veces por semana. Es menos tiempo del que pasas en el fisio. Puedes hacerlo en casa, en la oficina, donde sea.',
     },
     {
-      question: '¿Necesito equipo especial?',
+      question: '¿Necesito equipamiento especial?',
       answer:
-        'No. Solo necesitas mancuernas básicas. Si no tienes acceso a un gimnasio, incluimos modificaciones con peso corporal. Todo está adaptado para máxima flexibilidad.',
+        'No. Solo tu cuerpo y tu móvil. Todos los ejercicios están diseñados para hacerse sin equipamiento. Máxima flexibilidad.',
     },
     {
-      question: '¿Funciona para mi edad?',
+      question: '¿Y si ya lo he probado todo?',
       answer:
-        'Sí. Tenemos clientes de 25 a 55 años con resultados comprobados. El programa se adapta a tu nivel de fitness actual. No importa si eres principiante o avanzado.',
+        'Eso es exactamente para quién es RESET. La mayoría de nuestros clientes ya habían probado fisioterapia, entrenamiento personal, yoga, pilates... sin resultados. RESET es diferente porque reprograma la raíz, no trata síntomas.',
     },
     {
-      question: '¿Qué pasa si no veo resultados?',
+      question: '¿Cuándo voy a notar mejoras?',
       answer:
-        'Tienes 30 días de garantía de devolución de dinero. Sin preguntas. Si no ves progreso, te devolvemos el 100% de tu inversión. Así de confiados estamos.',
+        'Muchos notan cambios en la primera semana. Pero los resultados más significativos llegan entre la semana 3-4. A las 6 semanas, la mayoría ha reducido su dolor en un 70%.',
     },
     {
-      question: '¿Es una dieta restrictiva?',
+      question: '¿Qué pasa si no funciona?',
       answer:
-        'No. La nutrición en Definido en Verano es simplificada, no restrictiva. Aprendes reglas claras que puedes aplicar siempre. Nada de contar calórias obsesivamente.',
+        'Garantía de dinero devuelto. Si no reduces tu dolor en un 50% en las primeras 3 semanas, te devolvemos el 100%. No es un riesgo. Es una promesa.',
     },
     {
-      question: '¿Cuánto tiempo tengo acceso?',
+      question: '¿Es para hombres y mujeres?',
       answer:
-        'Tu acceso es de 3 meses desde la fecha de compra. Después, puedes renovar el programa si deseas continuar. Todos los materiales y la app funcionan durante tu período de acceso.',
+        'Sí. RESET funciona para cualquier persona con dolor lumbar o cervical, independientemente del género o edad. El sistema es universal.',
     },
     {
       question: '¿Hay soporte disponible?',
       answer:
-        'Sí. Tienes acceso a nuestra comunidad privada y soporte directo. Puedes hacer preguntas, compartir progreso y conectar con otros hombres en el mismo camino.',
+        'Sí. Tienes acceso a seguimiento semanal en vivo, comunidad privada, y coaching personalizado. No estás solo en este camino.',
     },
     {
-      question: '¿Cuándo voy a ver resultados?',
+      question: '¿Cuánto tiempo tengo acceso?',
       answer:
-        'Los primeros cambios visibles aparecen en 6 semanas. A las 12 semanas, la transformación es dramática. Pero los cambios internos (energía, confianza) comienzan desde la semana 1.',
+        'Tu acceso es de 12 semanas desde la fecha de compra. Incluye las 6 fases del Método RESET, seguimiento semanal, comunidad privada, y plan de mantenimiento para evitar recaídas.',
     },
   ];
 
@@ -70,10 +70,10 @@ export default function FAQSection() {
           viewport={{ once: true }}
         >
           <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-4">
-            Preguntas Frecuentes
+            Preguntas Frecuentes sobre RESET
           </h2>
           <p className="text-gray-300">
-            Resolvemos tus dudas para que tomes la mejor decisión
+            Resolvemos tus dudas sobre el Método RESET y cómo funciona
           </p>
         </motion.div>
 

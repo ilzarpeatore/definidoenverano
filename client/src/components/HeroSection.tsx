@@ -5,12 +5,12 @@ import { useLocation } from 'wouter';
 import { trpc } from '@/lib/trpc';
 
 /**
- * Hero Section - Dark Gym Aesthetic
- * Design Philosophy: Minimalist Industrial with Gold Accents
- * - Black background with subtle texture
- * - Large, aggressive typography (Space Mono)
- * - Gold metallic accents and glow effects
- * - Immediate emotional impact: Power, Exclusivity, Transformation
+ * Hero Section - Método RESET by BeStronger
+ * Design Philosophy: Professional Health + Neurofunctional Recovery
+ * - Modern professional aesthetic with dark background
+ * - Clear, empathetic messaging
+ * - Gold accents for premium positioning
+ * - Immediate emotional impact: Relief, Hope, Recovery
  */
 
 export default function HeroSection() {
@@ -62,11 +62,11 @@ export default function HeroSection() {
           className="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6 text-white"
           variants={itemVariants}
         >
-          Recupera tu Mejor Versión
+          ¿Dolor de espalda tras horas frente al ordenador?
           <br />
-          <span className="text-gradient-gold">en 12 Semanas</span>
+          <span className="text-gradient-gold">Reinicia tu cuerpo.</span>
           <br />
-          Sin Vivir en el Gimnasio
+          Recupera tu vida.
         </motion.h1>
 
         {/* Divider Line */}
@@ -77,7 +77,9 @@ export default function HeroSection() {
           className="font-body text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed"
           variants={itemVariants}
         >
-          Para hombres ocupados que quieren volver a mirarse al espejo con confianza. Sin dietas extremas, sin sacrificar tu vida profesional.
+          El Método RESET: la única forma de eliminar el dolor lumbar y cervical sin pastillas, sin fisios, sin ejercicios complicados.
+          <br />
+          <span className="text-amber-300 font-semibold">Reduce tu dolor en un 70% en solo 6 semanas.</span>
         </motion.p>
 
         {/* Price Display */}
@@ -95,12 +97,12 @@ export default function HeroSection() {
         <motion.div variants={itemVariants} className="mb-12">
           <Button
             size="lg"
-            onClick={() => navigate('/assessment')}
+            onClick={() => navigate('/free-week')}
             className="btn-glow bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-base md:text-lg px-8 py-6 rounded-sm"
           >
-            ACCESO INMEDIATO
+            ACCEDER A VALORACIÓN GRATUITA
           </Button>
-          <p className="text-sm text-gray-400 mt-4">Garantía de 30 días. Sin preguntas.</p>
+          <p className="text-sm text-gray-400 mt-4">Garantía de dinero devuelto. Sin preguntas.</p>
         </motion.div>
 
         {/* Scroll Indicator */}

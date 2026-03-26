@@ -18,35 +18,35 @@ export default function TestimonialSection() {
   const testimonials = [
     {
       name: 'Carlos M.',
-      age: 34,
-      role: 'Ejecutivo',
+      age: 42,
+      role: 'Programador',
       quote:
-        'Llegué pensando que era imposible con mi agenda. En 12 semanas perdí 10 kg de grasa y gané músculo visible. Mi confianza cambió completamente.',
+        'Después de 3 años con dolor lumbar, en 4 semanas con RESET estoy entrenando de nuevo sin miedo. Es increíble. Finalmente entiendo qué estaba pasando.',
       image:
-        'https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/JmZrJJcuaHZyZxEz.jpg',
-      results: '10 kg grasa',
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/reset-testimonial-section-6upAweJKQ23SmMTJuuLhE3.webp',
+      results: 'Dolor: 8/10 → 2/10',
       rating: 5,
     },
     {
-      name: 'Juan P.',
-      age: 41,
-      role: 'Padre de dos hijos',
+      name: 'María G.',
+      age: 38,
+      role: 'Abogada',
       quote:
-        'No creía en los programas online. Pero el sistema de Definido en Verano es diferente. Entrenamientos cortos, resultados reales. Recomendado 100%.',
+        'Pensé que tendría que vivir con pastillas de por vida. RESET me devolvió la libertad. No es solo que desapareció el dolor, es que aprendí a prevenirlo.',
       image:
-        'https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/nZdZLnvpNxknbvov.jpg',
-      results: '8 kg grasa + músculo definido',
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/reset-testimonial-section-6upAweJKQ23SmMTJuuLhE3.webp',
+      results: 'Dolor: 7/10 → 1/10',
       rating: 5,
     },
     {
-      name: 'Miguel R.',
-      age: 28,
-      role: 'Emprendedor',
+      name: 'David L.',
+      age: 45,
+      role: 'Consultor',
       quote:
-        'Pensé que necesitaba 2 horas en el gym. Con Definido en Verano logré más en 45 minutos. Eficiencia pura. Ahora tengo el cuerpo que siempre quise.',
+        'Probé fisioterapia, masajes, yoga... nada funcionaba. Con RESET en 6 semanas recuperé la movilidad completa. Vuelvo a jugar con mis hijos sin limitaciones.',
       image:
-        'https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/ZgXiVDlwTuQvJLAH.jpg',
-      results: '12 kg transformación',
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/reset-testimonial-section-6upAweJKQ23SmMTJuuLhE3.webp',
+      results: 'Movilidad: Limitada → Completa',
       rating: 5,
     },
   ];
@@ -71,10 +71,10 @@ export default function TestimonialSection() {
           viewport={{ once: true }}
         >
           <div className="inline-block mb-4">
-            <span className="text-accent font-display text-2xl font-bold">2,847 hombres transformados</span>
+            <span className="text-accent font-display text-2xl font-bold">Miles de personas liberadas del dolor</span>
           </div>
           <h2 className="font-display text-5xl md:text-6xl font-bold text-white">
-            En 18 meses
+            Historias de Recuperación
           </h2>
         </motion.div>
 

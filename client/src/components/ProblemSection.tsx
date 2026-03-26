@@ -2,12 +2,12 @@ import { motion } from 'framer-motion';
 import { AlertCircle } from 'lucide-react';
 
 /**
- * Problem Section - Amplify Pain & Agitation
- * Design Philosophy: Emotional resonance through recognition
+ * Problem Section - Método RESET
+ * Design Philosophy: Empathy + Recognition of Frustration
  * - Dark background with subtle gold accents
- * - Direct, confrontational copy
- * - Visual hierarchy that emphasizes pain points
- * - Before/After transformation imagery
+ * - Empathetic, understanding copy
+ * - Visual hierarchy emphasizing pain relief
+ * - Before/After transformation imagery (pain to relief)
  */
 
 export default function ProblemSection() {
@@ -32,11 +32,12 @@ export default function ProblemSection() {
   };
 
   const painPoints = [
-    'Trabajas 10+ horas al día y no tienes tiempo para entrenar "bien"',
-    'Has intentado 3, 4, 5 veces... y siempre abandonas',
-    'Pagas gimnasio que no usas. Compras planes que no funcionan.',
-    'La barriga crece mientras tu confianza desaparece',
-    'Te comparas con tu versión de hace 5 años y te duele',
+    'Dolor constante que te limita en el trabajo',
+    'Dificultad para dormir bien',
+    'Miedo a moverte o hacer ejercicio',
+    'Dependencia de pastillas o visitas al fisio',
+    'Frustración porque ya lo has probado todo',
+    'Sensación de que tu cuerpo está roto',
   ];
 
   return (
@@ -52,8 +53,8 @@ export default function ProblemSection() {
             viewport={{ once: true }}
           >
             <img
-              src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/yorwLapMmHuuuaWM.webp"
-              alt="Transformación antes y después"
+              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/reset-problem-section-99TSToHmmwz6h7jWPFq4LR.webp"
+              alt="Transformación: Dolor crónico a libertad de movimiento"
               className="w-full rounded-sm"
             />
             {/* Gold Border Accent */}
@@ -70,10 +71,14 @@ export default function ProblemSection() {
           >
             <motion.div variants={itemVariants}>
               <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-4">
-                El Problema Real
+                Has probado TODO. Y nada ha funcionado.
               </h2>
               <p className="text-gray-300 text-lg leading-relaxed">
-                No es falta de capacidad. Tú ya entrenaste antes. Tú sabes lo que funciona. El problema es que tienes una vida ocupada, intentos fallidos, y ningún sistema que se adapte a tu realidad.
+                Fisioterapia. Pastillas. Masajes. Yoga. Pilates. Estiramientos de YouTube. Incluso has invertido dinero en sesiones presenciales, en aparatos, en cremas.
+                <br /><br />
+                Pero aquí estás. Con el mismo dolor. Quizás peor.
+                <br /><br />
+                <span className="text-amber-300 font-semibold">La verdad que nadie te ha dicho: Tu dolor no está en tus músculos. Está en el sistema que los controla.</span>
               </p>
             </motion.div>
 
@@ -97,10 +102,10 @@ export default function ProblemSection() {
               variants={itemVariants}
             >
               <p className="text-xl text-accent font-display font-bold">
-                Pero aquí está lo importante:
+                Pero aquí está la buena noticia:
               </p>
               <p className="text-gray-300 mt-3 text-lg leading-relaxed">
-                No necesitas más motivación. Necesitas un sistema estructurado diseñado específicamente para hombres como tú.
+                No necesitas más fisioterapia. Necesitas un sistema estructurado de reprogramación neuromuscular diseñado específicamente para personas como tú que están cansadas de vivir limitadas por el dolor.
               </p>
             </motion.div>
           </motion.div>
