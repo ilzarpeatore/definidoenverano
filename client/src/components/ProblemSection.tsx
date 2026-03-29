@@ -53,8 +53,8 @@ export default function ProblemSection() {
             viewport={{ once: true }}
           >
             <img
-              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/reset-problem-section-99TSToHmmwz6h7jWPFq4LR.webp"
-              alt="Transformación: Dolor crónico a libertad de movimiento"
+              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/reset-problem-before-after-HvvsQ8iQ27CGkdh8e8EfGD.webp"
+              alt="Transformación en 6 semanas: Antes (Dolor 8/10) - Después (Dolor 2/10)"
               className="w-full rounded-sm"
             />
             {/* Gold Border Accent */}

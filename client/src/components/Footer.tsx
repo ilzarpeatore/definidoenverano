@@ -18,9 +18,9 @@ export default function Footer() {
           <div>
             <div className="mb-4">
               <img
-                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/definido-en-verano-logo-v2-KKxgEGip9bTnGpketEjthS.webp"
-                alt="Método RESET Logo"
-                className="h-20 w-20 object-contain"
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/reset-logo-bestronger-dafb3ffQ52jgweacDM6veW.webp"
+                alt="Método RESET by BeStronger Logo"
+                className="h-20 w-auto object-contain"
               />
             </div>
             <h3 className="font-display text-2xl text-accent font-bold mb-2">
