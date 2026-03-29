@@ -138,7 +138,7 @@ export default function AssessmentResults() {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-white mb-4">No se encontraron resultados</h1>
           <Link href="/">
-            <a className="text-accent hover:text-accent/80">Volver a inicio</a>
+            <div className="text-accent hover:text-accent/80 cursor-pointer">Volver a inicio</div>
           </Link>
         </div>
       </div>
@@ -331,9 +331,7 @@ export default function AssessmentResults() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/">
-              <a>
-                <Button variant="outline">Volver a Inicio</Button>
-              </a>
+              <Button variant="outline">Volver a Inicio</Button>
             </Link>
           </div>
         </motion.div>
