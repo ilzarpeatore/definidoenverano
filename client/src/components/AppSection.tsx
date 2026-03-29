@@ -80,7 +80,7 @@ export default function AppSection() {
             className="font-display text-4xl md:text-5xl text-white mb-6"
             variants={itemVariants}
           >
-            App Propia Definido en Verano
+            App Propia Método RESET
           </motion.h2>
           <motion.p
             className="text-xl text-gray-300 max-w-3xl mx-auto"

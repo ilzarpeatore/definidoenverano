@@ -19,12 +19,12 @@ export default function Footer() {
             <div className="mb-4">
               <img
                 src="https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/definido-en-verano-logo-v2-KKxgEGip9bTnGpketEjthS.webp"
-                alt="Definido en Verano Logo"
+                alt="Método RESET Logo"
                 className="h-20 w-20 object-contain"
               />
             </div>
             <h3 className="font-display text-2xl text-accent font-bold mb-2">
-              DEFINIDO EN VERANO
+              MÉTODO RESET
             </h3>
             <p className="text-gray-400 text-sm">
               Transformación en 12 semanas para hombres ocupados. Sin excusas, sin restricciones.
@@ -93,7 +93,7 @@ export default function Footer() {
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          <p>&copy; {currentYear} Definido en Verano · BeStronger. Todos los derechos reservados.</p>
+          <p>&copy; {currentYear} Método RESET · BeStronger. Todos los derechos reservados.</p>
           <p className="mt-4 md:mt-0">
             Hecho con determinación para hombres comprometidos.
           </p>

@@ -4,7 +4,7 @@
  */
 
 export const SEO_CONFIG = {
-  siteName: 'Definido en Verano',
+  siteName: 'Método RESET',
   siteUrl: 'https://definidoenverano.com',
   description: 'Transforma tu cuerpo en 12 semanas sin dietas restrictivas. Programa de entrenamiento inteligente para hombres ocupados con poco tiempo. Acceso a app propia, coaching personalizado y comunidad privada.',
   keywords: 'programa entrenamiento, fitness hombres, transformación corporal, definición muscular, entrenamiento 12 semanas, coaching fitness',
@@ -20,11 +20,11 @@ export const SEO_CONFIG = {
 export const generateSchemaProduct = () => ({
   '@context': 'https://schema.org',
   '@type': 'Product',
-  name: 'Definido en Verano',
+  name: 'Método RESET',
   description: 'Programa de transformación corporal en 12 semanas para hombres ocupados',
   brand: {
     '@type': 'Brand',
-    name: 'Definido en Verano',
+    name: 'Método RESET',
   },
   offers: {
     '@type': 'Offer',
@@ -42,7 +42,7 @@ export const generateSchemaProduct = () => ({
 export const generateSchemaOrganization = () => ({
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Definido en Verano',
+  name: 'Método RESET',
   url: SEO_CONFIG.siteUrl,
   logo: 'https://cdn.example.com/logo.png',
   sameAs: [
@@ -58,7 +58,7 @@ export const generateSchemaFAQ = () => ({
   mainEntity: [
     {
       '@type': 'Question',
-      name: '¿Cuánto tiempo dura el programa Definido en Verano?',
+      name: '¿Cuánto tiempo dura el programa Método RESET?',
       acceptedAnswer: {
         '@type': 'Answer',
         text: 'El programa dura 12 semanas con acceso de 3 meses a todos los materiales, entrenamientos y la app. Puedes renovar cuando quieras.',
@@ -77,7 +77,7 @@ export const generateSchemaFAQ = () => ({
       name: '¿Es necesaria una dieta restrictiva?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'No. La nutrición en Definido en Verano es simplificada y flexible. Aprendes reglas claras que puedes aplicar siempre.',
+        text: 'No. La nutrición en Método RESET es simplificada y flexible. Aprendes reglas claras que puedes aplicar siempre.',
       },
     },
     {
