@@ -2,6 +2,8 @@ import { motion } from 'framer-motion';
 import { Check, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
+import { useEffect, useState } from 'react';
+import { getCurrentPhaseInfo } from '@/lib/pricingPhases';
 
 /**
  * PricingOfferBlock Component
@@ -9,6 +11,15 @@ import { useLocation } from 'wouter';
  */
 export default function PricingOfferBlock() {
   const [, setLocation] = useLocation();
+  const [currentPrice, setCurrentPrice] = useState<number>(197);
+  const [normalPrice, setNormalPrice] = useState<number>(297);
+
+  useEffect(() => {
+    const phaseInfo = getCurrentPhaseInfo();
+    setCurrentPrice(phaseInfo.phase.price);
+    // Normal price is the final phase price
+    setNormalPrice(297);
+  }, []);
 
   const benefits = [
     'Programa completo de 12 semanas',
@@ -62,7 +73,7 @@ export default function PricingOfferBlock() {
             {/* Price Section */}
             <div className="text-center mb-8 md:mb-10">
               <p className="text-gray-300 text-sm md:text-base mb-2">Precio normal:</p>
-              <p className="text-gray-400 text-2xl md:text-3xl line-through mb-4">$497 USD</p>
+              <p className="text-gray-400 text-2xl md:text-3xl line-through mb-4">€{normalPrice}</p>
 
               <motion.div
                 className="inline-block bg-accent/20 border border-accent rounded-full px-4 md:px-6 py-2 mb-6"
@@ -71,18 +82,17 @@ export default function PricingOfferBlock() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 viewport={{ once: true }}
               >
-                <p className="text-accent font-bold text-lg md:text-xl">60% DE DESCUENTO</p>
+                <p className="text-accent font-bold text-lg md:text-xl">PRECIO ACTUAL</p>
               </motion.div>
 
               <div className="flex items-baseline justify-center gap-2 md:gap-3">
                 <span className="font-display text-5xl md:text-6xl font-bold text-accent">
-                  $197
+                  €{currentPrice}
                 </span>
-                <span className="text-gray-300 text-lg md:text-xl">USD</span>
               </div>
 
               <p className="text-gray-300 text-sm md:text-base mt-3">
-                Precio especial de lanzamiento
+                Acceso de 3 meses
               </p>
             </div>
 
