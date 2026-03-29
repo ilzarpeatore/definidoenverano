@@ -42,7 +42,7 @@ export default function HeroSection() {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/reset-hero-office-pain-ELeDLkx6Ydumin2LPvTpGK.webp"
+          src="https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/reset-hero-office-pain-clean-NRUMY2ySB3DiMCxZnXSUFH.webp"
           alt="Hombre en oficina con dolor de espalda tras 8 horas en el escritorio"
           className="w-full h-full object-cover"
         />
