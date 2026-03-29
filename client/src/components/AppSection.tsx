@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Smartphone, Dumbbell, Apple, Zap, TrendingUp, Camera, Activity } from 'lucide-react';
+import { Smartphone, Dumbbell, TrendingUp, Camera, Activity } from 'lucide-react';
 
 /**
  * App Section - Tu Compañero Digital
@@ -39,12 +39,6 @@ export default function AppSection() {
       color: 'from-blue-500/20 to-blue-600/20',
     },
     {
-      icon: <Apple className="w-8 h-8" />,
-      title: 'Seguimiento Nutricional',
-      description: 'Registra tus comidas, macros y calorías. Base de datos de alimentos integrada. Análisis automático de tu nutrición.',
-      color: 'from-green-500/20 to-green-600/20',
-    },
-    {
       icon: <Activity className="w-8 h-8" />,
       title: 'Registro de Hábitos',
       description: 'Sueño, agua, estrés, energía. Trackea todo lo que importa. Identifica patrones que afectan tus resultados.',
@@ -58,15 +52,9 @@ export default function AppSection() {
     },
     {
       icon: <TrendingUp className="w-8 h-8" />,
-      title: 'Métricas de Pesaje',
-      description: 'Peso, medidas, porcentaje de grasa. Gráficos automáticos. Entiende qué está funcionando y qué no.',
+      title: 'Métricas',
+      description: 'Peso, medidas, porcentaje de grasa. Y evolución de tus dolores mediante gráficos.',
       color: 'from-orange-500/20 to-orange-600/20',
-    },
-    {
-      icon: <Zap className="w-8 h-8" />,
-      title: 'Sincronización Automática',
-      description: 'Conecta con Apple Health o Google Fit. Todos tus datos en un solo lugar. Sin duplicar esfuerzo.',
-      color: 'from-red-500/20 to-red-600/20',
     },
   ];
 
@@ -134,46 +122,7 @@ export default function AppSection() {
 
 
 
-        {/* Divider */}
-        <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent my-20" />
 
-        {/* What You Get */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          variants={containerVariants}
-        >
-          <motion.div className="text-center mb-12" variants={itemVariants}>
-            <h3 className="font-display text-2xl text-white mb-4">
-              Incluido en tu Acceso
-            </h3>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            {[
-              'App iOS y Android',
-              'Acceso durante 3 meses',
-              'Sincronización Apple Health',
-              'Sincronización Google Fit',
-              'Análisis de datos automático',
-              'Gráficos y reportes semanales',
-              'Notificaciones personalizadas',
-              'Soporte técnico prioritario',
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                className="flex items-center gap-3 p-4 card-glass border border-border rounded-sm"
-                variants={itemVariants}
-              >
-                <div className="w-5 h-5 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
-                  <span className="text-accent-foreground text-sm font-bold">✓</span>
-                </div>
-                <span className="text-gray-300">{item}</span>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
 
         {/* CTA */}
         <motion.div

@@ -64,7 +64,7 @@ export default function CTASection() {
 
         {/* Pricing Card */}
         <motion.div
-          className="card-glass p-8 md:p-12 mb-12 border-2 border-accent/50"
+          className="bg-gradient-to-br from-blue-900 to-slate-800 p-8 md:p-12 mb-12 border-2 border-accent/50 rounded-lg"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
@@ -83,7 +83,7 @@ export default function CTASection() {
 
             {/* Discount Badge */}
             <motion.div variants={itemVariants} className="mb-6">
-              <span className="inline-block bg-accent/20 border border-accent text-accent px-4 py-2 rounded-sm font-bold text-sm">
+              <span className="inline-block bg-green-600 border border-green-400 text-white px-4 py-2 rounded-sm font-bold text-sm">
                 EARLY ACCESS: -50€
               </span>
             </motion.div>

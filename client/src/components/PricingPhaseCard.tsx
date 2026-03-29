@@ -44,7 +44,7 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
 
     return (
       <motion.div
-        className="relative rounded-2xl border-2 border-accent/60 bg-gradient-to-br from-orange-950 to-orange-900 p-6 md:p-8 overflow-hidden"
+        className="relative rounded-2xl border-2 border-accent/60 bg-gradient-to-br from-blue-950 to-slate-900 p-6 md:p-8 overflow-hidden"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -73,7 +73,7 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
           </div>
 
           <div className="mb-4 md:mb-6">
-            <div className="h-2 bg-orange-800 rounded-full overflow-hidden border border-accent/40">
+            <div className="h-2 bg-slate-700 rounded-full overflow-hidden border border-accent/40">
               <motion.div
                 className="h-full bg-gradient-to-r from-accent to-orange-400"
                 animate={{ width: `${completionPercentage}%` }}
@@ -86,7 +86,7 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
           </div>
 
           <motion.div
-            className="rounded-xl border border-accent/50 bg-orange-800/50 p-3 md:p-4 flex items-start gap-2 md:gap-3"
+            className="rounded-xl border border-accent/50 bg-blue-900/50 p-3 md:p-4 flex items-start gap-2 md:gap-3"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
@@ -115,7 +115,7 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
 
     return (
       <motion.div
-        className="relative rounded-2xl border-2 border-accent/60 bg-gradient-to-br from-orange-950 to-orange-900 p-6 md:p-8 overflow-hidden"
+        className="relative rounded-2xl border-2 border-accent/60 bg-gradient-to-br from-blue-950 to-slate-900 p-6 md:p-8 overflow-hidden"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -144,7 +144,7 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
           </div>
 
           <motion.div
-            className="rounded-xl border border-accent/50 bg-orange-800/50 p-3 md:p-4 flex items-start gap-2 md:gap-3 mb-4 md:mb-6"
+            className="rounded-xl border border-accent/50 bg-blue-900/50 p-3 md:p-4 flex items-start gap-2 md:gap-3 mb-4 md:mb-6"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
@@ -162,7 +162,7 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
           </motion.div>
 
           <motion.div
-            className="rounded-xl border border-accent/50 bg-orange-800/50 p-3 md:p-4 flex items-start gap-2 md:gap-3"
+            className="rounded-xl border border-accent/50 bg-blue-900/50 p-3 md:p-4 flex items-start gap-2 md:gap-3"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -191,7 +191,7 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
 
     return (
       <motion.div
-        className="relative rounded-2xl border-2 border-accent/60 bg-gradient-to-br from-orange-950 to-orange-900 p-6 md:p-8 overflow-hidden"
+        className="relative rounded-2xl border-2 border-accent/60 bg-gradient-to-br from-blue-950 to-slate-900 p-6 md:p-8 overflow-hidden"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -220,7 +220,7 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
           </div>
 
           <motion.div
-            className="rounded-xl border border-accent/50 bg-orange-800/50 p-3 md:p-4 flex items-start gap-2 md:gap-3 mb-4 md:mb-6"
+            className="rounded-xl border border-accent/50 bg-blue-900/50 p-3 md:p-4 flex items-start gap-2 md:gap-3 mb-4 md:mb-6"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
@@ -238,7 +238,7 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
           </motion.div>
 
           <motion.div
-            className="rounded-xl border border-accent/50 bg-orange-800/50 p-3 md:p-4 flex items-start gap-2 md:gap-3"
+            className="rounded-xl border border-accent/50 bg-blue-900/50 p-3 md:p-4 flex items-start gap-2 md:gap-3"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}

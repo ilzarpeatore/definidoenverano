@@ -5,7 +5,7 @@ import TransformationGallery from '@/components/TransformationGallery';
 import SolutionSection from '@/components/SolutionSection';
 import TestimonialSection from '@/components/TestimonialSection';
 import CoachingSection from '@/components/CoachingSection';
-import NutritionSection from '@/components/NutritionSection';
+
 import AppSection from '@/components/AppSection';
 import CTASection from '@/components/CTASection';
 import FAQSection from '@/components/FAQSection';
@@ -53,7 +53,7 @@ export default function Home() {
         <PricingOfferBlock />
         
         <CoachingSection />
-        <NutritionSection />
+
         <AppSection />
         <FreeResourcesSection />
         
