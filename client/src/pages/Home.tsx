@@ -1,4 +1,5 @@
 import HeroSection from '@/components/HeroSection';
+import BlogHighlightSection from '@/components/BlogHighlightSection';
 import LeadMagnetPopup from '@/components/LeadMagnetPopup';
 import ProblemSection from '@/components/ProblemSection';
 import TransformationGallery from '@/components/TransformationGallery';
@@ -65,6 +66,7 @@ export default function Home() {
         </section>
         
         <CTASection />
+        <BlogHighlightSection />
         <FAQSection />
       </main>
       <Footer />
