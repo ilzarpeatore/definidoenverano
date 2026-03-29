@@ -18,8 +18,8 @@ export default function Footer() {
           <div>
             <div className="mb-4">
               <img
-                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/reset-logo-bestronger-dafb3ffQ52jgweacDM6veW.webp"
-                alt="Método RESET by BeStronger Logo"
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/reset-logo-updated-3ztMhkLcMExCNVFPJeuu3u.png"
+                alt="Método RESET - Dolor lumbar y cervical Logo"
                 className="h-20 w-auto object-contain"
               />
             </div>
