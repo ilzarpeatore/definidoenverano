@@ -38,6 +38,33 @@ export default function BlogPost() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Navigation with Logo */}
+      <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b border-border">
+        <div className="container max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+          <Link href="/">
+            <a className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+              <img
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/reset-logo-updated-Ym8qZxVvXqNZHvfKZLJPkR.webp"
+                alt="Metodo RESET"
+                className="h-10 w-auto"
+              />
+            </a>
+          </Link>
+          <div className="flex items-center gap-4">
+            <Link href="/blog">
+              <a className="text-gray-400 hover:text-accent transition-colors">
+                Blog
+              </a>
+            </Link>
+            <Link href="/">
+              <a className="text-accent hover:text-accent/80 transition-colors font-semibold">
+                Volver a inicio
+              </a>
+            </Link>
+          </div>
+        </div>
+      </nav>
+
       {/* Header */}
       <motion.div
         className="relative py-12 md:py-16 bg-gradient-to-b from-slate-900 to-background"
