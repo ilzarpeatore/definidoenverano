@@ -65,7 +65,7 @@ export default function QuickAssessment() {
     },
     {
       id: 'painSeverity',
-      title: '¿Cuál es la intensidad de tu dolor? (0=sin dolor, 10=máximo dolor)',
+      title: 'Valora la gravedad de tu dolor (0=sin dolor, 10=insoportable)',
       type: 'slider',
       min: 0,
       max: 10,
@@ -197,7 +197,7 @@ export default function QuickAssessment() {
                 Casi listo
               </h1>
               <p className="text-lg text-muted-foreground">
-                Completa tus datos para recibir tu evaluación personalizada
+                Completa tus datos para recibir recomendaciones personalizadas basadas en tu valoración
               </p>
             </motion.div>
           </div>
