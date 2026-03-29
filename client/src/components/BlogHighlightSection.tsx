@@ -72,51 +72,49 @@ export default function BlogHighlightSection() {
           viewport={{ once: true, margin: '-100px' }}
         >
           {highlightedPosts.map((post) => (
-            <motion.div
-              key={post.id}
-              className="card-glass border border-border rounded-sm overflow-hidden hover:border-accent/50 transition-all group cursor-pointer"
-              variants={itemVariants}
-              whileHover={{ y: -5 }}
-            >
-              <Link href={`/blog/${post.slug}`}>
-                <a className="block">
-                  {/* Image */}
-                  <div className="relative h-40 overflow-hidden bg-gradient-to-br from-blue-500/20 to-green-500/20">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
+            <Link href={`/blog/${post.slug}`}>
+              <motion.div
+                key={post.id}
+                className="card-glass border border-border rounded-sm overflow-hidden hover:border-accent/50 transition-all group cursor-pointer block"
+                variants={itemVariants}
+                whileHover={{ y: -5 }}
+              >
+                {/* Image */}
+                <div className="relative h-40 overflow-hidden bg-gradient-to-br from-blue-500/20 to-green-500/20">
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+
+                {/* Content */}
+                <div className="p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-xs font-bold text-accent uppercase bg-accent/10 px-2 py-1 rounded">
+                      {post.category}
+                    </span>
+                    <span className="text-xs text-gray-400 flex items-center gap-1">
+                      <Calendar className="w-3 h-3" />
+                      {new Date(post.date).toLocaleDateString('es-ES')}
+                    </span>
                   </div>
 
-                  {/* Content */}
-                  <div className="p-6">
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="text-xs font-bold text-accent uppercase bg-accent/10 px-2 py-1 rounded">
-                        {post.category}
-                      </span>
-                      <span className="text-xs text-gray-400 flex items-center gap-1">
-                        <Calendar className="w-3 h-3" />
-                        {new Date(post.date).toLocaleDateString('es-ES')}
-                      </span>
-                    </div>
+                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-accent transition-colors line-clamp-2">
+                    {post.title}
+                  </h3>
 
-                    <h3 className="text-lg font-bold text-white mb-2 group-hover:text-accent transition-colors line-clamp-2">
-                      {post.title}
-                    </h3>
+                  <p className="text-gray-400 text-sm mb-4 line-clamp-2">
+                    {post.excerpt}
+                  </p>
 
-                    <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-                      {post.excerpt}
-                    </p>
-
-                    <div className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors font-semibold">
-                      Leer más
-                      <ArrowRight className="w-4 h-4" />
-                    </div>
+                  <div className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors font-semibold">
+                    Leer más
+                    <ArrowRight className="w-4 h-4" />
                   </div>
-                </a>
-              </Link>
-            </motion.div>
+                </div>
+              </motion.div>
+            </Link>
           ))}
         </motion.div>
 
@@ -129,10 +127,10 @@ export default function BlogHighlightSection() {
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <Link href="/blog">
-            <a className="inline-flex items-center gap-2 bg-accent/10 hover:bg-accent/20 border border-accent/50 text-accent font-bold py-3 px-8 rounded-sm transition-all">
+            <div className="inline-flex items-center gap-2 bg-accent/10 hover:bg-accent/20 border border-accent/50 text-accent font-bold py-3 px-8 rounded-sm transition-all cursor-pointer">
               Ver todos los artículos
               <ArrowRight className="w-4 h-4" />
-            </a>
+            </div>
           </Link>
         </motion.div>
       </div>
