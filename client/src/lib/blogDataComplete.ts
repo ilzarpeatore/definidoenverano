@@ -10,10 +10,9 @@ export interface BlogPost {
   date: string;
   readTime: number;
   author: string;
-  seoKeywords?: string[];
 }
 
-export const blogPosts: BlogPost[] = [
+export const blogPostsComplete: BlogPost[] = [
   // BLOQUE 1: ATRACCIÓN (Búsquedas Informativas)
   {
     id: 'dolor-lumbar-causas-profundas',

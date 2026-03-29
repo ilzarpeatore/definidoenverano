@@ -15,7 +15,7 @@ export default function BlogPost() {
 
   if (!match) return null;
 
-  const post = blogPosts.find(p => p.slug === params?.slug);
+  const post = blogPosts.find((p: any) => p.slug === params?.slug);
 
   if (!post) {
     return (
@@ -33,7 +33,7 @@ export default function BlogPost() {
   }
 
   const relatedPosts = blogPosts
-    .filter(p => p.id !== post.id && p.category === post.category)
+    .filter((p: any) => p.id !== post.id && p.category === post.category)
     .slice(0, 3);
 
   return (
@@ -164,8 +164,7 @@ export default function BlogPost() {
           <div className="mt-8">
             <p className="text-gray-400 text-sm mb-2">Palabras clave:</p>
             <div className="flex flex-wrap gap-2">
-              {post.seoKeywords.map((keyword) => (
-                <span
+              {post.seoKeywords?.map((keyword: string) => (                <span
                   key={keyword}
                   className="text-xs bg-accent/10 text-accent px-3 py-1 rounded-full"
                 >
@@ -269,7 +268,7 @@ export default function BlogPost() {
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-12">Artículos relacionados</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {relatedPosts.map((relatedPost) => (
+              {relatedPosts.map((relatedPost: any) => (
                 <Link key={relatedPost.id} href={`/blog/${relatedPost.slug}`}>
                   <a className="card-glass border border-border rounded-sm overflow-hidden hover:border-accent/50 transition-all group">
                     <div className="relative h-40 overflow-hidden bg-gradient-to-br from-blue-500/20 to-green-500/20">
