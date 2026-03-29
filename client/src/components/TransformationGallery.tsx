@@ -18,43 +18,85 @@ export default function TransformationGallery() {
     {
       id: 1,
       image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/transformation-posture-1-es-P946fbAUsPBgYDgdiRZs7r.webp',
-      title: 'Postura Mejorada',
+      title: 'Postura Mejorada - Hombre',
       description: 'Corrección de hombros redondeados',
     },
     {
       id: 2,
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/transformation-posture-2-es-iRVuM8zY6sekU9uyx5Jfdb.webp',
-      title: 'Postura en el Trabajo',
-      description: 'Ergonomía correcta en oficina',
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/transformation-woman-posture-1-es-bbv28pctsL9Bpqt9Qgb7kj.webp',
+      title: 'Postura Mejorada - Mujer',
+      description: 'Corrección de hombros redondeados',
     },
     {
       id: 3,
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/transformation-posture-3-es-fjJ9R9zu4HtePjcCYviwse.webp',
-      title: 'Tensión Muscular Reducida',
-      description: 'Músculos relajados y tonificados',
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/transformation-posture-2-es-iRVuM8zY6sekU9uyx5Jfdb.webp',
+      title: 'Postura en el Trabajo - Hombre',
+      description: 'Ergonomía correcta en oficina',
     },
     {
       id: 4,
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/transformation-posture-4-es-7y4AfzC6YEFGusw4JYzowx.webp',
-      title: 'Alineación Espinal',
-      description: 'Columna vertebral correctamente alineada',
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/transformation-woman-posture-2-es-hoaNRKQx6hkuW4wKa65QUq.webp',
+      title: 'Postura en el Trabajo - Mujer',
+      description: 'Ergonomía correcta en oficina',
     },
     {
       id: 5,
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/transformation-posture-5-es-nMpwMai5cthjsA4iLf57Sh.webp',
-      title: 'Dolor Lumbar Eliminado',
-      description: 'Postura neutral y sin dolor',
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/transformation-posture-3-es-fjJ9R9zu4HtePjcCYviwse.webp',
+      title: 'Tensión Muscular Reducida - Hombre',
+      description: 'Músculos relajados y tonificados',
     },
     {
       id: 6,
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/transformation-posture-6-es-kdRVD34DHAZdvkgWVUt6yT.webp',
-      title: 'Alineación Cervical',
-      description: 'Cuello relajado y bien posicionado',
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/transformation-woman-posture-3-es-JWvs2sbzECVxTJprUMcKJG.webp',
+      title: 'Tensión Muscular Reducida - Mujer',
+      description: 'Músculos relajados y tonificados',
     },
     {
       id: 7,
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/transformation-posture-4-es-7y4AfzC6YEFGusw4JYzowx.webp',
+      title: 'Alineación Espinal - Hombre',
+      description: 'Columna vertebral correctamente alineada',
+    },
+    {
+      id: 8,
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/transformation-woman-posture-4-es-iGjxrnBvaSEjMzqdC4UdNr.webp',
+      title: 'Alineación Espinal - Mujer',
+      description: 'Columna vertebral correctamente alineada',
+    },
+    {
+      id: 9,
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/transformation-posture-5-es-nMpwMai5cthjsA4iLf57Sh.webp',
+      title: 'Dolor Lumbar Eliminado - Hombre',
+      description: 'Postura neutral y sin dolor',
+    },
+    {
+      id: 10,
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/transformation-woman-posture-5-es-LMX9J7RCiWDNcZmTxmbyBm.webp',
+      title: 'Dolor Lumbar Eliminado - Mujer',
+      description: 'Postura neutral y sin dolor',
+    },
+    {
+      id: 11,
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/transformation-posture-6-es-kdRVD34DHAZdvkgWVUt6yT.webp',
+      title: 'Alineación Cervical - Hombre',
+      description: 'Cuello relajado y bien posicionado',
+    },
+    {
+      id: 12,
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/transformation-woman-posture-6-es-9tgZULEMFkt4mhMB7gq3YU.webp',
+      title: 'Alineación Cervical - Mujer',
+      description: 'Cuello relajado y bien posicionado',
+    },
+    {
+      id: 13,
       image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/transformation-posture-7-es-CkDtmgu2SNaRw7y3Ec6rez.webp',
-      title: 'Transformación Completa',
+      title: 'Transformación Completa - Hombre',
+      description: 'Postura correcta y confianza restaurada',
+    },
+    {
+      id: 14,
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/transformation-woman-posture-7-es-VsLZZQ9CzsEztcshV3Yzek.webp',
+      title: 'Transformación Completa - Mujer',
       description: 'Postura correcta y confianza restaurada',
     },
   ];
@@ -107,13 +149,13 @@ export default function TransformationGallery() {
             className="font-display text-4xl md:text-5xl text-white mb-6"
             variants={itemVariants}
           >
-            Transformaciones que Hablan por Sí Solas
+            Así puede verse tu transformación
           </motion.h2>
           <motion.p
             className="text-xl text-gray-300 max-w-3xl mx-auto"
             variants={itemVariants}
           >
-            Estos son hombres como tú. Ocupados. Sin excusas. Que decidieron cambiar.
+            Así se ven los cambios posturales que hemos conseguido en hombres y mujeres
           </motion.p>
         </motion.div>
 
@@ -134,7 +176,7 @@ export default function TransformationGallery() {
               {transformations.map((transformation) => (
                 <div key={transformation.id} className="w-full flex-shrink-0 px-2 md:px-4">
                   <motion.div
-                    className="relative group overflow-hidden rounded-sm h-96 md:h-96"
+                    className="relative group overflow-hidden rounded-sm h-96 md:h-[500px]"
                     whileHover={{ y: -5 }}
                   >
                     {/* Image Container */}
