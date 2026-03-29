@@ -53,7 +53,7 @@ El Método RESET funciona porque:
 - Enseña patrones de movimiento correctos
 
 **La buena noticia**: Sí es posible recuperarse completamente. Solo necesitas el enfoque correcto.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-80-porciento-no-se-cura.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-80-porciento-no-se-cura_c8b3f2a1.png',
     category: 'Información',
     date: '2026-03-28',
     readTime: 5,
@@ -108,7 +108,7 @@ La lumbalgia crónica no tratada puede llevar a:
 - Problemas laborales
 
 **Solución**: El Método RESET aborda la causa raíz, no solo los síntomas.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-lumbalgia-cronica-definicion.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-lumbalgia-cronica-definicion_d9b17c52.png',
     category: 'Información',
     date: '2026-03-27',
     readTime: 6,
@@ -153,7 +153,7 @@ Tu sistema nervioso "aprende" a sentir dolor. Incluso movimientos seguros se per
 ### La solución integral
 
 El Método RESET aborda todas estas causas simultáneamente, no solo una.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-7-causas-dolor-lumbar.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-7-causas-dolor-lumbar_3f4d8c9e.png',
     category: 'Información',
     date: '2026-03-26',
     readTime: 7,
@@ -205,7 +205,7 @@ El Método RESET aborda todas estas causas simultáneamente, no solo una.`,
 El dolor agudo no tratado correctamente puede convertirse en crónico. Por eso es importante actuar rápido.
 
 **Consejo**: Si tu dolor persiste más de 4-6 semanas, busca ayuda profesional especializada.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-agudo-vs-cronico.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-agudo-vs-cronico_5a2b1f7d.png',
     category: 'Información',
     date: '2026-03-25',
     readTime: 5,
@@ -256,7 +256,7 @@ El Método RESET:
 - Enseña prevención
 
 **Acción**: Si llevas meses sin mejorar, es hora de un enfoque diferente.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-meses-sin-mejorar.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-meses-sin-mejorar_e6a84805.png',
     category: 'Información',
     date: '2026-03-24',
     readTime: 6,
@@ -321,7 +321,7 @@ El Método RESET:
 - ❌ Expectativas poco realistas
 
 **Próximo paso**: Evalúa cuál de estos errores estás cometiendo.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-5-errores-tratamiento.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-5-errores-tratamiento_7c4e9a2b.png',
     category: 'Solución',
     date: '2026-03-23',
     readTime: 7,
@@ -376,7 +376,7 @@ El Ibuprofeno funciona mejor como **herramienta temporal** en un plan completo:
 Los medicamentos son útiles, pero no son la solución. Son un apoyo temporal para permitir el movimiento y la rehabilitación.
 
 **Pregunta importante**: ¿Llevas más de 3 meses tomando medicamentos? Es hora de un enfoque diferente.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-ibuprofeno-no-solucion.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-ibuprofeno-no-solucion_a1834bff.png',
     category: 'Solución',
     date: '2026-03-22',
     readTime: 6,
@@ -430,7 +430,7 @@ Estudios recientes muestran que:
 **No es reposo vs movimiento. Es movimiento inteligente.**
 
 El Método RESET usa movimiento progresivo personalizado para tu caso específico.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-reposo-o-movimiento.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-reposo-o-movimiento_cb5ead25.png',
     category: 'Solución',
     date: '2026-03-21',
     readTime: 6,
@@ -490,7 +490,7 @@ El Método RESET usa movimiento progresivo personalizado para tu caso específic
 4. ¿Necesitas supervisión? → Busca profesional
 
 **Conclusión**: El Método RESET personaliza ejercicios según tu diagnóstico específico.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-ejercicios-empeoran-dolor.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-ejercicios-empeoran-dolor_9f2e1c3a.png',
     category: 'Solución',
     date: '2026-03-20',
     readTime: 7,
@@ -549,7 +549,7 @@ Enseñar nuevos hábitos
 Tu sistema nervioso "aprende" a sentir dolor. El Método RESET lo "enseña" a sentir seguridad.
 
 **Tiempo**: 4-6 semanas para romper el ciclo con el enfoque correcto.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-ciclo-tension-dolor.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-ciclo-tension-dolor_4d7b5e8f.png',
     category: 'Solución',
     date: '2026-03-19',
     readTime: 7,
