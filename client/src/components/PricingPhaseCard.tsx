@@ -57,16 +57,16 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
         <div className="relative z-10">
           <div className="flex justify-between items-start mb-4 md:mb-6">
             <div>
-              <p className="text-accent/80 text-xs md:text-sm font-semibold mb-1 md:mb-2">
+              <p className="text-white text-xs md:text-sm font-semibold mb-1 md:mb-2">
                 FASE ACTUAL
               </p>
-              <h3 className="font-display text-2xl md:text-4xl font-bold text-accent">
+              <h3 className="font-display text-2xl md:text-4xl font-bold text-white">
                 {phase.name}
               </h3>
             </div>
             <div className="text-right">
-              <p className="text-gray-300 text-xs md:text-sm mb-1">Precio</p>
-              <p className="font-display text-3xl md:text-4xl font-bold text-accent">
+              <p className="text-white text-xs md:text-sm mb-1">Precio</p>
+              <p className="font-display text-3xl md:text-4xl font-bold text-white">
                 €{phase.price}
               </p>
             </div>
@@ -80,7 +80,7 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
                 transition={{ duration: 0.8 }}
               ></motion.div>
             </div>
-            <p className="text-gray-300 text-xs md:text-sm mt-2">
+            <p className="text-white text-xs md:text-sm mt-2">
               {completionPercentage}% completado
             </p>
           </div>
@@ -92,12 +92,12 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-accent flex-shrink-0 mt-0.5" />
+            <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-white flex-shrink-0 mt-0.5" />
             <div>
-              <p className="text-accent font-bold text-sm md:text-lg">
+              <p className="text-white font-bold text-sm md:text-lg">
                 ⏰ En {daysUntilNextPrice} días: €{nextPrice}
               </p>
-              <p className="text-gray-300 text-xs md:text-sm mt-1">
+              <p className="text-white text-xs md:text-sm mt-1">
                 El precio subirá en {daysUntilNextPrice} días
               </p>
             </div>
@@ -128,16 +128,16 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
         <div className="relative z-10">
           <div className="flex justify-between items-start mb-4 md:mb-6">
             <div>
-              <p className="text-accent/80 text-xs md:text-sm font-semibold mb-1 md:mb-2">
+              <p className="text-white text-xs md:text-sm font-semibold mb-1 md:mb-2">
                 PRÓXIMA FASE
               </p>
-              <h3 className="font-display text-2xl md:text-4xl font-bold text-accent">
+              <h3 className="font-display text-2xl md:text-4xl font-bold text-white">
                 {nextPhase.name}
               </h3>
             </div>
             <div className="text-right">
-              <p className="text-gray-300 text-xs md:text-sm mb-1">Nuevo precio</p>
-              <p className="font-display text-3xl md:text-4xl font-bold text-accent">
+              <p className="text-white text-xs md:text-sm mb-1">Nuevo precio</p>
+              <p className="font-display text-3xl md:text-4xl font-bold text-white">
                 €{nextPhase.price}
               </p>
             </div>
@@ -150,12 +150,12 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <Calendar className="w-5 h-5 md:w-6 md:h-6 text-accent flex-shrink-0 mt-0.5" />
+            <Calendar className="w-5 h-5 md:w-6 md:h-6 text-white flex-shrink-0 mt-0.5" />
             <div>
-              <p className="text-accent font-bold text-sm md:text-lg">
+              <p className="text-white font-bold text-sm md:text-lg">
                 📅 Comienza: {nextPhase.startDate.toLocaleDateString('es-ES', { month: 'long', day: 'numeric' })}
               </p>
-              <p className="text-gray-300 text-xs md:text-sm mt-1">
+              <p className="text-white text-xs md:text-sm mt-1">
                 Duración: {nextPhase.durationDays} días
               </p>
             </div>
@@ -168,12 +168,12 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-accent flex-shrink-0 mt-0.5" />
+            <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-white flex-shrink-0 mt-0.5" />
             <div>
-              <p className="text-accent font-bold text-sm md:text-lg">
+              <p className="text-white font-bold text-sm md:text-lg">
                 📈 Aumento: +€{priceIncrease}
               </p>
-              <p className="text-gray-300 text-xs md:text-sm mt-1">
+              <p className="text-white text-xs md:text-sm mt-1">
                 De €{currentPhase.price} a €{nextPhase.price}
               </p>
             </div>
@@ -204,16 +204,16 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
         <div className="relative z-10">
           <div className="flex justify-between items-start mb-4 md:mb-6">
             <div>
-              <p className="text-accent/80 text-xs md:text-sm font-semibold mb-1 md:mb-2">
+              <p className="text-white text-xs md:text-sm font-semibold mb-1 md:mb-2">
                 FASE FINAL
               </p>
-              <h3 className="font-display text-2xl md:text-4xl font-bold text-accent">
+              <h3 className="font-display text-2xl md:text-4xl font-bold text-white">
                 {futurePhase.name}
               </h3>
             </div>
             <div className="text-right">
-              <p className="text-gray-300 text-xs md:text-sm mb-1">Precio</p>
-              <p className="font-display text-3xl md:text-4xl font-bold text-accent">
+              <p className="text-white text-xs md:text-sm mb-1">Precio</p>
+              <p className="font-display text-3xl md:text-4xl font-bold text-white">
                 €{futurePhase.price}
               </p>
             </div>
@@ -226,12 +226,12 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <Calendar className="w-5 h-5 md:w-6 md:h-6 text-accent flex-shrink-0 mt-0.5" />
+            <Calendar className="w-5 h-5 md:w-6 md:h-6 text-white flex-shrink-0 mt-0.5" />
             <div>
-              <p className="text-accent font-bold text-sm md:text-lg">
+              <p className="text-white font-bold text-sm md:text-lg">
                 📅 Comienza: {futurePhase.startDate.toLocaleDateString('es-ES', { month: 'long', day: 'numeric' })}
               </p>
-              <p className="text-gray-300 text-xs md:text-sm mt-1">
+              <p className="text-white text-xs md:text-sm mt-1">
                 Duración: {futurePhase.durationDays} días
               </p>
             </div>
@@ -244,12 +244,12 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-accent flex-shrink-0 mt-0.5" />
+            <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-white flex-shrink-0 mt-0.5" />
             <div>
-              <p className="text-accent font-bold text-sm md:text-lg">
+              <p className="text-white font-bold text-sm md:text-lg">
                 📈 Aumento: +€{priceIncrease}
               </p>
-              <p className="text-gray-300 text-xs md:text-sm mt-1">
+              <p className="text-white text-xs md:text-sm mt-1">
                 De €{previousPhase.price} a €{futurePhase.price}
               </p>
             </div>

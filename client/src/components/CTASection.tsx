@@ -57,14 +57,14 @@ export default function CTASection() {
           <h2 className="font-display text-5xl md:text-6xl font-bold text-white mb-4">
             COMIENZA TU RESET HOY
           </h2>
-          <p className="text-gray-300 text-lg">
+          <p className="text-white text-lg">
             Lanzamiento Especial: -50€ para los Primeros 20
           </p>
         </motion.div>
 
         {/* Pricing Card */}
         <motion.div
-          className="bg-gradient-to-br from-blue-900 to-slate-800 p-8 md:p-12 mb-12 border-2 border-accent/50 rounded-lg"
+          className="bg-gradient-to-br from-green-900 to-emerald-800 p-8 md:p-12 mb-12 border-2 border-green-500/50 rounded-lg"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
@@ -78,7 +78,7 @@ export default function CTASection() {
           >
             {/* Original Price */}
             <motion.div variants={itemVariants} className="mb-4">
-              <p className="text-gray-400 text-sm line-through">Precio normal: €247</p>
+              <p className="text-white text-sm line-through">Precio normal: €247</p>
             </motion.div>
 
             {/* Discount Badge */}
@@ -91,9 +91,9 @@ export default function CTASection() {
             {/* Final Price */}
             <motion.div variants={itemVariants}>
               <div className="flex items-baseline justify-center gap-2">
-                <span className="text-accent font-display text-6xl font-bold">€197</span>
+                <span className="text-white font-display text-6xl font-bold">€197</span>
               </div>
-              <p className="text-gray-400 text-sm mt-2">O 3 cuotas de €66</p>
+              <p className="text-white text-sm mt-2">O 3 cuotas de €66</p>
             </motion.div>
           </motion.div>
 
@@ -107,7 +107,7 @@ export default function CTASection() {
             initial="hidden"
             animate="visible"
           >
-            <p className="text-accent font-heading text-lg mb-4">Lo que obtienes:</p>
+            <p className="text-white font-heading text-lg mb-4">Lo que obtienes:</p>
             <div className="space-y-3">
               {includes.map((item, index) => (
                 <motion.div
@@ -115,8 +115,8 @@ export default function CTASection() {
                   className="flex items-center gap-3"
                   variants={itemVariants}
                 >
-                  <Check className="w-5 h-5 text-accent flex-shrink-0" />
-                  <span className="text-gray-200">{item}</span>
+                  <Check className="w-5 h-5 text-white flex-shrink-0" />
+                  <span className="text-white">{item}</span>
                 </motion.div>
               ))}
             </div>
@@ -138,11 +138,11 @@ export default function CTASection() {
 
           {/* Guarantee */}
           <motion.div
-            className="flex items-center justify-center gap-2 text-accent"
+            className="flex items-center justify-center gap-2 text-white"
             variants={itemVariants}
           >
             <Shield className="w-5 h-5" />
-            <p className="font-body text-sm">
+            <p className="font-body text-sm text-white">
               Garantía de dinero devuelto. Si no reduces tu dolor en un 50% en 3 semanas, te devolvemos el 100%.
             </p>
           </motion.div>
@@ -156,7 +156,7 @@ export default function CTASection() {
           transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
         >
-          <p className="text-gray-400 text-sm">
+          <p className="text-white text-sm">
             ¿Preguntas? Mira las respuestas más frecuentes abajo o contacta directamente.
           </p>
         </motion.div>
