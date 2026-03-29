@@ -1,11 +1,17 @@
 import { useRoute, Link } from 'wouter';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 import { blogPosts } from '@/lib/blogData';
 import { Streamdown } from 'streamdown';
 
 export default function BlogPost() {
   const [match, params] = useRoute('/blog/:slug');
+
+  // Scroll al inicio cuando se carga el artículo
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [params?.slug]);
 
   if (!match) return null;
 
