@@ -6,11 +6,11 @@ import { trpc } from '@/lib/trpc';
 
 /**
  * Hero Section - Método RESET by BeStronger
- * Design Philosophy: Professional Health + Neurofunctional Recovery
- * - Modern professional aesthetic with dark background
- * - Clear, empathetic messaging
- * - Gold accents for premium positioning
- * - Immediate emotional impact: Relief, Hope, Recovery
+ * Design Philosophy: Empathetic Problem Recognition + Solution
+ * - Image of man in office with back pain (relatable problem)
+ * - Clear, empathetic messaging focused on pain relief
+ * - Blue + Green colors for health/recovery
+ * - Immediate emotional impact: Recognition, Hope, Solution
  */
 
 export default function HeroSection() {
@@ -42,12 +42,12 @@ export default function HeroSection() {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/JQRutXWXNFhZNqCU.jpg"
-          alt="Hombre musculado definido fitness transformación"
+          src="https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/reset-hero-section.png"
+          alt="Hombre en oficina con dolor de espalda"
           className="w-full h-full object-cover"
         />
         {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
       </div>
 
       {/* Content */}
@@ -62,11 +62,11 @@ export default function HeroSection() {
           className="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6 text-white"
           variants={itemVariants}
         >
-          ¿Dolor de espalda tras horas frente al ordenador?
+          ¿Dolor de espalda tras 8 horas en el escritorio?
           <br />
-          <span className="text-gradient-gold">Reinicia tu cuerpo.</span>
+          <span className="text-accent">No es normal.</span>
           <br />
-          Recupera tu vida.
+          Y tiene solución.
         </motion.h1>
 
         {/* Divider Line */}
@@ -77,18 +77,18 @@ export default function HeroSection() {
           className="font-body text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed"
           variants={itemVariants}
         >
-          El Método RESET: la única forma de eliminar el dolor lumbar y cervical sin pastillas, sin fisios, sin ejercicios complicados.
+          Método RESET: La solución neurocientífica que 250+ hombres ya usan para eliminar su dolor lumbar y cervical.
           <br />
-          <span className="text-amber-300 font-semibold">Reduce tu dolor en un 70% en solo 6 semanas.</span>
+          <span className="text-green-400 font-semibold">Reduce tu dolor en un 70% en solo 6 semanas.</span>
         </motion.p>
 
         {/* Price Display */}
         {pricing && (
           <motion.div variants={itemVariants} className="mb-8">
-            <p className="text-sm text-amber-400 font-semibold">PRECIO ACTUAL</p>
-            <p className="text-4xl font-bold text-amber-300">€{pricing.currentPrice}</p>
+            <p className="text-sm text-green-400 font-semibold">PRECIO ACTUAL</p>
+            <p className="text-4xl font-bold text-green-300">€{pricing.currentPrice}</p>
             {!pricing.isLastPhase && (
-              <p className="text-xs text-amber-200 mt-2">Sube a €{pricing.nextPrice} en {pricing.daysUntilNextPhase} día{pricing.daysUntilNextPhase !== 1 ? 's' : ''}</p>
+              <p className="text-xs text-green-200 mt-2">Sube a €{pricing.nextPrice} en {pricing.daysUntilNextPhase} día{pricing.daysUntilNextPhase !== 1 ? 's' : ''}</p>
             )}
           </motion.div>
         )}
@@ -97,10 +97,10 @@ export default function HeroSection() {
         <motion.div variants={itemVariants} className="mb-12">
           <Button
             size="lg"
-            onClick={() => navigate('/free-week')}
+            onClick={() => navigate('/assessment')}
             className="btn-glow bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-base md:text-lg px-8 py-6 rounded-sm"
           >
-            ACCEDER A VALORACIÓN GRATUITA
+            EVALÚA TU DOLOR AHORA
           </Button>
           <p className="text-sm text-gray-400 mt-4">Garantía de dinero devuelto. Sin preguntas.</p>
         </motion.div>

@@ -225,7 +225,7 @@ export default function AssessmentResults() {
               {/* Social Proof */}
               <motion.div className="mt-8 p-6 bg-accent/5 border border-accent/20 rounded-sm" variants={itemVariants}>
                 <p className="text-sm text-gray-300 mb-3">
-                  <span className="text-accent font-bold">+2,500 hombres</span> ya están transformando su cuerpo con Definido en Verano
+                  <span className="text-accent font-bold">+250 hombres</span> ya están transformando su cuerpo con Método RESET
                 </p>
                 <p className="text-xs text-gray-400">
                   Promedio de transformación: <span className="text-accent font-bold">-8kg grasa + 4kg músculo en 12 semanas</span>
