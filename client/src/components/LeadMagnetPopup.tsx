@@ -8,8 +8,8 @@ export default function LeadMagnetPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
-    lastName: '',
     email: '',
+    painLevel: '5',
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -37,7 +37,7 @@ export default function LeadMagnetPopup() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.firstName || !formData.lastName || !formData.email) {
+    if (!formData.firstName || !formData.email) {
       toast.error('Por favor completa todos los campos');
       return;
     }
@@ -47,13 +47,13 @@ export default function LeadMagnetPopup() {
     try {
       const result = await createLeadMutation.mutateAsync({
         firstName: formData.firstName,
-        lastName: formData.lastName,
+        lastName: '',
         email: formData.email,
       });
 
       if (result.success) {
-        toast.success('¡Email registrado! Accede a tu semana gratis en tu app.');
-        setFormData({ firstName: '', lastName: '', email: '' });
+        toast.success('¡Perfecto! Recibirás tu evaluación personalizada en tu email.');
+        setFormData({ firstName: '', email: '', painLevel: '5' });
         handleClose();
       } else {
         toast.error(result.message || 'Error al registrar el email');
@@ -84,7 +84,7 @@ export default function LeadMagnetPopup() {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-accent/20 to-accent/10 p-6 relative">
+            <div className="bg-gradient-to-r from-accent/20 to-secondary/20 p-6 relative">
               <button
                 onClick={handleClose}
                 className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
@@ -93,10 +93,10 @@ export default function LeadMagnetPopup() {
               </button>
 
               <h2 className="text-2xl font-bold text-white mb-2">
-                Semana Gratis de Entrenamiento
+                Evaluación Personalizada Gratuita
               </h2>
               <p className="text-gray-300 text-sm">
-                Accede a tu primera semana completa del programa "Método RESET" sin costo.
+                Descubre cómo el Método RESET puede aliviar tu dolor lumbar en 6 semanas.
               </p>
             </div>
 
@@ -118,20 +118,6 @@ export default function LeadMagnetPopup() {
 
               <div>
                 <label className="block text-sm font-medium text-white mb-2">
-                  Apellido
-                </label>
-                <input
-                  type="text"
-                  value={formData.lastName}
-                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                  placeholder="Tu apellido"
-                  className="w-full px-4 py-2 bg-background border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent transition-colors"
-                  disabled={isLoading}
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-white mb-2">
                   Email
                 </label>
                 <input
@@ -144,10 +130,30 @@ export default function LeadMagnetPopup() {
                 />
               </div>
 
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">
+                  ¿Cuál es tu nivel de dolor? (1-10)
+                </label>
+                <div className="flex items-center gap-4">
+                  <input
+                    type="range"
+                    min="1"
+                    max="10"
+                    value={formData.painLevel}
+                    onChange={(e) => setFormData({ ...formData, painLevel: e.target.value })}
+                    className="flex-1 h-2 bg-border rounded-lg appearance-none cursor-pointer accent-accent"
+                    disabled={isLoading}
+                  />
+                  <span className="text-white font-bold text-lg w-8 text-center">
+                    {formData.painLevel}
+                  </span>
+                </div>
+              </div>
+
               {/* Acceptance text */}
               <div className="bg-accent/5 border border-accent/20 rounded-lg p-3 mb-3">
                 <p className="text-xs text-gray-300 leading-relaxed">
-                  Al registrarte, aceptas recibir información promocional sobre Método RESET en tu email. Puedes darte de baja en cualquier momento. Lee nuestros <a href="/terms" target="_blank" className="text-accent hover:underline">Términos y Condiciones</a> para más información.
+                  Al registrarte, aceptas recibir tu evaluación personalizada y consejos sobre el Método RESET. Puedes darte de baja en cualquier momento. Lee nuestros <a href="/terms" target="_blank" className="text-accent hover:underline">Términos y Condiciones</a> para más información.
                 </p>
               </div>
 
@@ -156,29 +162,29 @@ export default function LeadMagnetPopup() {
                 disabled={isLoading}
                 className="w-full bg-accent hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed text-black font-bold py-3 rounded-lg transition-all duration-300 transform hover:scale-105"
               >
-                {isLoading ? 'Registrando...' : 'Acceder a Semana Gratis'}
+                {isLoading ? 'Enviando...' : 'Recibir Evaluación Gratuita'}
               </button>
 
               <p className="text-xs text-gray-400 text-center">
-                Accederás a tu semana gratis en la app. Sin tarjeta de crédito requerida.
+                Respuesta en menos de 24 horas. Sin compromiso.
               </p>
             </form>
 
             {/* Benefits */}
             <div className="px-6 pb-6 border-t border-border">
-              <p className="text-xs font-semibold text-accent mb-3">Lo que incluye:</p>
+              <p className="text-xs font-semibold text-accent mb-3">Tu evaluación incluye:</p>
               <ul className="space-y-2 text-xs text-gray-300">
                 <li className="flex items-start gap-2">
-                  <span className="text-accent mt-1">✓</span>
-                  <span>4 entrenamientos completos</span>
+                  <span className="text-secondary mt-1">✓</span>
+                  <span>Análisis de tu tipo de dolor</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-accent mt-1">✓</span>
-                  <span>Guía de nutrición básica</span>
+                  <span className="text-secondary mt-1">✓</span>
+                  <span>Plan personalizado para ti</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-accent mt-1">✓</span>
-                  <span>Vídeos de técnica y forma</span>
+                  <span className="text-secondary mt-1">✓</span>
+                  <span>Acceso a recursos exclusivos</span>
                 </li>
               </ul>
             </div>

@@ -65,6 +65,23 @@ export default function BlogPost() {
         </div>
       </nav>
 
+      {/* Breadcrumbs */}
+      <div className="bg-background/50 border-b border-border">
+        <div className="container max-w-4xl mx-auto px-4 py-3">
+          <div className="flex items-center gap-2 text-sm text-gray-400">
+            <Link href="/">
+              <a className="text-accent hover:text-accent/80 transition-colors">Inicio</a>
+            </Link>
+            <span>/</span>
+            <Link href="/blog">
+              <a className="text-accent hover:text-accent/80 transition-colors">Blog</a>
+            </Link>
+            <span>/</span>
+            <span className="text-gray-300 line-clamp-1">{post?.title}</span>
+          </div>
+        </div>
+      </div>
+
       {/* Header */}
       <motion.div
         className="relative py-12 md:py-16 bg-gradient-to-b from-slate-900 to-background"
@@ -159,6 +176,55 @@ export default function BlogPost() {
           </div>
         </div>
       </motion.div>
+
+      {/* Next Steps / Related Products */}
+      <motion.section
+        className="py-16 md:py-24 bg-background"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
+        <div className="container max-w-4xl mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center">
+            Próximos Pasos
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Step 1 */}
+            <div className="card-glass border border-border rounded-sm p-6">
+              <div className="flex items-center justify-center w-12 h-12 bg-accent/20 rounded-full mb-4">
+                <span className="text-accent font-bold text-lg">1</span>
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Evalúa tu Dolor</h3>
+              <p className="text-gray-400 text-sm">
+                Completa nuestra evaluación gratuita para entender tu tipo de dolor y severidad.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="card-glass border border-border rounded-sm p-6">
+              <div className="flex items-center justify-center w-12 h-12 bg-accent/20 rounded-full mb-4">
+                <span className="text-accent font-bold text-lg">2</span>
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Recibe tu Plan</h3>
+              <p className="text-gray-400 text-sm">
+                Obtén un plan personalizado basado en tu situación específica y objetivos.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="card-glass border border-border rounded-sm p-6">
+              <div className="flex items-center justify-center w-12 h-12 bg-accent/20 rounded-full mb-4">
+                <span className="text-accent font-bold text-lg">3</span>
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Comienza tu Recuperación</h3>
+              <p className="text-gray-400 text-sm">
+                Accede al Método RESET y comienza a notar mejoras en tu dolor en semanas.
+              </p>
+            </div>
+          </div>
+        </div>
+      </motion.section>
 
       {/* Personalized Help CTA */}
       <motion.section

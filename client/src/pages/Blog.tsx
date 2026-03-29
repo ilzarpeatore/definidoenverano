@@ -61,6 +61,19 @@ export default function Blog() {
         </div>
       </nav>
 
+      {/* Breadcrumbs */}
+      <div className="bg-background/50 border-b border-border">
+        <div className="container max-w-6xl mx-auto px-4 py-3">
+          <div className="flex items-center gap-2 text-sm text-gray-400">
+            <Link href="/">
+              <a className="text-accent hover:text-accent/80 transition-colors">Inicio</a>
+            </Link>
+            <span>/</span>
+            <span className="text-gray-300">Blog</span>
+          </div>
+        </div>
+      </div>
+
       {/* Header */}
       <section className="relative py-16 md:py-24 bg-gradient-to-b from-slate-900 to-background">
         <div className="container max-w-6xl mx-auto px-4">
