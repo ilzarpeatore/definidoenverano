@@ -260,20 +260,62 @@ export default function AssessmentResults() {
             Próximos Pasos
           </h2>
           <div className="space-y-4">
-            {results.nextSteps.map((step, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: 0.5 + idx * 0.1 }}
-                className="flex items-start gap-3 p-4 bg-slate-800/50 rounded-lg"
-              >
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold">
-                  {idx + 1}
-                </div>
-                <p className="text-white pt-1">{step}</p>
-              </motion.div>
-            ))}
+            {/* Step 1: Evaluación Personalizada */}
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.5 }}
+              className="flex items-start gap-3 p-4 bg-slate-800/50 rounded-lg"
+            >
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold">
+                1
+              </div>
+              <div className="flex-1">
+                <p className="text-white font-semibold mb-2">Solicitar evaluación personalizada con especialista</p>
+                <a
+                  href="https://wa.me/34666777888?text=Hola%2C%20me%20gustaría%20agendar%20una%20evaluación%20personalizada%20para%20mi%20dolor%20de%20espalda"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-semibold transition-colors"
+                >
+                  Contactar por WhatsApp
+                </a>
+              </div>
+            </motion.div>
+
+            {/* Step 2: Comenzar Programa */}
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.6 }}
+              className="flex items-start gap-3 p-4 bg-slate-800/50 rounded-lg"
+            >
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold">
+                2
+              </div>
+              <div className="flex-1">
+                <p className="text-white font-semibold mb-2">Comenzar programa de Método RESET</p>
+                <a
+                  href="/#pricing"
+                  className="inline-block px-4 py-2 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white rounded-lg text-sm font-semibold transition-colors"
+                >
+                  Ver Programa RESET
+                </a>
+              </div>
+            </motion.div>
+
+            {/* Step 3: Cambios de Estilo de Vida */}
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.7 }}
+              className="flex items-start gap-3 p-4 bg-slate-800/50 rounded-lg"
+            >
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold">
+                3
+              </div>
+              <p className="text-white pt-1">Implementar cambios de estilo de vida recomendados</p>
+            </motion.div>
           </div>
         </motion.div>
 
@@ -281,21 +323,13 @@ export default function AssessmentResults() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
           className="text-center"
         >
           <p className="text-muted-foreground mb-6">
             Basado en tu evaluación, el Método RESET está diseñado específicamente para tu caso
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white"
-              onClick={() => {
-                window.location.href = '/#pricing';
-              }}
-            >
-              Ver Programa RESET <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
             <Link href="/">
               <a>
                 <Button variant="outline">Volver a Inicio</Button>

@@ -14,6 +14,13 @@ interface AssessmentAnswer {
   goal?: string;
 }
 
+interface PersonalData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+}
+
 export default function QuickAssessment() {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<AssessmentAnswer>({
@@ -23,7 +30,14 @@ export default function QuickAssessment() {
     dailyImpact: '',
     previousTreatments: '',
   });
+  const [personalData, setPersonalData] = useState<PersonalData>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+  });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showPersonalDataForm, setShowPersonalDataForm] = useState(false);
   const [, navigate] = useLocation();
 
   const questions = [
@@ -139,12 +153,27 @@ export default function QuickAssessment() {
   };
 
   const handleSubmit = async () => {
+    setShowPersonalDataForm(true);
+  };
+
+  const handlePersonalDataChange = (field: keyof PersonalData, value: string) => {
+    setPersonalData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleFinalSubmit = async () => {
+    if (!personalData.firstName || !personalData.lastName || !personalData.email || !personalData.phone) {
+      alert('Por favor completa todos los campos');
+      return;
+    }
+
     setIsSubmitted(true);
     
-    // Guardar respuestas y redirigir a página de resultados
     sessionStorage.setItem('assessmentAnswers', JSON.stringify(answers));
+    sessionStorage.setItem('personalData', JSON.stringify(personalData));
     
-    // Redirigir a página de resultados
     setTimeout(() => {
       window.location.href = '/assessment-results';
     }, 1000);
@@ -152,12 +181,102 @@ export default function QuickAssessment() {
 
   const currentQuestion = questions[currentStep];
   const isAnswered = answers[currentQuestion.id as keyof AssessmentAnswer];
-  const progress = ((currentStep + 1) / questions.length) * 100;
+  const progress = showPersonalDataForm ? 100 : ((currentStep + 1) / questions.length) * 100;
+
+  if (showPersonalDataForm) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-background to-slate-900 py-12 px-4">
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center mb-12">
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                Casi listo
+              </h1>
+              <p className="text-lg text-muted-foreground">
+                Completa tus datos para recibir tu evaluación personalizada
+              </p>
+            </motion.div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+            className="bg-card border border-border rounded-lg p-8 mb-8"
+          >
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">Nombre</label>
+                  <input
+                    type="text"
+                    value={personalData.firstName}
+                    onChange={(e) => handlePersonalDataChange('firstName', e.target.value)}
+                    placeholder="Tu nombre"
+                    className="w-full px-4 py-2 bg-slate-800 border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">Apellidos</label>
+                  <input
+                    type="text"
+                    value={personalData.lastName}
+                    onChange={(e) => handlePersonalDataChange('lastName', e.target.value)}
+                    placeholder="Tus apellidos"
+                    className="w-full px-4 py-2 bg-slate-800 border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">Email</label>
+                <input
+                  type="email"
+                  value={personalData.email}
+                  onChange={(e) => handlePersonalDataChange('email', e.target.value)}
+                  placeholder="tu@email.com"
+                  className="w-full px-4 py-2 bg-slate-800 border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">Teléfono</label>
+                <input
+                  type="tel"
+                  value={personalData.phone}
+                  onChange={(e) => handlePersonalDataChange('phone', e.target.value)}
+                  placeholder="+34 600 000 000"
+                  className="w-full px-4 py-2 bg-slate-800 border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent"
+                />
+              </div>
+            </div>
+          </motion.div>
+
+          <div className="flex gap-4">
+            <Button
+              variant="outline"
+              onClick={() => setShowPersonalDataForm(false)}
+              className="flex-1"
+            >
+              Volver
+            </Button>
+            <Button
+              onClick={handleFinalSubmit}
+              className="flex-1 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700"
+            >
+              Ver Resultados <ChevronRight className="w-4 h-4 ml-2" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-background to-slate-900 py-12 px-4">
       <div className="max-w-2xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-12">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -173,7 +292,6 @@ export default function QuickAssessment() {
           </motion.div>
         </div>
 
-        {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm text-muted-foreground">
@@ -191,7 +309,6 @@ export default function QuickAssessment() {
           </div>
         </div>
 
-        {/* Question Card */}
         <motion.div
           key={currentStep}
           initial={{ opacity: 0, x: 20 }}
@@ -202,7 +319,6 @@ export default function QuickAssessment() {
         >
           <h2 className="text-2xl font-bold text-white mb-6">{currentQuestion.title}</h2>
 
-          {/* Single Choice */}
           {currentQuestion.type === 'single' && (
             <div className="space-y-3">
               {currentQuestion.options?.map((option) => (
@@ -228,7 +344,6 @@ export default function QuickAssessment() {
             </div>
           )}
 
-          {/* Multiple Choice */}
           {currentQuestion.type === 'multiple' && (
             <div className="space-y-3">
               {currentQuestion.options?.map((option) => {
@@ -255,7 +370,6 @@ export default function QuickAssessment() {
             </div>
           )}
 
-          {/* Slider */}
           {currentQuestion.type === 'slider' && (
             <div className="space-y-6">
               <input
@@ -285,7 +399,6 @@ export default function QuickAssessment() {
           )}
         </motion.div>
 
-        {/* Navigation Buttons */}
         <div className="flex gap-4">
           {currentStep > 0 && (
             <Button
@@ -303,7 +416,7 @@ export default function QuickAssessment() {
           >
             {currentStep === questions.length - 1 ? (
               <>
-                Ver Resultados <ChevronRight className="w-4 h-4 ml-2" />
+                Siguiente <ChevronRight className="w-4 h-4 ml-2" />
               </>
             ) : (
               <>
@@ -313,7 +426,6 @@ export default function QuickAssessment() {
           </Button>
         </div>
 
-        {/* Info Text */}
         <p className="text-center text-sm text-muted-foreground mt-8">
           Tus respuestas son confidenciales y se utilizarán para personalizar tu evaluación
         </p>
