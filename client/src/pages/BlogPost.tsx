@@ -130,6 +130,37 @@ export default function BlogPost() {
         </div>
       </motion.div>
 
+      {/* Personalized Help CTA */}
+      <motion.section
+        className="py-16 md:py-24 bg-gradient-to-r from-accent/10 to-secondary/10 border-t border-b border-accent/30"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+      >
+        <div className="container max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            ¿Tu caso es diferente?
+          </h2>
+          <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
+            Cada persona tiene un patrón de dolor único. Lo que funciona para otros podría no ser exactamente lo que necesitas. Por eso ofrecemos una evaluación personalizada gratuita donde analizamos tu situación específica.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="#cta"
+              className="inline-flex items-center justify-center gap-2 bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-4 px-8 rounded-sm btn-glow transition-all"
+            >
+              Solicitar Evaluación Personalizada
+            </a>
+            <a
+              href="/blog"
+              className="inline-flex items-center justify-center gap-2 border border-accent/50 hover:border-accent text-accent font-bold py-4 px-8 rounded-sm transition-all"
+            >
+              Explorar más artículos
+            </a>
+          </div>
+        </div>
+      </motion.section>
+
       {/* Related Posts */}
       {relatedPosts.length > 0 && (
         <motion.section
