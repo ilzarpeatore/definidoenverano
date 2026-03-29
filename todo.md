@@ -173,3 +173,11 @@
 ## Refactorización de Checklist (Sin Emails Automáticos)
 - [x] Refactorizar ChecklistDay30 para guardar/recuperar sin emails automáticos
 - [x] Testear y guardar checkpoint
+
+## Mejoras de Copy y Tono (Current Session)
+- [x] Cambiar "Evaluación" a "Valoración" en todo el sitio para tono más empático
+- [x] Actualizar LeadMagnetPopup: "Evaluación Personalizada" → "Valoración Personalizada"
+- [x] Actualizar QuickAssessment: "Evaluación Rápida" → "Valoración Rápida"
+- [x] Actualizar Home.tsx CTA: "Realizar Evaluación" → "Realizar Valoración"
+- [x] Actualizar AssessmentResults: Todos los textos de "evaluación" a "valoración" (8 instancias)
+- [x] Verificar cambios en navegador y confirmar tono más empático

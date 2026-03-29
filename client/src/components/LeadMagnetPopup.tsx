@@ -52,7 +52,7 @@ export default function LeadMagnetPopup() {
       });
 
       if (result.success) {
-        toast.success('¡Perfecto! Recibirás tu evaluación personalizada en tu email.');
+        toast.success('¡Perfecto! Recibirás tu valoración personalizada en tu email.');
         setFormData({ firstName: '', email: '', painLevel: '5' });
         handleClose();
       } else {
@@ -93,7 +93,7 @@ export default function LeadMagnetPopup() {
               </button>
 
               <h2 className="text-2xl font-bold text-white mb-2">
-                Evaluación Personalizada Gratuita
+                Valoración Personalizada Gratuita
               </h2>
               <p className="text-gray-300 text-sm">
                 Descubre cómo el Método RESET puede aliviar tu dolor lumbar en 6 semanas.
@@ -153,7 +153,7 @@ export default function LeadMagnetPopup() {
               {/* Acceptance text */}
               <div className="bg-accent/5 border border-accent/20 rounded-lg p-3 mb-3">
                 <p className="text-xs text-gray-300 leading-relaxed">
-                  Al registrarte, aceptas recibir tu evaluación personalizada y consejos sobre el Método RESET. Puedes darte de baja en cualquier momento. Lee nuestros <a href="/terms" target="_blank" className="text-accent hover:underline">Términos y Condiciones</a> para más información.
+                  Al registrarte, aceptas recibir tu valoración personalizada y consejos sobre el Método RESET. Puedes darte de baja en cualquier momento. Lee nuestros <a href="/terms" target="_blank" className="text-accent hover:underline">Términos y Condiciones</a> para más información.
                 </p>
               </div>
 
@@ -162,7 +162,7 @@ export default function LeadMagnetPopup() {
                 disabled={isLoading}
                 className="w-full bg-accent hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed text-black font-bold py-3 rounded-lg transition-all duration-300 transform hover:scale-105"
               >
-                {isLoading ? 'Enviando...' : 'Recibir Evaluación Gratuita'}
+                {isLoading ? 'Enviando...' : 'Recibir Valoración Gratuita'}
               </button>
 
               <p className="text-xs text-gray-400 text-center">
@@ -172,7 +172,7 @@ export default function LeadMagnetPopup() {
 
             {/* Benefits */}
             <div className="px-6 pb-6 border-t border-border">
-              <p className="text-xs font-semibold text-accent mb-3">Tu evaluación incluye:</p>
+              <p className="text-xs font-semibold text-accent mb-3">Tu valoración incluye:</p>
               <ul className="space-y-2 text-xs text-gray-300">
                 <li className="flex items-start gap-2">
                   <span className="text-secondary mt-1">✓</span>

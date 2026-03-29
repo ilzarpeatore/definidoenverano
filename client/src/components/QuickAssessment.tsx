@@ -284,7 +284,7 @@ export default function QuickAssessment() {
             transition={{ duration: 0.5 }}
           >
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Evaluación Rápida de Dolor
+              Valoración Rápida de Dolor
             </h1>
             <p className="text-lg text-muted-foreground">
               Descubre tu nivel de dolor y recibe recomendaciones personalizadas en menos de 2 minutos
@@ -426,9 +426,9 @@ export default function QuickAssessment() {
           </Button>
         </div>
 
-        <p className="text-center text-sm text-muted-foreground mt-8">
-          Tus respuestas son confidenciales y se utilizarán para personalizar tu evaluación
-        </p>
+          <p className="text-center text-sm text-muted-foreground mt-8">
+            Tus respuestas son confidenciales y se utilizarán para personalizar tu valoración
+          </p>
       </div>
     </div>
   );

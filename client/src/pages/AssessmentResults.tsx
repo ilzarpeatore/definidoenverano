@@ -78,10 +78,10 @@ export default function AssessmentResults() {
       recommendations.push('Corrección postural en el trabajo');
     } else if (severity <= 6) {
       recommendations.push('Programa de fortalecimiento estructurado');
-      recommendations.push('Evaluación profesional recomendada');
+      recommendations.push('Valoración profesional recomendada');
       recommendations.push('Cambios en ergonomía laboral');
     } else {
-      recommendations.push('Evaluación profesional urgente');
+      recommendations.push('Valoración profesional urgente');
       recommendations.push('Programa intensivo de rehabilitación');
       recommendations.push('Monitoreo constante del progreso');
     }
@@ -106,7 +106,7 @@ export default function AssessmentResults() {
     }
 
     const nextSteps = [
-      'Solicitar evaluación personalizada con especialista',
+      'Solicitar valoración personalizada con especialista',
       'Comenzar programa de Método RESET',
       'Implementar cambios de estilo de vida recomendados',
     ];
@@ -170,7 +170,7 @@ export default function AssessmentResults() {
           className="text-center mb-12"
         >
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Tus Resultados de Evaluación
+            Tus Resultados de Valoración
           </h1>
           <p className="text-lg text-muted-foreground">
             Análisis personalizado basado en tus respuestas
@@ -260,7 +260,7 @@ export default function AssessmentResults() {
             Próximos Pasos
           </h2>
           <div className="space-y-4">
-            {/* Step 1: Evaluación Personalizada */}
+            {/* Step 1: Valoración Personalizada */}
             <motion.div
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
@@ -271,9 +271,9 @@ export default function AssessmentResults() {
                 1
               </div>
               <div className="flex-1">
-                <p className="text-white font-semibold mb-2">Solicitar evaluación personalizada con especialista</p>
+                <p className="text-white font-semibold mb-2">Solicitar valoración personalizada con especialista</p>
                 <a
-                  href="https://wa.me/34666777888?text=Hola%2C%20me%20gustaría%20agendar%20una%20evaluación%20personalizada%20para%20mi%20dolor%20de%20espalda"
+                  href="https://wa.me/34666777888?text=Hola%2C%20me%20gustaría%20agendar%20una%20valoración%20personalizada%20para%20mi%20dolor%20de%20espalda"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-semibold transition-colors"
@@ -327,7 +327,7 @@ export default function AssessmentResults() {
           className="text-center"
         >
           <p className="text-muted-foreground mb-6">
-            Basado en tu evaluación, el Método RESET está diseñado específicamente para tu caso
+            Basado en tu valoración, el Método RESET está diseñado específicamente para tu caso
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/">
@@ -338,7 +338,7 @@ export default function AssessmentResults() {
 
         {/* Disclaimer */}
         <p className="text-center text-xs text-muted-foreground mt-12">
-          Esta evaluación es orientativa y no reemplaza una evaluación profesional médica. 
+          Esta valoración es orientativa y no reemplaza una valoración profesional médica. 
           Consulta con un especialista para un diagnóstico completo.
         </p>
       </div>
