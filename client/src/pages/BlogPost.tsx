@@ -44,7 +44,7 @@ export default function BlogPost() {
           <Link href="/">
             <a className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <img
-                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/reset-logo-updated-Ym8qZxVvXqNZHvfKZLJPkR.webp"
+                src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663378157518/gFrpFQdKeQoQSkhk.png"
                 alt="Metodo RESET"
                 className="h-10 w-auto"
               />
