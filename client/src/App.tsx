@@ -25,6 +25,7 @@ import FreeWeekLanding from "./pages/FreeWeekLanding";
 import FreeWeekAccess from "./pages/FreeWeekAccess";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import QuickAssessment from "./components/QuickAssessment";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -49,6 +50,7 @@ function Router() {
       <Route path={"/free-week-access"} component={FreeWeekAccess} />
       <Route path={"/blog"} component={Blog} />
       <Route path={"/blog/:slug"} component={BlogPost} />
+      <Route path={"/quick-assessment"} component={QuickAssessment} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

@@ -1,309 +1,314 @@
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, CheckCircle, Clock, Zap, Award } from 'lucide-react';
-import { useLocation } from 'wouter';
-import { useEffect, useState } from 'react';
+import { ArrowRight, CheckCircle, AlertCircle, TrendingDown } from 'lucide-react';
+import { Link } from 'wouter';
 
-/**
- * Assessment Results Page - Personalized Value Proposition
- * Design Philosophy: Build urgency, show personalized benefits, create desire
- * - Display personalized assessment results
- * - Show specific benefits based on user's goals
- * - Create urgency with limited-time offer
- * - Clear CTA to checkout
- */
-
-interface AssessmentData {
-  experience: string;
-  yearsTraining: string;
-  mainGoal: string;
-  bodyParts: string[];
-  muscleGroups: string[];
-  timeAvailable: string;
-  motivation: string;
+interface AssessmentAnswer {
+  painLocation: string;
+  painDuration: string;
+  painSeverity: string | number;
+  dailyImpact: string;
+  previousTreatments: string;
+  workType?: string;
+  goal?: string;
 }
 
-interface ClientInfo {
-  email: string;
-  phone: string;
-  firstName: string;
-  lastName: string;
+interface ResultData {
+  score: number;
+  level: 'leve' | 'moderado' | 'severo' | 'muy_severo';
+  recommendations: string[];
+  urgency: string;
+  estimatedRecoveryTime: string;
+  nextSteps: string[];
 }
 
 export default function AssessmentResults() {
-  const [, navigate] = useLocation();
-  const [assessmentData, setAssessmentData] = useState<AssessmentData | null>(null);
-  const [clientInfo, setClientInfo] = useState<ClientInfo | null>(null);
-  const [timeLeft, setTimeLeft] = useState(3600); // 1 hour in seconds
+  const [answers, setAnswers] = useState<AssessmentAnswer | null>(null);
+  const [results, setResults] = useState<ResultData | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Load assessment data from localStorage
-    const savedAssessment = localStorage.getItem('assessmentData');
-    const savedClientInfo = localStorage.getItem('clientInfo');
-
-    if (!savedAssessment || !savedClientInfo) {
-      navigate('/assessment');
-      return;
+    const stored = sessionStorage.getItem('assessmentAnswers');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      setAnswers(parsed);
+      calculateResults(parsed);
     }
-
-    setAssessmentData(JSON.parse(savedAssessment));
-    setClientInfo(JSON.parse(savedClientInfo));
-
-    // Track retargeting event
-    if (window.fbq) {
-      window.fbq('track', 'ViewContent', {
-        content_name: 'Assessment Results',
-        content_type: 'page',
-      });
-    }
-  }, [navigate]);
-
-  // Countdown timer
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev <= 0) {
-          clearInterval(timer);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
+    setLoading(false);
   }, []);
 
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${minutes}:${secs.toString().padStart(2, '0')}`;
-  };
+  const calculateResults = (answers: AssessmentAnswer) => {
+    let score = 0;
+    const recommendations: string[] = [];
+    let urgency = 'Moderada';
+    let estimatedRecoveryTime = '6-8 semanas';
 
-  const getPersonalizedBenefits = () => {
-    const benefits = [];
+    // Calcular score basado en severidad
+    const severity = parseInt(String(answers.painSeverity)) || 5;
+    score += severity * 10;
 
-    if (assessmentData?.mainGoal === 'lose-fat') {
-      benefits.push('Plan de déficit calórico optimizado para tu metabolismo');
-      benefits.push('Rutinas de entrenamiento enfocadas en quemar grasa');
-    } else if (assessmentData?.mainGoal === 'gain-muscle') {
-      benefits.push('Programa de hipertrofia diseñado para máximo crecimiento muscular');
-      benefits.push('Guía de nutrición para ganar volumen de forma limpia');
-    } else if (assessmentData?.mainGoal === 'both') {
-      benefits.push('Recomposición corporal: pierde grasa y gana músculo simultáneamente');
-      benefits.push('Estrategia de entrenamiento balanceada para ambos objetivos');
+    // Ajustar por duración
+    if (answers.painDuration === 'more_3months') {
+      score += 20;
+      urgency = 'Alta';
+      estimatedRecoveryTime = '8-12 semanas';
+    } else if (answers.painDuration === '6_12weeks') {
+      score += 15;
+      urgency = 'Alta';
+      estimatedRecoveryTime = '6-8 semanas';
+    } else if (answers.painDuration === '2_6weeks') {
+      score += 10;
+      urgency = 'Moderada';
+      estimatedRecoveryTime = '4-6 semanas';
     }
 
-    if (assessmentData?.timeAvailable === '30min') {
-      benefits.push('Entrenamientos eficientes de 30 minutos (máximo impacto)');
-    } else if (assessmentData?.timeAvailable === '45min') {
-      benefits.push('Rutinas optimizadas de 45 minutos con máxima intensidad');
+    // Ajustar por impacto diario
+    if (answers.dailyImpact === 'severe') {
+      score += 15;
+    } else if (answers.dailyImpact === 'significant') {
+      score += 10;
+    } else if (answers.dailyImpact === 'moderate') {
+      score += 5;
+    }
+
+    // Generar recomendaciones
+    if (severity <= 3) {
+      recommendations.push('Movimiento progresivo y estiramientos suaves');
+      recommendations.push('Corrección postural en el trabajo');
+    } else if (severity <= 6) {
+      recommendations.push('Programa de fortalecimiento estructurado');
+      recommendations.push('Evaluación profesional recomendada');
+      recommendations.push('Cambios en ergonomía laboral');
     } else {
-      benefits.push('Entrenamientos completos con todo el volumen que necesitas');
+      recommendations.push('Evaluación profesional urgente');
+      recommendations.push('Programa intensivo de rehabilitación');
+      recommendations.push('Monitoreo constante del progreso');
     }
 
-    if (assessmentData?.motivation === 'summer') {
-      benefits.push('Transformación visible en 12 semanas (listo para verano)');
-    } else if (assessmentData?.motivation === 'confidence') {
-      benefits.push('Cambio de mentalidad + cuerpo para aumentar confianza');
+    if (answers.workType === 'office') {
+      recommendations.push('Descansos frecuentes durante el trabajo');
+      recommendations.push('Ajuste de estación de trabajo');
     }
 
-    return benefits;
+    if (answers.previousTreatments === 'none') {
+      recommendations.push('Comenzar con intervención temprana');
+    }
+
+    // Determinar nivel
+    let level: 'leve' | 'moderado' | 'severo' | 'muy_severo' = 'leve';
+    if (score >= 75) {
+      level = 'muy_severo';
+    } else if (score >= 55) {
+      level = 'severo';
+    } else if (score >= 35) {
+      level = 'moderado';
+    }
+
+    const nextSteps = [
+      'Solicitar evaluación personalizada con especialista',
+      'Comenzar programa de Método RESET',
+      'Implementar cambios de estilo de vida recomendados',
+    ];
+
+    setResults({
+      score: Math.min(100, score),
+      level,
+      recommendations,
+      urgency,
+      estimatedRecoveryTime,
+      nextSteps,
+    });
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  };
-
-  if (!assessmentData || !clientInfo) {
-    return null;
-  }
-
-  return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
-      {/* Header with Urgency */}
-      <div className="bg-gradient-to-r from-accent/20 to-accent/10 border-b border-accent/30 py-6">
-        <div className="container max-w-4xl mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h1 className="font-display text-3xl md:text-4xl text-white mb-2">
-              ¡Perfecto, {clientInfo.firstName}! 🎯
-            </h1>
-            <p className="text-gray-300 mb-4">
-              Hemos diseñado un programa personalizado basado en tu perfil
-            </p>
-
-            {/* Urgency Timer */}
-            <div className="inline-block bg-accent/20 border border-accent px-4 py-2 rounded-sm">
-              <p className="text-sm text-accent font-bold">
-                ⏰ Oferta especial válida por: <span className="text-lg">{formatTime(timeLeft)}</span>
-              </p>
-            </div>
-          </motion.div>
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Calculando tus resultados...</p>
         </div>
       </div>
+    );
+  }
 
-      {/* Main Content */}
-      <div className="flex-1 py-12">
-        <div className="container max-w-4xl mx-auto px-4">
-          <motion.div
-            className="grid md:grid-cols-3 gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            {/* Left: Personalized Benefits */}
-            <motion.div className="md:col-span-2" variants={itemVariants}>
-              <h2 className="font-display text-2xl text-white mb-6">
-                Tu Plan Personalizado Incluye:
-              </h2>
-
-              <div className="space-y-4">
-                {getPersonalizedBenefits().map((benefit, index) => (
-                  <motion.div
-                    key={index}
-                    className="flex gap-4 p-4 bg-card border border-border rounded-sm hover:border-accent/50 transition-colors"
-                    variants={itemVariants}
-                  >
-                    <CheckCircle className="w-6 h-6 text-accent flex-shrink-0 mt-0.5" />
-                    <div>
-                      <p className="text-white font-medium">{benefit}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Additional Features */}
-              <motion.div className="mt-8 p-6 bg-card border border-border rounded-sm" variants={itemVariants}>
-                <h3 className="font-heading text-lg text-white mb-4">Acceso Completo a:</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex gap-3">
-                    <Zap className="w-5 h-5 text-accent flex-shrink-0" />
-                    <div>
-                      <p className="text-sm text-gray-300">12 Semanas de Entrenamientos</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-3">
-                    <Award className="w-5 h-5 text-accent flex-shrink-0" />
-                    <div>
-                      <p className="text-sm text-gray-300">Guía de Nutrición Personalizada</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-3">
-                    <Clock className="w-5 h-5 text-accent flex-shrink-0" />
-                    <div>
-                      <p className="text-sm text-gray-300">Acceso de Por Vida</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-3">
-                    <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
-                    <div>
-                      <p className="text-sm text-gray-300">Actualizaciones Futuras</p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Social Proof */}
-              <motion.div className="mt-8 p-6 bg-accent/5 border border-accent/20 rounded-sm" variants={itemVariants}>
-                <p className="text-sm text-gray-300 mb-3">
-                  <span className="text-accent font-bold">+250 hombres</span> ya están transformando su cuerpo con Método RESET
-                </p>
-                <p className="text-xs text-gray-400">
-                  Promedio de transformación: <span className="text-accent font-bold">-8kg grasa + 4kg músculo en 12 semanas</span>
-                </p>
-              </motion.div>
-            </motion.div>
-
-            {/* Right: CTA Section */}
-            <motion.div variants={itemVariants}>
-              <div className="card-glass border border-accent/50 p-6 rounded-sm sticky top-4 bg-accent/5">
-                <h3 className="font-display text-xl text-white mb-4">Resumen de tu Compra</h3>
-
-                {/* Price */}
-                <div className="mb-6 pb-6 border-b border-border">
-                  <div className="flex justify-between mb-2">
-                    <span className="text-gray-400">Precio original:</span>
-                    <span className="line-through text-gray-500">€497</span>
-                  </div>
-                  <div className="flex justify-between mb-4">
-                    <span className="text-accent font-bold">Descuento (60%):</span>
-                    <span className="text-accent font-bold">-€300</span>
-                  </div>
-                  <div className="flex justify-between items-baseline">
-                    <span className="text-gray-300">Total:</span>
-                    <div>
-                      <span className="font-display text-3xl text-accent font-bold">€197</span>
-                      <span className="text-gray-400 text-sm ml-2">EUR</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Guarantee */}
-                <motion.div
-                  className="mb-6 p-4 bg-accent/10 border border-accent/30 rounded-sm text-center"
-                  variants={itemVariants}
-                >
-                  <p className="text-sm text-accent font-bold mb-1">✓ Garantía de 30 días</p>
-                  <p className="text-xs text-gray-400">
-                    Devolvemos tu dinero sin preguntas si no estás satisfecho
-                  </p>
-                </motion.div>
-
-                {/* CTA Button */}
-                <Button
-                  onClick={() => navigate('/checkout')}
-                  className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-6 rounded-sm btn-glow mb-4"
-                >
-                  <span className="flex items-center gap-2">
-                    Proceder al Pago
-                    <ArrowRight className="w-4 h-4" />
-                  </span>
-                </Button>
-
-                {/* Back Button */}
-                <Button
-                  onClick={() => navigate('/assessment')}
-                  variant="outline"
-                  className="w-full"
-                >
-                  Volver a Editar
-                </Button>
-
-                {/* Trust Indicators */}
-                <div className="mt-6 pt-6 border-t border-border">
-                  <p className="text-xs text-gray-500 text-center mb-3">Pagos seguros con:</p>
-                  <div className="flex justify-center gap-2 flex-wrap">
-                    <span className="text-xs bg-card px-2 py-1 rounded border border-border text-gray-400">
-                      🔒 SSL Encriptado
-                    </span>
-                    <span className="text-xs bg-card px-2 py-1 rounded border border-border text-gray-400">
-                      ✓ PCI Compliant
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
+  if (!results) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-white mb-4">No se encontraron resultados</h1>
+          <Link href="/">
+            <a className="text-accent hover:text-accent/80">Volver a inicio</a>
+          </Link>
         </div>
+      </div>
+    );
+  }
+
+  const levelColors = {
+    leve: 'from-green-500 to-emerald-600',
+    moderado: 'from-yellow-500 to-orange-600',
+    severo: 'from-orange-500 to-red-600',
+    muy_severo: 'from-red-600 to-red-700',
+  };
+
+  const levelLabels = {
+    leve: 'Dolor Leve',
+    moderado: 'Dolor Moderado',
+    severo: 'Dolor Severo',
+    muy_severo: 'Dolor Muy Severo',
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-background to-slate-900 py-12 px-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
+        >
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            Tus Resultados de Evaluación
+          </h1>
+          <p className="text-lg text-muted-foreground">
+            Análisis personalizado basado en tus respuestas
+          </p>
+        </motion.div>
+
+        {/* Score Card */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className={`bg-gradient-to-br ${levelColors[results.level]} rounded-lg p-8 mb-8 text-white`}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Score */}
+            <div className="text-center">
+              <div className="text-6xl font-bold mb-2">{results.score}</div>
+              <p className="text-lg opacity-90">Puntuación de Dolor</p>
+            </div>
+
+            {/* Level */}
+            <div className="text-center border-l border-r border-white/20">
+              <div className="text-3xl font-bold mb-2">{levelLabels[results.level]}</div>
+              <p className="text-lg opacity-90">Nivel de Severidad</p>
+            </div>
+
+            {/* Urgency */}
+            <div className="text-center">
+              <div className="text-2xl font-bold mb-2">{results.urgency}</div>
+              <p className="text-lg opacity-90">Nivel de Urgencia</p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Recovery Time */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="bg-card border border-border rounded-lg p-6 mb-8 flex items-center gap-4"
+        >
+          <TrendingDown className="w-8 h-8 text-accent flex-shrink-0" />
+          <div>
+            <h3 className="font-semibold text-white mb-1">Tiempo Estimado de Recuperación</h3>
+            <p className="text-muted-foreground">
+              Con el programa correcto y consistencia: <span className="text-accent font-semibold">{results.estimatedRecoveryTime}</span>
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Recommendations */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="bg-card border border-border rounded-lg p-8 mb-8"
+        >
+          <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+            <CheckCircle className="w-6 h-6 text-accent" />
+            Recomendaciones Personalizadas
+          </h2>
+          <div className="space-y-4">
+            {results.recommendations.map((rec, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.4 + idx * 0.1 }}
+                className="flex items-start gap-3 p-4 bg-slate-800/50 rounded-lg"
+              >
+                <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                <p className="text-white">{rec}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Next Steps */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="bg-card border border-border rounded-lg p-8 mb-8"
+        >
+          <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+            <AlertCircle className="w-6 h-6 text-accent" />
+            Próximos Pasos
+          </h2>
+          <div className="space-y-4">
+            {results.nextSteps.map((step, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.5 + idx * 0.1 }}
+                className="flex items-start gap-3 p-4 bg-slate-800/50 rounded-lg"
+              >
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold">
+                  {idx + 1}
+                </div>
+                <p className="text-white pt-1">{step}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+          className="text-center"
+        >
+          <p className="text-muted-foreground mb-6">
+            Basado en tu evaluación, el Método RESET está diseñado específicamente para tu caso
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button
+              className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white"
+              onClick={() => {
+                window.location.href = '/#pricing';
+              }}
+            >
+              Ver Programa RESET <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+            <Link href="/">
+              <a>
+                <Button variant="outline">Volver a Inicio</Button>
+              </a>
+            </Link>
+          </div>
+        </motion.div>
+
+        {/* Disclaimer */}
+        <p className="text-center text-xs text-muted-foreground mt-12">
+          Esta evaluación es orientativa y no reemplaza una evaluación profesional médica. 
+          Consulta con un especialista para un diagnóstico completo.
+        </p>
       </div>
     </div>
   );
