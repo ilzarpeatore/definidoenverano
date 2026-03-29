@@ -35,7 +35,7 @@ export default function PricingOfferBlock() {
   };
 
   return (
-    <section className="py-6 md:py-24 bg-gradient-to-br from-green-950 via-emerald-900 to-green-950 relative overflow-hidden">
+    <section className="py-6 md:py-24 bg-gradient-to-b from-slate-900 via-emerald-800 to-slate-900 relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 left-0 w-96 h-96 bg-accent rounded-full blur-3xl"></div>
@@ -60,7 +60,7 @@ export default function PricingOfferBlock() {
 
         {/* Pricing Card */}
         <motion.div
-          className="bg-gradient-to-br from-green-800 to-emerald-900 rounded-3xl border-2 border-green-500/60 p-8 md:p-12 mb-8 md:mb-12 relative overflow-hidden"
+          className="bg-gradient-to-br from-emerald-700 to-emerald-800 rounded-3xl border-2 border-emerald-500/40 p-8 md:p-12 mb-8 md:mb-12 relative overflow-hidden"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -72,8 +72,8 @@ export default function PricingOfferBlock() {
           <div className="relative z-10">
             {/* Price Section */}
             <div className="text-center mb-8 md:mb-10">
-              <p className="text-gray-300 text-sm md:text-base mb-2">Precio normal:</p>
-              <p className="text-gray-400 text-2xl md:text-3xl line-through mb-4">€{normalPrice}</p>
+              <p className="text-white text-sm md:text-base mb-2">Precio normal:</p>
+              <p className="text-white text-2xl md:text-3xl line-through mb-4">€{normalPrice}</p>
 
               <motion.div
                 className="inline-block bg-accent/20 border border-accent rounded-full px-4 md:px-6 py-2 mb-6"
@@ -91,7 +91,7 @@ export default function PricingOfferBlock() {
                 </span>
               </div>
 
-              <p className="text-gray-300 text-sm md:text-base mt-3">
+              <p className="text-white text-sm md:text-base mt-3">
                 Acceso de 3 meses
               </p>
             </div>

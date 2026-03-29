@@ -2,6 +2,8 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Check, Shield } from 'lucide-react';
 import { useLocation } from 'wouter';
+import { useEffect, useState } from 'react';
+import { getCurrentPhaseInfo } from '@/lib/pricingPhases';
 
 /**
  * CTA Section - Final Conversion
@@ -14,6 +16,18 @@ import { useLocation } from 'wouter';
 
 export default function CTASection() {
   const [, navigate] = useLocation();
+  const [currentPrice, setCurrentPrice] = useState<number>(197);
+  const [normalPrice, setNormalPrice] = useState<number>(247);
+  const [discountedPrice, setDiscountedPrice] = useState<number>(197);
+
+  useEffect(() => {
+    const phaseInfo = getCurrentPhaseInfo();
+    const price = phaseInfo.phase.price;
+    setCurrentPrice(price);
+    setNormalPrice(price);
+    // Discount is always 50€
+    setDiscountedPrice(Math.max(0, price - 50));
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -78,7 +92,7 @@ export default function CTASection() {
           >
             {/* Original Price */}
             <motion.div variants={itemVariants} className="mb-4">
-              <p className="text-white text-sm line-through">Precio normal: €247</p>
+              <p className="text-white text-sm line-through">Precio normal: €{normalPrice}</p>
             </motion.div>
 
             {/* Discount Badge */}
@@ -91,9 +105,9 @@ export default function CTASection() {
             {/* Final Price */}
             <motion.div variants={itemVariants}>
               <div className="flex items-baseline justify-center gap-2">
-                <span className="text-white font-display text-6xl font-bold">€197</span>
+                <span className="text-white font-display text-6xl font-bold">€{discountedPrice}</span>
               </div>
-              <p className="text-white text-sm mt-2">O 3 cuotas de €66</p>
+              <p className="text-white text-sm mt-2">O 3 cuotas de €{Math.round(discountedPrice / 3)}</p>
             </motion.div>
           </motion.div>
 
