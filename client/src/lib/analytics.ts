@@ -133,11 +133,15 @@ export function trackTrafficSource() {
 // Rastrear conversión de assessment
 export function trackAssessmentCompleted(assessmentData: Record<string, any>) {
   trackEvent(GA_EVENTS.ASSESSMENT_COMPLETED, {
-    'main_goal': assessmentData.mainGoal,
-    'experience_level': assessmentData.experienceLevel,
-    'available_time': assessmentData.availableTime,
-    'value': 0, // Sin valor monetario aún
+    'pain_level': assessmentData.painLevel,
+    'pain_type': assessmentData.painType,
+    'duration': assessmentData.duration,
+    'value': 0,
   });
+  
+  const funnelData = JSON.parse(localStorage.getItem('conversion_funnel') || '{}');
+  funnelData.assessment_completed = new Date().toISOString();
+  localStorage.setItem('conversion_funnel', JSON.stringify(funnelData));
 }
 
 // Rastrear conversión de pago
@@ -148,6 +152,18 @@ export function trackPaymentCompleted(orderData: Record<string, any>) {
     'currency': 'EUR',
     'payment_method': orderData.paymentMethod,
   });
+  
+  const funnelData = JSON.parse(localStorage.getItem('conversion_funnel') || '{}');
+  funnelData.payment_completed = new Date().toISOString();
+  funnelData.revenue = (orderData.amount || 0) / 100;
+  localStorage.setItem('conversion_funnel', JSON.stringify(funnelData));
+  
+  if ((window as any).fbq) {
+    (window as any).fbq('track', 'Purchase', {
+      value: (orderData.amount || 0) / 100,
+      currency: 'EUR',
+    });
+  }
 }
 
 // Rastrear CTA clicks
@@ -156,6 +172,11 @@ export function trackCTAClick(ctaName: string, location: string) {
     'cta_name': ctaName,
     'location': location,
   });
+  
+  const funnelData = JSON.parse(localStorage.getItem('conversion_funnel') || '{}');
+  funnelData.cta_clicks = (funnelData.cta_clicks || 0) + 1;
+  funnelData.last_cta_click = new Date().toISOString();
+  localStorage.setItem('conversion_funnel', JSON.stringify(funnelData));
 }
 
 // Rastrear video play
@@ -180,10 +201,32 @@ export function trackError(errorMessage: string, errorContext?: string) {
   });
 }
 
+// Obtener estadísticas de funnel
+export function getFunnelStats() {
+  const funnelData = JSON.parse(localStorage.getItem('conversion_funnel') || '{}');
+  return {
+    cta_clicks: funnelData.cta_clicks || 0,
+    assessment_completed: !!funnelData.assessment_completed,
+    payment_completed: !!funnelData.payment_completed,
+    total_revenue: funnelData.revenue || 0,
+    timestamps: {
+      first_cta: funnelData.first_cta_click,
+      assessment: funnelData.assessment_completed,
+      payment: funnelData.payment_completed,
+    },
+  };
+}
+
+// Limpiar datos de funnel
+export function clearFunnelData() {
+  localStorage.removeItem('conversion_funnel');
+}
+
 // Tipos globales
 declare global {
   interface Window {
     dataLayer: any[];
     gtag: (...args: any[]) => void;
+    fbq: (...args: any[]) => void;
   }
 }

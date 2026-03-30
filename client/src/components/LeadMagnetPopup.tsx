@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { trpc } from '@/lib/trpc';
 import { toast } from 'sonner';
+import { useABTest } from '@/hooks/useABTest';
 
 export default function LeadMagnetPopup() {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,6 +13,11 @@ export default function LeadMagnetPopup() {
     painLevel: '5',
   });
   const [isLoading, setIsLoading] = useState(false);
+  const { variant, trackConversion, isControl } = useABTest({
+    testName: 'popup_cta',
+    variants: ['control', 'variant'],
+    splitPercentage: 50,
+  });
 
   const createLeadMutation = trpc.leads.createLeadFromPopup.useMutation();
 
@@ -52,6 +58,7 @@ export default function LeadMagnetPopup() {
       });
 
       if (result.success) {
+        trackConversion('popup_form_submit');
         toast.success('¡Perfecto! Recibirás tu valoración personalizada en tu email.');
         setFormData({ firstName: '', email: '', painLevel: '5' });
         handleClose();
@@ -93,11 +100,22 @@ export default function LeadMagnetPopup() {
               </button>
 
               <h2 className="text-2xl font-bold text-white mb-2">
-                Valoración Personalizada Gratuita
+                {isControl ? 'Valoración Personalizada Gratuita' : '🎯 Descubre Tu Plan Personalizado'}
               </h2>
-              <p className="text-gray-300 text-sm">
-                Descubre cómo el Método RESET puede aliviar tu dolor lumbar en 6 semanas.
+              <p className="text-gray-300 text-sm mb-3">
+                {isControl ? 'Descubre cómo el Método RESET puede aliviar tu dolor lumbar en 6 semanas.' : 'Análisis personalizado + recomendaciones específicas para tu tipo de dolor.'}
               </p>
+              <div className="pt-3 border-t border-accent/20">
+                <p className="text-xs text-gray-400 mb-2">O contáctanos por WhatsApp:</p>
+                <a
+                  href="https://wa.me/34666777888"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-semibold text-sm transition-colors hover:underline"
+                >
+                  <span>📱 +34 666 777 888</span>
+                </a>
+              </div>
             </div>
 
             {/* Form */}
@@ -161,8 +179,9 @@ export default function LeadMagnetPopup() {
                 type="submit"
                 disabled={isLoading}
                 className="w-full bg-accent hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed text-black font-bold py-3 rounded-lg transition-all duration-300 transform hover:scale-105"
+                onClick={() => trackConversion('popup_cta_click')}
               >
-                {isLoading ? 'Enviando...' : 'Recibir Valoración Gratuita'}
+                {isLoading ? 'Enviando...' : isControl ? 'Recibir Valoración Gratuita' : '✓ Obtener Análisis Personalizado'}
               </button>
 
               <p className="text-xs text-gray-400 text-center">

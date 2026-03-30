@@ -69,10 +69,13 @@ export default function CTASection() {
           viewport={{ once: true }}
         >
           <h2 className="font-display text-5xl md:text-6xl font-bold text-white mb-4">
-            COMIENZA TU RESET HOY
+            Acceso Inmediato al Programa
           </h2>
-          <p className="text-white text-lg">
-            Lanzamiento Especial: -50€ para los Primeros 20
+          <p className="text-green-400 text-lg font-semibold">
+            ⚠️ URGENCIA: Solo 20 Lugares Disponibles en Fase Expansión
+          </p>
+          <p className="text-gray-300 text-sm mt-2">
+            Los lugares se están agotando. Actúa ahora para asegurar tu precio actual.
           </p>
         </motion.div>
 
@@ -97,8 +100,8 @@ export default function CTASection() {
 
             {/* Discount Badge */}
             <motion.div variants={itemVariants} className="mb-6">
-              <span className="inline-block bg-green-600 border border-green-400 text-white px-4 py-2 rounded-sm font-bold text-sm">
-                EARLY ACCESS: -50€
+              <span className="inline-block bg-red-600 border border-red-400 text-white px-4 py-2 rounded-sm font-bold text-sm animate-pulse">
+                🔥 OFERTA LIMITADA: -50€ (Fase Expansión)
               </span>
             </motion.div>
 
@@ -106,8 +109,10 @@ export default function CTASection() {
             <motion.div variants={itemVariants}>
               <div className="flex items-baseline justify-center gap-2">
                 <span className="text-white font-display text-6xl font-bold">€{discountedPrice}</span>
+                <span className="text-green-400 text-sm font-bold">HOY</span>
               </div>
-              <p className="text-white text-sm mt-2">O 3 cuotas de €{Math.round(discountedPrice / 3)}</p>
+              <p className="text-green-300 text-sm mt-2 font-semibold">✅ Sube a €{normalPrice} en 16 días</p>
+              <p className="text-white text-xs mt-3">O 3 cuotas de €{Math.round(discountedPrice / 3)} sin interés</p>
             </motion.div>
           </motion.div>
 
@@ -144,20 +149,21 @@ export default function CTASection() {
           <Button
             size="lg"
             onClick={() => navigate('/free-week')}
-            className="btn-glow w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-base md:text-lg py-6 rounded-sm"
+            className="btn-glow w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-base md:text-lg py-6 rounded-sm hover:scale-105 transform transition-transform"
           >
-            COMIENZA TU RESET AHORA
+            🚀 ACCESO INMEDIATO AL PROGRAMA
           </Button>
+          <p className="text-green-300 text-xs mt-3 font-semibold">Acceso instantáneo • Sin esperas • Comienza hoy</p>
           </motion.div>
 
           {/* Guarantee */}
           <motion.div
-            className="flex items-center justify-center gap-2 text-white"
+            className="flex items-center justify-center gap-2 text-white bg-green-900/30 p-4 rounded-sm border border-green-500/30"
             variants={itemVariants}
           >
-            <Shield className="w-5 h-5" />
+            <Shield className="w-5 h-5 text-green-400 flex-shrink-0" />
             <p className="font-body text-sm text-white">
-              Garantía de dinero devuelto. Si no reduces tu dolor en un 50% en 3 semanas, te devolvemos el 100%.
+              <span className="text-green-400 font-bold">100% Garantía:</span> Si no reduces tu dolor en 50% en 3 semanas, devolución completa sin preguntas.
             </p>
           </motion.div>
         </motion.div>

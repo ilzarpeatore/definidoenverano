@@ -181,3 +181,14 @@
 - [x] Actualizar Home.tsx CTA: "Realizar Evaluación" → "Realizar Valoración"
 - [x] Actualizar AssessmentResults: Todos los textos de "evaluación" a "valoración" (8 instancias)
 - [x] Verificar cambios en navegador y confirmar tono más empático
+
+
+## Optimizaciones Críticas (Current Session - Batch Update)
+- [x] Solucionar responsive de fotos (móvil y tablet - aspect-ratio + lazy loading)
+- [x] Añadir número de teléfono visible en pop-up para WhatsApp (+34 666 777 888)
+- [x] Optimizar velocidad de carga (lazy loading en todas las imágenes)
+- [x] Revisar y mejorar copy de CTAs (urgencia + beneficio + micro-copy)
+- [x] Optimizar posicionamiento SEO (meta tags, schemas JSON-LD, keywords para reset.bestronger.es)
+- [x] Implementar A/B testing en CTAs y pop-ups (hook useABTest con localStorage)
+- [x] Configurar analytics avanzado (funnel tracking, Facebook Pixel, Google Ads)
+- [x] Implementar chatbot/live chat con agente Manus (componente flotante + escalado)

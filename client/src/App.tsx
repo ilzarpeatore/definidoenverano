@@ -6,6 +6,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import WhatsAppButton from "./components/WhatsAppButton";
 import CookieBanner from "./components/CookieBanner";
+import ChatBot from "./components/ChatBot";
 import Home from "./pages/Home";
 import Assessment from "./pages/Assessment";
 import AssessmentResults from "./pages/AssessmentResults";
@@ -76,6 +77,7 @@ function App() {
           <Router />
           <WhatsAppButton />
           <CookieBanner />
+          <ChatBot />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

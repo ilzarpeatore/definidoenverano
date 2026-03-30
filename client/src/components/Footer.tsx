@@ -20,6 +20,7 @@ export default function Footer() {
               <img
                 src="https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/reset-logo-updated-3ztMhkLcMExCNVFPJeuu3u.png"
                 alt="Método RESET - Dolor lumbar y cervical Logo"
+                loading="lazy"
                 className="h-20 w-auto object-contain"
               />
             </div>

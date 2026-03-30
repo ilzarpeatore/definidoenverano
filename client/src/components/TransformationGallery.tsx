@@ -176,24 +176,25 @@ export default function TransformationGallery() {
               {transformations.map((transformation) => (
                 <div key={transformation.id} className="w-full flex-shrink-0 px-2 md:px-4">
                   <motion.div
-                    className="relative group overflow-hidden rounded-sm h-96 md:h-[500px]"
+                    className="relative group overflow-hidden rounded-sm aspect-[4/3] sm:aspect-[3/2] md:aspect-[16/9]"
                     whileHover={{ y: -5 }}
                   >
                     {/* Image Container */}
-                    <div className="relative overflow-hidden bg-black h-full">
+                    <div className="relative overflow-hidden bg-black w-full h-full">
                       <img
                         src={transformation.image}
                         alt={transformation.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
                       />
 
                       {/* Overlay on Hover */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-start p-6">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 sm:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-start p-4 sm:p-6">
                         <div>
-                          <h3 className="font-heading text-white text-lg mb-1">
+                          <h3 className="font-heading text-white text-base sm:text-lg mb-1">
                             {transformation.title}
                           </h3>
-                          <p className="text-accent text-sm font-bold">
+                          <p className="text-accent text-xs sm:text-sm font-bold">
                             {transformation.description}
                           </p>
                         </div>

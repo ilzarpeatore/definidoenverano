@@ -80,18 +80,19 @@ export default function BlogHighlightSection() {
                 whileHover={{ y: -5 }}
               >
                 {/* Image */}
-                <div className="relative h-40 overflow-hidden bg-gradient-to-br from-blue-500/20 to-green-500/20">
+                <div className="relative w-full aspect-video overflow-hidden bg-gradient-to-br from-blue-500/20 to-green-500/20">
                   <img
                     src={post.image}
                     alt={post.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
 
                 {/* Content */}
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-xs font-bold text-accent uppercase bg-accent/10 px-2 py-1 rounded">
+                <div className="p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-3">
+                    <span className="text-xs font-bold text-accent uppercase bg-accent/10 px-2 py-1 rounded w-fit">
                       {post.category}
                     </span>
                     <span className="text-xs text-gray-400 flex items-center gap-1">
@@ -100,11 +101,11 @@ export default function BlogHighlightSection() {
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-accent transition-colors line-clamp-2">
+                  <h3 className="text-base sm:text-lg font-bold text-white mb-2 group-hover:text-accent transition-colors line-clamp-2">
                     {post.title}
                   </h3>
 
-                  <p className="text-gray-400 text-sm mb-4 line-clamp-2">
+                  <p className="text-gray-400 text-xs sm:text-sm mb-4 line-clamp-2">
                     {post.excerpt}
                   </p>
 

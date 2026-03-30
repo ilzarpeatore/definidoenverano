@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
 import { useLocation } from 'wouter';
 import { trpc } from '@/lib/trpc';
+import { useABTest } from '@/hooks/useABTest';
 
 /**
  * Hero Section - Método RESET by BeStronger
@@ -16,6 +17,11 @@ import { trpc } from '@/lib/trpc';
 export default function HeroSection() {
   const [, navigate] = useLocation();
   const { data: pricing } = trpc.pricing.getCurrent.useQuery();
+  const { variant, trackConversion, isControl } = useABTest({
+    testName: 'hero_cta',
+    variants: ['control', 'variant'],
+    splitPercentage: 50,
+  });
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -44,7 +50,8 @@ export default function HeroSection() {
         <img
           src="https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/reset-hero-office-pain-clean-NRUMY2ySB3DiMCxZnXSUFH.webp"
           alt="Hombre en oficina con dolor de espalda tras 8 horas en el escritorio"
-          className="w-full h-full object-cover"
+          loading="eager"
+          className="w-full h-full object-cover object-center"
         />
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
@@ -59,7 +66,7 @@ export default function HeroSection() {
       >
         {/* Main Headline - SEO Optimized H1 */}
         <motion.h1
-          className="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6 text-white"
+          className="font-display text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6 text-white"
           variants={itemVariants}
         >
           ¿Dolor de espalda tras 8 horas en el escritorio?
@@ -74,7 +81,7 @@ export default function HeroSection() {
 
         {/* Subheadline */}
         <motion.p
-          className="font-body text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed"
+          className="font-body text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed px-2"
           variants={itemVariants}
         >
           Método RESET: La solución neurocientífica que 250+ hombres ya usan para eliminar su dolor lumbar y cervical.
@@ -85,8 +92,8 @@ export default function HeroSection() {
         {/* Price Display */}
         {pricing && (
           <motion.div variants={itemVariants} className="mb-8">
-            <p className="text-sm text-green-400 font-semibold">PRECIO ACTUAL</p>
-            <p className="text-4xl font-bold text-green-300">€{pricing.currentPrice}</p>
+            <p className="text-xs sm:text-sm text-green-400 font-semibold">PRECIO ACTUAL</p>
+            <p className="text-3xl sm:text-4xl font-bold text-green-300">€{pricing.currentPrice}</p>
             {!pricing.isLastPhase && (
               <p className="text-xs text-green-200 mt-2">Sube a €{pricing.nextPrice} en {pricing.daysUntilNextPhase} día{pricing.daysUntilNextPhase !== 1 ? 's' : ''}</p>
             )}
@@ -94,15 +101,20 @@ export default function HeroSection() {
         )}
 
         {/* CTA Button */}
-        <motion.div variants={itemVariants} className="mb-12">
+        <motion.div variants={itemVariants} className="mb-12 px-2">
           <Button
             size="lg"
-            onClick={() => navigate('/assessment')}
-            className="btn-glow bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-base md:text-lg px-8 py-6 rounded-sm"
+            onClick={() => {
+              trackConversion('hero_cta_click');
+              navigate('/assessment');
+            }}
+            className="btn-glow bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-sm sm:text-base md:text-lg px-6 sm:px-8 py-4 sm:py-6 rounded-sm w-full sm:w-auto"
           >
-            EVALÚA TU DOLOR AHORA
+            {isControl ? 'EVALÚA TU DOLOR AHORA' : '🚀 COMIENZA TU TRANSFORMACIÓN'}
           </Button>
-          <p className="text-sm text-gray-400 mt-4">Garantía de dinero devuelto. Sin preguntas.</p>
+          <p className="text-xs sm:text-sm text-gray-400 mt-4">
+            {isControl ? 'Garantía de dinero devuelto. Sin preguntas.' : '✓ Sin compromiso • ✓ Acceso instantáneo • ✓ Garantía 100%'}
+          </p>
         </motion.div>
 
         {/* Scroll Indicator */}
