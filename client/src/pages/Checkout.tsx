@@ -255,20 +255,30 @@ export default function Checkout() {
                 </motion.div>
 
                 {/* Payment Button */}
-                <Button
-                  onClick={handleStripePayment}
-                  disabled={isLoading || !consentAccepted}
-                  className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-6 rounded-sm btn-glow disabled:opacity-50"
-                >
-                  {isLoading ? (
-                    <span className="flex items-center gap-2">
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Redirigiendo a Stripe...
-                    </span>
-                  ) : (
-                    'Pagar €197 con Stripe'
-                  )}
-                </Button>
+                <div className="flex gap-4">
+                  <Button
+                    onClick={() => navigate('/assessment-results')}
+                    variant="outline"
+                    className="flex-1 py-6 rounded-sm"
+                  >
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Volver
+                  </Button>
+                  <Button
+                    onClick={handleStripePayment}
+                    disabled={isLoading || !consentAccepted}
+                    className="flex-1 bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-6 rounded-sm btn-glow disabled:opacity-50"
+                  >
+                    {isLoading ? (
+                      <span className="flex items-center gap-2">
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Redirigiendo...
+                      </span>
+                    ) : (
+                      'Pagar €197'
+                    )}
+                  </Button>
+                </div>
 
                 {/* Trust Indicators */}
                 <div className="mt-6 pt-6 border-t border-border">

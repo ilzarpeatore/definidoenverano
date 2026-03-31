@@ -335,11 +335,11 @@ export default function AssessmentResults() {
                 💳 Comprar Ahora
               </Button>
             </Link>
-            <Link href="/checkout">
+            <a href="https://wa.me/34666777888?text=Hola%2C%20me%20gustar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20M%C3%A9todo%20RESET" target="_blank" rel="noopener noreferrer">
               <Button variant="outline" className="px-8 py-3 font-bold">
-                📞 Contratar Servicio
+                📞 Contactar por WhatsApp
               </Button>
-            </Link>
+            </a>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/">

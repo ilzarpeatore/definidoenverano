@@ -205,3 +205,10 @@
 - [x] Agregar botones "Contratar" y "Comprar" al final de AssessmentResults
 - [x] Configurar redireccionamientos (Contratar → /checkout, Comprar → /checkout)
 - [x] Testear y guardar checkpoint
+
+
+## Mejoras del Formulario de Assessment (Current Session)
+- [x] Agregar checkbox de aceptación de términos y privacidad
+- [x] Cambiar botón "Contratar" para contactar por WhatsApp
+- [x] Arreglar navegación hacia atrás (botón Volver en Checkout)
+- [x] Guardar checkpoint

@@ -38,6 +38,7 @@ export default function QuickAssessment() {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showPersonalDataForm, setShowPersonalDataForm] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [, navigate] = useLocation();
 
   const questions = [
@@ -169,6 +170,11 @@ export default function QuickAssessment() {
       return;
     }
 
+    if (!acceptedTerms) {
+      alert('Por favor acepta los términos y condiciones y la política de privacidad');
+      return;
+    }
+
     setIsSubmitted(true);
     
     sessionStorage.setItem('assessmentAnswers', JSON.stringify(answers));
@@ -251,6 +257,21 @@ export default function QuickAssessment() {
                   className="w-full px-4 py-2 bg-slate-800 border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent"
                 />
               </div>
+            </div>
+
+            {/* Términos y Privacidad Checkbox */}
+            <div className="mt-6 p-4 bg-slate-800/50 rounded-lg border border-border">
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={acceptedTerms}
+                  onChange={(e) => setAcceptedTerms(e.target.checked)}
+                  className="w-5 h-5 mt-1 accent-accent cursor-pointer"
+                />
+                <span className="text-sm text-gray-300">
+                  Acepto los <a href="/terms" target="_blank" className="text-accent hover:underline">Términos y Condiciones</a> y la <a href="/privacy" target="_blank" className="text-accent hover:underline">Política de Privacidad</a>. Autorizo el tratamiento de mis datos personales para recibir información sobre el Método RESET.
+                </span>
+              </label>
             </div>
           </motion.div>
 
