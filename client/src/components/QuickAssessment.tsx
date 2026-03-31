@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ChevronRight, CheckCircle } from 'lucide-react';
@@ -40,6 +40,17 @@ export default function QuickAssessment() {
   const [showPersonalDataForm, setShowPersonalDataForm] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [, navigate] = useLocation();
+
+  // Cargar datos guardados del assessment si existen
+  useEffect(() => {
+    const savedAnswers = sessionStorage.getItem('assessmentAnswers');
+    const savedPersonalData = sessionStorage.getItem('personalData');
+    
+    // Si ya completó el assessment, redirigir a resultados
+    if (savedAnswers && savedPersonalData) {
+      navigate('/assessment-results');
+    }
+  }, [navigate]);
 
   const questions = [
     {
