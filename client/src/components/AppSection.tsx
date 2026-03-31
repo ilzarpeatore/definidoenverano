@@ -124,24 +124,7 @@ export default function AppSection() {
 
 
 
-        {/* CTA */}
-        <motion.div
-          className="text-center mt-20"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
-          <p className="text-gray-300 mb-6 text-lg">
-            ¿Listo para tener tu transformación en la palma de tu mano?
-          </p>
-          <a
-            href="#cta"
-            className="inline-block bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-4 px-8 rounded-sm btn-glow transition-all"
-          >
-            Acceder a la App Ahora
-          </a>
-        </motion.div>
+        {/* CTA - Removed */}
 
         {/* Coming Soon Badge */}
         <motion.div

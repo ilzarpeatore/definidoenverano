@@ -2,11 +2,13 @@ import { useRoute, Link } from 'wouter';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
+import { useLocation } from 'wouter';
 import { blogPosts } from '@/lib/blogData';
 import { Streamdown } from 'streamdown';
 
 export default function BlogPost() {
   const [match, params] = useRoute('/blog/:slug');
+  const [, navigate] = useLocation();
 
   // Scroll al inicio cuando se carga el artículo
   useEffect(() => {
@@ -240,12 +242,12 @@ export default function BlogPost() {
             Cada persona tiene un patrón de dolor único. Lo que funciona para otros podría no ser exactamente lo que necesitas. Por eso ofrecemos una evaluación personalizada gratuita donde analizamos tu situación específica.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="#cta"
+            <button
+              onClick={() => navigate('/quick-assessment')}
               className="inline-flex items-center justify-center gap-2 bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-4 px-8 rounded-sm btn-glow transition-all"
             >
               Solicitar Evaluación Personalizada
-            </a>
+            </button>
             <a
               href="/blog"
               className="inline-flex items-center justify-center gap-2 border border-accent/50 hover:border-accent text-accent font-bold py-4 px-8 rounded-sm transition-all"
@@ -308,12 +310,12 @@ export default function BlogPost() {
           <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
             El Método RESET combina ciencia neuromuscular con un programa práctico para eliminar tu dolor de forma definitiva.
           </p>
-          <a
-            href="#cta"
-            className="inline-block bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-4 px-8 rounded-sm btn-glow transition-all"
+          <button
+            onClick={() => navigate('/quick-assessment')}
+            className="inline-block bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-4 px-8 rounded-sm btn-glow transition-all cursor-pointer"
           >
             Comenzar Evaluación Gratuita
-          </a>
+          </button>
         </div>
       </motion.section>
     </div>

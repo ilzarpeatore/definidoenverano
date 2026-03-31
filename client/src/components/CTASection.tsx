@@ -148,7 +148,7 @@ export default function CTASection() {
           >
           <Button
             size="lg"
-            onClick={() => navigate('/free-week')}
+            onClick={() => navigate('/checkout')}
             className="btn-glow w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-base md:text-lg py-6 rounded-sm hover:scale-105 transform transition-transform"
           >
             🚀 ACCESO INMEDIATO AL PROGRAMA

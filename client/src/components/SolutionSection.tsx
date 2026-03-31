@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Brain, RotateCw, TrendingUp, Users, Shield, Zap } from 'lucide-react';
+import { useLocation } from 'wouter';
 
 /**
  * Solution Section - Método RESET by BeStronger
@@ -11,6 +12,7 @@ import { Brain, RotateCw, TrendingUp, Users, Shield, Zap } from 'lucide-react';
  */
 
 export default function SolutionSection() {
+  const [, navigate] = useLocation();
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -155,6 +157,22 @@ export default function SolutionSection() {
               </motion.div>
             ))}
           </div>
+        </motion.div>
+
+        {/* CTA Button */}
+        <motion.div
+          className="text-center mt-12"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <button
+            onClick={() => navigate('/quick-assessment')}
+            className="inline-block bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-4 px-8 rounded-sm btn-glow transition-all cursor-pointer"
+          >
+            Descubre tu plan personalizado ahora
+          </button>
         </motion.div>
 
         {/* Divider */}

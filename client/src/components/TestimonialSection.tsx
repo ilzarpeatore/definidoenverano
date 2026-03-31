@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
+import { useLocation } from 'wouter';
 
 /**
  * Testimonial Section - Social Proof & Credibility
@@ -14,6 +15,7 @@ import { useState } from 'react';
 
 export default function TestimonialSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [, navigate] = useLocation();
 
   const testimonials = [
     {
@@ -161,6 +163,22 @@ export default function TestimonialSection() {
               />
             ))}
           </div>
+        </motion.div>
+
+        {/* CTA Button */}
+        <motion.div
+          className="text-center mt-12"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <button
+            onClick={() => navigate('/quick-assessment')}
+            className="inline-block bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-4 px-8 rounded-sm btn-glow transition-all cursor-pointer"
+          >
+            Sé el próximo caso de éxito
+          </button>
         </motion.div>
 
         {/* Divider */}

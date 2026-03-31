@@ -192,3 +192,11 @@
 - [x] Implementar A/B testing en CTAs y pop-ups (hook useABTest con localStorage)
 - [x] Configurar analytics avanzado (funnel tracking, Facebook Pixel, Google Ads)
 - [x] Implementar chatbot/live chat con agente Manus (componente flotante + escalado)
+
+
+## Bug Fixes - Session Actual
+- [x] Botones de blog ('solicitar evaluación' y 'comenzar evaluación') redireccionan a /quick-assessment
+- [x] Imágenes de publicaciones del blog (URLs de CDN validadas)
+- [x] Eliminar botón 'Acceder a la App' de landing page (AppSection)
+- [x] Corregir redireccionamientos de CTA a /checkout (CTASection)
+- [x] Agregar más botones CTA estratégicos (SolutionSection, TestimonialSection)
