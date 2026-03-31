@@ -199,3 +199,9 @@
 - [x] Eliminar botón 'Acceder a la App' de landing page (AppSection)
 - [x] Corregir redireccionamientos de CTA a /checkout (CTASection)
 - [x] Agregar más botones CTA estratégicos (SolutionSection, TestimonialSection)
+
+
+## Botónes de Compra en Assessment (Current Session)
+- [x] Agregar botones "Contratar" y "Comprar" al final de AssessmentResults
+- [x] Configurar redireccionamientos (Contratar → /checkout, Comprar → /checkout)
+- [x] Testear y guardar checkpoint
