@@ -9,10 +9,13 @@ export default function CostCalculator() {
   const [daysPerWeek, setDaysPerWeek] = useState(4);
   const [workDaysLost, setWorkDaysLost] = useState(8);
 
-  // Cálculos
-  const costPerDay = 150; // Costo promedio por día de dolor (pérdida de productividad)
-  const costPerDayLostWork = 200; // Costo por día de trabajo perdido
-  const medicalCosts = 500 * yearsOfPain; // Costo promedio de tratamientos
+  // Cálculos más realistas
+  // Pérdida de productividad: €25-50/día (reducción de rendimiento, no día completo perdido)
+  const costPerDay = 35; 
+  // Costo por día de trabajo completamente perdido: €80-120 (salario promedio)
+  const costPerDayLostWork = 100; 
+  // Tratamientos médicos: €200-300/año (fisioterapia ocasional, medicinas)
+  const medicalCosts = 250 * yearsOfPain; 
   
   const painDaysPerYear = daysPerWeek * 52;
   const totalPainDays = painDaysPerYear * yearsOfPain;
@@ -153,15 +156,15 @@ export default function CostCalculator() {
               <ul className="space-y-3 text-gray-300">
                 <li className="flex gap-3">
                   <span className="text-accent font-bold">•</span>
-                  <span>Pérdida de productividad: €150/día (estimado)</span>
+                  <span>Pérdida de productividad: €35/día (reducción de rendimiento)</span>
                 </li>
                 <li className="flex gap-3">
                   <span className="text-accent font-bold">•</span>
-                  <span>Días de trabajo: €200/día (salario promedio)</span>
+                  <span>Días de trabajo perdidos: €100/día (salario promedio)</span>
                 </li>
                 <li className="flex gap-3">
                   <span className="text-accent font-bold">•</span>
-                  <span>Tratamientos: €500/año (fisioterapia, medicinas)</span>
+                  <span>Tratamientos: €250/año (fisioterapia, medicinas)</span>
                 </li>
               </ul>
             </Card>
