@@ -158,21 +158,20 @@
 - [x] Guardar y documentar uso en proyecto
 
 
-## Calculadora de Calorías y Macros
-- [x] Crear componente CalorieCalculator
-- [x] Agregar ruta /calculadora a App.tsx
-- [x] Testear y guardar checkpoint
+## Calculadora de Calorías y Macros (ELIMINADO)
+- [x] Eliminar componente CalorieCalculator
+- [x] Eliminar ruta /calculadora de App.tsx
 
-## Checklist Interactivo de 30 Días
-- [x] Crear componente ChecklistDay30 con localStorage
-- [x] Agregar funcionalidad de guardar progreso por email
-- [x] Agregar ruta /checklist-30-dias a App.tsx
-- [x] Testear y guardar checkpoint
+## Checklist Interactivo de 30 Días (ELIMINADO)
+- [x] Eliminar componente ChecklistDay30
+- [x] Eliminar ruta /checklist-30-dias de App.tsx
 
-
-## Refactorización de Checklist (Sin Emails Automáticos)
-- [x] Refactorizar ChecklistDay30 para guardar/recuperar sin emails automáticos
-- [x] Testear y guardar checkpoint
+## Nuevos Recursos (Reemplazo)
+- [x] Crear componente CostCalculator (Calculadora: Costo del Dolor Lumbar)
+- [x] Crear componente CervicalExercisesGuide (Guía: Ejercicios para Aliviar Dolor Cervical)
+- [x] Crear componente PosturalChecklistHome (Checklist: Evaluación Postural en Casa)
+- [x] Actualizar FreeResourcesSection con nuevos recursos
+- [x] Agregar rutas en App.tsx (/cost-calculator, /cervical-exercises, /postural-checklist)
 
 ## Mejoras de Copy y Tono (Current Session)
 - [x] Cambiar "Evaluación" a "Valoración" en todo el sitio para tono más empático

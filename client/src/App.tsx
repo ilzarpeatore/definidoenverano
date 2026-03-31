@@ -20,8 +20,10 @@ import LegalNotice from "./pages/LegalNotice";
 import InformedConsent from "./pages/InformedConsent";
 import RefundPolicy from "./pages/RefundPolicy";
 import Guide7Mistakes from "./pages/Guide7Mistakes";
-import CalorieCalculator from "./pages/CalorieCalculator";
-import ChecklistDay30 from "./pages/ChecklistDay30";
+import CostCalculator from "./pages/CostCalculator";
+import CervicalExercisesGuide from "./pages/CervicalExercisesGuide";
+import PosturalChecklistHome from "./pages/PosturalChecklistHome";
+
 import FreeWeekLanding from "./pages/FreeWeekLanding";
 import FreeWeekAccess from "./pages/FreeWeekAccess";
 import Blog from "./pages/Blog";
@@ -46,8 +48,10 @@ function Router() {
       <Route path={"/informed-consent"} component={InformedConsent} />
       <Route path={"/refund-policy"} component={RefundPolicy} />
       <Route path={"/guide"} component={Guide7Mistakes} />
-      <Route path={"/calculadora"} component={CalorieCalculator} />
-      <Route path={"/checklist-30-dias"} component={ChecklistDay30} />
+      <Route path={"/cost-calculator"} component={CostCalculator} />
+      <Route path={"/cervical-exercises"} component={CervicalExercisesGuide} />
+      <Route path={"/postural-checklist"} component={PosturalChecklistHome} />
+
       <Route path={"/free-week"} component={FreeWeekLanding} />
       <Route path={"/free-week-access"} component={FreeWeekAccess} />
       <Route path={"/blog"} component={Blog} />

@@ -166,28 +166,28 @@ export default function FreeResourcesSection() {
 
   const resources = [
     {
-      id: 'guide_7_errors',
-      title: 'Guía: 7 Errores que Impiden tu Definición',
-      description: 'Descubre los 7 errores más comunes que sabotean tu transformación corporal.',
+      id: 'calculator_cost',
+      title: 'Calculadora: Costo del Dolor Lumbar',
+      description: 'Descubre cuánto te cuesta realmente no tratar tu dolor lumbar.',
+      icon: <Calculator className="w-6 h-6 text-accent" />,
+      color: 'from-red-500/10 to-red-600/10',
+      url: '/cost-calculator',
+    },
+    {
+      id: 'cervical_exercises',
+      title: 'Guía: Ejercicios para Aliviar Dolor Cervical',
+      description: '6 ejercicios efectivos que puedes hacer en casa o en la oficina.',
       icon: <BookOpen className="w-6 h-6 text-accent" />,
       color: 'from-blue-500/10 to-blue-600/10',
-      url: '/guide',
+      url: '/cervical-exercises',
     },
     {
-      id: 'calculator_macros',
-      title: 'Calculadora de Macros Personalizada',
-      description: 'Calcula tus macronutrientes ideales basado en tu peso y objetivo.',
-      icon: <Calculator className="w-6 h-6 text-accent" />,
-      color: 'from-purple-500/10 to-purple-600/10',
-      url: '/calculadora',
-    },
-    {
-      id: 'checklist_30_days',
-      title: 'Checklist: 30 Días para Empezar',
-      description: 'Plan de acción día a día para los primeros 30 días de transformación.',
+      id: 'postural_checklist',
+      title: 'Checklist: Evaluación Postural en Casa',
+      description: 'Realiza una evaluación postural completa en 5 minutos frente a un espejo.',
       icon: <CheckCircle2 className="w-6 h-6 text-accent" />,
       color: 'from-green-500/10 to-green-600/10',
-      url: '/checklist-30-dias',
+      url: '/postural-checklist',
     },
   ];
 
