@@ -176,7 +176,7 @@ export default function CoachingSection() {
             ¿Listo para transformarte con apoyo profesional?
           </p>
           <button
-            onClick={() => navigate('/assessment')}
+            onClick={() => navigate('/quick-assessment')}
             className="inline-block bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-4 px-8 rounded-sm btn-glow transition-all cursor-pointer"
           >
             Comenzar Ahora

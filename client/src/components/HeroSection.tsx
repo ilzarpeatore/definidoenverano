@@ -106,7 +106,7 @@ export default function HeroSection() {
             size="lg"
             onClick={() => {
               trackConversion('hero_cta_click');
-              navigate('/assessment');
+              navigate('/quick-assessment');
             }}
             className="btn-glow bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-sm sm:text-base md:text-lg px-6 sm:px-8 py-4 sm:py-6 rounded-sm w-full sm:w-auto"
           >

@@ -125,7 +125,7 @@ export default function BlogPost() {
 
       {/* Featured Image */}
       <motion.div
-        className="relative w-full overflow-hidden bg-gradient-to-br from-blue-500/20 to-green-500/20"
+        className="relative w-full overflow-hidden bg-gradient-to-br from-blue-500/20 to-green-500/20 min-h-[300px] md:min-h-[500px]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }}
@@ -136,7 +136,8 @@ export default function BlogPost() {
         <img
           src={post.image}
           alt={post.title}
-          className="w-full h-full object-cover"
+          loading="lazy"
+          className="w-full h-full object-contain object-center"
         />
       </motion.div>
 

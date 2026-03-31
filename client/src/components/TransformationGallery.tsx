@@ -176,16 +176,17 @@ export default function TransformationGallery() {
               {transformations.map((transformation) => (
                 <div key={transformation.id} className="w-full flex-shrink-0 px-2 md:px-4">
                   <motion.div
-                    className="relative group overflow-hidden rounded-sm aspect-[4/3] sm:aspect-[3/2] md:aspect-[16/9]"
+                    className="relative group overflow-hidden rounded-sm bg-black"
                     whileHover={{ y: -5 }}
+                    style={{ paddingBottom: '75%' }}
                   >
                     {/* Image Container */}
-                    <div className="relative overflow-hidden bg-black w-full h-full">
+                    <div className="absolute inset-0 overflow-hidden bg-black w-full h-full">
                       <img
                         src={transformation.image}
                         alt={transformation.title}
                         loading="lazy"
-                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-300"
                       />
 
                       {/* Overlay on Hover */}
