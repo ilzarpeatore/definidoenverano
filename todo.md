@@ -258,3 +258,31 @@
 - [x] Actualizar Fase 2: 297€ (días 15-28)
 - [x] Actualizar Fase 3: 347€ (día 29+)
 - [x] Verificar que landing y checkout muestren el mismo precio (247€)
+
+## Bug: Checkout Session Error (Current Session)
+- [ ] Investigar por qué checkoutUrl está vacío en localStorage
+- [ ] Mejorar logging en Assessment.tsx para ver qué devuelve el servidor
+- [ ] Mejorar manejo de errores en Checkout.tsx
+- [ ] Crear fallback para generar checkoutUrl si falla
+- [ ] Verificar que Stripe está configurado correctamente
+
+
+## PENDIENTE: Configurar Stripe (Crítico para pagos)
+- [ ] Obtener clave secreta de Stripe (STRIPE_SK)
+- [ ] Configurar STRIPE_SK en Management UI → Settings → Secrets
+- [ ] Verificar que checkoutUrl se genera correctamente
+- [ ] Probar flujo completo de pago (Assessment → Checkout → Stripe → Success)
+
+## PENDIENTE: Insertar imágenes en el blog
+- [ ] Buscar zip con imágenes enviadas por usuario
+- [ ] Extraer imágenes
+- [ ] Identificar estructura del blog
+- [ ] Insertar imágenes en publicaciones correspondientes
+
+
+## Feature: Insert Blog Images (Current Session)
+- [x] Descargar imágenes del zip (40+ imágenes)
+- [x] Subir imágenes a S3 con manus-upload-file
+- [x] Mapear imágenes a publicaciones del blog
+- [x] Actualizar blogDataComplete.ts con URLs de CDN
+- [x] Verificar que todas las imágenes se cargaron correctamente

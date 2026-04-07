@@ -62,17 +62,21 @@ export default function Checkout() {
         });
       }
 
-      // Get checkout URL from localStorage (saved by Assessment)
       const checkoutUrl = localStorage.getItem('checkoutUrl');
+      const orderId = localStorage.getItem('currentOrderId');
+      
+      console.log('[Checkout] checkoutUrl:', checkoutUrl);
+      console.log('[Checkout] orderId:', orderId);
+      console.log('[Checkout] localStorage keys:', Object.keys(localStorage));
       
       if (checkoutUrl) {
-        // Redirect to Stripe Checkout
+        console.log('[Checkout] Redirecting to Stripe');
         window.location.href = checkoutUrl;
         return;
       }
 
-      // Fallback: if no checkoutUrl, show error
-      toast.error('Error: Sesión de pago no encontrada. Por favor, completa el assessment de nuevo.');
+      console.error('[Checkout] No checkoutUrl in localStorage');
+      toast.error('Error: Sesion de pago no encontrada. Por favor, completa el assessment de nuevo.');
       setIsLoading(false);
       setTimeout(() => navigate('/quick-assessment'), 2000);
     } catch (error) {

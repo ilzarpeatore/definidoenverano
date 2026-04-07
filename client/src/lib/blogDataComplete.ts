@@ -52,7 +52,7 @@ El Método RESET funciona porque:
 - Enseña patrones de movimiento correctos
 
 **La buena noticia**: Sí es posible recuperarse completamente. Solo necesitas el enfoque correcto.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-80-porciento-no-se-cura.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-80-porciento-no-se-cura_2a9ce26c.jpg',
     category: 'Información',
     date: '2026-03-28',
     readTime: 5,
@@ -107,7 +107,7 @@ La lumbalgia crónica no tratada puede llevar a:
 - Problemas laborales
 
 **Solución**: El Método RESET aborda la causa raíz, no solo los síntomas.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-lumbalgia-cronica-definicion.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-lumbalgia-cronica-definicion_a1b347e1.jpg',
     category: 'Información',
     date: '2026-03-27',
     readTime: 6,
@@ -152,7 +152,7 @@ Tu sistema nervioso "aprende" a sentir dolor. Incluso movimientos seguros se per
 ### La solución integral
 
 El Método RESET aborda todas estas causas simultáneamente, no solo una.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-7-causas-dolor-lumbar.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-7-causas-dolor-lumbar_d271ba98.jpg',
     category: 'Información',
     date: '2026-03-26',
     readTime: 7,
@@ -204,7 +204,7 @@ El Método RESET aborda todas estas causas simultáneamente, no solo una.`,
 El dolor agudo no tratado correctamente puede convertirse en crónico. Por eso es importante actuar rápido.
 
 **Consejo**: Si tu dolor persiste más de 4-6 semanas, busca ayuda profesional especializada.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-agudo-vs-cronico.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-agudo-vs-cronico_a2b3c4d5.png',
     category: 'Información',
     date: '2026-03-25',
     readTime: 5,
@@ -255,7 +255,7 @@ El Método RESET:
 - Enseña prevención
 
 **Acción**: Si llevas meses sin mejorar, es hora de un enfoque diferente.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-meses-sin-mejorar.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-meses-sin-mejorar_728758d9.png',
     category: 'Información',
     date: '2026-03-24',
     readTime: 6,
@@ -320,7 +320,7 @@ El Método RESET:
 - ❌ Expectativas poco realistas
 
 **Próximo paso**: Evalúa cuál de estos errores estás cometiendo.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-5-errores-tratamiento.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-5-errores-tratamiento_8b4f5c2a.png',
     category: 'Solución',
     date: '2026-03-23',
     readTime: 7,
@@ -375,7 +375,7 @@ El Ibuprofeno funciona mejor como **herramienta temporal** en un plan completo:
 Los medicamentos son útiles, pero no son la solución. Son un apoyo temporal para permitir el movimiento y la rehabilitación.
 
 **Pregunta importante**: ¿Llevas más de 3 meses tomando medicamentos? Es hora de un enfoque diferente.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-ibuprofeno-no-solucion.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-ibuprofeno-no-solucion_e4b28f1b.png',
     category: 'Solución',
     date: '2026-03-22',
     readTime: 6,
@@ -429,7 +429,7 @@ Estudios recientes muestran que:
 **No es reposo vs movimiento. Es movimiento inteligente.**
 
 El Método RESET usa movimiento progresivo personalizado para tu caso específico.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-reposo-o-movimiento.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-reposo-o-movimiento_76c07b55.png',
     category: 'Solución',
     date: '2026-03-21',
     readTime: 6,
@@ -489,7 +489,7 @@ El Método RESET usa movimiento progresivo personalizado para tu caso específic
 4. ¿Necesitas supervisión? → Busca profesional
 
 **Conclusión**: El Método RESET personaliza ejercicios según tu diagnóstico específico.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-ejercicios-empeoran-dolor.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-ejercicios-empeoran-dolor_3cb03194.png',
     category: 'Solución',
     date: '2026-03-20',
     readTime: 7,
@@ -548,7 +548,7 @@ Enseñar nuevos hábitos
 Tu sistema nervioso "aprende" a sentir dolor. El Método RESET lo "enseña" a sentir seguridad.
 
 **Tiempo**: 4-6 semanas para romper el ciclo con el enfoque correcto.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-ciclo-tension-dolor.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-ciclo-tension-dolor_i1j2k3l4.png',
     category: 'Solución',
     date: '2026-03-19',
     readTime: 7,
@@ -607,7 +607,7 @@ Cambios graduales, no rápidos
 Con el enfoque correcto: 4-8 semanas para cambios significativos.
 
 **Conclusión**: La sensibilización central es reversible. El Método RESET está diseñado específicamente para esto.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-sensibilizacion-central.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-sensibilizacion-central_35f3a84c.png',
     category: 'Solución',
     date: '2026-03-18',
     readTime: 8,
@@ -688,7 +688,7 @@ Con el enfoque correcto: 4-8 semanas para cambios significativos.
 - Consistencia es clave
 
 **Nota**: Si algún ejercicio aumenta tu dolor, detente y consulta a un profesional.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-mejores-ejercicios-casa.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-mejores-ejercicios-casa_fc0f5ce1.png',
     category: 'Solución',
     date: '2026-03-17',
     readTime: 7,
@@ -750,7 +750,7 @@ Con el enfoque correcto: 4-8 semanas para cambios significativos.
 Tu cuerpo se adaptará en 1-2 semanas a la nueva posición.
 
 **Conclusión**: La posición de sueño correcta acelera recuperación significativamente.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-como-dormir-lumbalgia.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-como-dormir-lumbalgia_m5n6o7p8.png',
     category: 'Solución',
     date: '2026-03-16',
     readTime: 6,
@@ -818,7 +818,7 @@ Tu cuerpo se adaptará en 1-2 semanas a la nueva posición.
 Con todos estos métodos combinados: **70-80% de reducción en 6-8 semanas**.
 
 **Conclusión**: No necesitas pastillas si tienes el enfoque correcto.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-eliminar-dolor-sin-pastillas.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-eliminar-dolor-sin-pastillas_46734a3c.png',
     category: 'Solución',
     date: '2026-03-15',
     readTime: 8,
@@ -894,7 +894,7 @@ Con todos estos métodos combinados: **70-80% de reducción en 6-8 semanas**.
 - Consistencia es más importante que intensidad
 
 **Resultado**: Flexibilidad mejorada en 2-3 semanas.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-estiramientos-lumbar.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-estiramientos-lumbar_90c01e30.png',
     category: 'Solución',
     date: '2026-03-14',
     readTime: 7,
@@ -965,7 +965,7 @@ Pasar 8+ horas en mala postura:
 Corrección postural consistente: **40-50% de reducción de dolor en 6 semanas**.
 
 **Conclusión**: La postura es fundamental. Sin corregirla, otros tratamientos tienen limitaciones.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-postura-dolor-espalda.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-postura-dolor-espalda_3e0f4bba.png',
     category: 'Solución',
     date: '2026-03-13',
     readTime: 7,
@@ -1034,7 +1034,7 @@ Corrección postural consistente: **40-50% de reducción de dolor en 6 semanas**
 - Efecto máximo: 8-12 semanas
 
 **Conclusión**: Nutrición + movimiento + postura = Recuperación completa.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-alimentacion-dolor-lumbar.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-alimentacion-dolor-lumbar_e6f7g8h9.png',
     category: 'Solución',
     date: '2026-03-12',
     readTime: 6,
@@ -1095,7 +1095,7 @@ Los discos intervertebrales son "amortiguadores" entre vértebras. Una hernia oc
 - Manejo del estrés
 
 **Conclusión**: La mayoría de hernias discales responden bien al tratamiento conservador correcto.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-hernia-discal-lumbar.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-hernia-discal-lumbar_a82e5e56.png',
     category: 'Solución',
     date: '2026-03-11',
     readTime: 7,
@@ -1164,7 +1164,7 @@ Los discos intervertebrales son "amortiguadores" entre vértebras. Una hernia oc
 Con enfoque integral: **85-90% de eliminación completa del dolor**.
 
 **Conclusión**: El dolor lumbar crónico es tratable. Solo necesitas el plan correcto.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-eliminar-cronico-definitivamente.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-eliminar-cronico-definitivamente_50f1cd6c.png',
     category: 'Solución',
     date: '2026-03-10',
     readTime: 8,
@@ -1228,7 +1228,7 @@ Con enfoque integral: **85-90% de eliminación completa del dolor**.
 - Resultados duraderos
 
 **Conclusión**: El enfoque integral es superior a métodos aislados.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-metodo-dolor-lumbar.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-metodo-dolor-lumbar_2eb99d87.png',
     category: 'Solución',
     date: '2026-03-09',
     readTime: 6,
@@ -1295,7 +1295,7 @@ Con enfoque integral: **85-90% de eliminación completa del dolor**.
 5. ¿Qué garantía ofreces?
 
 **Conclusión**: Un buen programa invierte en tu éxito, no en promesas vacías.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-programa-dolor-lumbar-elegir.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-programa-dolor-lumbar-elegir_f42fc94c.png',
     category: 'Conversión',
     date: '2026-03-08',
     readTime: 6,
@@ -1370,7 +1370,7 @@ Con enfoque integral: **85-90% de eliminación completa del dolor**.
 - Mejor sueño
 
 **Conclusión**: 6-8 semanas para cambios significativos, 12+ para consolidación.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-tiempo-recuperacion-lumbalgia.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-tiempo-recuperacion-lumbalgia_b81996f2.png',
     category: 'Conversión',
     date: '2026-03-07',
     readTime: 6,
@@ -1444,7 +1444,7 @@ Con enfoque integral: **85-90% de eliminación completa del dolor**.
 ✓ Educación del paciente
 
 **Conclusión**: Estos resultados son posibles para ti también.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-testimonios-dolor-lumbar.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-testimonios-dolor-lumbar_9bf21611.png',
     category: 'Conversión',
     date: '2026-03-06',
     readTime: 6,
@@ -1506,7 +1506,7 @@ No, es sin preguntas.
 Sí, pero con evaluación.
 
 **Conclusión**: Tu satisfacción es garantizada. Pruébalo sin riesgo.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-garantia-dinero-devuelto.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-garantia-dinero-devuelto_6d60d112.png',
     category: 'Conversión',
     date: '2026-03-05',
     readTime: 5,
@@ -1598,7 +1598,7 @@ Sí, pero con evaluación.
 4. ¡Comienza tu recuperación!
 
 **Conclusión**: Tu recuperación comienza hoy. No esperes más.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-primeros-pasos-reset.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-primeros-pasos-reset_128a86a6.png',
     category: 'Conversión',
     date: '2026-03-04',
     readTime: 6,
@@ -1672,7 +1672,7 @@ Sí, pero con evaluación.
 Hoy es el día para recuperar tu vida. No esperes más.
 
 **Conclusión**: Tu vida sin dolor es posible. Solo necesitas comenzar.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-dolor-cronico-vida-limitada.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-dolor-cronico-vida-limitada_fe9d9e87.png',
     category: 'Urgencia',
     date: '2026-03-03',
     readTime: 6,
@@ -1728,7 +1728,7 @@ Hoy es el día para recuperar tu vida. No esperes más.
 **No es un gasto. Es una inversión en tu futuro.**
 
 Cada día sin actuar cuesta dinero y salud. Actúa hoy.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-coste-dolor-lumbar.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-coste-dolor-lumbar_b801d71c.png',
     category: 'Urgencia',
     date: '2026-03-02',
     readTime: 5,
@@ -1805,7 +1805,7 @@ Cada mes de espera:
 No es mañana. No es la próxima semana. Es hoy.
 
 **Acción**: Solicita tu evaluación inicial ahora.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-oportunidad-cambio.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-oportunidad-cambio_edf7d630.png',
     category: 'Urgencia',
     date: '2026-03-01',
     readTime: 5,
@@ -1880,7 +1880,7 @@ No es mañana. No es la próxima semana. Es hoy.
 Los lugares se agotan rápido. No esperes.
 
 **Acción inmediata**: Asegura tu lugar ahora.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-lugares-limitados.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-lugares-limitados_13b3bd98.png',
     category: 'Urgencia',
     date: '2026-02-28',
     readTime: 4,
@@ -1949,7 +1949,7 @@ Los lugares se agotan rápido. No esperes.
 El precio subirá. No esperes.
 
 **Acción**: Asegura tu lugar al precio actual ahora.`,
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-proxima-fase-precio.png',
+    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/blog-proxima-fase-precio_32010bc8.png',
     category: 'Urgencia',
     date: '2026-02-27',
     readTime: 4,

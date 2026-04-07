@@ -240,12 +240,20 @@ export default function Assessment() {
         },
       });
 
-      // Guardar orderId y checkoutUrl en localStorage para usar en checkout
+      console.log('[Assessment] Checkout session response:', result);
+
+      if (!result.checkoutUrl) {
+        console.error('[Assessment] No checkoutUrl in response:', result);
+        toast.error('Error: No se pudo generar la sesión de pago. Intenta de nuevo.');
+        return;
+      }
+
       localStorage.setItem('currentOrderId', result.orderId);
-      localStorage.setItem('checkoutUrl', result.checkoutUrl || '');
+      localStorage.setItem('checkoutUrl', result.checkoutUrl);
       localStorage.setItem('assessmentData', JSON.stringify(data));
       localStorage.setItem('clientInfo', JSON.stringify(clientInfo));
 
+      console.log('[Assessment] Checkout URL saved:', result.checkoutUrl);
       toast.success('¡Información guardada! Mostrando tu plan personalizado...');
 
       // Redirigir a resultados del assessment
@@ -253,7 +261,9 @@ export default function Assessment() {
         navigate('/assessment-results');
       }, 500);
     } catch (error) {
-      console.error('Error creating checkout session:', error);
+      console.error('[Assessment] Error creating checkout session:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+      console.error('[Assessment] Error details:', errorMessage);
       toast.error('Error al procesar tu información. Intenta de nuevo.');
       setErrors(['Error al procesar tu información. Intenta de nuevo.']);
     }
