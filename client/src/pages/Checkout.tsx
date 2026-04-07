@@ -6,6 +6,7 @@ import { Lock, ArrowLeft, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { trpc } from '@/lib/trpc';
 import { PricingProgressBar } from '@/components/PricingProgressBar';
+import { usePricingSync } from '@/hooks/usePricingSync';
 
 /**
  * Checkout Page - Stripe Payment Gateway
@@ -20,7 +21,7 @@ export default function Checkout() {
   const [, navigate] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [consentAccepted, setConsentAccepted] = useState(false);
-  const { data: pricing } = trpc.pricing.getCurrent.useQuery();
+  const pricing = usePricingSync();
 
   // Track checkout page view for retargeting
   useEffect(() => {
@@ -190,7 +191,7 @@ export default function Checkout() {
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between text-gray-400">
                       <span>Precio actual:</span>
-                      <span className="font-bold text-white">€{pricing?.currentPrice || 197}</span>
+                      <span className="font-bold text-white">€{pricing.currentPrice}</span>
                     </div>
                   </div>
                 </div>
@@ -208,7 +209,7 @@ export default function Checkout() {
                     <span className="text-gray-300">Total:</span>
                     <div>
                       <span className="font-display text-3xl text-orange-400 font-bold">
-                        €{pricing?.currentPrice || 197}
+                        €{pricing.currentPrice}
                       </span>
                       <span className="text-gray-400 text-sm ml-2">EUR</span>
                     </div>
@@ -275,7 +276,7 @@ export default function Checkout() {
                         Redirigiendo...
                       </span>
                     ) : (
-                      'Pagar €197'
+                      `Pagar €${pricing.currentPrice}`
                     )}
                   </Button>
                 </div>

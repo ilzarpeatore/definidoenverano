@@ -2,8 +2,8 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
 import { useLocation } from 'wouter';
-import { trpc } from '@/lib/trpc';
 import { useABTest } from '@/hooks/useABTest';
+import { usePricingSync } from '@/hooks/usePricingSync';
 
 /**
  * Hero Section - Método RESET by BeStronger
@@ -16,7 +16,7 @@ import { useABTest } from '@/hooks/useABTest';
 
 export default function HeroSection() {
   const [, navigate] = useLocation();
-  const { data: pricing } = trpc.pricing.getCurrent.useQuery();
+  const pricing = usePricingSync();
   const { variant, trackConversion, isControl } = useABTest({
     testName: 'hero_cta',
     variants: ['control', 'variant'],
@@ -94,7 +94,7 @@ export default function HeroSection() {
           <motion.div variants={itemVariants} className="mb-8">
             <p className="text-xs sm:text-sm text-green-400 font-semibold">PRECIO ACTUAL</p>
             <p className="text-3xl sm:text-4xl font-bold text-green-300">€{pricing.currentPrice}</p>
-            {!pricing.isLastPhase && (
+            {pricing.nextPrice && pricing.daysUntilNextPhase > 0 && (
               <p className="text-xs text-green-200 mt-2">Sube a €{pricing.nextPrice} en {pricing.daysUntilNextPhase} día{pricing.daysUntilNextPhase !== 1 ? 's' : ''}</p>
             )}
           </motion.div>

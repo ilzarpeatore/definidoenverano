@@ -212,3 +212,11 @@
 - [x] Cambiar botón "Contratar" para contactar por WhatsApp
 - [x] Arreglar navegación hacia atrás (botón Volver en Checkout)
 - [x] Guardar checkpoint
+
+
+## Sincronización Dinámica de Precios (Current Session)
+- [x] Crear hook usePricingSync() con actualización cada 5 minutos (localStorage + refetch cada 5min)
+- [x] Actualizar componentes (HeroSection, CTASection)
+- [x] Actualizar páginas (Checkout, CostCalculator)
+- [x] Verificar sincronización en navegador (sin errores TypeScript)
+- [x] Guardar checkpoint final

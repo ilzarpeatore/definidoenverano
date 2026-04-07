@@ -3,11 +3,13 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ArrowLeft, Calculator, TrendingDown } from 'lucide-react';
 import { Link } from 'wouter';
+import { useCurrentPrice } from '@/hooks/usePricingSync';
 
 export default function CostCalculator() {
   const [yearsOfPain, setYearsOfPain] = useState(3);
   const [daysPerWeek, setDaysPerWeek] = useState(4);
   const [workDaysLost, setWorkDaysLost] = useState(8);
+  const currentPrice = useCurrentPrice();
 
   // Cálculos más realistas
   // Pérdida de productividad: €25-50/día (reducción de rendimiento, no día completo perdido)
@@ -23,7 +25,7 @@ export default function CostCalculator() {
   const costFromLostWork = workDaysLost * costPerDayLostWork;
   const totalCost = costFromPain + costFromLostWork + medicalCosts;
 
-  const resetCost = 197; // Costo del programa RESET
+  const resetCost = currentPrice; // Costo del programa RESET (dinámico)
   const savings = totalCost - resetCost;
   const roi = ((savings / resetCost) * 100).toFixed(0);
 
@@ -172,7 +174,7 @@ export default function CostCalculator() {
             <Card className="bg-slate-900/50 border-accent/20 p-6">
               <h3 className="text-xl font-bold text-white mb-4">Método RESET</h3>
               <p className="text-gray-300 mb-6">
-                Invierte €197 hoy y recupera tu calidad de vida. Nuestro programa ha ayudado a miles de personas a eliminar el dolor lumbar de forma permanente.
+                Invierte €{currentPrice} hoy y recupera tu calidad de vida. Nuestro programa ha ayudado a miles de personas a eliminar el dolor lumbar de forma permanente.
               </p>
               <Link href="/checkout">
                 <a className="inline-block">

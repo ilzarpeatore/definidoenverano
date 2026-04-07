@@ -2,8 +2,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Check, Shield } from 'lucide-react';
 import { useLocation } from 'wouter';
-import { useEffect, useState } from 'react';
-import { getCurrentPhaseInfo } from '@/lib/pricingPhases';
+import { usePricingSync } from '@/hooks/usePricingSync';
 
 /**
  * CTA Section - Final Conversion
@@ -16,18 +15,11 @@ import { getCurrentPhaseInfo } from '@/lib/pricingPhases';
 
 export default function CTASection() {
   const [, navigate] = useLocation();
-  const [currentPrice, setCurrentPrice] = useState<number>(197);
-  const [normalPrice, setNormalPrice] = useState<number>(247);
-  const [discountedPrice, setDiscountedPrice] = useState<number>(197);
-
-  useEffect(() => {
-    const phaseInfo = getCurrentPhaseInfo();
-    const price = phaseInfo.phase.price;
-    setCurrentPrice(price);
-    setNormalPrice(price);
-    // Discount is always 50€
-    setDiscountedPrice(Math.max(0, price - 50));
-  }, []);
+  const pricing = usePricingSync();
+  
+  // Calcular precio con descuento (siempre -50€)
+  const discountedPrice = Math.max(0, pricing.currentPrice - 50);
+  const nextPrice = pricing.nextPrice || pricing.currentPrice + 50;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -95,7 +87,7 @@ export default function CTASection() {
           >
             {/* Original Price */}
             <motion.div variants={itemVariants} className="mb-4">
-              <p className="text-white text-sm line-through">Precio normal: €{normalPrice}</p>
+              <p className="text-white text-sm line-through">Precio normal: €{pricing.currentPrice}</p>
             </motion.div>
 
             {/* Discount Badge */}
@@ -111,7 +103,7 @@ export default function CTASection() {
                 <span className="text-white font-display text-6xl font-bold">€{discountedPrice}</span>
                 <span className="text-green-400 text-sm font-bold">HOY</span>
               </div>
-              <p className="text-green-300 text-sm mt-2 font-semibold">✅ Sube a €{normalPrice} en 16 días</p>
+              <p className="text-green-300 text-sm mt-2 font-semibold">✅ Sube a €{nextPrice} en {pricing.daysUntilNextPhase} días</p>
               <p className="text-white text-xs mt-3">O 3 cuotas de €{Math.round(discountedPrice / 3)} sin interés</p>
             </motion.div>
           </motion.div>
