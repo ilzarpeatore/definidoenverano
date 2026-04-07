@@ -25,7 +25,7 @@ export default function TestimonialSection() {
       quote:
         'Después de 3 años con dolor lumbar, en 4 semanas con RESET estoy entrenando de nuevo sin miedo. Es increíble. Finalmente entiendo qué estaba pasando.',
       image:
-        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-carlos-m-Jv5wKL7x2QVRfD9TU9TfvL.webp',
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-man-1_73980c35.webp',
       results: 'Dolor: 8/10 → 2/10',
       rating: 5,
     },
@@ -36,7 +36,7 @@ export default function TestimonialSection() {
       quote:
         'Pensé que tendría que vivir con pastillas de por vida. RESET me devolvió la libertad. No es solo que desapareció el dolor, es que aprendí a prevenirlo.',
       image:
-        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-maria-g-oReHhxrtCPHw9W6Xz4F8Sg.webp',
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-woman-1_de013276.webp',
       results: 'Dolor: 7/10 → 1/10',
       rating: 5,
     },
@@ -47,7 +47,7 @@ export default function TestimonialSection() {
       quote:
         'Probé fisioterapia, masajes, yoga... nada funcionaba. Con RESET en 6 semanas recuperé la movilidad completa. Vuelvo a jugar con mis hijos sin limitaciones.',
       image:
-        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-david-l-czkH9xkxQ9NrFXybXesub5.webp',
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-man-2_80cae104.webp',
       results: 'Movilidad: Limitada → Completa',
       rating: 5,
     },
@@ -58,7 +58,7 @@ export default function TestimonialSection() {
       quote:
         'Llevo 8 años trabajando en oficina, y los últimos 3 con dolor lumbar constante. Probé fisioterapia, masajes, incluso una resonancia magnética que no mostró nada grave. El Método RESET fue diferente porque no solo me dio ejercicios, sino que me enseñó POR QUÉ me dolía. En 6 semanas volví a jugar fútbol con mis hijos sin miedo.',
       image:
-        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/roberto-garcia-headshot_430a1d5b.webp',
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-man-3_52435d14.webp',
       results: 'Dolor: 8/10 → 1/10',
       rating: 5,
     },
@@ -69,7 +69,7 @@ export default function TestimonialSection() {
       quote:
         'Como enfermera, estoy de pie 12 horas diarias. El dolor lumbar me obligó a considerar cambiar de profesión. Después de 4 meses con el programa, no solo desapareció el dolor, sino que mi resistencia aumentó. Ahora termino turnos sin agotamiento.',
       image:
-        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/maria-rodriguez-headshot_c3f0c9cc.webp',
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-woman-2_12ee9528.webp',
       results: 'Resistencia: Limitada → Óptima',
       rating: 5,
     },
@@ -80,7 +80,7 @@ export default function TestimonialSection() {
       quote:
         'El dolor me limitaba en mi negocio. No podía viajar, no podía estar en reuniones largas sin incomodidad. Pensé que era parte de envejecer. El Método RESET me demostró que no, que era un problema de patrones de movimiento. Ahora viajo sin restricciones.',
       image:
-        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/javier-lopez-headshot_c062f5a4.webp',
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-man-4_09da572b.webp',
       results: 'Movilidad: Limitada → Completa',
       rating: 5,
     },
@@ -91,7 +91,7 @@ export default function TestimonialSection() {
       quote:
         'Pasaba 10 horas al día frente a la computadora. El dolor lumbar era tan intenso que algunos días no podía ni levantarme de la cama. Después de 8 semanas, no solo mejoró el dolor, sino que mi productividad se duplicó porque no estaba pensando constantemente en el malestar.',
       image:
-        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/ana-martinez-headshot_f6893991.webp',
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-woman-3_06b4d92a.webp',
       results: 'Productividad: +100%',
       rating: 5,
     },
@@ -102,7 +102,7 @@ export default function TestimonialSection() {
       quote:
         'Mi trabajo requiere levantar cosas pesadas. El dolor lumbar me hacía tomar días libres constantemente. Temía perder mi empleo. Con el programa, aprendí técnicas correctas de levantamiento y fortalecimiento específico. Llevo 6 meses sin un solo día de baja laboral.',
       image:
-        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/carlos-sanchez-headshot_a7a8c161.webp',
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-man-5_7514bae7.webp',
       results: 'Bajas laborales: 0 en 6 meses',
       rating: 5,
     },
@@ -113,7 +113,7 @@ export default function TestimonialSection() {
       quote:
         'Como profesora, debo estar de pie y moviéndome constantemente. El dolor lumbar me hacía irritable con mis estudiantes. Después del programa, no solo mejoró mi espalda, sino también mi paciencia y energía. Mis estudiantes notaron el cambio.',
       image:
-        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/patricia-gomez-headshot_027891bf.webp',
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-woman-2_12ee9528.webp',
       results: 'Energía: Baja → Óptima',
       rating: 5,
     },
