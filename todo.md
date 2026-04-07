@@ -245,3 +245,9 @@
 - [x] Cambiar /assessment a /quick-assessment en Checkout.tsx (2 instancias)
 - [x] Cambiar /assessment a /quick-assessment en PricingOfferBlock.tsx (1 instancia)
 - [x] Verificar que todos los botones redirigen correctamente
+
+## Bug Fix: Remove Nutrition Plan References (Current Session)
+- [x] Encontrar todas las referencias a "Plan de nutrición personalizado"
+- [x] Eliminar de PricingOfferBlock.tsx (benefits list)
+- [x] Eliminar de Success.tsx (post-purchase checklist)
+- [x] Verificar que no hay más referencias en componentes principales

@@ -233,10 +233,7 @@ export default function Success() {
                   <Check className="w-5 h-5 text-accent flex-shrink-0" />
                   <span className="text-gray-200">Entrenamientos personalizados</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-accent flex-shrink-0" />
-                  <span className="text-gray-200">Plan de nutrición adaptado</span>
-                </div>
+
                 <div className="flex items-center gap-3">
                   <Check className="w-5 h-5 text-accent flex-shrink-0" />
                   <span className="text-gray-200">Comunidad privada</span>

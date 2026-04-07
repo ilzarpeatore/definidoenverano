@@ -19,7 +19,6 @@ export default function PricingOfferBlock() {
   const benefits = [
     'Programa completo de 12 semanas',
     'Entrenamientos científicamente diseñados',
-    'Plan de nutrición personalizado',
     'Acceso a comunidad privada',
     'Soporte directo del coach',
     'Acceso de 3 meses',
