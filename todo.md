@@ -295,3 +295,10 @@
 - [x] Actualizar TestimonialSection con nuevos testimonios e imágenes
 - [x] Verificar que todos los testimonios se muestren correctamente
 - [x] Subir imágenes a S3 CDN
+
+
+## Feature: Reconstruir TestimonialSection Completa
+- [x] Eliminar TestimonialSection.tsx actual
+- [x] Crear nueva sección con drag/swipe functionality (touch + mouse)
+- [x] Añadir 6 testimonios con imágenes correctas y nombres que coincidan
+- [x] Probar interacción de deslizado en desktop y móvil
