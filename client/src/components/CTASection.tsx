@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Check, Shield } from 'lucide-react';
 import { useLocation } from 'wouter';
-import { usePricingSync } from '@/hooks/usePricingSync';
+import { usePricing } from '@/contexts/PricingContext';
 
 /**
  * CTA Section - Final Conversion
@@ -15,7 +15,7 @@ import { usePricingSync } from '@/hooks/usePricingSync';
 
 export default function CTASection() {
   const [, navigate] = useLocation();
-  const pricing = usePricingSync();
+  const pricing = usePricing();
   
   // Calcular precio con descuento (siempre -50€)
   const discountedPrice = Math.max(0, pricing.currentPrice - 50);

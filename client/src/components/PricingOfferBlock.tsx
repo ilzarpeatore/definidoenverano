@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
 import { useEffect, useState } from 'react';
 import { getCurrentPhaseInfo } from '@/lib/pricingPhases';
-import { usePricingSync } from '@/hooks/usePricingSync';
+import { usePricing } from '@/contexts/PricingContext';
 
 /**
  * PricingOfferBlock Component
@@ -12,7 +12,7 @@ import { usePricingSync } from '@/hooks/usePricingSync';
  */
 export default function PricingOfferBlock() {
   const [, setLocation] = useLocation();
-  const pricing = usePricingSync();
+  const pricing = usePricing();
   const discountedPrice = Math.max(0, pricing.currentPrice - 50);
   const normalPrice = pricing.currentPrice + 50;
 

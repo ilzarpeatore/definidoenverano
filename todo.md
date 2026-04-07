@@ -220,3 +220,16 @@
 - [x] Actualizar páginas (Checkout, CostCalculator)
 - [x] Verificar sincronización en navegador (sin errores TypeScript)
 - [x] Guardar checkpoint final
+
+## PricingContext Implementation (Current Session)
+- [x] Crear PricingContext.tsx para estado global de precios
+- [x] Crear PricingProvider en main.tsx
+- [x] Reemplazar usePricingSync() con usePricing() en HeroSection
+- [x] Reemplazar usePricingSync() con usePricing() en CTASection
+- [x] Reemplazar usePricingSync() con usePricing() en Checkout
+- [x] Reemplazar useCurrentPrice() con usePricing() en CostCalculator
+- [x] Reemplazar usePricingSync() con usePricing() en PricingOfferBlock
+- [x] Crear tests para PricingContext (PricingContext.test.ts)
+- [ ] Cambiar precio de Stripe de €0.50 (testing) a €197 (production) - CRÍTICO
+- [ ] Crear dashboard de usuario post-compra
+- [ ] Implementar email automatizado post-compra con Brevo

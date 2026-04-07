@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
 import { useLocation } from 'wouter';
 import { useABTest } from '@/hooks/useABTest';
-import { usePricingSync } from '@/hooks/usePricingSync';
+import { usePricing } from '@/contexts/PricingContext';
 
 /**
  * Hero Section - Método RESET by BeStronger
@@ -16,7 +16,7 @@ import { usePricingSync } from '@/hooks/usePricingSync';
 
 export default function HeroSection() {
   const [, navigate] = useLocation();
-  const pricing = usePricingSync();
+  const pricing = usePricing();
   const { variant, trackConversion, isControl } = useABTest({
     testName: 'hero_cta',
     variants: ['control', 'variant'],

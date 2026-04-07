@@ -6,7 +6,7 @@ import { Lock, ArrowLeft, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { trpc } from '@/lib/trpc';
 import { PricingProgressBar } from '@/components/PricingProgressBar';
-import { usePricingSync } from '@/hooks/usePricingSync';
+import { usePricing } from '@/contexts/PricingContext';
 
 /**
  * Checkout Page - Stripe Payment Gateway
@@ -21,7 +21,7 @@ export default function Checkout() {
   const [, navigate] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [consentAccepted, setConsentAccepted] = useState(false);
-  const pricing = usePricingSync();
+  const pricing = usePricing();
 
   // Track checkout page view for retargeting
   useEffect(() => {

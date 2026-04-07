@@ -3,13 +3,13 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ArrowLeft, Calculator, TrendingDown } from 'lucide-react';
 import { Link } from 'wouter';
-import { useCurrentPrice } from '@/hooks/usePricingSync';
+import { usePricing } from '@/contexts/PricingContext';
 
 export default function CostCalculator() {
   const [yearsOfPain, setYearsOfPain] = useState(3);
   const [daysPerWeek, setDaysPerWeek] = useState(4);
   const [workDaysLost, setWorkDaysLost] = useState(8);
-  const currentPrice = useCurrentPrice();
+  const { currentPrice } = usePricing();
 
   // Cálculos más realistas
   // Pérdida de productividad: €25-50/día (reducción de rendimiento, no día completo perdido)
