@@ -9,6 +9,8 @@ export default function LeadMagnetPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
+    lastName: '',
+    phone: '',
     email: '',
     painLevel: '5',
   });
@@ -43,8 +45,15 @@ export default function LeadMagnetPopup() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.firstName || !formData.email) {
+    if (!formData.firstName || !formData.lastName || !formData.phone || !formData.email) {
       toast.error('Por favor completa todos los campos');
+      return;
+    }
+
+    // Validar teléfono (al menos 9 dígitos)
+    const phoneDigits = formData.phone.replace(/\D/g, '');
+    if (phoneDigits.length < 9) {
+      toast.error('Por favor ingresa un teléfono válido');
       return;
     }
 
@@ -53,14 +62,16 @@ export default function LeadMagnetPopup() {
     try {
       const result = await createLeadMutation.mutateAsync({
         firstName: formData.firstName,
-        lastName: '',
+        lastName: formData.lastName,
         email: formData.email,
+        phone: formData.phone,
+        painLevel: parseInt(formData.painLevel),
       });
 
       if (result.success) {
         trackConversion('popup_form_submit');
         toast.success('¡Perfecto! Recibirás tu valoración personalizada en tu email.');
-        setFormData({ firstName: '', email: '', painLevel: '5' });
+        setFormData({ firstName: '', lastName: '', phone: '', email: '', painLevel: '5' });
         handleClose();
       } else {
         toast.error(result.message || 'Error al registrar el email');
@@ -120,15 +131,44 @@ export default function LeadMagnetPopup() {
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Nombre
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.firstName}
+                    onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                    placeholder="Tu nombre"
+                    className="w-full px-4 py-2 bg-background border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent transition-colors"
+                    disabled={isLoading}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Apellido
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.lastName}
+                    onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                    placeholder="Tu apellido"
+                    className="w-full px-4 py-2 bg-background border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent transition-colors"
+                    disabled={isLoading}
+                  />
+                </div>
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-white mb-2">
-                  Nombre
+                  Teléfono
                 </label>
                 <input
-                  type="text"
-                  value={formData.firstName}
-                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                  placeholder="Tu nombre"
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  placeholder="+34 666 777 888"
                   className="w-full px-4 py-2 bg-background border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent transition-colors"
                   disabled={isLoading}
                 />
