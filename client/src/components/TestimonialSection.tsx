@@ -51,6 +51,72 @@ export default function TestimonialSection() {
       results: 'Movilidad: Limitada → Completa',
       rating: 5,
     },
+    {
+      name: 'Roberto García',
+      age: 45,
+      role: 'Gerente de Proyectos',
+      quote:
+        'Llevo 8 años trabajando en oficina, y los últimos 3 con dolor lumbar constante. Probé fisioterapia, masajes, incluso una resonancia magnética que no mostró nada grave. El Método RESET fue diferente porque no solo me dio ejercicios, sino que me enseñó POR QUÉ me dolía. En 6 semanas volví a jugar fútbol con mis hijos sin miedo.',
+      image:
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/roberto-garcia-headshot_430a1d5b.webp',
+      results: 'Dolor: 8/10 → 1/10',
+      rating: 5,
+    },
+    {
+      name: 'María Rodríguez',
+      age: 52,
+      role: 'Enfermera',
+      quote:
+        'Como enfermera, estoy de pie 12 horas diarias. El dolor lumbar me obligó a considerar cambiar de profesión. Después de 4 meses con el programa, no solo desapareció el dolor, sino que mi resistencia aumentó. Ahora termino turnos sin agotamiento.',
+      image:
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/maria-rodriguez-headshot_c3f0c9cc.webp',
+      results: 'Resistencia: Limitada → Óptima',
+      rating: 5,
+    },
+    {
+      name: 'Javier López',
+      age: 38,
+      role: 'Empresario',
+      quote:
+        'El dolor me limitaba en mi negocio. No podía viajar, no podía estar en reuniones largas sin incomodidad. Pensé que era parte de envejecer. El Método RESET me demostró que no, que era un problema de patrones de movimiento. Ahora viajo sin restricciones.',
+      image:
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/javier-lopez-headshot_c062f5a4.webp',
+      results: 'Movilidad: Limitada → Completa',
+      rating: 5,
+    },
+    {
+      name: 'Ana Martínez',
+      age: 35,
+      role: 'Diseñadora Gráfica',
+      quote:
+        'Pasaba 10 horas al día frente a la computadora. El dolor lumbar era tan intenso que algunos días no podía ni levantarme de la cama. Después de 8 semanas, no solo mejoró el dolor, sino que mi productividad se duplicó porque no estaba pensando constantemente en el malestar.',
+      image:
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/ana-martinez-headshot_f6893991.webp',
+      results: 'Productividad: +100%',
+      rating: 5,
+    },
+    {
+      name: 'Carlos Sánchez',
+      age: 48,
+      role: 'Técnico de Mantenimiento',
+      quote:
+        'Mi trabajo requiere levantar cosas pesadas. El dolor lumbar me hacía tomar días libres constantemente. Temía perder mi empleo. Con el programa, aprendí técnicas correctas de levantamiento y fortalecimiento específico. Llevo 6 meses sin un solo día de baja laboral.',
+      image:
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/carlos-sanchez-headshot_a7a8c161.webp',
+      results: 'Bajas laborales: 0 en 6 meses',
+      rating: 5,
+    },
+    {
+      name: 'Patricia Gómez',
+      age: 42,
+      role: 'Profesora',
+      quote:
+        'Como profesora, debo estar de pie y moviéndome constantemente. El dolor lumbar me hacía irritable con mis estudiantes. Después del programa, no solo mejoró mi espalda, sino también mi paciencia y energía. Mis estudiantes notaron el cambio.',
+      image:
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/patricia-gomez-headshot_027891bf.webp',
+      results: 'Energía: Baja → Óptima',
+      rating: 5,
+    },
   ];
 
   const next = () => {
