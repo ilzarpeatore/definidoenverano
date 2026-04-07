@@ -233,3 +233,9 @@
 - [ ] Cambiar precio de Stripe de €0.50 (testing) a €197 (production) - CRÍTICO
 - [ ] Crear dashboard de usuario post-compra
 - [ ] Implementar email automatizado post-compra con Brevo
+
+## Bug Fix: Testimonial Photos Duplicadas (Current Session)
+- [x] Identificar problema: todas las personas en TestimonialSection tenían la misma foto
+- [x] Generar 3 fotos únicas: Carlos M. (programador), María G. (abogada), David L. (consultor)
+- [x] Actualizar URLs en TestimonialSection.tsx con imágenes únicas
+- [x] Verificar que cada testimonial muestre foto diferente

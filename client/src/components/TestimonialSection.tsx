@@ -25,7 +25,7 @@ export default function TestimonialSection() {
       quote:
         'Después de 3 años con dolor lumbar, en 4 semanas con RESET estoy entrenando de nuevo sin miedo. Es increíble. Finalmente entiendo qué estaba pasando.',
       image:
-        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/reset-testimonial-section-6upAweJKQ23SmMTJuuLhE3.webp',
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-carlos-m-Jv5wKL7x2QVRfD9TU9TfvL.webp',
       results: 'Dolor: 8/10 → 2/10',
       rating: 5,
     },
@@ -36,7 +36,7 @@ export default function TestimonialSection() {
       quote:
         'Pensé que tendría que vivir con pastillas de por vida. RESET me devolvió la libertad. No es solo que desapareció el dolor, es que aprendí a prevenirlo.',
       image:
-        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/reset-testimonial-section-6upAweJKQ23SmMTJuuLhE3.webp',
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-maria-g-oReHhxrtCPHw9W6Xz4F8Sg.webp',
       results: 'Dolor: 7/10 → 1/10',
       rating: 5,
     },
@@ -47,7 +47,7 @@ export default function TestimonialSection() {
       quote:
         'Probé fisioterapia, masajes, yoga... nada funcionaba. Con RESET en 6 semanas recuperé la movilidad completa. Vuelvo a jugar con mis hijos sin limitaciones.',
       image:
-        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/reset-testimonial-section-6upAweJKQ23SmMTJuuLhE3.webp',
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-david-l-czkH9xkxQ9NrFXybXesub5.webp',
       results: 'Movilidad: Limitada → Completa',
       rating: 5,
     },
