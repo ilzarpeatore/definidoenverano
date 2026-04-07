@@ -26,7 +26,7 @@ export default function PricingOfferBlock() {
   ];
 
   const handleCTA = () => {
-    setLocation('/assessment');
+    setLocation('/quick-assessment');
   };
 
   return (

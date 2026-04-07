@@ -239,3 +239,9 @@
 - [x] Generar 3 fotos únicas: Carlos M. (programador), María G. (abogada), David L. (consultor)
 - [x] Actualizar URLs en TestimonialSection.tsx con imágenes únicas
 - [x] Verificar que cada testimonial muestre foto diferente
+
+## Bug Fix: Button Redirects (Current Session)
+- [x] Encontrar todas las instancias de /assessment en componentes
+- [x] Cambiar /assessment a /quick-assessment en Checkout.tsx (2 instancias)
+- [x] Cambiar /assessment a /quick-assessment en PricingOfferBlock.tsx (1 instancia)
+- [x] Verificar que todos los botones redirigen correctamente

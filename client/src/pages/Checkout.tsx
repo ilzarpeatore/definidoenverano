@@ -74,7 +74,7 @@ export default function Checkout() {
       // Fallback: if no checkoutUrl, show error
       toast.error('Error: Sesión de pago no encontrada. Por favor, completa el assessment de nuevo.');
       setIsLoading(false);
-      setTimeout(() => navigate('/assessment'), 2000);
+      setTimeout(() => navigate('/quick-assessment'), 2000);
     } catch (error) {
       console.error('Error processing payment:', error);
       toast.error('Error al procesar el pago. Intenta de nuevo.');
@@ -108,7 +108,7 @@ export default function Checkout() {
       <div className="bg-card border-b border-border py-6">
         <div className="container max-w-4xl mx-auto px-4">
           <button
-            onClick={() => navigate('/assessment')}
+            onClick={() => navigate('/quick-assessment')}
             className="flex items-center gap-2 text-accent hover:text-accent/80 transition-colors mb-4"
           >
             <ArrowLeft className="w-4 h-4" />
