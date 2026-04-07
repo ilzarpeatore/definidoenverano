@@ -19,7 +19,8 @@ export default function CTASection() {
   
   // Calcular precio con descuento (siempre -50€)
   const discountedPrice = Math.max(0, pricing.currentPrice - 50);
-  const nextPrice = pricing.nextPrice || pricing.currentPrice + 50;
+  // Si hay próxima fase, mostrar ese precio. Si no, mostrar el precio actual (fase 3)
+  const nextPrice = pricing.nextPrice || pricing.currentPrice;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -87,7 +88,7 @@ export default function CTASection() {
           >
             {/* Original Price */}
             <motion.div variants={itemVariants} className="mb-4">
-              <p className="text-white text-sm line-through">Precio normal: €{pricing.currentPrice}</p>
+              <p className="text-white text-sm line-through">Precio normal: €{pricing.currentPrice + 50}</p>
             </motion.div>
 
             {/* Discount Badge */}
@@ -103,7 +104,11 @@ export default function CTASection() {
                 <span className="text-white font-display text-6xl font-bold">€{discountedPrice}</span>
                 <span className="text-green-400 text-sm font-bold">HOY</span>
               </div>
-              <p className="text-green-300 text-sm mt-2 font-semibold">✅ Sube a €{nextPrice} en {pricing.daysUntilNextPhase} días</p>
+              {pricing.daysUntilNextPhase > 0 ? (
+                <p className="text-green-300 text-sm mt-2 font-semibold">✅ Sube a €{nextPrice} en {pricing.daysUntilNextPhase} días</p>
+              ) : (
+                <p className="text-green-300 text-sm mt-2 font-semibold">✅ Precio final: €{nextPrice}</p>
+              )}
               <p className="text-white text-xs mt-3">O 3 cuotas de €{Math.round(discountedPrice / 3)} sin interés</p>
             </motion.div>
           </motion.div>
