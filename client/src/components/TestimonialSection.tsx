@@ -52,6 +52,17 @@ export default function TestimonialSection() {
       rating: 5,
     },
     {
+      name: 'Patricia Gómez',
+      age: 42,
+      role: 'Profesora',
+      quote:
+        'Como profesora, debo estar de pie y moviéndome constantemente. El dolor lumbar me hacía irritable con mis estudiantes. Después del programa, no solo mejoró mi espalda, sino también mi paciencia y energía. Mis estudiantes notaron el cambio.',
+      image:
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-woman-2_12ee9528.webp',
+      results: 'Energía: Baja → Óptima',
+      rating: 5,
+    },
+    {
       name: 'Roberto García',
       age: 45,
       role: 'Gerente de Proyectos',
@@ -69,7 +80,7 @@ export default function TestimonialSection() {
       quote:
         'Como enfermera, estoy de pie 12 horas diarias. El dolor lumbar me obligó a considerar cambiar de profesión. Después de 4 meses con el programa, no solo desapareció el dolor, sino que mi resistencia aumentó. Ahora termino turnos sin agotamiento.',
       image:
-        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-woman-2_12ee9528.webp',
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-woman-3_06b4d92a.webp',
       results: 'Resistencia: Limitada → Óptima',
       rating: 5,
     },
@@ -91,7 +102,7 @@ export default function TestimonialSection() {
       quote:
         'Pasaba 10 horas al día frente a la computadora. El dolor lumbar era tan intenso que algunos días no podía ni levantarme de la cama. Después de 8 semanas, no solo mejoró el dolor, sino que mi productividad se duplicó porque no estaba pensando constantemente en el malestar.',
       image:
-        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-woman-3_06b4d92a.webp',
+        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-woman-1_de013276.webp',
       results: 'Productividad: +100%',
       rating: 5,
     },
@@ -104,17 +115,6 @@ export default function TestimonialSection() {
       image:
         'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-man-5_7514bae7.webp',
       results: 'Bajas laborales: 0 en 6 meses',
-      rating: 5,
-    },
-    {
-      name: 'Patricia Gómez',
-      age: 42,
-      role: 'Profesora',
-      quote:
-        'Como profesora, debo estar de pie y moviéndome constantemente. El dolor lumbar me hacía irritable con mis estudiantes. Después del programa, no solo mejoró mi espalda, sino también mi paciencia y energía. Mis estudiantes notaron el cambio.',
-      image:
-        'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-woman-2_12ee9528.webp',
-      results: 'Energía: Baja → Óptima',
       rating: 5,
     },
   ];
