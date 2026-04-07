@@ -2,10 +2,10 @@
  * Dynamic Pricing Service
  * Calculates current price based on launch date and phase
  * 
- * Launch Date: March 1, 2026
- * Phase 1 (Days 1-14): €197
- * Phase 2 (Days 15-28): €247
- * Phase 3 (Day 29+): €297
+ * Launch Date: April 7, 2026
+ * Phase 1 (Days 1-14): €247
+ * Phase 2 (Days 15-28): €297
+ * Phase 3 (Day 29+): €347
  */
 
 export interface PricingPhase {
@@ -17,7 +17,7 @@ export interface PricingPhase {
   progressPercentage: number;
 }
 
-const LAUNCH_DATE = new Date('2026-03-01T00:00:00Z');
+const LAUNCH_DATE = new Date('2026-04-07T00:00:00Z');
 
 interface Phase {
   phase: 1 | 2 | 3;
@@ -27,9 +27,9 @@ interface Phase {
 }
 
 const PRICING_PHASES: Phase[] = [
-  { phase: 1, price: 197, startDay: 1, endDay: 14 },
-  { phase: 2, price: 247, startDay: 15, endDay: 28 },
-  { phase: 3, price: 297, startDay: 29, endDay: null },
+  { phase: 1, price: 247, startDay: 1, endDay: 14 },
+  { phase: 2, price: 297, startDay: 15, endDay: 28 },
+  { phase: 3, price: 347, startDay: 29, endDay: null },
 ];
 
 export function getCurrentPricingPhase(): PricingPhase {

@@ -251,3 +251,10 @@
 - [x] Eliminar de PricingOfferBlock.tsx (benefits list)
 - [x] Eliminar de Success.tsx (post-purchase checklist)
 - [x] Verificar que no hay más referencias en componentes principales
+
+## Feature: Reset Pricing Phases (Current Session)
+- [x] Cambiar fecha de lanzamiento a 7 de abril de 2026
+- [x] Actualizar Fase 1: 247€ (días 1-14)
+- [x] Actualizar Fase 2: 297€ (días 15-28)
+- [x] Actualizar Fase 3: 347€ (día 29+)
+- [x] Verificar que landing y checkout muestren el mismo precio (247€)
