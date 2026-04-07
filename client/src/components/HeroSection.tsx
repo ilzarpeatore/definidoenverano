@@ -93,9 +93,12 @@ export default function HeroSection() {
         {pricing && (
           <motion.div variants={itemVariants} className="mb-8">
             <p className="text-xs sm:text-sm text-green-400 font-semibold">PRECIO ACTUAL</p>
-            <p className="text-3xl sm:text-4xl font-bold text-green-300">€{pricing.currentPrice}</p>
+            <div className="flex items-center justify-center gap-3">
+              <p className="text-lg sm:text-xl font-bold text-green-200 line-through">€{pricing.currentPrice + 50}</p>
+              <p className="text-3xl sm:text-4xl font-bold text-green-300">€{pricing.currentPrice - 50}</p>
+            </div>
             {pricing.nextPrice && pricing.daysUntilNextPhase > 0 && (
-              <p className="text-xs text-green-200 mt-2">Sube a €{pricing.nextPrice} en {pricing.daysUntilNextPhase} día{pricing.daysUntilNextPhase !== 1 ? 's' : ''}</p>
+              <p className="text-xs text-green-200 mt-2">Sube a €{pricing.nextPrice} en {pricing.daysUntilNextPhase} dia{pricing.daysUntilNextPhase !== 1 ? 's' : ''}</p>
             )}
           </motion.div>
         )}

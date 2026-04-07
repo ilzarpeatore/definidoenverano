@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
 import { useEffect, useState } from 'react';
 import { getCurrentPhaseInfo } from '@/lib/pricingPhases';
+import { usePricingSync } from '@/hooks/usePricingSync';
 
 /**
  * PricingOfferBlock Component
@@ -11,15 +12,9 @@ import { getCurrentPhaseInfo } from '@/lib/pricingPhases';
  */
 export default function PricingOfferBlock() {
   const [, setLocation] = useLocation();
-  const [currentPrice, setCurrentPrice] = useState<number>(197);
-  const [normalPrice, setNormalPrice] = useState<number>(297);
-
-  useEffect(() => {
-    const phaseInfo = getCurrentPhaseInfo();
-    setCurrentPrice(phaseInfo.phase.price);
-    // Normal price is the final phase price
-    setNormalPrice(297);
-  }, []);
+  const pricing = usePricingSync();
+  const discountedPrice = Math.max(0, pricing.currentPrice - 50);
+  const normalPrice = pricing.currentPrice + 50;
 
   const benefits = [
     'Programa completo de 12 semanas',
@@ -87,7 +82,7 @@ export default function PricingOfferBlock() {
 
               <div className="flex items-baseline justify-center gap-2 md:gap-3">
                 <span className="font-display text-5xl md:text-6xl font-bold text-accent">
-                  €{currentPrice}
+                  €{discountedPrice}
                 </span>
               </div>
 
