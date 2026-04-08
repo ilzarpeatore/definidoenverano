@@ -267,6 +267,16 @@
 - [ ] Verificar que Stripe está configurado correctamente
 
 
+## Feature: Apply cienads.com Styling (Current Session)
+- [x] Update CSS variables with blue palette (#0066FF)
+- [x] Update custom components (btn-glow, card-glass, gradients)
+- [x] Apply new transitions (duration-200, duration-300)
+- [x] Add shadow effects (0 0 24px rgba(0,102,255,0.4))
+- [x] Implement opacities (text-white/80, bg-white/[0.04])
+- [x] Test on desktop, tablet, mobile
+- [x] Verify no TypeScript errors
+- [x] Guardar checkpoint
+
 ## PENDIENTE: Configurar Stripe (Crítico para pagos)
 - [ ] Obtener clave secreta de Stripe (STRIPE_SK)
 - [ ] Configurar STRIPE_SK en Management UI → Settings → Secrets
@@ -310,3 +320,10 @@
 - [x] Agregar preguntas sobre programa (duración, equipamiento, soporte, acceso de por vida)
 - [x] Agregar preguntas sobre resultados (timeline, permanencia, actividades)
 - [x] Verificar funcionalidad de acordeón y estilos
+
+
+## Feature: Optimize Cookie Banner for Mobile (Current Session)
+- [ ] Refactorizar CookieBanner con diseño responsive
+- [ ] Implementar dos pasos: banner compacto + modal de configuración
+- [ ] Agregar funcionalidad deslizable y minimizable
+- [ ] Testear en versión móvil

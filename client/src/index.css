@@ -43,74 +43,132 @@
 }
 
 :root {
-  --primary: #1e40af;
+  /* Primary Colors - Blue Vibrant (cienads style) */
+  --primary: #0066FF;
+  --primary-dark: #0052CC;
+  --primary-light: #3B82F6;
   --primary-foreground: #ffffff;
-  --sidebar-primary: #1e40af;
+  
+  /* Background & Text */
+  --background: #07070B;
+  --foreground: #ffffff;
+  
+  /* Cards & Surfaces */
+  --card: #1A1A1A;
+  --card-foreground: #ffffff;
+  --popover: #1A1A1A;
+  --popover-foreground: #ffffff;
+  
+  /* Secondary Colors */
+  --secondary: #334155;
+  --secondary-foreground: #ffffff;
+  
+  /* Muted & Accents */
+  --muted: #64748b;
+  --muted-foreground: #cbd5e1;
+  --accent: #0066FF;
+  --accent-foreground: #ffffff;
+  
+  /* Destructive */
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  
+  /* Borders & Inputs */
+  --border: #334155;
+  --input: #1A1A1A;
+  --ring: #0066FF;
+  
+  /* Sidebar */
+  --sidebar: #1A1A1A;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #0066FF;
   --sidebar-primary-foreground: #ffffff;
-  --chart-1: #1e40af;
+  --sidebar-accent: #0066FF;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #334155;
+  --sidebar-ring: #0066FF;
+  
+  /* Chart Colors */
+  --chart-1: #0066FF;
   --chart-2: #10b981;
   --chart-3: #0891b2;
   --chart-4: #0284c7;
   --chart-5: #06b6d4;
+  
+  /* Radius */
   --radius: 0.5rem;
-  --background: #0f172a;
-  --foreground: #ffffff;
-  --card: #1e293b;
-  --card-foreground: #ffffff;
-  --popover: #1e293b;
-  --popover-foreground: #ffffff;
-  --secondary: #334155;
-  --secondary-foreground: #ffffff;
-  --muted: #64748b;
-  --muted-foreground: #cbd5e1;
-  --accent: #1e40af;
-  --accent-foreground: #ffffff;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --border: #334155;
-  --input: #1e293b;
-  --ring: #1e40af;
-  --sidebar: #1e293b;
-  --sidebar-foreground: #ffffff;
-  --sidebar-accent: #1e40af;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #334155;
-  --sidebar-ring: #1e40af;
+  
+  /* cienads-style Opacities & Shadows */
+  --text-secondary: rgba(255, 255, 255, 0.55);
+  --text-muted: rgba(255, 255, 255, 0.80);
+  --bg-hover: rgba(255, 255, 255, 0.04);
+  --border-color: rgba(255, 255, 255, 0.10);
+  --border-hover: rgba(255, 255, 255, 0.15);
+  --shadow-primary: 0 0 24px rgba(0, 102, 255, 0.4);
+  --shadow-sm: 0 0 12px rgba(0, 102, 255, 0.2);
 }
 
 .dark {
-  --primary: #1e40af;
+  /* Primary Colors */
+  --primary: #0066FF;
+  --primary-dark: #0052CC;
+  --primary-light: #3B82F6;
   --primary-foreground: #ffffff;
-  --sidebar-primary: #1e40af;
+  --sidebar-primary: #0066FF;
   --sidebar-primary-foreground: #ffffff;
-  --background: #0f172a;
+  
+  /* Background & Text */
+  --background: #07070B;
   --foreground: #ffffff;
-  --card: #1e293b;
+  
+  /* Cards & Surfaces */
+  --card: #1A1A1A;
   --card-foreground: #ffffff;
-  --popover: #1e293b;
+  --popover: #1A1A1A;
   --popover-foreground: #ffffff;
+  
+  /* Secondary */
   --secondary: #334155;
   --secondary-foreground: #ffffff;
+  
+  /* Muted & Accents */
   --muted: #64748b;
   --muted-foreground: #cbd5e1;
-  --accent: #1e40af;
+  --accent: #0066FF;
   --accent-foreground: #ffffff;
+  
+  /* Destructive */
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
+  
+  /* Borders & Inputs */
   --border: #334155;
-  --input: #1e293b;
-  --ring: #1e40af;
-  --chart-1: #1e40af;
+  --input: #1A1A1A;
+  --ring: #0066FF;
+  
+  /* Sidebar */
+  --sidebar: #1A1A1A;
+  --sidebar-foreground: #ffffff;
+  --sidebar-accent: #0066FF;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #334155;
+  --sidebar-ring: #0066FF;
+  
+  /* Chart Colors */
+  --chart-1: #0066FF;
   --chart-2: #10b981;
   --chart-3: #0891b2;
   --chart-4: #0284c7;
   --chart-5: #06b6d4;
-  --sidebar: #1e293b;
-  --sidebar-foreground: #ffffff;
-  --sidebar-accent: #1e40af;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #334155;
-  --sidebar-ring: #1e40af;
+  
+  /* cienads-style Opacities & Shadows */
+  --text-secondary: rgba(255, 255, 255, 0.55);
+  --text-muted: rgba(255, 255, 255, 0.80);
+  --bg-hover: rgba(255, 255, 255, 0.04);
+  --border-color: rgba(255, 255, 255, 0.10);
+  --border-hover: rgba(255, 255, 255, 0.15);
+  --shadow-primary: 0 0 24px rgba(0, 102, 255, 0.4);
+  --shadow-sm: 0 0 12px rgba(0, 102, 255, 0.2);
 }
 
 @layer base {
@@ -118,7 +176,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -176,7 +234,7 @@
   }
 }
 
-/* Dark Gym Aesthetic - Custom Components */
+/* ===== cienads-style Components ===== */
 
 .font-display {
   font-family: 'Space Mono', monospace;
@@ -194,55 +252,89 @@
   font-weight: 400;
 }
 
-/* Gradient Line Animation */
+/* ===== Gradient Line Animation ===== */
 .gradient-line {
   position: relative;
   height: 2px;
-  background: linear-gradient(90deg, #1e40af 0%, #10b981 50%, #1e40af 100%);
-  box-shadow: 0 0 20px rgba(30, 64, 175, 0.5);
+  background: linear-gradient(90deg, #0066FF 0%, #3B82F6 50%, #0066FF 100%);
+  box-shadow: 0 0 20px rgba(0, 102, 255, 0.5);
 }
 
-/* Glow Effect for CTAs */
+/* ===== Button Glow Effect (cienads style) ===== */
 .btn-glow {
   position: relative;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  will-change-transform;
 }
 
 .btn-glow::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle, rgba(30, 64, 175, 0.3) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0, 102, 255, 0.3) 0%, transparent 70%);
   border-radius: inherit;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
 }
 
 .btn-glow:hover::before {
   opacity: 1;
 }
 
-/* Glass Morphism Card */
-.card-glass {
-  background: rgba(30, 41, 59, 0.7);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(30, 64, 175, 0.2);
-  border-radius: 0.5rem;
+.btn-glow:hover {
+  box-shadow: 0 0 24px rgba(0, 102, 255, 0.4);
 }
 
-/* Animated Counter */
+/* ===== Primary Button (cienads style) ===== */
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg font-bold transition-all duration-200 px-5 py-2.5 bg-[#0066FF] text-white;
+  box-shadow: 0 0 0 0 rgba(0, 102, 255, 0);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 24px rgba(0, 102, 255, 0.4);
+  @apply bg-[#0052CC];
+}
+
+/* ===== Secondary Button (cienads style) ===== */
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg font-bold transition-all duration-200 px-10 py-4.5 text-lg bg-transparent border border-white/[0.10] text-white/80;
+}
+
+.btn-secondary:hover {
+  @apply bg-white/[0.04] text-white border-white/[0.15];
+}
+
+/* ===== Glass Morphism Card (cienads style) ===== */
+.card-glass {
+  background: rgba(26, 26, 26, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  will-change-transform;
+}
+
+.card-glass:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 12px rgba(0, 102, 255, 0.2);
+}
+
+/* ===== Animated Counter ===== */
 .counter {
   font-family: 'Space Mono', monospace;
   font-size: 2.5rem;
   font-weight: 700;
-  color: #1e40af;
-  text-shadow: 0 0 20px rgba(30, 64, 175, 0.5);
+  color: #0066FF;
+  text-shadow: 0 0 20px rgba(0, 102, 255, 0.5);
 }
 
-/* Hero Background Texture */
+/* ===== Hero Background Texture ===== */
 .hero-bg {
   position: relative;
-  background: #0f172a;
+  background: #07070B;
   overflow: hidden;
 }
 
@@ -251,23 +343,57 @@
   position: absolute;
   inset: 0;
   background-image: 
-    radial-gradient(circle at 20% 50%, rgba(30, 64, 175, 0.05) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.03) 0%, transparent 50%);
+    radial-gradient(circle at 20% 50%, rgba(0, 102, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(3, 102, 214, 0.03) 0%, transparent 50%);
   pointer-events: none;
 }
 
-/* Divider with Blue Accent */
+/* ===== Divider with Blue Accent ===== */
 .divider-gold {
   position: relative;
   height: 1px;
-  background: linear-gradient(90deg, transparent, #1e40af, transparent);
+  background: linear-gradient(90deg, transparent, #0066FF, transparent);
   margin: 3rem 0;
 }
 
-/* Text Gradient Blue-Green */
+/* ===== Text Gradient Blue ===== */
 .text-gradient-gold {
-  background: linear-gradient(135deg, #1e40af 0%, #10b981 100%);
+  background: linear-gradient(135deg, #0066FF 0%, #3B82F6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* ===== Navigation Link (cienads style) ===== */
+.nav-link {
+  @apply text-sm text-[rgba(255,255,255,0.55)] hover:text-white transition-colors py-2 hover:bg-white/[0.04] px-3 rounded;
+}
+
+/* ===== Accordion FAQ (cienads style) ===== */
+.faq-button {
+  @apply w-full flex items-center justify-between p-5 text-left group transition-all duration-200 hover:bg-white/[0.02];
+}
+
+.faq-button:hover {
+  @apply bg-white/[0.04];
+}
+
+/* ===== Toggle Button (Mensual/Anual) ===== */
+.toggle-button {
+  @apply relative z-10 px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300;
+}
+
+.toggle-button.active {
+  @apply bg-[#0066FF] text-white shadow-lg;
+  box-shadow: 0 0 12px rgba(0, 102, 255, 0.2);
+}
+
+.toggle-button.inactive {
+  @apply text-white/55 hover:text-white/70;
+}
+
+/* ===== Performance Optimizations ===== */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
