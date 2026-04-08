@@ -74,12 +74,14 @@ export default function CTASection() {
 
         {/* Pricing Card */}
         <motion.div
-          className="bg-gradient-to-br from-green-900 to-emerald-800 p-8 md:p-12 mb-12 border-2 border-green-500/50 rounded-lg"
+          className="border-gradient-gold-animated p-8 md:p-12 mb-12 relative overflow-hidden"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
+          <div className="absolute inset-0 bg-gradient-to-br from-green-900 to-emerald-800 rounded-lg"></div>
+          <div className="relative z-10">
           <motion.div
             className="text-center mb-8"
             variants={containerVariants}
@@ -163,6 +165,7 @@ export default function CTASection() {
               <span className="text-green-400 font-bold">100% Garantía:</span> Si no reduces tu dolor en 50% en 3 semanas, devolución completa sin preguntas.
             </p>
           </motion.div>
+          </div>
         </motion.div>
 
         {/* FAQ Preview */}

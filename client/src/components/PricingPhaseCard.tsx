@@ -44,13 +44,14 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
 
     return (
       <motion.div
-        className="relative rounded-2xl border-2 border-accent/60 bg-gradient-to-br from-blue-950 to-slate-900 p-6 md:p-8 overflow-hidden"
+        className="border-gradient-gold-animated p-6 md:p-8 relative overflow-hidden"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
       >
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-950 to-slate-900 rounded-2xl"></div>
+        <div className="absolute inset-0 opacity-10 rounded-2xl">
           <div className="absolute top-0 right-0 w-40 h-40 bg-accent rounded-full blur-3xl"></div>
         </div>
 
@@ -115,13 +116,14 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
 
     return (
       <motion.div
-        className="relative rounded-2xl border-2 border-accent/60 bg-gradient-to-br from-blue-950 to-slate-900 p-6 md:p-8 overflow-hidden"
+        className="border-gradient-gold-animated p-6 md:p-8 relative overflow-hidden"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
       >
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-950 to-slate-900 rounded-2xl"></div>
+        <div className="absolute inset-0 opacity-10 rounded-2xl">
           <div className="absolute top-0 right-0 w-40 h-40 bg-accent rounded-full blur-3xl"></div>
         </div>
 
@@ -191,13 +193,14 @@ export default function PricingPhaseCard({ variant = 'current' }: PricingPhaseCa
 
     return (
       <motion.div
-        className="relative rounded-2xl border-2 border-accent/60 bg-gradient-to-br from-blue-950 to-slate-900 p-6 md:p-8 overflow-hidden"
+        className="border-gradient-gold-animated p-6 md:p-8 relative overflow-hidden"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
       >
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-950 to-slate-900 rounded-2xl"></div>
+        <div className="absolute inset-0 opacity-10 rounded-2xl">
           <div className="absolute top-0 right-0 w-40 h-40 bg-accent rounded-full blur-3xl"></div>
         </div>
 
