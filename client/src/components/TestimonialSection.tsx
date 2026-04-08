@@ -181,48 +181,50 @@ export default function TestimonialSection() {
             userSelect: isDragging ? 'none' : 'auto',
           }}
         >
-          <div className="grid md:grid-cols-3 gap-8 items-center">
-            {/* Image */}
-            <div className="flex justify-center md:justify-start">
-              <div className="relative">
-                <img
-                  src={current.image}
-                  alt={current.name}
-                  className="w-40 h-40 md:w-48 md:h-48 rounded-lg object-cover shadow-md"
-                  draggable={false}
-                />
-                <div className="absolute -bottom-2 -right-2 bg-accent text-accent-foreground rounded-full p-2">
-                  <Star className="w-5 h-5 fill-current" />
-                </div>
-              </div>
-            </div>
-
-            {/* Content */}
-            <div className="md:col-span-2 space-y-4">
-              {/* Quote */}
+          <div className="space-y-6">
+            {/* Quote */}
+            <div>
               <blockquote className="text-lg italic text-foreground leading-relaxed border-l-4 border-accent pl-4">
                 "{current.quote}"
               </blockquote>
+            </div>
+
+            {/* Results */}
+            <div className="bg-accent/10 rounded-lg p-3 inline-block">
+              <p className="text-sm font-semibold text-accent">{current.results}</p>
+            </div>
+
+            {/* Rating */}
+            <div className="flex gap-1">
+              {Array.from({ length: current.rating }).map((_, i) => (
+                <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+              ))}
+            </div>
+
+            {/* Bottom Section: Image + Author Info */}
+            <div className="flex items-end gap-4 pt-4 border-t border-border">
+              {/* Image */}
+              <div className="flex-shrink-0">
+                <div className="relative">
+                  <img
+                    src={current.image}
+                    alt={current.name}
+                    className="w-20 h-20 rounded-lg object-cover shadow-md"
+                    draggable={false}
+                  />
+                  <div className="absolute -bottom-1 -right-1 bg-accent text-accent-foreground rounded-full p-1">
+                    <Star className="w-3 h-3 fill-current" />
+                  </div>
+                </div>
+              </div>
 
               {/* Author Info */}
-              <div className="space-y-2">
+              <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <p className="font-semibold text-lg">{current.name}</p>
-                  <span className="text-sm text-muted-foreground">({current.age} años)</span>
+                  <p className="font-semibold">{current.name}</p>
+                  <span className="text-xs text-muted-foreground">({current.age} años)</span>
                 </div>
                 <p className="text-sm text-muted-foreground">{current.role}</p>
-              </div>
-
-              {/* Results */}
-              <div className="bg-accent/10 rounded-lg p-3 inline-block">
-                <p className="text-sm font-semibold text-accent">{current.results}</p>
-              </div>
-
-              {/* Rating */}
-              <div className="flex gap-1">
-                {Array.from({ length: current.rating }).map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-accent text-accent" />
-                ))}
               </div>
             </div>
           </div>
