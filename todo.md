@@ -302,3 +302,11 @@
 - [x] Crear nueva sección con drag/swipe functionality (touch + mouse)
 - [x] Añadir 6 testimonios con imágenes correctas y nombres que coincidan
 - [x] Probar interacción de deslizado en desktop y móvil
+
+
+## Feature: Expand FAQ Section (Current Session)
+- [x] Expandir FAQ de 8 a 13 preguntas
+- [x] Agregar preguntas sobre dolor (crónico, ciática, consulta médica)
+- [x] Agregar preguntas sobre programa (duración, equipamiento, soporte, acceso de por vida)
+- [x] Agregar preguntas sobre resultados (timeline, permanencia, actividades)
+- [x] Verificar funcionalidad de acordeón y estilos
