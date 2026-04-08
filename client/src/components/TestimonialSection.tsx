@@ -7,7 +7,6 @@ interface Testimonial {
   age: number;
   role: string;
   quote: string;
-  image: string;
   results: string;
   rating: number;
 }
@@ -27,7 +26,6 @@ export default function TestimonialSection() {
       role: 'Programador',
       quote:
         'Después de 3 años con dolor lumbar, en 4 semanas con RESET estoy entrenando de nuevo sin miedo. Es increíble. Finalmente entiendo qué estaba pasando.',
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-man-3_52435d14.webp',
       results: 'Dolor: 8/10 → 2/10',
       rating: 5,
     },
@@ -38,7 +36,6 @@ export default function TestimonialSection() {
       role: 'Abogada',
       quote:
         'Pensé que tendría que vivir con pastillas de por vida. RESET me devolvió la libertad. No es solo que desapareció el dolor, es que aprendí a prevenirlo.',
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-woman-2_12ee9528.webp',
       results: 'Dolor: 7/10 → 1/10',
       rating: 5,
     },
@@ -49,7 +46,6 @@ export default function TestimonialSection() {
       role: 'Consultor',
       quote:
         'Probé fisioterapia, masajes, yoga... nada funcionaba. Con RESET en 6 semanas recuperé la movilidad completa. Vuelvo a jugar con mis hijos sin limitaciones.',
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-man-5_90ee2c41.webp',
       results: 'Movilidad: Limitada → Completa',
       rating: 5,
     },
@@ -60,7 +56,6 @@ export default function TestimonialSection() {
       role: 'Profesora',
       quote:
         'Como profesora, debo estar de pie constantemente. El dolor lumbar me hacía irritable. Después del programa, mejoró mi espalda, paciencia y energía. Mis estudiantes notaron el cambio.',
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-woman-3_06b4d92a.webp',
       results: 'Energía: Baja → Óptima',
       rating: 5,
     },
@@ -71,7 +66,6 @@ export default function TestimonialSection() {
       role: 'Gerente de Proyectos',
       quote:
         'Llevo 8 años en oficina con dolor lumbar constante. Probé fisioterapia, masajes... nada funcionaba. RESET me enseñó POR QUÉ me dolía. En 6 semanas volví a jugar fútbol con mis hijos.',
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/carlos-sanchez-headshot_18242fa2.webp',
       results: 'Dolor: 8/10 → 1/10',
       rating: 5,
     },
@@ -82,7 +76,6 @@ export default function TestimonialSection() {
       role: 'Empresario',
       quote:
         'Como empresario, no tenía tiempo para dolor. Probé todo sin resultado. RESET cambió mi vida en 5 semanas. Ahora tengo energía y claridad mental para dirigir mi negocio.',
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/javier-lopez-headshot_34138bc4.webp',
       results: 'Energía: Baja → Máxima',
       rating: 5,
     },
@@ -93,7 +86,6 @@ export default function TestimonialSection() {
       role: 'Diseñadora Gráfica',
       quote:
         'Pasaba 10 horas frente a la computadora. El dolor era tan intenso que algunos días no podía levantarme. Después de 8 semanas, mejoró el dolor y mi productividad se duplicó.',
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/patricia-gomez-headshot_667ed0b7.webp',
       results: 'Productividad: +100%',
       rating: 5,
     },
@@ -183,11 +175,9 @@ export default function TestimonialSection() {
         >
           <div className="space-y-6">
             {/* Quote */}
-            <div>
-              <blockquote className="text-lg italic text-foreground leading-relaxed border-l-4 border-accent pl-4">
-                "{current.quote}"
-              </blockquote>
-            </div>
+            <blockquote className="text-lg italic text-foreground leading-relaxed border-l-4 border-accent pl-4">
+              "{current.quote}"
+            </blockquote>
 
             {/* Results */}
             <div className="bg-accent/10 rounded-lg p-3 inline-block">
@@ -201,31 +191,13 @@ export default function TestimonialSection() {
               ))}
             </div>
 
-            {/* Bottom Section: Image + Author Info */}
-            <div className="flex items-end gap-4 pt-4 border-t border-border">
-              {/* Image */}
-              <div className="flex-shrink-0">
-                <div className="relative">
-                  <img
-                    src={current.image}
-                    alt={current.name}
-                    className="w-20 h-20 rounded-lg object-cover shadow-md"
-                    draggable={false}
-                  />
-                  <div className="absolute -bottom-1 -right-1 bg-accent text-accent-foreground rounded-full p-1">
-                    <Star className="w-3 h-3 fill-current" />
-                  </div>
-                </div>
+            {/* Author Info */}
+            <div className="pt-4 border-t border-border space-y-2">
+              <div className="flex items-center gap-2">
+                <p className="font-semibold text-lg">{current.name}</p>
+                <span className="text-sm text-muted-foreground">({current.age} años)</span>
               </div>
-
-              {/* Author Info */}
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <p className="font-semibold">{current.name}</p>
-                  <span className="text-xs text-muted-foreground">({current.age} años)</span>
-                </div>
-                <p className="text-sm text-muted-foreground">{current.role}</p>
-              </div>
+              <p className="text-sm text-muted-foreground">{current.role}</p>
             </div>
           </div>
 
