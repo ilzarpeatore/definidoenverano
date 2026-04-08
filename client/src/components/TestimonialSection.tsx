@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 
 interface Testimonial {
@@ -27,7 +27,7 @@ export default function TestimonialSection() {
       role: 'Programador',
       quote:
         'Después de 3 años con dolor lumbar, en 4 semanas con RESET estoy entrenando de nuevo sin miedo. Es increíble. Finalmente entiendo qué estaba pasando.',
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-man-1_73980c35.webp',
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-man-3_52435d14.webp',
       results: 'Dolor: 8/10 → 2/10',
       rating: 5,
     },
@@ -38,7 +38,7 @@ export default function TestimonialSection() {
       role: 'Abogada',
       quote:
         'Pensé que tendría que vivir con pastillas de por vida. RESET me devolvió la libertad. No es solo que desapareció el dolor, es que aprendí a prevenirlo.',
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-woman-1_de013276.webp',
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-woman-2_12ee9528.webp',
       results: 'Dolor: 7/10 → 1/10',
       rating: 5,
     },
@@ -49,7 +49,7 @@ export default function TestimonialSection() {
       role: 'Consultor',
       quote:
         'Probé fisioterapia, masajes, yoga... nada funcionaba. Con RESET en 6 semanas recuperé la movilidad completa. Vuelvo a jugar con mis hijos sin limitaciones.',
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-man-2_80cae104.webp',
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-man-5_90ee2c41.webp',
       results: 'Movilidad: Limitada → Completa',
       rating: 5,
     },
@@ -60,7 +60,7 @@ export default function TestimonialSection() {
       role: 'Profesora',
       quote:
         'Como profesora, debo estar de pie constantemente. El dolor lumbar me hacía irritable. Después del programa, mejoró mi espalda, paciencia y energía. Mis estudiantes notaron el cambio.',
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-woman-2_12ee9528.webp',
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-woman-3_06b4d92a.webp',
       results: 'Energía: Baja → Óptima',
       rating: 5,
     },
@@ -71,18 +71,29 @@ export default function TestimonialSection() {
       role: 'Gerente de Proyectos',
       quote:
         'Llevo 8 años en oficina con dolor lumbar constante. Probé fisioterapia, masajes... nada funcionaba. RESET me enseñó POR QUÉ me dolía. En 6 semanas volví a jugar fútbol con mis hijos.',
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-man-3_52435d14.webp',
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/carlos-sanchez-headshot_18242fa2.webp',
       results: 'Dolor: 8/10 → 1/10',
       rating: 5,
     },
     {
       id: '6',
+      name: 'Javier L.',
+      age: 40,
+      role: 'Empresario',
+      quote:
+        'Como empresario, no tenía tiempo para dolor. Probé todo sin resultado. RESET cambió mi vida en 5 semanas. Ahora tengo energía y claridad mental para dirigir mi negocio.',
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/javier-lopez-headshot_34138bc4.webp',
+      results: 'Energía: Baja → Máxima',
+      rating: 5,
+    },
+    {
+      id: '7',
       name: 'Ana M.',
       age: 35,
       role: 'Diseñadora Gráfica',
       quote:
         'Pasaba 10 horas frente a la computadora. El dolor era tan intenso que algunos días no podía levantarme. Después de 8 semanas, mejoró el dolor y mi productividad se duplicó.',
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/testimonial-woman-3_06b4d92a.webp',
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/patricia-gomez-headshot_667ed0b7.webp',
       results: 'Productividad: +100%',
       rating: 5,
     },
