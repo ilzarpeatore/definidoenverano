@@ -346,3 +346,66 @@
 .border-gradient-pulse {
   animation: gradient-border-pulse 3s ease-in-out infinite;
 }
+
+
+/* ===== Animated Moving Gradient Border ===== */
+
+@keyframes gradient-border-move {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Animated Gold Gradient Border - for Premium pricing sections */
+.border-gradient-gold-animated {
+  position: relative;
+  border: 2px solid transparent;
+  border-radius: 0.75rem;
+  background: 
+    linear-gradient(#0f172a, #0f172a) padding-box,
+    linear-gradient(90deg, #fbbf24 0%, #1e40af 25%, #1e3a8a 50%, #1e40af 75%, #fbbf24 100%) border-box;
+  background-size: 200% 100%;
+  animation: gradient-border-move 3s ease-in-out infinite;
+}
+
+/* Animated Red Gradient Border */
+.border-gradient-red-animated {
+  position: relative;
+  border: 2px solid transparent;
+  border-radius: 0.75rem;
+  background: 
+    linear-gradient(#0f172a, #0f172a) padding-box,
+    linear-gradient(90deg, #dc2626 0%, #991b1b 25%, #7f1d1d 50%, #991b1b 75%, #dc2626 100%) border-box;
+  background-size: 200% 100%;
+  animation: gradient-border-move 3s ease-in-out infinite;
+}
+
+/* Animated Green Gradient Border */
+.border-gradient-green-animated {
+  position: relative;
+  border: 2px solid transparent;
+  border-radius: 0.75rem;
+  background: 
+    linear-gradient(#0f172a, #0f172a) padding-box,
+    linear-gradient(90deg, #10b981 0%, #059669 25%, #047857 50%, #059669 75%, #10b981 100%) border-box;
+  background-size: 200% 100%;
+  animation: gradient-border-move 3s ease-in-out infinite;
+}
+
+/* Animated Blue Gradient Border */
+.border-gradient-blue-animated {
+  position: relative;
+  border: 2px solid transparent;
+  border-radius: 0.75rem;
+  background: 
+    linear-gradient(#0f172a, #0f172a) padding-box,
+    linear-gradient(90deg, #1e40af 0%, #1e3a8a 25%, #172554 50%, #1e3a8a 75%, #1e40af 100%) border-box;
+  background-size: 200% 100%;
+  animation: gradient-border-move 3s ease-in-out infinite;
+}
