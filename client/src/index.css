@@ -271,3 +271,78 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+
+/* ===== Gradient Border Utilities (cienads style) ===== */
+
+/* Red Gradient Border - for Problem/Warning sections */
+.border-gradient-red {
+  position: relative;
+  border: 2px solid transparent;
+  background: linear-gradient(#0f172a, #0f172a) padding-box,
+              linear-gradient(135deg, #dc2626 0%, #991b1b 50%, #7f1d1d 100%) border-box;
+  border-radius: 0.75rem;
+}
+
+/* Green Gradient Border - for Solution/Success sections */
+.border-gradient-green {
+  position: relative;
+  border: 2px solid transparent;
+  background: linear-gradient(#0f172a, #0f172a) padding-box,
+              linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%) border-box;
+  border-radius: 0.75rem;
+}
+
+/* Blue Gradient Border - for Primary/Info sections */
+.border-gradient-blue {
+  position: relative;
+  border: 2px solid transparent;
+  background: linear-gradient(#0f172a, #0f172a) padding-box,
+              linear-gradient(135deg, #1e40af 0%, #1e3a8a 50%, #172554 100%) border-box;
+  border-radius: 0.75rem;
+}
+
+/* Gold/Blue Gradient Border - for Premium sections */
+.border-gradient-gold {
+  position: relative;
+  border: 2px solid transparent;
+  background: linear-gradient(#0f172a, #0f172a) padding-box,
+              linear-gradient(135deg, #fbbf24 0%, #1e40af 50%, #1e3a8a 100%) border-box;
+  border-radius: 0.75rem;
+}
+
+/* Subtle Gradient Border - for Secondary sections */
+.border-gradient-subtle {
+  position: relative;
+  border: 1px solid transparent;
+  background: linear-gradient(#0f172a, #0f172a) padding-box,
+              linear-gradient(135deg, rgba(30, 64, 175, 0.3) 0%, rgba(16, 185, 129, 0.2) 100%) border-box;
+  border-radius: 0.5rem;
+}
+
+/* Gradient Border with Hover Effect */
+.border-gradient-red:hover,
+.border-gradient-green:hover,
+.border-gradient-blue:hover,
+.border-gradient-gold:hover {
+  box-shadow: 0 0 20px rgba(30, 64, 175, 0.2);
+  transition: all 0.3s ease;
+}
+
+/* ===== Gradient Border Animations ===== */
+
+@keyframes gradient-border-pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.border-gradient-pulse {
+  animation: gradient-border-pulse 3s ease-in-out infinite;
+}

@@ -54,7 +54,7 @@ export default function PricingOfferBlock() {
 
         {/* Pricing Card */}
         <motion.div
-          className="bg-gradient-to-br from-emerald-700 to-emerald-800 rounded-3xl border-2 border-emerald-500/40 p-8 md:p-12 mb-8 md:mb-12 relative overflow-hidden"
+          className="border-gradient-gold p-8 md:p-12 mb-8 md:mb-12 relative overflow-hidden"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}

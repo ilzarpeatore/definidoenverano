@@ -88,10 +88,10 @@ export default function ProblemSection() {
               {painPoints.map((point, index) => (
                 <motion.div
                   key={index}
-                  className="flex items-start gap-4 p-4 bg-card rounded-sm border border-border hover:border-accent/50 transition-colors"
+                  className="flex items-start gap-4 p-4 bg-card rounded-lg border-gradient-red"
                   variants={itemVariants}
                 >
-                  <AlertCircle className="w-5 h-5 text-accent flex-shrink-0 mt-1" />
+                  <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-1" />
                   <p className="text-gray-200 font-body">{point}</p>
                 </motion.div>
               ))}

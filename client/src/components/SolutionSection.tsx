@@ -120,10 +120,10 @@ export default function SolutionSection() {
             return (
               <motion.div
                 key={index}
-                className="card-glass p-6 hover:border-accent/50 transition-all duration-300 group"
+                className="p-6 border-gradient-green transition-all duration-300 group"
                 variants={itemVariants}
               >
-                <Icon className="w-8 h-8 text-accent mb-4 group-hover:scale-110 transition-transform" />
+                <Icon className="w-8 h-8 text-green-500 mb-4 group-hover:scale-110 transition-transform" />
                 <h3 className="font-heading text-lg text-white mb-2">{feature.title}</h3>
                 <p className="text-gray-400 text-sm">{feature.description}</p>
               </motion.div>

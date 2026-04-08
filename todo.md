@@ -302,3 +302,13 @@
 - [x] Crear nueva sección con drag/swipe functionality (touch + mouse)
 - [x] Añadir 6 testimonios con imágenes correctas y nombres que coincidan
 - [x] Probar interacción de deslizado en desktop y móvil
+
+
+## Feature: Apply Gradient Borders to Key Sections (Current Session)
+- [x] Add gradient border CSS utilities to index.css
+- [x] Apply red gradient border to ProblemSection
+- [x] Apply green/blue gradient border to SolutionSection
+- [x] Apply blue gradient border to CoachingSection
+- [x] Apply gold/blue gradient border to PricingOfferBlock
+- [x] Apply subtle gradient border to FAQSection
+- [x] Test and verify all gradient borders display correctly

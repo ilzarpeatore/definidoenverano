@@ -99,7 +99,7 @@ export default function CoachingSection() {
           {supportFeatures.map((feature, index) => (
             <motion.div
               key={index}
-              className="card-glass border border-border p-8 rounded-sm hover:border-accent/50 transition-all group"
+              className="border-gradient-blue p-8 transition-all group"
               variants={itemVariants}
               whileHover={{ y: -5 }}
             >
