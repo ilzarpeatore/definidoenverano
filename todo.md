@@ -231,7 +231,6 @@
 - [x] Reemplazar usePricingSync() con usePricing() en PricingOfferBlock
 - [x] Crear tests para PricingContext (PricingContext.test.ts)
 - [ ] Cambiar precio de Stripe de €0.50 (testing) a €197 (production) - CRÍTICO
-- [ ] Crear dashboard de usuario post-compra
 - [ ] Implementar email automatizado post-compra con Brevo
 
 ## Bug Fix: Testimonial Photos Duplicadas (Current Session)

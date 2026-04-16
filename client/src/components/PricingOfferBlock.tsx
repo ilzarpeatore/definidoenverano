@@ -3,6 +3,7 @@ import { Check, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
 import { useEffect, useState } from 'react';
+import { BorderBeam } from 'border-beam';
 import { getCurrentPhaseInfo } from '@/lib/pricingPhases';
 import { usePricing } from '@/contexts/PricingContext';
 
@@ -52,93 +53,95 @@ export default function PricingOfferBlock() {
           </p>
         </motion.div>
 
-        {/* Pricing Card */}
-        <motion.div
-          className="border-gradient-gold-animated p-8 md:p-12 mb-8 md:mb-12 relative overflow-hidden"
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true }}
-        >
-          {/* Decorative accent */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full blur-2xl"></div>
+        {/* Pricing Card with BorderBeam */}
+        <BorderBeam colorVariant="ocean" size="md" theme="dark">
+          <motion.div
+            className="p-8 md:p-12 mb-8 md:mb-12 relative overflow-hidden rounded-lg"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            {/* Decorative accent */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full blur-2xl"></div>
 
-          <div className="relative z-10">
-            {/* Price Section */}
-            <div className="text-center mb-8 md:mb-10">
-              <p className="text-white text-sm md:text-base mb-2">Precio normal:</p>
-              <p className="text-white text-2xl md:text-3xl line-through mb-4">€{normalPrice}</p>
+            <div className="relative z-10">
+              {/* Price Section */}
+              <div className="text-center mb-8 md:mb-10">
+                <p className="text-white text-sm md:text-base mb-2">Precio normal:</p>
+                <p className="text-white text-2xl md:text-3xl line-through mb-4">€{normalPrice}</p>
 
-              <motion.div
-                className="inline-block bg-accent/20 border border-accent rounded-full px-4 md:px-6 py-2 mb-6"
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                viewport={{ once: true }}
-              >
-                <p className="text-accent font-bold text-lg md:text-xl">PRECIO ACTUAL</p>
-              </motion.div>
-
-              <div className="flex items-baseline justify-center gap-2 md:gap-3">
-                <span className="font-display text-5xl md:text-6xl font-bold text-accent">
-                  €{discountedPrice}
-                </span>
-              </div>
-
-              <p className="text-white text-sm md:text-base mt-3">
-                Acceso de 3 meses
-              </p>
-            </div>
-
-            {/* Benefits List */}
-            <div className="mb-8 md:mb-10 space-y-3 md:space-y-4">
-              <p className="text-white font-semibold text-lg mb-4 md:mb-6">Lo que obtienes:</p>
-              {benefits.map((benefit, index) => (
                 <motion.div
-                  key={index}
-                  className="flex items-start gap-3 md:gap-4"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, delay: 0.4 + index * 0.05 }}
+                  className="inline-block bg-accent/20 border border-accent rounded-full px-4 md:px-6 py-2 mb-6"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
                   viewport={{ once: true }}
                 >
-                  <Check className="w-5 h-5 md:w-6 md:h-6 text-accent flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-100 text-sm md:text-base">{benefit}</span>
+                  <p className="text-accent font-bold text-lg md:text-xl">PRECIO ACTUAL</p>
                 </motion.div>
-              ))}
-            </div>
 
-            {/* CTA Button */}
-            <motion.div
-              className="mb-6 md:mb-8"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <Button
-                onClick={handleCTA}
-                className="w-full bg-accent hover:bg-accent/90 text-orange-950 font-bold text-sm md:text-base py-3 md:py-4 h-auto rounded-xl transition-all duration-300 transform hover:scale-105"
+                <div className="flex items-baseline justify-center gap-2 md:gap-3">
+                  <span className="font-display text-5xl md:text-6xl font-bold text-accent">
+                    €{discountedPrice}
+                  </span>
+                </div>
+
+                <p className="text-white text-sm md:text-base mt-3">
+                  Acceso de 3 meses
+                </p>
+              </div>
+
+              {/* Benefits List */}
+              <div className="mb-8 md:mb-10 space-y-3 md:space-y-4">
+                <p className="text-white font-semibold text-lg mb-4 md:mb-6">Lo que obtienes:</p>
+                {benefits.map((benefit, index) => (
+                  <motion.div
+                    key={index}
+                    className="flex items-start gap-3 md:gap-4"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.4, delay: 0.4 + index * 0.05 }}
+                    viewport={{ once: true }}
+                  >
+                    <Check className="w-5 h-5 md:w-6 md:h-6 text-accent flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-100 text-sm md:text-base">{benefit}</span>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* CTA Button */}
+              <motion.div
+                className="mb-6 md:mb-8"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                viewport={{ once: true }}
               >
-                ACCESO INMEDIATO AL PROGRAMA
-              </Button>
-            </motion.div>
+                <Button
+                  onClick={handleCTA}
+                  className="w-full bg-accent hover:bg-accent/90 text-orange-950 font-bold text-sm md:text-base py-3 md:py-4 h-auto rounded-xl transition-all duration-300 transform hover:scale-105"
+                >
+                  ACCESO INMEDIATO AL PROGRAMA
+                </Button>
+              </motion.div>
 
-            {/* Guarantee Section */}
-            <motion.div
-              className="flex items-start gap-3 md:gap-4 bg-orange-800/50 rounded-xl p-4 md:p-5 border border-accent/30"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
-              viewport={{ once: true }}
-            >
-              <Shield className="w-5 h-5 md:w-6 md:h-6 text-accent flex-shrink-0 mt-0.5" />
-              <p className="text-gray-100 text-sm md:text-base">
-                <span className="font-bold text-accent">Garantía de 30 días.</span> Si no ves resultados, devolvemos tu dinero. Sin preguntas.
-              </p>
-            </motion.div>
-          </div>
-        </motion.div>
+              {/* Guarantee Section */}
+              <motion.div
+                className="flex items-start gap-3 md:gap-4 bg-orange-800/50 rounded-xl p-4 md:p-5 border border-accent/30"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.7 }}
+                viewport={{ once: true }}
+              >
+                <Shield className="w-5 h-5 md:w-6 md:h-6 text-accent flex-shrink-0 mt-0.5" />
+                <p className="text-gray-100 text-sm md:text-base">
+                  <span className="font-bold text-accent">Garantía de 30 días.</span> Si no ves resultados, devolvemos tu dinero. Sin preguntas.
+                </p>
+              </motion.div>
+            </div>
+          </motion.div>
+        </BorderBeam>
       </div>
     </section>
   );
