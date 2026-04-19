@@ -11,7 +11,7 @@ interface Message {
   hasWhatsAppOption?: boolean;
 }
 
-const WHATSAPP_NUMBER = '34XXXXXXXXX'; // Replace with actual number
+const WHATSAPP_NUMBER = '34643991086';
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 export default function ChatBot() {
@@ -137,10 +137,26 @@ export default function ChatBot() {
           >
             {/* Header */}
             <div className="bg-accent text-black p-4 rounded-t-lg">
-              <h3 className="font-bold text-lg">Asistente Método RESET</h3>
-              <p className="text-sm opacity-90">
-                {isAgentAvailable ? '✓ Agente disponible' : `Disponible: ${agentHours}`}
-              </p>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-bold text-lg">Asistente Método RESET</h3>
+                  <p className="text-sm opacity-90">
+                    {isAgentAvailable ? '✓ Agente disponible' : `Disponible: ${agentHours}`}
+                  </p>
+                </div>
+                <motion.a
+                  href={WHATSAPP_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-green-600 hover:bg-green-700 text-white p-2 rounded-lg transition-colors flex items-center gap-1 text-sm font-semibold"
+                  title="Contactar por WhatsApp"
+                >
+                  <MessageSquare size={16} />
+                  WhatsApp
+                </motion.a>
+              </div>
             </div>
 
             {/* Messages */}
