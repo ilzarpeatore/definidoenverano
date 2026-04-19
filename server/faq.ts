@@ -13,7 +13,7 @@ export interface FAQItem {
 export const faqDatabase: FAQItem[] = [
   {
     id: 'what-is-program',
-    keywords: ['qué es', 'en qué consiste', 'programa', 'método reset', 'cómo funciona'],
+    keywords: ['qué es', 'en qué consiste', 'programa', 'método reset', 'cómo funciona', 'explicar'],
     question: '¿En qué consiste el Método RESET?',
     answer: `El Método RESET es un programa de 12 semanas diseñado científicamente para eliminar el dolor de espalda y cuello de forma natural.
 
@@ -29,7 +29,7 @@ El programa está diseñado específicamente para hombres ocupados (30-55 años)
   },
   {
     id: 'how-long',
-    keywords: ['cuánto dura', 'duración', 'semanas', 'tiempo', 'cuánto tiempo'],
+    keywords: ['cuánto dura', 'duración', 'semanas', 'tiempo', 'cuánto tiempo', 'cuántos meses'],
     question: '¿Cuánto dura el programa?',
     answer: `El programa tiene una duración de 12 semanas (3 meses).
 
@@ -42,7 +42,7 @@ Después de las 12 semanas, tendrás acceso de por vida a todos los recursos y p
   },
   {
     id: 'price',
-    keywords: ['precio', 'costo', 'cuánto cuesta', 'cuánto vale', 'tarifa'],
+    keywords: ['precio', 'costo', 'cuánto cuesta', 'cuánto vale', 'tarifa', 'euros', 'caro', 'barato'],
     question: '¿Cuál es el precio?',
     answer: `El precio actual es de €147 (con descuento de -50€ en la fase actual).
 
@@ -56,7 +56,7 @@ Opciones de pago:
   },
   {
     id: 'guarantee',
-    keywords: ['garantía', 'devolución', 'dinero devuelto', 'reembolso', 'satisfacción'],
+    keywords: ['garantía', 'devolución', 'dinero devuelto', 'reembolso', 'satisfacción', 'riesgo', 'seguro'],
     question: '¿Hay garantía?',
     answer: `Sí, ofrecemos una garantía de 30 días 100% sin riesgo.
 
@@ -72,7 +72,7 @@ No hay riesgo. Solo beneficios.`,
   },
   {
     id: 'access',
-    keywords: ['acceso', 'cómo accedo', 'cuándo empiezo', 'inmediato', 'cuándo comienza'],
+    keywords: ['acceso', 'cómo accedo', 'cuándo empiezo', 'inmediato', 'cuándo comienza', 'empezar', 'comenzar'],
     question: '¿Cuándo tengo acceso al programa?',
     answer: `El acceso es inmediato después del pago.
 
@@ -86,7 +86,7 @@ No hay esperas, no hay complicaciones. Acceso instantáneo.`,
   },
   {
     id: 'who-is-for',
-    keywords: ['para quién', 'a quién va dirigido', 'es para mí', 'target', 'público'],
+    keywords: ['para quién', 'a quién va dirigido', 'es para mí', 'soy candidato', 'puedo hacer', 'apto'],
     question: '¿Para quién es el programa?',
     answer: `El Método RESET está diseñado específicamente para:
 
@@ -101,7 +101,7 @@ Si tienes dolor de espalda o cuello persistente y quieres eliminarlo de forma na
   },
   {
     id: 'results-timeline',
-    keywords: ['resultados', 'cuándo veo resultados', 'cuándo mejoro', 'timeline', 'progreso'],
+    keywords: ['resultados', 'cuándo veo resultados', 'cuándo mejoro', 'timeline', 'progreso', 'mejora', 'efectivo'],
     question: '¿Cuándo veo resultados?',
     answer: `La mayoría de usuarios ven resultados en:
 
@@ -119,7 +119,7 @@ Pero la mayoría ve cambios significativos en las primeras 3 semanas.`,
   },
   {
     id: 'app-access',
-    keywords: ['app', 'aplicación', 'descargar', 'ios', 'android', 'iphone'],
+    keywords: ['app', 'aplicación', 'descargar', 'ios', 'android', 'iphone', 'móvil', 'teléfono', 'hubfit'],
     question: '¿Cómo accedo a la app?',
     answer: `Después de comprar, recibirás tus datos de acceso y podrás descargar la app desde:
 
@@ -139,7 +139,7 @@ Disponible en iOS y Android.`,
   },
   {
     id: 'support',
-    keywords: ['soporte', 'ayuda', 'problema', 'contacto', 'asistencia'],
+    keywords: ['soporte', 'ayuda', 'problema', 'contacto', 'asistencia', 'duda', 'consulta', 'comunicar'],
     question: '¿Hay soporte disponible?',
     answer: `Sí, tenemos soporte disponible de varias formas:
 
@@ -154,7 +154,7 @@ Estamos aquí para asegurar que obtengas los mejores resultados posibles.
   },
   {
     id: 'payment-methods',
-    keywords: ['pago', 'métodos de pago', 'tarjeta', 'stripe', 'cómo pago'],
+    keywords: ['pago', 'métodos de pago', 'tarjeta', 'stripe', 'cómo pago', 'paypal', 'transferencia', 'visa', 'mastercard'],
     question: '¿Qué métodos de pago aceptan?',
     answer: `Aceptamos todos los métodos de pago principales:
 
@@ -173,7 +173,7 @@ Elige la opción que mejor se adapte a ti.`,
   },
   {
     id: 'refund-process',
-    keywords: ['devolución', 'reembolso', 'cómo devuelvo', 'proceso devolución'],
+    keywords: ['devolución', 'reembolso', 'cómo devuelvo', 'proceso devolución', 'devolver dinero', 'cancelar'],
     question: '¿Cómo funciona la devolución?',
     answer: `Si no estás satisfecho en los primeros 30 días:
 
@@ -191,9 +191,10 @@ Pero ten en cuenta: la mayoría de usuarios ve resultados en 2-3 semanas, así q
 /**
  * Find matching FAQ response based on user query
  * Uses keyword matching with similarity scoring
+ * Prioritizes exact keyword matches over partial matches
  */
 export function findMatchingFAQ(userQuery: string): FAQItem | null {
-  const query = userQuery.toLowerCase();
+  const query = userQuery.toLowerCase().trim();
   
   let bestMatch: FAQItem | null = null;
   let bestScore = 0;
@@ -201,20 +202,47 @@ export function findMatchingFAQ(userQuery: string): FAQItem | null {
   for (const faq of faqDatabase) {
     let score = 0;
 
-    // Check keyword matches
+    // Check keyword matches - prioritize exact matches
     for (const keyword of faq.keywords) {
-      if (query.includes(keyword)) {
-        score += 10; // Exact keyword match
-      } else if (keyword.split(' ').some(word => query.includes(word))) {
-        score += 5; // Partial keyword match
+      if (query === keyword) {
+        // Exact keyword match
+        score += 100;
+      } else if (query.includes(keyword)) {
+        // Keyword is contained in query
+        score += 20;
+      } else if (keyword.includes(query)) {
+        // Query is contained in keyword
+        score += 15;
+      } else {
+        // Check for partial word matches
+        const queryWords = query.split(/\s+/);
+        const keywordWords = keyword.split(/\s+/);
+        
+        for (const qWord of queryWords) {
+          if (qWord.length > 2) {
+            for (const kWord of keywordWords) {
+              if (kWord.includes(qWord) || qWord.includes(kWord)) {
+                score += 8;
+              }
+            }
+          }
+        }
       }
     }
 
-    // Check question match
-    const questionWords = faq.question.toLowerCase().split(' ');
-    for (const word of questionWords) {
-      if (word.length > 3 && query.includes(word)) {
-        score += 3;
+    // Check question match - lower weight than keywords
+    const questionWords = faq.question.toLowerCase().split(/\s+/);
+    const queryWords = query.split(/\s+/);
+    
+    for (const qWord of queryWords) {
+      if (qWord.length > 3) {
+        for (const word of questionWords) {
+          if (word === qWord) {
+            score += 5;
+          } else if (word.includes(qWord) || qWord.includes(word)) {
+            score += 2;
+          }
+        }
       }
     }
 
@@ -224,6 +252,6 @@ export function findMatchingFAQ(userQuery: string): FAQItem | null {
     }
   }
 
-  // Only return match if score is above threshold
-  return bestScore > 0 ? bestMatch : null;
+  // Only return match if score is above threshold (was 0, now 5 to avoid weak matches)
+  return bestScore > 5 ? bestMatch : null;
 }
