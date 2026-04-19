@@ -13,7 +13,7 @@ export interface FAQItem {
 export const faqDatabase: FAQItem[] = [
   {
     id: 'what-is-program',
-    keywords: ['qué es', 'en qué consiste', 'programa', 'método reset', 'cómo funciona', 'explicar'],
+    keywords: ['qué es', 'en qué consiste', 'programa', 'método reset', 'cómo funciona', 'explicar', 'información', 'más información', 'detalles'],
     question: '¿En qué consiste el Método RESET?',
     answer: `El Método RESET es un programa de 12 semanas diseñado científicamente para eliminar el dolor de espalda y cuello de forma natural.
 
@@ -29,7 +29,7 @@ El programa está diseñado específicamente para hombres ocupados (30-55 años)
   },
   {
     id: 'how-long',
-    keywords: ['cuánto dura', 'duración', 'semanas', 'tiempo', 'cuánto tiempo', 'cuántos meses'],
+    keywords: ['cuánto dura', 'duración', 'semanas', 'tiempo', 'cuánto tiempo', 'cuántos meses', 'se renueva', 'renovación', 'suscripción', 'permanente', 'de por vida'],
     question: '¿Cuánto dura el programa?',
     answer: `El programa tiene una duración de 12 semanas (3 meses).
 
@@ -72,7 +72,7 @@ No hay riesgo. Solo beneficios.`,
   },
   {
     id: 'access',
-    keywords: ['acceso', 'cómo accedo', 'cuándo empiezo', 'inmediato', 'cuándo comienza', 'empezar', 'comenzar'],
+    keywords: ['acceso', 'cómo accedo', 'cuándo empiezo', 'inmediato', 'cuándo comienza', 'empezar', 'comenzar', 'contratar', 'comprar', 'inscribirse', 'registrarse', 'cómo contratar', 'cómo comprar'],
     question: '¿Cuándo tengo acceso al programa?',
     answer: `El acceso es inmediato después del pago.
 
@@ -139,7 +139,7 @@ Disponible en iOS y Android.`,
   },
   {
     id: 'support',
-    keywords: ['soporte', 'ayuda', 'problema', 'contacto', 'asistencia', 'duda', 'consulta', 'comunicar'],
+    keywords: ['soporte', 'ayuda', 'problema', 'contacto', 'asistencia', 'duda', 'consulta', 'comunicar', 'atención', 'tengo atención', 'seguimiento', 'coach'],
     question: '¿Hay soporte disponible?',
     answer: `Sí, tenemos soporte disponible de varias formas:
 
