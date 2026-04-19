@@ -9,6 +9,7 @@ import { getPricingInfo } from "./pricing";
 import { saveInformedConsent } from "./db";
 import { z } from "zod";
 import { freeWeekRouter } from "./freeWeekRouter";
+import { findMatchingFAQ } from "./faq";
 
 export const appRouter = router({
   system: systemRouter,
@@ -29,6 +30,37 @@ export const appRouter = router({
   admin: adminRouter,
   leads: leadsRouter,
   freeWeek: freeWeekRouter,
+  chat: router({
+    send: publicProcedure
+      .input(
+        z.object({
+          message: z.string().min(1),
+          conversationId: z.string().optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        const userMessage = input.message.trim();
+
+        // Try to find matching FAQ
+        const matchingFAQ = findMatchingFAQ(userMessage);
+
+        if (matchingFAQ) {
+          // Return FAQ response
+          return {
+            response: matchingFAQ.answer,
+            type: 'faq',
+            foundMatch: true,
+          };
+        }
+
+        // No match found, suggest WhatsApp contact
+        return {
+          response: 'No encontré una respuesta directa a tu pregunta. Pero no te preocupes, nuestro equipo está aquí para ayudarte.\n\n📞 Contacta por WhatsApp para una respuesta personalizada:\n\nNuestro equipo responde en menos de 1 hora durante horario de oficina (Lunes-Viernes 9:00-18:00 CET).',
+          type: 'no-match',
+          foundMatch: false,
+        };
+      }),
+  }),
   consent: router({
     save: publicProcedure
       .input(

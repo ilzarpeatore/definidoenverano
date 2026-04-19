@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send, Loader } from 'lucide-react';
+import { MessageCircle, X, Send, Loader, MessageSquare } from 'lucide-react';
 import { trpc } from '@/lib/trpc';
 
 interface Message {
@@ -8,7 +8,11 @@ interface Message {
   type: 'user' | 'bot';
   content: string;
   timestamp: Date;
+  hasWhatsAppOption?: boolean;
 }
+
+const WHATSAPP_NUMBER = '34XXXXXXXXX'; // Replace with actual number
+const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,6 +29,9 @@ export default function ChatBot() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [isAgentAvailable] = useState(true);
   const [agentHours] = useState('Lunes-Viernes 9:00-18:00 (CET)');
+  
+  // tRPC mutation for sending chat messages
+  const sendChatMessage = trpc.chat.send.useMutation();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -46,28 +53,24 @@ export default function ChatBot() {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const userInput = inputValue;
     setInputValue('');
     setIsLoading(true);
 
     try {
-      // Llamar a API para obtener respuesta del bot
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: inputValue,
-          conversationId: Date.now().toString(),
-        }),
+      // Llamar a tRPC para obtener respuesta del bot
+      const result = await sendChatMessage.mutateAsync({
+        message: userInput,
+        conversationId: Date.now().toString(),
       });
-
-      const data = await response.json();
 
       // Agregar respuesta del bot
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
         type: 'bot',
-        content: data.response || 'Lo siento, no pude procesar tu pregunta. ¿Quieres hablar con un agente?',
+        content: result.response,
         timestamp: new Date(),
+        hasWhatsAppOption: !result.foundMatch,
       };
 
       setMessages(prev => [...prev, botMessage]);
@@ -76,8 +79,9 @@ export default function ChatBot() {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         type: 'bot',
-        content: 'Parece que hay un problema técnico. ¿Quieres que te conecte con un agente?',
+        content: 'Parece que hay un problema técnico. ¿Quieres que te conecte con un agente por WhatsApp?',
         timestamp: new Date(),
+        hasWhatsAppOption: true,
       };
       setMessages(prev => [...prev, errorMessage]);
     } finally {
@@ -85,17 +89,9 @@ export default function ChatBot() {
     }
   };
 
-  const handleRequestAgent = () => {
-    const agentMessage: Message = {
-      id: Date.now().toString(),
-      type: 'bot',
-      content: '✓ Te conectaremos con un agente en breve. Mientras tanto, puedes dejar tu pregunta y nos pondremos en contacto lo antes posible.',
-      timestamp: new Date(),
-    };
-    setMessages(prev => [...prev, agentMessage]);
+  const handleWhatsAppClick = () => {
+    window.open(WHATSAPP_LINK, '_blank');
   };
-
-
 
   return (
     <>
@@ -156,20 +152,35 @@ export default function ChatBot() {
                   animate={{ opacity: 1, y: 0 }}
                   className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  <div
-                    className={`max-w-xs px-4 py-2 rounded-lg ${
-                      message.type === 'user'
-                        ? 'bg-accent text-black rounded-br-none'
-                        : 'bg-muted text-foreground rounded-bl-none'
-                    }`}
-                  >
-                    <p className="text-sm">{message.content}</p>
-                    <p className="text-xs opacity-70 mt-1">
-                      {message.timestamp.toLocaleTimeString('es-ES', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}
-                    </p>
+                  <div className="w-full">
+                    <div
+                      className={`max-w-xs px-4 py-2 rounded-lg ${
+                        message.type === 'user'
+                          ? 'bg-accent text-black rounded-br-none ml-auto'
+                          : 'bg-muted text-foreground rounded-bl-none'
+                      }`}
+                    >
+                      <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                      <p className="text-xs opacity-70 mt-1">
+                        {message.timestamp.toLocaleTimeString('es-ES', {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </p>
+                    </div>
+
+                    {/* WhatsApp Option */}
+                    {message.hasWhatsAppOption && (
+                      <motion.button
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        onClick={handleWhatsAppClick}
+                        className="mt-2 w-full max-w-xs flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors"
+                      >
+                        <MessageSquare size={16} />
+                        Contactar por WhatsApp
+                      </motion.button>
+                    )}
                   </div>
                 </motion.div>
               ))}
@@ -189,14 +200,6 @@ export default function ChatBot() {
 
             {/* Input */}
             <div className="border-t border-border p-4 space-y-2">
-              {!isAgentAvailable && (
-                <button
-                  onClick={handleRequestAgent}
-                  className="w-full text-sm bg-green-600 hover:bg-green-700 text-white py-2 rounded transition-colors"
-                >
-                  Hablar con un agente
-                </button>
-              )}
               <div className="flex gap-2">
                 <input
                   type="text"
