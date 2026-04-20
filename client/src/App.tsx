@@ -13,6 +13,8 @@ import AssessmentResults from "./pages/AssessmentResults";
 import PriceDisplay from "./pages/PriceDisplay";
 import PayPalReturn from "./pages/PayPalReturn";
 import PayPalCancel from "./pages/PayPalCancel";
+import StripeReturn from "./pages/StripeReturn";
+import StripeCancel from "./pages/StripeCancel";
 import PaymentSuccess from "./pages/PaymentSuccess";
 
 import AdminDashboard from "./pages/AdminDashboard";
@@ -44,6 +46,8 @@ function Router() {
       <Route path={"/price"} component={PriceDisplay} />
       <Route path={"/paypal-return"} component={PayPalReturn} />
       <Route path={"/paypal-cancel"} component={PayPalCancel} />
+      <Route path={"/stripe-return"} component={StripeReturn} />
+      <Route path={"/stripe-cancel"} component={StripeCancel} />
       <Route path={"/payment-success"} component={PaymentSuccess} />
 
       <Route path={"/admin"} component={AdminDashboard} />

@@ -11,6 +11,9 @@ import { z } from "zod";
 import { freeWeekRouter } from "./freeWeekRouter";
 import { findMatchingFAQ } from "./faq";
 import { paypalRouter } from "./paypal-router";
+import { debugRouter } from "./debug-router";
+import { stripeRouter } from "./stripe-router";
+import { emailRouter } from "./email-router";
 
 export const appRouter = router({
   system: systemRouter,
@@ -32,6 +35,9 @@ export const appRouter = router({
   leads: leadsRouter,
   freeWeek: freeWeekRouter,
   paypal: paypalRouter,
+  stripe: stripeRouter,
+  email: emailRouter,
+  debug: debugRouter,
   chat: router({
     send: publicProcedure
       .input(

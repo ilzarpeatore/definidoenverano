@@ -311,3 +311,28 @@
 - [x] Apply gold/blue gradient border to PricingOfferBlock
 - [x] Apply subtle gradient border to FAQSection
 - [x] Test and verify all gradient borders display correctly
+
+
+## Stripe Integration - Credit Card & Bizum (Current Session)
+- [x] Crear stripe-router.ts con procedures para checkout y webhook
+- [x] Crear stripe-service.ts con lógica de creación de sesiones
+- [x] Actualizar PriceDisplay.tsx para integrar Stripe Card
+- [x] Actualizar PriceDisplay.tsx para integrar Stripe Bizum
+- [x] Crear StripeReturn.tsx para manejar retorno de Stripe
+- [x] Crear StripeCancel.tsx para manejar cancelación
+- [ ] Implementar webhook de Stripe para capturar pagos completados
+- [ ] Probar flujo completo de pago con Stripe
+
+## Email Automation with Brevo (Current Session)
+- [x] Crear email-router.ts con procedures para enviar emails
+- [x] Crear email-service.ts con templates de email
+- [x] Implementar email de bienvenida post-compra
+- [x] Implementar email de acceso a la app
+- [ ] Configurar webhook para disparar emails automáticamente
+- [ ] Probar flujo completo de email
+
+## Final Testing & Deployment (Current Session)
+- [ ] Cambiar precio de €0.50 a €197 en PriceDisplay
+- [ ] Probar flujo completo: Assessment → Price → Payment → Success → Email
+- [ ] Verificar que reset.bestronger.es está configurado correctamente
+- [ ] Guardar checkpoint final

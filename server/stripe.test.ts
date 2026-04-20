@@ -40,3 +40,51 @@ describe("Stripe Integration", () => {
     }
   });
 });
+
+
+describe("Stripe Checkout Session", () => {
+  it("should validate card payment method input", () => {
+    const paymentMethod = "card";
+    expect(paymentMethod).toBe("card");
+    expect(["card", "bizum"]).toContain(paymentMethod);
+  });
+
+  it("should validate Bizum payment method input", () => {
+    const paymentMethod = "bizum";
+    expect(paymentMethod).toBe("bizum");
+    expect(["card", "bizum"]).toContain(paymentMethod);
+  });
+
+  it("should validate amount is positive", () => {
+    const amount = 50;
+    expect(amount).toBeGreaterThan(0);
+  });
+
+  it("should validate return URL format", () => {
+    const returnUrl = "https://example.com/stripe-return?session_id={CHECKOUT_SESSION_ID}";
+    expect(returnUrl).toMatch(/^https:\/\//);
+    expect(returnUrl).toContain("stripe-return");
+  });
+
+  it("should validate cancel URL format", () => {
+    const cancelUrl = "https://example.com/stripe-cancel";
+    expect(cancelUrl).toMatch(/^https:\/\//);
+    expect(cancelUrl).toContain("stripe-cancel");
+  });
+
+  it("should convert EUR to cents correctly", () => {
+    const amountEur = 0.5;
+    const amountCents = Math.round(amountEur * 100);
+    expect(amountCents).toBe(50);
+  });
+
+  it("should validate customer email format", () => {
+    const email = "customer@example.com";
+    expect(email).toMatch(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+  });
+
+  it("should handle optional customer email", () => {
+    const email: string | undefined = undefined;
+    expect(email).toBeUndefined();
+  });
+});

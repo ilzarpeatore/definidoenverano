@@ -16,6 +16,7 @@ export default function PriceDisplay() {
   const price = 0.50;
 
   const paypalCreateOrder = trpc.paypal.createOrder.useMutation();
+  const stripeCreateCheckout = trpc.stripe.createCheckoutSession.useMutation();
 
   const handlePayment = async () => {
     if (!selectedMethod) {
@@ -26,30 +27,38 @@ export default function PriceDisplay() {
     setIsLoading(true);
 
     try {
+      const origin = window.location.origin;
+      const returnUrl = `${origin}/stripe-return`;
+      const cancelUrl = `${origin}/stripe-cancel`;
+
       if (selectedMethod === 'paypal') {
-        // Get current origin for return URLs
-        const origin = window.location.origin;
-        const returnUrl = `${origin}/paypal-return`;
-        const cancelUrl = `${origin}/paypal-cancel`;
+        const paypalReturnUrl = `${origin}/paypal-return`;
+        const paypalCancelUrl = `${origin}/paypal-cancel`;
 
         const result = await paypalCreateOrder.mutateAsync({
           amount: price,
-          returnUrl,
-          cancelUrl,
+          returnUrl: paypalReturnUrl,
+          cancelUrl: paypalCancelUrl,
         });
 
         if (result.success && result.approvalUrl) {
-          // Redirect to PayPal approval
           window.location.href = result.approvalUrl;
         } else {
           alert(`Error: ${result.error || 'No se pudo crear la orden de PayPal'}`);
         }
-      } else if (selectedMethod === 'card') {
-        // TODO: Implement Stripe card payment
-        alert('Tarjeta de crédito - próximamente');
-      } else if (selectedMethod === 'bizum') {
-        // TODO: Implement Stripe Bizum payment
-        alert('Bizum - próximamente');
+      } else if (selectedMethod === 'card' || selectedMethod === 'bizum') {
+        const result = await stripeCreateCheckout.mutateAsync({
+          amount: price,
+          paymentMethod: selectedMethod,
+          returnUrl,
+          cancelUrl,
+        });
+
+        if (result.success && result.checkoutUrl) {
+          window.location.href = result.checkoutUrl;
+        } else {
+          alert(`Error: ${result.error || 'No se pudo crear la sesión de pago'}`);
+        }
       }
     } catch (error) {
       console.error('Payment error:', error);
