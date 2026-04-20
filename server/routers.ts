@@ -14,6 +14,7 @@ import { paypalRouter } from "./paypal-router";
 import { debugRouter } from "./debug-router";
 import { stripeRouter } from "./stripe-router";
 import { emailRouter } from "./email-router";
+import { paymentRouter } from "./payment-router";
 
 export const appRouter = router({
   system: systemRouter,
@@ -37,6 +38,7 @@ export const appRouter = router({
   paypal: paypalRouter,
   stripe: stripeRouter,
   email: emailRouter,
+  payment: paymentRouter,
   debug: debugRouter,
   chat: router({
     send: publicProcedure

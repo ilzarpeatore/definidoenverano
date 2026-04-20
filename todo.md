@@ -346,3 +346,12 @@
 - [x] Disparar email de bienvenida automáticamente
 - [x] Registrar conversión en Meta Pixel
 - [ ] Probar webhook con Stripe CLI
+
+
+## Bizum Manual Integration (Current Session)
+- [x] Crear pop-up con instrucciones de pago manual por Bizum
+- [x] Actualizar esquema de base de datos para guardar método de pago
+- [x] Crear router tRPC para guardar información de pago
+- [x] Actualizar PriceDisplay para integrar Bizum manual
+- [ ] Crear dashboard para visualizar pagos y métodos
+- [ ] Probar flujo completo

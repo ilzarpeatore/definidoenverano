@@ -6,21 +6,36 @@ import { CreditCard, Wallet, Zap, Loader2 } from 'lucide-react';
 import { BorderBeam } from 'border-beam';
 import { trpc } from '@/lib/trpc';
 import { useLocation } from 'wouter';
+import BizumModal from '@/components/BizumModal';
 
 type PaymentMethod = 'paypal' | 'card' | 'bizum' | null;
 
 export default function PriceDisplay() {
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showBizumModal, setShowBizumModal] = useState(false);
+  const [customerData, setCustomerData] = useState({
+    email: '',
+    firstName: '',
+    lastName: '',
+    phone: '',
+  });
   const [, navigate] = useLocation();
-  const price = 0.50;
+  const price = 197; // Changed to €197
 
   const paypalCreateOrder = trpc.paypal.createOrder.useMutation();
   const stripeCreateCheckout = trpc.stripe.createCheckoutSession.useMutation();
+  const createPayment = trpc.payment.createBizumPayment.useMutation();
 
   const handlePayment = async () => {
     if (!selectedMethod) {
       alert('Por favor selecciona un método de pago');
+      return;
+    }
+
+    // For Bizum, show the modal instead of redirecting
+    if (selectedMethod === 'bizum') {
+      setShowBizumModal(true);
       return;
     }
 
@@ -46,10 +61,10 @@ export default function PriceDisplay() {
         } else {
           alert(`Error: ${result.error || 'No se pudo crear la orden de PayPal'}`);
         }
-      } else if (selectedMethod === 'card' || selectedMethod === 'bizum') {
+      } else if (selectedMethod === 'card') {
         const result = await stripeCreateCheckout.mutateAsync({
           amount: price,
-          paymentMethod: selectedMethod,
+          paymentMethod: 'card',
           returnUrl,
           cancelUrl,
         });
@@ -63,6 +78,42 @@ export default function PriceDisplay() {
     } catch (error) {
       console.error('Payment error:', error);
       alert('Error al procesar el pago. Intenta de nuevo.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleBizumConfirm = async () => {
+    try {
+      setIsLoading(true);
+
+      // Create payment record for Bizum
+      const result = await createPayment.mutateAsync({
+        email: customerData.email,
+        firstName: customerData.firstName,
+        lastName: customerData.lastName,
+        phone: customerData.phone,
+        amount: price,
+        paymentMethod: 'bizum',
+      });
+
+      if (result.success) {
+        setShowBizumModal(false);
+        alert('¡Gracias! Tu información ha sido registrada. Recibirás un email de confirmación en las próximas 24 horas.');
+        // Reset form
+        setSelectedMethod(null);
+        setCustomerData({
+          email: '',
+          firstName: '',
+          lastName: '',
+          phone: '',
+        });
+      } else {
+        alert(`Error: ${result.error || 'No se pudo registrar el pago'}`);
+      }
+    } catch (error) {
+      console.error('Bizum confirmation error:', error);
+      alert('Error al confirmar el pago. Intenta de nuevo.');
     } finally {
       setIsLoading(false);
     }
@@ -215,6 +266,13 @@ export default function PriceDisplay() {
           </div>
         </motion.div>
       </div>
+
+      {/* Bizum Modal */}
+      <BizumModal
+        isOpen={showBizumModal}
+        onClose={() => setShowBizumModal(false)}
+        onConfirm={handleBizumConfirm}
+      />
     </div>
   );
 }
