@@ -10,6 +10,10 @@ import ChatBot from "./components/ChatBot";
 import Home from "./pages/Home";
 import Assessment from "./pages/Assessment";
 import AssessmentResults from "./pages/AssessmentResults";
+import PriceDisplay from "./pages/PriceDisplay";
+import PayPalReturn from "./pages/PayPalReturn";
+import PayPalCancel from "./pages/PayPalCancel";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 import AdminDashboard from "./pages/AdminDashboard";
 import TermsAndConditions from "./pages/TermsAndConditions";
@@ -37,6 +41,10 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/assessment"} component={Assessment} />
       <Route path={"/assessment-results"} component={AssessmentResults} />
+      <Route path={"/price"} component={PriceDisplay} />
+      <Route path={"/paypal-return"} component={PayPalReturn} />
+      <Route path={"/paypal-cancel"} component={PayPalCancel} />
+      <Route path={"/payment-success"} component={PaymentSuccess} />
 
       <Route path={"/admin"} component={AdminDashboard} />
       <Route path={"/terms"} component={TermsAndConditions} />

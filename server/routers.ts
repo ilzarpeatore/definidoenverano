@@ -10,6 +10,7 @@ import { saveInformedConsent } from "./db";
 import { z } from "zod";
 import { freeWeekRouter } from "./freeWeekRouter";
 import { findMatchingFAQ } from "./faq";
+import { paypalRouter } from "./paypal-router";
 
 export const appRouter = router({
   system: systemRouter,
@@ -30,6 +31,7 @@ export const appRouter = router({
   admin: adminRouter,
   leads: leadsRouter,
   freeWeek: freeWeekRouter,
+  paypal: paypalRouter,
   chat: router({
     send: publicProcedure
       .input(
