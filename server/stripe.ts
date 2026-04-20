@@ -1,3 +1,4 @@
+import Stripe from "stripe";
 import { ENV } from "./_core/env";
 
 /**
@@ -5,8 +6,11 @@ import { ENV } from "./_core/env";
  * Handles payment processing and checkout sessions
  */
 
-const STRIPE_API_URL = "https://api.stripe.com/v1";
-const PRODUCTION_DOMAIN = "https://definidoenverano.bestronger.es";
+const stripe = new Stripe(process.env.STRIPE_SK || "", {
+  apiVersion: "2026-02-25.clover",
+});
+
+const PRODUCTION_DOMAIN = "https://reset.bestronger.es";
 
 export interface StripeCheckoutSession {
   id: string;
@@ -23,7 +27,7 @@ export interface StripePaymentIntent {
 }
 
 /**
- * Create a checkout session for Stripe
+ * Create a checkout session for Stripe using SDK
  */
 export async function createStripeCheckoutSession(
   customerEmail: string,
@@ -37,39 +41,47 @@ export async function createStripeCheckoutSession(
     throw new Error("Stripe secret key not configured");
   }
 
-  const params = new URLSearchParams({
-    "payment_method_types[0]": "card",
-    mode: "payment",
-    customer_email: customerEmail,
-    "line_items[0][price_data][currency]": currency,
-    "line_items[0][price_data][unit_amount]": String(Math.round(amount * 100)), // Convert to cents
-    "line_items[0][price_data][product_data][name]": "Programa Definido en Verano",
-    "line_items[0][price_data][product_data][description]": "Programa de entrenamiento de 12 semanas",
-    "line_items[0][quantity]": "1",
-    success_url: `${origin || "https://definidoenverano.bestronger.es"}/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${origin || "https://definidoenverano.bestronger.es"}/checkout`,
-    client_reference_id: orderId || "",
-  });
+  const successUrl = `${origin || PRODUCTION_DOMAIN}/success?session_id={CHECKOUT_SESSION_ID}`;
+  const cancelUrl = `${origin || PRODUCTION_DOMAIN}/checkout`;
 
   try {
-    const response = await fetch(`${STRIPE_API_URL}/checkout/sessions`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${ENV.stripeSecretKey}`,
-        "Content-Type": "application/x-www-form-urlencoded",
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      customer_email: customerEmail,
+      line_items: [
+        {
+          price_data: {
+            currency: currency,
+            unit_amount: Math.round(amount * 100), // Convert to cents
+            product_data: {
+              name: "Programa Definido en Verano",
+              description: "Programa de entrenamiento de 12 semanas",
+            },
+          },
+          quantity: 1,
+        },
+      ],
+      success_url: successUrl,
+      cancel_url: cancelUrl,
+      client_reference_id: orderId || undefined,
+      metadata: {
+        orderId: orderId || "",
+        customerName: customerName,
       },
-      body: params.toString(),
     });
 
-    if (!response.ok) {
-      const error = await response.text();
-      console.error(`[Stripe] Failed to create checkout session: ${response.status} - ${error}`);
-      throw new Error(`Stripe API error: ${response.status}`);
+    if (!session.url) {
+      throw new Error("Stripe session created but no checkout URL returned");
     }
 
-    const session = (await response.json()) as StripeCheckoutSession;
-    console.log(`[Stripe] Checkout session created: ${session.id}`);
-    return session;
+    console.log(`[Stripe] Checkout session created: ${session.id} - URL: ${session.url}`);
+    return {
+      id: session.id,
+      object: session.object,
+      url: session.url,
+      client_secret: session.client_secret || "",
+    };
   } catch (error) {
     console.error("[Stripe] Error creating checkout session:", error);
     throw error;
@@ -85,21 +97,14 @@ export async function getStripeCheckoutSession(sessionId: string): Promise<Strip
   }
 
   try {
-    const response = await fetch(`${STRIPE_API_URL}/checkout/sessions/${sessionId}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${ENV.stripeSecretKey}`,
-      },
-    });
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
 
-    if (!response.ok) {
-      const error = await response.text();
-      console.error(`[Stripe] Failed to retrieve session: ${response.status} - ${error}`);
-      throw new Error(`Stripe API error: ${response.status}`);
-    }
-
-    const session = (await response.json()) as StripeCheckoutSession;
-    return session;
+    return {
+      id: session.id,
+      object: session.object,
+      url: session.url || "",
+      client_secret: session.client_secret || "",
+    };
   } catch (error) {
     console.error("[Stripe] Error retrieving checkout session:", error);
     throw error;
@@ -119,39 +124,22 @@ export async function createStripePaymentIntent(
     throw new Error("Stripe secret key not configured");
   }
 
-  const params = new URLSearchParams({
-    amount: String(Math.round(amount * 100)), // Convert to cents
-    currency: currency,
-    payment_method_types: "card",
-  });
-
-  if (customerEmail) {
-    params.append("receipt_email", customerEmail);
-  }
-
-  if (description) {
-    params.append("description", description);
-  }
-
   try {
-    const response = await fetch(`${STRIPE_API_URL}/payment_intents`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${ENV.stripeSecretKey}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: params.toString(),
+    const intent = await stripe.paymentIntents.create({
+      amount: Math.round(amount * 100), // Convert to cents
+      currency: currency,
+      payment_method_types: ["card"],
+      receipt_email: customerEmail,
+      description: description,
     });
 
-    if (!response.ok) {
-      const error = await response.text();
-      console.error(`[Stripe] Failed to create payment intent: ${response.status} - ${error}`);
-      throw new Error(`Stripe API error: ${response.status}`);
-    }
-
-    const intent = (await response.json()) as StripePaymentIntent;
     console.log(`[Stripe] Payment intent created: ${intent.id}`);
-    return intent;
+    return {
+      id: intent.id,
+      status: intent.status as "succeeded" | "processing" | "requires_payment_method" | "requires_action",
+      amount: intent.amount,
+      currency: intent.currency,
+    };
   } catch (error) {
     console.error("[Stripe] Error creating payment intent:", error);
     throw error;

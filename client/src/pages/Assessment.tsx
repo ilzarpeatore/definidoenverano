@@ -238,6 +238,7 @@ export default function Assessment() {
           availableTime: data.timeAvailable,
           motivation: data.motivation,
         },
+        origin: window.location.origin,
       });
 
       console.log('[Assessment] Checkout session response:', result);
