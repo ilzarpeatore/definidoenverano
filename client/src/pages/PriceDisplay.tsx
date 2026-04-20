@@ -7,6 +7,7 @@ import { BorderBeam } from 'border-beam';
 import { trpc } from '@/lib/trpc';
 import { useLocation } from 'wouter';
 import BizumModal from '@/components/BizumModal';
+import PayPalContactModal from '@/components/PayPalContactModal';
 
 type PaymentMethod = 'paypal' | 'card' | 'bizum' | null;
 
@@ -14,6 +15,7 @@ export default function PriceDisplay() {
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showBizumModal, setShowBizumModal] = useState(false);
+  const [showPayPalModal, setShowPayPalModal] = useState(false);
   const [customerData, setCustomerData] = useState({
     email: '',
     firstName: '',
@@ -33,6 +35,12 @@ export default function PriceDisplay() {
       return;
     }
 
+    // For PayPal, show the contact modal
+    if (selectedMethod === 'paypal') {
+      setShowPayPalModal(true);
+      return;
+    }
+
     // For Bizum, show the modal instead of redirecting
     if (selectedMethod === 'bizum') {
       setShowBizumModal(true);
@@ -46,22 +54,7 @@ export default function PriceDisplay() {
       const returnUrl = `${origin}/stripe-return`;
       const cancelUrl = `${origin}/stripe-cancel`;
 
-      if (selectedMethod === 'paypal') {
-        const paypalReturnUrl = `${origin}/paypal-return`;
-        const paypalCancelUrl = `${origin}/paypal-cancel`;
-
-        const result = await paypalCreateOrder.mutateAsync({
-          amount: price,
-          returnUrl: paypalReturnUrl,
-          cancelUrl: paypalCancelUrl,
-        });
-
-        if (result.success && result.approvalUrl) {
-          window.location.href = result.approvalUrl;
-        } else {
-          alert(`Error: ${result.error || 'No se pudo crear la orden de PayPal'}`);
-        }
-      } else if (selectedMethod === 'card') {
+      if (selectedMethod === 'card') {
         const result = await stripeCreateCheckout.mutateAsync({
           amount: price,
           paymentMethod: 'card',
@@ -274,6 +267,12 @@ export default function PriceDisplay() {
         onConfirm={handleBizumConfirm}
         firstName={customerData.firstName}
         lastName={customerData.lastName}
+      />
+
+      {/* PayPal Contact Modal */}
+      <PayPalContactModal
+        isOpen={showPayPalModal}
+        onClose={() => setShowPayPalModal(false)}
       />
     </div>
   );
