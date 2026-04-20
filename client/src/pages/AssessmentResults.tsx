@@ -330,7 +330,7 @@ export default function AssessmentResults() {
             Basado en tu valoración, el Método RESET está diseñado específicamente para tu caso
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-            <Link href="/checkout">
+            <Link href="/price">
               <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold px-8 py-3">
                 💳 Comprar Ahora
               </Button>
