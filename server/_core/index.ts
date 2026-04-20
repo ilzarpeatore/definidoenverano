@@ -7,7 +7,7 @@ import { registerOAuthRoutes } from "./oauth";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
-import { handleStripeWebhook } from "../webhooks";
+
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -37,14 +37,7 @@ async function startServer() {
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
   
-  // Stripe webhook endpoint (must be before JSON body parser)
-  app.post("/api/webhooks/stripe", express.raw({ type: "application/json" }), async (req, res) => {
-    const signature = req.headers["stripe-signature"] as string;
-    const body = req.body instanceof Buffer ? req.body.toString() : JSON.stringify(req.body);
-    
-    const result = await handleStripeWebhook(body, signature);
-    res.status(result.success ? 200 : 400).json(result);
-  });
+  // TODO: Add webhook endpoint for new payment flow
   
   // tRPC API
   app.use(

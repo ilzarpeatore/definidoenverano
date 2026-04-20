@@ -49,7 +49,7 @@ export default function Assessment() {
     lastName: '',
   });
 
-  const createCheckoutMutation = trpc.payments.createCheckoutSession.useMutation();
+  // TODO: Implement new payment flow
 
   // Track assessment event for retargeting
   useEffect(() => {
@@ -215,45 +215,11 @@ export default function Assessment() {
     try {
       // Track assessment completion
       trackAssessmentCompletion();
-      // Llamar al backend para crear sesión de checkout
-      // Parse yearsTraining to number
-      const yearsTrainingMap: { [key: string]: number } = {
-        'none': 0,
-        '1-3': 2,
-        '3-5': 4,
-        '5plus': 5,
-      };
-
-      const result = await createCheckoutMutation.mutateAsync({
-        email: clientInfo.email,
-        phone: clientInfo.phone,
-        firstName: clientInfo.firstName,
-        lastName: clientInfo.lastName,
-        assessment: {
-          experienceLevel: data.experience,
-          yearsTraining: yearsTrainingMap[data.yearsTraining] || 0,
-          mainGoal: data.mainGoal,
-          bodyAreasToImprove: data.bodyParts,
-          musclesToDevelop: data.muscleGroups,
-          availableTime: data.timeAvailable,
-          motivation: data.motivation,
-        },
-      });
-
-      console.log('[Assessment] Checkout session response:', result);
-
-      if (!result.checkoutUrl) {
-        console.error('[Assessment] No checkoutUrl in response:', result);
-        toast.error('Error: No se pudo generar la sesión de pago. Intenta de nuevo.');
-        return;
-      }
-
-      localStorage.setItem('currentOrderId', result.orderId);
-      localStorage.setItem('checkoutUrl', result.checkoutUrl);
+      
+      // TODO: Implement new payment flow
       localStorage.setItem('assessmentData', JSON.stringify(data));
       localStorage.setItem('clientInfo', JSON.stringify(clientInfo));
 
-      console.log('[Assessment] Checkout URL saved:', result.checkoutUrl);
       toast.success('¡Información guardada! Mostrando tu plan personalizado...');
 
       // Redirigir a resultados del assessment
@@ -395,17 +361,9 @@ export default function Assessment() {
 
               <Button
                 onClick={handleCheckout}
-                disabled={createCheckoutMutation.isPending}
                 className="flex-1 bg-accent hover:bg-accent/90 text-accent-foreground font-bold btn-glow flex items-center justify-center gap-2"
               >
-                {createCheckoutMutation.isPending ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    Procesando...
-                  </>
-                ) : (
-                  'Ir a Pago'
-                )}
+                Continuar
               </Button>
             </div>
 
