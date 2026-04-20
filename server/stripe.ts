@@ -17,6 +17,9 @@ export interface StripeCheckoutSession {
   object: string;
   url: string;
   client_secret: string;
+  payment_status?: string;
+  metadata?: Record<string, string>;
+  client_reference_id?: string;
 }
 
 export interface StripePaymentIntent {
@@ -46,6 +49,17 @@ export async function createStripeCheckoutSession(
   const cancelUrl = `${origin || PRODUCTION_DOMAIN}/checkout`;
 
   try {
+    console.log('[Stripe] Creating checkout session with:', {
+      customerEmail,
+      customerName,
+      amount,
+      currency,
+      orderId,
+      origin,
+      successUrl,
+      cancelUrl,
+    });
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
@@ -72,7 +86,16 @@ export async function createStripeCheckoutSession(
       },
     });
 
+    console.log('[Stripe] Session response:', JSON.stringify({
+      id: session.id,
+      object: session.object,
+      url: session.url,
+      status: session.status,
+      payment_status: session.payment_status,
+    }));
+
     if (!session.url) {
+      console.error('[Stripe] Session created but no URL:', session);
       throw new Error("Stripe session created but no checkout URL returned");
     }
 
@@ -105,6 +128,9 @@ export async function getStripeCheckoutSession(sessionId: string): Promise<Strip
       object: session.object,
       url: session.url || "",
       client_secret: session.client_secret || "",
+      payment_status: session.payment_status,
+      metadata: session.metadata as Record<string, string> | undefined,
+      client_reference_id: session.client_reference_id || undefined,
     };
   } catch (error) {
     console.error("[Stripe] Error retrieving checkout session:", error);

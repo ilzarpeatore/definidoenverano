@@ -1,87 +1,58 @@
+import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { z } from "zod";
-import { publicProcedure, router } from "./_core/trpc";
 import {
-  getOrCreateCustomer,
   createOrder,
   getOrderByOrderId,
   updateOrderStatus,
-  saveAssessmentResponse,
-  generateOrderId,
-} from "./payments";
-import { createStripeCheckoutSession, getStripeCheckoutSession } from "./stripe";
-import { createPayPalOrder, capturePayPalOrder } from "./paypal";
-
-/**
- * Payment Router - tRPC procedures for payment processing
- */
-
-const assessmentSchema = z.object({
-  experienceLevel: z.string(),
-  yearsTraining: z.number().optional(),
-  mainGoal: z.string(),
-  bodyAreasToImprove: z.array(z.string()),
-  musclesToDevelop: z.array(z.string()),
-  availableTime: z.string(),
-  motivation: z.string(),
-});
+  getOrderByCustomerId,
+} from "./db";
+import {
+  createStripeCheckoutSession,
+  getStripeCheckoutSession,
+} from "./stripe";
+import { notifyOwner } from "./_core/notification";
 
 export const paymentsRouter = router({
   /**
-   * Create checkout session with Stripe
-   * Saves customer info, assessment, and creates Stripe checkout
+   * Create a checkout session
    */
   createCheckoutSession: publicProcedure
     .input(
       z.object({
-        email: z.string().email(),
-        phone: z.string(),
         firstName: z.string(),
         lastName: z.string(),
-        assessment: assessmentSchema,
+        email: z.string().email(),
+        phone: z.string().optional(),
+        assessment: z.object({
+          age: z.number(),
+          painLevel: z.number(),
+          motivation: z.string(),
+        }),
         origin: z.string().optional(),
       })
     )
     .mutation(async ({ input }) => {
       try {
-        // Create or get customer
-        const customer = await getOrCreateCustomer(
-          input.email,
-          input.phone,
-          input.firstName,
-          input.lastName
-        );
+        const amount = 50; // €0.50 for testing, change to 197 for production
 
-        if (!customer) throw new Error("Failed to create customer");
-
-        // Generate unique order ID
-        const orderId = generateOrderId();
-
-        // Create order (pending status)
-        // Production price: 197€
-        const amount = 197; // Production price
+        // Create order in database
+        const orderId = `order_${Date.now()}`;
         await createOrder({
-          customerId: customer.id,
           orderId,
+          customerId: input.email,
+          customerName: `${input.firstName} ${input.lastName}`,
+          customerEmail: input.email,
+          customerPhone: input.phone,
           amount,
           currency: "EUR",
           status: "pending",
-        });
-
-        // Save assessment responses
-        const order = await getOrderByOrderId(orderId);
-        if (order) {
-          await saveAssessmentResponse({
-            customerId: customer.id,
-            orderId: order.id,
-            experienceLevel: input.assessment.experienceLevel,
-            yearsTraining: input.assessment.yearsTraining,
-            mainGoal: input.assessment.mainGoal,
-            bodyAreasToImprove: JSON.stringify(input.assessment.bodyAreasToImprove),
-            musclesToDevelop: JSON.stringify(input.assessment.musclesToDevelop),
-            availableTime: input.assessment.availableTime,
+          paymentMethod: "stripe",
+          assessmentData: {
+            age: input.assessment.age,
+            painLevel: input.assessment.painLevel,
             motivation: input.assessment.motivation,
-          });
-        }
+          },
+        });
 
         // Create Stripe checkout session
         const stripeSession = await createStripeCheckoutSession(
@@ -103,7 +74,7 @@ export const paymentsRouter = router({
         return {
           success: true,
           orderId,
-          customerId: customer.id,
+          customerId: input.email,
           amount,
           currency: "EUR",
           checkoutUrl: stripeSession.url,
@@ -124,18 +95,50 @@ export const paymentsRouter = router({
       try {
         const session = await getStripeCheckoutSession(input.sessionId);
         
-        // Update order status based on payment status
-        if (session.id) {
-          const order = await getOrderByOrderId(input.sessionId);
-          if (order) {
-            await updateOrderStatus(order.orderId, "completed", "stripe");
-          }
+        console.log('[Payments] Verifying Stripe session:', {
+          sessionId: session.id,
+          paymentStatus: session.payment_status,
+          metadata: session.metadata,
+          clientReferenceId: session.client_reference_id,
+        });
+
+        // Check if payment was actually completed
+        if (session.payment_status !== "paid") {
+          console.warn('[Payments] Payment not completed, status:', session.payment_status);
+          return {
+            success: false,
+            sessionId: session.id,
+            paymentStatus: session.payment_status || "unpaid",
+          };
+        }
+
+        // Get the internal orderId from Stripe metadata or client_reference_id
+        const orderId = session.metadata?.orderId || session.client_reference_id;
+        
+        if (!orderId) {
+          console.error('[Payments] No orderId found in session metadata');
+          return {
+            success: false,
+            sessionId: session.id,
+            paymentStatus: session.payment_status,
+            error: "Order ID not found",
+          };
+        }
+
+        // Update the correct order
+        const order = await getOrderByOrderId(orderId);
+        if (order) {
+          console.log('[Payments] Updating order status:', orderId);
+          await updateOrderStatus(order.orderId, "completed", "stripe");
+        } else {
+          console.warn('[Payments] Order not found:', orderId);
         }
 
         return {
           success: true,
           sessionId: session.id,
-          paymentStatus: "completed",
+          orderId: orderId,
+          paymentStatus: session.payment_status,
         };
       } catch (error) {
         console.error("[Payments] Error verifying Stripe checkout:", error);
@@ -144,228 +147,31 @@ export const paymentsRouter = router({
     }),
 
   /**
-   * Process Stripe payment (for direct payment method)
+   * Get order by ID
    */
-  processStripePayment: publicProcedure
-    .input(
-      z.object({
-        orderId: z.string(),
-        paymentIntentId: z.string(),
-      })
-    )
-    .mutation(async ({ input }) => {
-      try {
-        // Update order status
-        await updateOrderStatus(input.orderId, "completed", "stripe");
-
-        return {
-          success: true,
-          orderId: input.orderId,
-          message: "Payment processed successfully",
-        };
-      } catch (error) {
-        console.error("[Payments] Error processing Stripe payment:", error);
-        await updateOrderStatus(input.orderId, "failed", "stripe");
-        throw error;
-      }
-    }),
-
-  /**
-   * Process PayPal payment
-   */
-  processPayPalPayment: publicProcedure
-    .input(
-      z.object({
-        orderId: z.string(),
-        paypalOrderId: z.string(),
-      })
-    )
-    .mutation(async ({ input }) => {
-      try {
-        // Update order status
-        await updateOrderStatus(input.orderId, "completed", "paypal");
-
-        return {
-          success: true,
-          orderId: input.orderId,
-          message: "Payment processed successfully",
-        };
-      } catch (error) {
-        console.error("[Payments] Error processing PayPal payment:", error);
-        await updateOrderStatus(input.orderId, "failed", "paypal");
-        throw error;
-      }
-    }),
-
-  /**
-   * Process Klarna payment
-   */
-  processKlarnaPayment: publicProcedure
-    .input(
-      z.object({
-        orderId: z.string(),
-        klarnaOrderId: z.string(),
-      })
-    )
-    .mutation(async ({ input }) => {
-      try {
-        // Update order status
-        await updateOrderStatus(input.orderId, "completed", "klarna");
-
-        return {
-          success: true,
-          orderId: input.orderId,
-          message: "Payment processed successfully",
-        };
-      } catch (error) {
-        console.error("[Payments] Error processing Klarna payment:", error);
-        await updateOrderStatus(input.orderId, "failed", "klarna");
-        throw error;
-      }
-    }),
-
-  /**
-   * Process Apple Pay payment
-   */
-  processApplePayPayment: publicProcedure
-    .input(
-      z.object({
-        orderId: z.string(),
-        paymentToken: z.string(),
-      })
-    )
-    .mutation(async ({ input }) => {
-      try {
-        // Update order status
-        await updateOrderStatus(input.orderId, "completed", "apple_pay");
-
-        return {
-          success: true,
-          orderId: input.orderId,
-          message: "Payment processed successfully",
-        };
-      } catch (error) {
-        console.error("[Payments] Error processing Apple Pay payment:", error);
-        await updateOrderStatus(input.orderId, "failed", "apple_pay");
-        throw error;
-      }
-    }),
-
-  /**
-   * Process Google Pay payment
-   */
-  processGooglePayPayment: publicProcedure
-    .input(
-      z.object({
-        orderId: z.string(),
-        paymentToken: z.string(),
-      })
-    )
-    .mutation(async ({ input }) => {
-      try {
-        // Update order status
-        await updateOrderStatus(input.orderId, "completed", "google_pay");
-
-        return {
-          success: true,
-          orderId: input.orderId,
-          message: "Payment processed successfully",
-        };
-      } catch (error) {
-        console.error("[Payments] Error processing Google Pay payment:", error);
-        await updateOrderStatus(input.orderId, "failed", "google_pay");
-        throw error;
-      }
-    }),
-
-  /**
-   * Create PayPal order
-   */
-  createPayPalOrder: publicProcedure
-    .input(
-      z.object({
-        orderId: z.string(),
-        amount: z.number(),
-      })
-    )
-    .mutation(async ({ input }) => {
-      try {
-        const returnUrl = `${process.env.VITE_FRONTEND_FORGE_API_URL || "https://definidoenverano.bestronger.es"}/success?orderId=${input.orderId}`;
-        const cancelUrl = `${process.env.VITE_FRONTEND_FORGE_API_URL || "https://definidoenverano.bestronger.es"}/checkout`;
-
-        const paypalOrder = await createPayPalOrder(
-          input.amount,
-          input.orderId,
-          returnUrl,
-          cancelUrl
-        );
-
-        // Get approval link
-        const approvalLink = paypalOrder.links.find(
-          (link) => link.rel === "approve"
-        );
-
-        return {
-          success: true,
-          paypalOrderId: paypalOrder.id,
-          approvalUrl: approvalLink?.href,
-        };
-      } catch (error) {
-        console.error("[Payments] Error creating PayPal order:", error);
-        throw error;
-      }
-    }),
-
-  /**
-   * Capture PayPal order
-   */
-  capturePayPalOrder: publicProcedure
-    .input(
-      z.object({
-        orderId: z.string(),
-        paypalOrderId: z.string(),
-      })
-    )
-    .mutation(async ({ input }) => {
-      try {
-        const capturedOrder = await capturePayPalOrder(input.paypalOrderId);
-
-        // Update order status
-        await updateOrderStatus(input.orderId, "completed", "paypal");
-
-        return {
-          success: true,
-          orderId: input.orderId,
-          paypalOrderId: capturedOrder.id,
-          status: capturedOrder.status,
-        };
-      } catch (error) {
-        console.error("[Payments] Error capturing PayPal order:", error);
-        await updateOrderStatus(input.orderId, "failed", "paypal");
-        throw error;
-      }
-    }),
-
-  /**
-   * Get order status
-   */
-  getOrderStatus: publicProcedure
+  getOrder: publicProcedure
     .input(z.object({ orderId: z.string() }))
     .query(async ({ input }) => {
       try {
         const order = await getOrderByOrderId(input.orderId);
-        if (!order) throw new Error("Order not found");
-
-        return {
-          orderId: order.orderId,
-          status: order.status,
-          amount: order.amount,
-          currency: order.currency,
-          paymentMethod: order.paymentMethod,
-          createdAt: order.createdAt,
-        };
+        return order;
       } catch (error) {
-        console.error("[Payments] Error getting order status:", error);
+        console.error("[Payments] Error getting order:", error);
+        throw error;
+      }
+    }),
+
+  /**
+   * Get orders by customer email
+   */
+  getCustomerOrders: publicProcedure
+    .input(z.object({ email: z.string().email() }))
+    .query(async ({ input }) => {
+      try {
+        const orders = await getOrderByCustomerId(input.email);
+        return orders;
+      } catch (error) {
+        console.error("[Payments] Error getting customer orders:", error);
         throw error;
       }
     }),
