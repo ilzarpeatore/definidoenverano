@@ -1,4 +1,5 @@
-import { ENV } from "./_core/env";
+import { ENV } from "./_core/env.ts";
+import { addDebugLog } from "./debug-router";
 
 interface PayPalOrder {
   id: string;
@@ -10,6 +11,10 @@ interface PayPalOrder {
       surname?: string;
     };
   };
+  links?: Array<{
+    rel: string;
+    href: string;
+  }>;
 }
 
 interface PayPalCreateOrderRequest {
@@ -44,24 +49,41 @@ export async function createPayPalOrder(
     throw new Error("PayPal credentials not configured");
   }
 
+  addDebugLog("[PayPal] Creating order...");
+  addDebugLog(`[PayPal] Client ID exists: ${!!ENV.paypalClientId}`);
+  addDebugLog(`[PayPal] Secret exists: ${!!ENV.paypalSecret}`);
+  addDebugLog(`[PayPal] Client ID length: ${ENV.paypalClientId.length}`);
+  addDebugLog(`[PayPal] Secret length: ${ENV.paypalSecret.length}`);
+
   // Get access token
+  const authString = `${ENV.paypalClientId}:${ENV.paypalSecret}`;
+  const authBase64 = Buffer.from(authString).toString("base64");
+
+  addDebugLog(`[PayPal] Auth string length: ${authString.length}`);
+  addDebugLog(`[PayPal] Auth header preview: ${authBase64.substring(0, 50)}...`);
+
   const tokenResponse = await fetch("https://api.paypal.com/v1/oauth2/token", {
     method: "POST",
     headers: {
-      Authorization: `Basic ${Buffer.from(`${ENV.paypalClientId}:${ENV.paypalSecret}`).toString("base64")}`,
+      Authorization: `Basic ${authBase64}`,
       "Content-Type": "application/x-www-form-urlencoded",
     },
     body: "grant_type=client_credentials",
   });
 
+  addDebugLog(`[PayPal] Token response status: ${tokenResponse.status}`);
+
   if (!tokenResponse.ok) {
     const errorText = await tokenResponse.text();
-    console.error('[PayPal] Token error:', errorText);
+    addDebugLog(`[PayPal] ERROR: Token error response: ${errorText}`);
+    addDebugLog(`[PayPal] ERROR: Status: ${tokenResponse.status} ${tokenResponse.statusText}`);
     throw new Error(`Failed to get PayPal access token: ${tokenResponse.statusText}`);
   }
 
-  const tokenData = await tokenResponse.json() as { access_token: string };
+  const tokenData = (await tokenResponse.json()) as { access_token: string };
   const accessToken = tokenData.access_token;
+
+  addDebugLog("[PayPal] Got access token, creating order...");
 
   // Create order
   const orderRequest: PayPalCreateOrderRequest = {
@@ -97,42 +119,39 @@ export async function createPayPalOrder(
 
   if (!orderResponse.ok) {
     const error = await orderResponse.json();
-    console.error("[PayPal] Create order error:", error);
+    addDebugLog(`[PayPal] ERROR: Create order error: ${JSON.stringify(error)}`);
     throw new Error(`Failed to create PayPal order: ${orderResponse.statusText}`);
   }
 
-  const order = await orderResponse.json() as PayPalOrder;
+  const order = (await orderResponse.json()) as PayPalOrder;
 
-  // Find approval link
-  const approvalLink = (order as any).links?.find(
-    (link: any) => link.rel === "approve"
-  );
+  addDebugLog(`[PayPal] Order created: ${order.id}`);
 
-  if (!approvalLink) {
-    throw new Error("No approval link in PayPal response");
+  const approvalUrl = order.links?.find((link) => link.rel === "approve_link")?.href;
+
+  if (!approvalUrl) {
+    throw new Error("No approval URL in PayPal response");
   }
 
-  return {
-    orderId: order.id,
-    approvalUrl: approvalLink.href,
-  };
+  return { orderId: order.id, approvalUrl };
 }
 
 /**
- * Capture a PayPal order after user approval
+ * Capture a PayPal order
  */
-export async function capturePayPalOrder(
-  orderId: string
-): Promise<{ status: string; email?: string; name?: string }> {
+export async function capturePayPalOrder(orderId: string): Promise<PayPalOrder> {
   if (!ENV.paypalClientId || !ENV.paypalSecret) {
     throw new Error("PayPal credentials not configured");
   }
 
   // Get access token
+  const authString = `${ENV.paypalClientId}:${ENV.paypalSecret}`;
+  const authBase64 = Buffer.from(authString).toString("base64");
+
   const tokenResponse = await fetch("https://api.paypal.com/v1/oauth2/token", {
     method: "POST",
     headers: {
-      Authorization: `Basic ${Buffer.from(`${ENV.paypalClientId}:${ENV.paypalSecret}`).toString("base64")}`,
+      Authorization: `Basic ${authBase64}`,
       "Content-Type": "application/x-www-form-urlencoded",
     },
     body: "grant_type=client_credentials",
@@ -140,36 +159,28 @@ export async function capturePayPalOrder(
 
   if (!tokenResponse.ok) {
     const errorText = await tokenResponse.text();
-    console.error('[PayPal] Token error:', errorText);
+    addDebugLog(`[PayPal] ERROR: Token error response: ${errorText}`);
     throw new Error(`Failed to get PayPal access token: ${tokenResponse.statusText}`);
   }
 
-  const tokenData = await tokenResponse.json() as { access_token: string };
+  const tokenData = (await tokenResponse.json()) as { access_token: string };
   const accessToken = tokenData.access_token;
 
   // Capture order
-  const captureResponse = await fetch(
-    `https://api.paypal.com/v2/checkout/orders/${orderId}/capture`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  const captureResponse = await fetch(`https://api.paypal.com/v2/checkout/orders/${orderId}/capture`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+  });
 
   if (!captureResponse.ok) {
     const error = await captureResponse.json();
-    console.error("[PayPal] Capture error:", error);
+    addDebugLog(`[PayPal] ERROR: Capture error: ${JSON.stringify(error)}`);
     throw new Error(`Failed to capture PayPal order: ${captureResponse.statusText}`);
   }
 
-  const order = await captureResponse.json() as PayPalOrder;
-
-  return {
-    status: order.status,
-    email: order.payer?.email_address,
-    name: order.payer?.name?.given_name,
-  };
+  const order = (await captureResponse.json()) as PayPalOrder;
+  return order;
 }

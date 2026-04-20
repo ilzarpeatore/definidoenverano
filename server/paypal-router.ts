@@ -52,8 +52,8 @@ export const paypalRouter = router({
         return {
           success: result.status === "COMPLETED",
           status: result.status,
-          email: result.email,
-          name: result.name,
+          email: (result.payer as any)?.email_address || "unknown",
+          name: (result.payer as any)?.name?.given_name || "Customer",
         };
       } catch (error) {
         console.error("[PayPal Router] Capture order error:", error);
