@@ -19,8 +19,6 @@ import { toast } from 'sonner';
  */
 
 interface AssessmentData {
-  age: string;
-  painLevel: string;
   experience: string;
   yearsTraining: string;
   mainGoal: string;
@@ -34,8 +32,6 @@ export default function Assessment() {
   const [, navigate] = useLocation();
   const [step, setStep] = useState(0);
   const [data, setData] = useState<AssessmentData>({
-    age: '',
-    painLevel: '',
     experience: '',
     yearsTraining: '',
     mainGoal: '',
@@ -234,11 +230,14 @@ export default function Assessment() {
         firstName: clientInfo.firstName,
         lastName: clientInfo.lastName,
         assessment: {
-          age: parseInt(data.age) || 0,
-          painLevel: parseInt(data.painLevel) || 0,
+          experienceLevel: data.experience,
+          yearsTraining: yearsTrainingMap[data.yearsTraining] || 0,
+          mainGoal: data.mainGoal,
+          bodyAreasToImprove: data.bodyParts,
+          musclesToDevelop: data.muscleGroups,
+          availableTime: data.timeAvailable,
           motivation: data.motivation,
         },
-        origin: window.location.origin,
       });
 
       console.log('[Assessment] Checkout session response:', result);

@@ -29,7 +29,7 @@ export default function Success() {
   const [orderData, setOrderData] = useState<OrderData | null>(null);
   const [clientInfo, setClientInfo] = useState({ email: '', firstName: '' });
 
-  const getOrderStatusQuery = trpc.payments.getOrder.useQuery(
+  const getOrderStatusQuery = trpc.payments.getOrderStatus.useQuery(
     { orderId: orderData?.orderId || '' },
     { enabled: !!orderData?.orderId }
   );
