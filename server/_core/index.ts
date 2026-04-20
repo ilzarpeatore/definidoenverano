@@ -4,6 +4,7 @@ import { createServer } from "http";
 import net from "net";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./oauth";
+import { registerWebhookHandlers } from "../webhook-handler";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
@@ -37,7 +38,8 @@ async function startServer() {
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
   
-  // TODO: Add webhook endpoint for new payment flow
+  // Webhook endpoints
+  registerWebhookHandlers(app);
   
   // tRPC API
   app.use(

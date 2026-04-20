@@ -336,3 +336,13 @@
 - [ ] Probar flujo completo: Assessment → Price → Payment → Success → Email
 - [ ] Verificar que reset.bestronger.es está configurado correctamente
 - [ ] Guardar checkpoint final
+
+
+## Stripe Webhook Implementation (Current Session)
+- [x] Crear endpoint POST /api/stripe/webhook
+- [x] Validar firma del webhook de Stripe
+- [x] Capturar evento checkout.session.completed
+- [x] Crear usuario en base de datos después de pago
+- [x] Disparar email de bienvenida automáticamente
+- [x] Registrar conversión en Meta Pixel
+- [ ] Probar webhook con Stripe CLI
