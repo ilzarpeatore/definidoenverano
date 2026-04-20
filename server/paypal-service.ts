@@ -45,7 +45,7 @@ export async function createPayPalOrder(
   }
 
   // Get access token
-  const tokenResponse = await fetch("https://api-m.paypal.com/v1/oauth2/token", {
+  const tokenResponse = await fetch("https://api.paypal.com/v1/oauth2/token", {
     method: "POST",
     headers: {
       Authorization: `Basic ${Buffer.from(`${ENV.paypalClientId}:${ENV.paypalSecret}`).toString("base64")}`,
@@ -55,6 +55,8 @@ export async function createPayPalOrder(
   });
 
   if (!tokenResponse.ok) {
+    const errorText = await tokenResponse.text();
+    console.error('[PayPal] Token error:', errorText);
     throw new Error(`Failed to get PayPal access token: ${tokenResponse.statusText}`);
   }
 
@@ -84,7 +86,7 @@ export async function createPayPalOrder(
     },
   };
 
-  const orderResponse = await fetch("https://api-m.paypal.com/v2/checkout/orders", {
+  const orderResponse = await fetch("https://api.paypal.com/v2/checkout/orders", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -127,7 +129,7 @@ export async function capturePayPalOrder(
   }
 
   // Get access token
-  const tokenResponse = await fetch("https://api-m.paypal.com/v1/oauth2/token", {
+  const tokenResponse = await fetch("https://api.paypal.com/v1/oauth2/token", {
     method: "POST",
     headers: {
       Authorization: `Basic ${Buffer.from(`${ENV.paypalClientId}:${ENV.paypalSecret}`).toString("base64")}`,
@@ -137,6 +139,8 @@ export async function capturePayPalOrder(
   });
 
   if (!tokenResponse.ok) {
+    const errorText = await tokenResponse.text();
+    console.error('[PayPal] Token error:', errorText);
     throw new Error(`Failed to get PayPal access token: ${tokenResponse.statusText}`);
   }
 
@@ -145,7 +149,7 @@ export async function capturePayPalOrder(
 
   // Capture order
   const captureResponse = await fetch(
-    `https://api-m.paypal.com/v2/checkout/orders/${orderId}/capture`,
+    `https://api.paypal.com/v2/checkout/orders/${orderId}/capture`,
     {
       method: "POST",
       headers: {
