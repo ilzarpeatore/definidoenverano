@@ -93,6 +93,13 @@ export const paymentsRouter = router({
           input.origin
         );
 
+        console.log('[Payments] Stripe session created:', JSON.stringify(stripeSession));
+        console.log('[Payments] Stripe session URL:', stripeSession.url);
+
+        if (!stripeSession.url) {
+          throw new Error('Stripe session URL is undefined');
+        }
+
         return {
           success: true,
           orderId,

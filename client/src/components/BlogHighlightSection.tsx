@@ -72,7 +72,7 @@ export default function BlogHighlightSection() {
           viewport={{ once: true, margin: '-100px' }}
         >
           {highlightedPosts.map((post) => (
-            <Link href={`/blog/${post.slug}`}>
+            <Link key={post.id} href={`/blog/${post.slug}`}>
               <motion.div
                 key={post.id}
                 className="card-glass border border-border rounded-sm overflow-hidden hover:border-accent/50 transition-all group cursor-pointer block"
