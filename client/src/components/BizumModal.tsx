@@ -7,12 +7,15 @@ interface BizumModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
+  firstName?: string;
+  lastName?: string;
 }
 
-export default function BizumModal({ isOpen, onClose, onConfirm }: BizumModalProps) {
+export default function BizumModal({ isOpen, onClose, onConfirm, firstName = '', lastName = '' }: BizumModalProps) {
   const [copied, setCopied] = useState(false);
   const bizumNumber = '+34 677 177 641';
   const amount = '€197,00';
+  const conceptText = firstName && lastName ? `RESET ${firstName} ${lastName}` : 'RESET + Tu nombre y apellidos';
 
   const handleCopyNumber = () => {
     navigator.clipboard.writeText(bizumNumber.replace(/\s/g, ''));
@@ -96,7 +99,7 @@ export default function BizumModal({ isOpen, onClose, onConfirm }: BizumModalPro
               <div>
                 <h3 className="font-semibold text-white">En el concepto escribe</h3>
                 <code className="block mt-2 bg-slate-800 px-3 py-2 rounded text-sm text-amber-400">
-                  RESET
+                  {conceptText}
                 </code>
               </div>
             </div>
@@ -108,7 +111,7 @@ export default function BizumModal({ isOpen, onClose, onConfirm }: BizumModalPro
             <div className="text-sm text-blue-100">
               <p className="font-semibold mb-1">Importante</p>
               <p>
-                Después de enviar el Bizum, tu acceso será confirmado en las próximas 24 horas.
+                Después de enviar el Bizum, tu acceso será confirmado a lo largo del día (generalmente en minutos).
                 Recibirás un email con tus credenciales de acceso.
               </p>
             </div>

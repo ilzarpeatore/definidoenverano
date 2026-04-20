@@ -272,6 +272,8 @@ export default function PriceDisplay() {
         isOpen={showBizumModal}
         onClose={() => setShowBizumModal(false)}
         onConfirm={handleBizumConfirm}
+        firstName={customerData.firstName}
+        lastName={customerData.lastName}
       />
     </div>
   );
