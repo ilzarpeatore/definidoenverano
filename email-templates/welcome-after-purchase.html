@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Bienvenido al Método RESET!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            line-height: 1.6;
+            color: #cbd5e1;
+            background-color: #0f172a;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid #334155;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #ffffff;
+            padding: 50px 30px;
+            text-align: center;
+            border-bottom: 2px solid transparent;
+            background-image: 
+                linear-gradient(135deg, #1e293b 0%, #0f172a 100%),
+                linear-gradient(135deg, #fbbf24 0%, #1e40af 50%, #1e3a8a 100%);
+            background-origin: padding-box, border-box;
+            background-clip: padding-box, border-box;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(30, 64, 175, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fbbf24 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            font-size: 13px;
+            opacity: 0.8;
+            color: #cbd5e1;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .greeting {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+        
+        .greeting span {
+            background: linear-gradient(135deg, #fbbf24 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .message {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #cbd5e1;
+            margin-bottom: 30px;
+        }
+        
+        .message p {
+            margin-bottom: 15px;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border: 1px solid transparent;
+            border-image: linear-gradient(135deg, #fbbf24 0%, #1e40af 50%, #1e3a8a 100%) 1;
+            padding: 20px 25px;
+            margin: 25px 0;
+            border-radius: 6px;
+        }
+        
+        .highlight p {
+            font-size: 14px;
+            color: #ffffff;
+            margin: 0;
+        }
+        
+        .highlight p strong {
+            color: #fbbf24;
+        }
+        
+        .app-buttons-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .app-button {
+            display: inline-block;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            opacity: 1;
+        }
+        
+        .app-button:hover {
+            transform: translateY(-3px);
+            opacity: 0.9;
+        }
+        
+        .app-button img {
+            display: block;
+            height: 50px;
+            width: auto;
+            border-radius: 8px;
+        }
+        
+        .order-details {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(30, 64, 175, 0.3);
+            border-radius: 6px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .order-details h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(30, 64, 175, 0.2);
+            font-size: 13px;
+        }
+        
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        
+        .order-item-label {
+            color: #94a3b8;
+            font-weight: 500;
+        }
+        
+        .order-item-value {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        
+        .order-item-value.success {
+            color: #10b981;
+        }
+        
+        .features {
+            margin: 30px 0;
+        }
+        
+        .features h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 18px;
+        }
+        
+        .feature-list {
+            list-style: none;
+        }
+        
+        .feature-list li {
+            padding: 12px 0 12px 28px;
+            position: relative;
+            font-size: 13px;
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #fbbf24;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .support {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.15) 0%, rgba(30, 64, 175, 0.05) 100%);
+            border: 1px solid rgba(30, 64, 175, 0.4);
+            border-radius: 6px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        
+        .support h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 12px;
+        }
+        
+        .support p {
+            font-size: 13px;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .support-link {
+            display: inline-block;
+            color: #fbbf24;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 20px;
+            border: 1px solid #fbbf24;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        
+        .support-link:hover {
+            background-color: #fbbf24;
+            color: #0f172a;
+        }
+        
+        .next-steps {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(30, 64, 175, 0.05) 100%);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 6px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .next-steps h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 15px;
+        }
+        
+        .next-steps ol {
+            font-size: 13px;
+            color: #cbd5e1;
+            margin-left: 20px;
+            line-height: 1.9;
+        }
+        
+        .next-steps li {
+            margin-bottom: 8px;
+        }
+        
+        .footer {
+            background: rgba(15, 23, 42, 0.8);
+            padding: 30px 20px;
+            text-align: center;
+            border-top: 1px solid #334155;
+        }
+        
+        .footer p {
+            font-size: 12px;
+            color: #94a3b8;
+            margin: 10px 0;
+        }
+        
+        .footer-brand {
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        
+        .footer-tagline {
+            color: #cbd5e1;
+            font-size: 11px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            margin: 15px 0;
+        }
+        
+        .footer-links a {
+            color: #1e40af;
+            text-decoration: none;
+            font-size: 12px;
+            margin: 0 12px;
+            font-weight: 600;
+        }
+        
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #334155, transparent);
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 600px) {
+            .content {
+                padding: 25px 20px;
+            }
+            
+            .header {
+                padding: 35px 20px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .greeting {
+                font-size: 16px;
+            }
+            
+            .cta-button {
+                padding: 14px 30px;
+                font-size: 14px;
+            }
+            
+            .order-details {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <h1>Método RESET - Una solución integral para tu dolor lumbar y cervical</h1>
+                <p>Transformando vidas desde el dolor lumbar hacía el bienestar.</p>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <!-- Greeting -->
+            <div class="greeting">
+                ¡Hola <span>{{FIRST_NAME}}</span>!
+            </div>
+            
+            <!-- Main Message -->
+            <div class="message">
+                <p>Gracias por confiar en nosotros. Tu pago ha sido procesado correctamente y tu acceso al Programa RESET está activado.</p>
+                <p>Este es el primer paso de tu transformación. Dentro encontrarás todo lo que necesitas para dominar el dolor de espalda y recuperar tu movilidad.</p>
+            </div>
+            
+            <!-- Order Details -->
+            <div class="order-details">
+                <h3>Detalles de tu Compra</h3>
+                <div class="order-item">
+                    <span class="order-item-label">Número de Orden:</span>
+                    <span class="order-item-value">{{ORDER_ID}}</span>
+                </div>
+                <div class="order-item">
+                    <span class="order-item-label">Monto:</span>
+                    <span class="order-item-value">{{AMOUNT}}</span>
+                </div>
+                <div class="order-item">
+                    <span class="order-item-label">Método de Pago:</span>
+                    <span class="order-item-value">{{PAYMENT_METHOD}}</span>
+                </div>
+                <div class="order-item">
+                    <span class="order-item-label">Estado:</span>
+                    <span class="order-item-value success">✓ Confirmado</span>
+                </div>
+            </div>
+            
+            <!-- Important Notice -->
+            <div class="highlight">
+                <p><strong>⚡ Vamos a empezar a preparar tu programa.</strong></p>
+                <p style="margin-top: 10px; font-size: 13px;">En cuanto tu programa este listo recibirás los datos de acceso. Mientras tanto puedes descargar la aplicación aquí abajo.</p>
+            </div>
+            
+            <!-- App Store Buttons -->
+            <div class="app-buttons-container">
+                <a href="https://play.google.com/store/apps/details?id=com.hubfitapp&pcampaignid=web_share" class="app-button" target="_blank" rel="noopener noreferrer">
+                    <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/vecteezy_google-play-store-download-button-in-white-colors-download_12871364_42097455.webp" alt="Disponible en Google Play" style="max-width: 200px; height: auto;">
+                </a>
+                <a href="https://apps.apple.com/es/app/hubfit/id6448201245" class="app-button" target="_blank" rel="noopener noreferrer">
+                    <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663378157518/AekyKHQG93WNj9axqr5o89/vecteezy_app-store-download-button-in-white-colors-download-on-the_12871374_59e39fb4.webp" alt="Descargar en App Store" style="max-width: 200px; height: auto;">
+                </a>
+            </div>
+            
+
+            
+            <!-- Support Section -->
+            <div class="support">
+                <h3>¿Necesitas ayuda?</h3>
+                <p>Nuestro equipo está disponible para ayudarte</p>
+                <a href="https://wa.me/34677177641" class="support-link">Contactar por WhatsApp →</a>
+            </div>
+            
+            <!-- Next Steps -->
+            <div class="next-steps">
+                <h3>Próximos pasos:</h3>
+                <ol>
+                    <li>Descarga el PDF de 'Bienvenida y puesta en marcha'</li>
+                    <li>Comienza con la familiarización teórica</li>
+                    <li>Espera nuestro mensaje, te escribiremos en breve para darte la bienvenida.</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p class="footer-brand">Summer Shred - El Programa Definitivo para Hombres Ocupados</p>
+            <p class="footer-tagline">Transformando vidas, una espalda a la vez</p>
+            <div class="divider"></div>
+            <div class="footer-links">
+                <a href="https://reset.bestronger.es">Sitio Web</a>
+                <a href="https://wa.me/34677177641">WhatsApp</a>
+                <a href="mailto:soporte@bestronger.es">Soporte</a>
+            </div>
+            <p style="margin-top: 20px; font-size: 11px; color: #64748b;">
+                Este es un email automático. Por favor, no respondas a este mensaje directamente.
+                <br>Para soporte, contacta con nosotros vía WhatsApp o email.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
