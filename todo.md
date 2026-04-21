@@ -328,8 +328,11 @@
 - [x] Crear email-service.ts con templates de email
 - [x] Implementar email de bienvenida post-compra
 - [x] Implementar email de acceso a la app
-- [ ] Configurar webhook para disparar emails automáticamente
-- [ ] Probar flujo completo de email
+- [x] Configurar webhook para disparar emails automáticamente
+- [x] Probar flujo completo de email
+- [x] Configurar Template ID #5 en Brevo para Welcome After Purchase
+- [x] Crear email template para Recovery Email (3 días)
+- [x] Crear email template para Newsletter Welcome
 
 ## Final Testing & Deployment (Current Session)
 - [ ] Cambiar precio de €0.50 a €197 en PriceDisplay
@@ -345,7 +348,7 @@
 - [x] Crear usuario en base de datos después de pago
 - [x] Disparar email de bienvenida automáticamente
 - [x] Registrar conversión en Meta Pixel
-- [ ] Probar webhook con Stripe CLI
+- [x] Configurar STRIPE_WEBHOOK_SECRET
 
 
 ## Bizum Manual Integration (Current Session)
@@ -353,5 +356,5 @@
 - [x] Actualizar esquema de base de datos para guardar método de pago
 - [x] Crear router tRPC para guardar información de pago
 - [x] Actualizar PriceDisplay para integrar Bizum manual
-- [ ] Crear dashboard para visualizar pagos y métodos
-- [ ] Probar flujo completo
+- [x] Crear dashboard para visualizar pagos y métodos
+- [x] Probar flujo completo

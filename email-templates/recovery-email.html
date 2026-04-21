@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Hemos notado que aún no has accedido!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            line-height: 1.6;
+            color: #cbd5e1;
+            background-color: #0f172a;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid #334155;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #ffffff;
+            padding: 50px 30px;
+            text-align: center;
+            border-bottom: 2px solid transparent;
+            background-image: 
+                linear-gradient(135deg, #1e293b 0%, #0f172a 100%),
+                linear-gradient(135deg, #fbbf24 0%, #1e40af 50%, #1e3a8a 100%);
+            background-origin: padding-box, border-box;
+            background-clip: padding-box, border-box;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(30, 64, 175, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fbbf24 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            font-size: 13px;
+            opacity: 0.8;
+            color: #cbd5e1;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .greeting {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+        
+        .greeting span {
+            background: linear-gradient(135deg, #fbbf24 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .message {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #cbd5e1;
+            margin-bottom: 30px;
+        }
+        
+        .message p {
+            margin-bottom: 15px;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border-left: 4px solid #fbbf24;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .highlight p {
+            margin: 0;
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+        
+        .highlight strong {
+            color: #fbbf24;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #fbbf24 0%, #10b981 100%);
+            color: #0f172a;
+            padding: 14px 32px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            margin: 30px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4);
+        }
+        
+        .features {
+            margin: 30px 0;
+        }
+        
+        .features h3 {
+            font-size: 16px;
+            color: #ffffff;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 10px 0;
+            padding-left: 25px;
+            position: relative;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+        
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        .support {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.05) 0%, rgba(16, 185, 129, 0.02) 100%);
+            border: 1px solid rgba(30, 64, 175, 0.2);
+            padding: 25px;
+            border-radius: 6px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .support h3 {
+            font-size: 16px;
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .support p {
+            font-size: 13px;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .support-link {
+            display: inline-block;
+            color: #fbbf24;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+        
+        .support-link:hover {
+            color: #10b981;
+        }
+        
+        .footer {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #64748b;
+            padding: 30px;
+            text-align: center;
+            font-size: 12px;
+            border-top: 1px solid #334155;
+        }
+        
+        .footer p {
+            margin: 8px 0;
+        }
+        
+        .footer a {
+            color: #fbbf24;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            color: #10b981;
+        }
+        
+        @media (max-width: 600px) {
+            .content {
+                padding: 25px 20px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .greeting {
+                font-size: 16px;
+            }
+            
+            .message {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <h1>Método RESET - Una solución integral para tu dolor lumbar y cervical</h1>
+                <p>Transformando vidas desde el dolor lumbar hacía el bienestar.</p>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <!-- Greeting -->
+            <div class="greeting">
+                ¡Hola <span>{{FIRST_NAME}}</span>!
+            </div>
+            
+            <!-- Main Message -->
+            <div class="message">
+                <p>Hemos notado que aún no has accedido a tu programa RESET. Queremos asegurarnos de que no haya ningún problema con tu acceso.</p>
+                <p>Tu programa está completamente listo y esperando por ti. Dentro encontrarás todo lo que necesitas para comenzar tu transformación y eliminar el dolor de espalda.</p>
+            </div>
+            
+            <!-- Highlight Box -->
+            <div class="highlight">
+                <p><strong>⚡ Tu acceso está activo y listo</strong></p>
+                <p style="margin-top: 10px; font-size: 13px;">Si no recibiste los datos de acceso o tienes algún problema, no dudes en contactarnos. Estamos aquí para ayudarte.</p>
+            </div>
+            
+            <!-- CTA Button -->
+            <div style="text-align: center;">
+                <a href="https://apps.apple.com/es/app/hubfit/id6448201245" class="cta-button">Acceder a tu Programa</a>
+            </div>
+            
+            <!-- What's Inside -->
+            <div class="features">
+                <h3>Lo que te espera en RESET:</h3>
+                <ul class="feature-list">
+                    <li>Módulos de video paso a paso para eliminar el dolor</li>
+                    <li>Rutinas de ejercicios personalizables según tu nivel</li>
+                    <li>Guía nutricional especializada para la salud de la espalda</li>
+                    <li>Acceso a la comunidad privada de miembros</li>
+                    <li>Soporte prioritario vía WhatsApp</li>
+                </ul>
+            </div>
+            
+            <!-- Troubleshooting -->
+            <div class="support">
+                <h3>¿Tienes problemas para acceder?</h3>
+                <p>Si no recibiste los datos de acceso o necesitas ayuda para descargar la aplicación:</p>
+                <a href="https://wa.me/34677177641?text=Hola%2C%20tengo%20problemas%20para%20acceder%20a%20mi%20programa%20RESET" class="support-link">Contactar por WhatsApp →</a>
+            </div>
+            
+            <!-- Next Steps -->
+            <div style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.05) 0%, rgba(16, 185, 129, 0.02) 100%); border: 1px solid rgba(251, 191, 36, 0.2); padding: 20px; border-radius: 6px; margin: 30px 0;">
+                <h3 style="font-size: 16px; color: #ffffff; margin-bottom: 15px; font-weight: 600;">Próximos pasos:</h3>
+                <ol style="padding-left: 20px; color: #cbd5e1; font-size: 13px;">
+                    <li style="margin-bottom: 10px;">Descarga la aplicación HubFit desde tu tienda de apps</li>
+                    <li style="margin-bottom: 10px;">Inicia sesión con los datos que recibiste</li>
+                    <li style="margin-bottom: 10px;">Completa tu perfil y objetivos personales</li>
+                    <li>Comienza con el primer módulo de introducción</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2026 Método RESET. Todos los derechos reservados.</p>
+            <p style="margin-top: 15px;">
+                <a href="https://wa.me/34677177641">Contactar Soporte</a> | 
+                <a href="https://reset.bestronger.es">Visitar Web</a>
+            </p>
+            <p style="margin-top: 10px; opacity: 0.7;">
+                Si no deseas recibir estos correos, puedes <a href="#">darte de baja aquí</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

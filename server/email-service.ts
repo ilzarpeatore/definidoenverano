@@ -37,8 +37,8 @@ export async function sendPurchaseWelcomeEmail(
     });
 
     // Send transactional email
-    // Template ID 1 should be your "Welcome After Purchase" template
-    await sendBrevoEmail(data.email, 1, {
+    // Template ID 5 should be your "Welcome After Purchase" template
+    await sendBrevoEmail(data.email, 5, {
       FIRST_NAME: data.firstName || "Valued Customer",
       ORDER_ID: data.orderId,
       AMOUNT: `€${data.amount.toFixed(2)}`,
@@ -142,8 +142,8 @@ export async function sendRefundNotificationEmail(
   reason: string
 ): Promise<void> {
   try {
-    // Template ID 5 should be your "Refund Notification" template
-    await sendBrevoEmail(email, 5, {
+    // Template ID 6 should be your "Refund Notification" template
+    await sendBrevoEmail(email, 6, {
       FIRST_NAME: firstName,
       ORDER_ID: orderId,
       AMOUNT: `€${amount.toFixed(2)}`,
