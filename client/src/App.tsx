@@ -28,6 +28,8 @@ import Guide7Mistakes from "./pages/Guide7Mistakes";
 import CostCalculator from "./pages/CostCalculator";
 import CervicalExercisesGuide from "./pages/CervicalExercisesGuide";
 import PosturalChecklistHome from "./pages/PosturalChecklistHome";
+import Quiz from "./pages/Quiz";
+import QuizResults from "./pages/QuizResults";
 
 import FreeWeekLanding from "./pages/FreeWeekLanding";
 import FreeWeekAccess from "./pages/FreeWeekAccess";
@@ -61,6 +63,8 @@ function Router() {
       <Route path={"/cost-calculator"} component={CostCalculator} />
       <Route path={"/cervical-exercises"} component={CervicalExercisesGuide} />
       <Route path={"/postural-checklist"} component={PosturalChecklistHome} />
+      <Route path={"/quiz"} component={Quiz} />
+      <Route path={"/quiz-results"} component={QuizResults} />
 
       <Route path={"/free-week"} component={FreeWeekLanding} />
       <Route path={"/free-week-access"} component={FreeWeekAccess} />

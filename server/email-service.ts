@@ -157,3 +157,64 @@ export async function sendRefundNotificationEmail(
     throw error;
   }
 }
+
+/**
+ * Send quiz results email with profile-specific template
+ */
+export async function sendQuizResultsEmail(data: {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  profile: string;
+  severity: number;
+  totalScore: number;
+}): Promise<void> {
+  try {
+    const profileNames: Record<string, string> = {
+      ejecutivo_atrapado: "Ejecutivo Atrapado",
+      emprendedor_quemado: "Emprendedor Quemado",
+      atleta_lesionado: "Atleta Lesionado",
+      recien_diagnosticado: "Recién Diagnosticado",
+    };
+
+    // Map profiles to template IDs
+    const templateIds: Record<string, number> = {
+      ejecutivo_atrapado: 10,
+      emprendedor_quemado: 11,
+      atleta_lesionado: 12,
+      recien_diagnosticado: 13,
+    };
+
+    // Add contact to Brevo
+    await addContactToBrevo({
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      attributes: {
+        QUIZ_PROFILE: data.profile,
+        QUIZ_SEVERITY: data.severity.toString(),
+        QUIZ_SCORE: data.totalScore.toString(),
+        PHONE: data.phone,
+        QUIZ_DATE: new Date().toISOString(),
+      },
+      listIds: [8], // "Quiz Respondents" list
+    });
+
+    // Send profile-specific email
+    const templateId = templateIds[data.profile] || 10;
+    await sendBrevoEmail(data.email, templateId, {
+      FIRST_NAME: data.firstName,
+      LAST_NAME: data.lastName,
+      PROFILE: profileNames[data.profile] || data.profile,
+      SEVERITY: data.severity.toString(),
+      TOTAL_SCORE: data.totalScore.toString(),
+      PHONE: data.phone,
+    });
+
+    console.log(`[Email Service] Quiz results email sent to ${data.email}`);
+  } catch (error) {
+    console.error("[Email Service] Error sending quiz results email:", error);
+    throw error;
+  }
+}

@@ -186,3 +186,23 @@ export const freeWeekSignups = mysqlTable("freeWeekSignups", {
 
 export type FreeWeekSignup = typeof freeWeekSignups.$inferSelect;
 export type InsertFreeWeekSignup = typeof freeWeekSignups.$inferInsert;
+
+
+/**
+ * Quiz Responses - Respuestas del quiz de diagnóstico
+ */
+export const quizResponses = mysqlTable("quizResponses", {
+  id: int("id").autoincrement().primaryKey(),
+  firstName: varchar("firstName", { length: 100 }).notNull(),
+  lastName: varchar("lastName", { length: 100 }).notNull(),
+  email: varchar("email", { length: 320 }).notNull(),
+  phone: varchar("phone", { length: 20 }).notNull(),
+  profile: varchar("profile", { length: 50 }).notNull(), // ejecutivo_atrapado, emprendedor_quemado, atleta_lesionado, recien_diagnosticado
+  severity: int("severity").notNull(), // 0-10
+  totalScore: int("totalScore").notNull(),
+  answers: text("answers").notNull(), // JSON stringified
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type QuizResponse = typeof quizResponses.$inferSelect;
+export type InsertQuizResponse = typeof quizResponses.$inferInsert;

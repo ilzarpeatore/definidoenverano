@@ -15,6 +15,7 @@ import { debugRouter } from "./debug-router";
 import { stripeRouter } from "./stripe-router";
 import { emailRouter } from "./email-router";
 import { paymentRouter } from "./payment-router";
+import { quizRouter } from "./quiz-router";
 
 export const appRouter = router({
   system: systemRouter,
@@ -39,6 +40,7 @@ export const appRouter = router({
   stripe: stripeRouter,
   email: emailRouter,
   payment: paymentRouter,
+  quiz: quizRouter,
   debug: debugRouter,
   chat: router({
     send: publicProcedure

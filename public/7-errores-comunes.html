@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7 Errores Comunes que Empeoran tu Dolor de Espalda - Método RESET</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            line-height: 1.6;
+            color: #cbd5e1;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 2px solid transparent;
+            background-image: 
+                linear-gradient(135deg, #1e293b 0%, #0f172a 100%),
+                linear-gradient(135deg, #fbbf24 0%, #1e40af 50%, #1e3a8a 100%);
+            background-origin: padding-box, border-box;
+            background-clip: padding-box, border-box;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(30, 64, 175, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fbbf24 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+        
+        .header-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #fbbf24;
+            font-weight: 600;
+        }
+        
+        .content {
+            padding: 60px 20px;
+        }
+        
+        .intro {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border: 1px solid rgba(30, 64, 175, 0.2);
+            border-left: 4px solid #fbbf24;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 50px;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+        
+        .intro p {
+            margin-bottom: 15px;
+        }
+        
+        .intro strong {
+            color: #fbbf24;
+        }
+        
+        .errors-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .error-card {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.05) 0%, rgba(16, 185, 129, 0.02) 100%);
+            border: 1px solid rgba(30, 64, 175, 0.2);
+            border-left: 4px solid #fbbf24;
+            padding: 35px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .error-card:hover {
+            border-color: rgba(251, 191, 36, 0.4);
+            box-shadow: 0 8px 24px rgba(251, 191, 36, 0.1);
+        }
+        
+        .error-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #fbbf24 0%, #10b981 100%);
+            color: #0f172a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .error-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+        
+        .error-problem {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 3px solid #ef4444;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        
+        .error-problem p {
+            font-size: 14px;
+            color: #cbd5e1;
+            margin: 0;
+        }
+        
+        .error-problem strong {
+            color: #fca5a5;
+        }
+        
+        .error-solution {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid #10b981;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        
+        .error-solution p {
+            font-size: 14px;
+            color: #cbd5e1;
+            margin: 0;
+        }
+        
+        .error-solution strong {
+            color: #86efac;
+        }
+        
+        .error-tips {
+            background: rgba(251, 191, 36, 0.05);
+            border-left: 3px solid #fbbf24;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        
+        .error-tips p {
+            font-size: 13px;
+            color: #cbd5e1;
+            margin: 0;
+        }
+        
+        .error-tips strong {
+            color: #fcd34d;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            padding: 50px 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .cta-section h2 {
+            font-size: 28px;
+            color: #ffffff;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .cta-section p {
+            font-size: 16px;
+            color: #cbd5e1;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #fbbf24 0%, #10b981 100%);
+            color: #0f172a;
+            padding: 16px 40px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4);
+        }
+        
+        .footer {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #64748b;
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 13px;
+            border-top: 1px solid #334155;
+        }
+        
+        .footer p {
+            margin: 10px 0;
+        }
+        
+        .footer strong {
+            color: #cbd5e1;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 40px 15px;
+            }
+            
+            .header h1 {
+                font-size: 32px;
+            }
+            
+            .content {
+                padding: 40px 15px;
+            }
+            
+            .error-card {
+                padding: 25px;
+            }
+            
+            .error-title {
+                font-size: 18px;
+            }
+            
+            .cta-section {
+                padding: 35px 15px;
+            }
+            
+            .cta-section h2 {
+                font-size: 22px;
+            }
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                border: none;
+                box-shadow: none;
+            }
+            
+            .header {
+                page-break-after: avoid;
+            }
+            
+            .error-card {
+                page-break-inside: avoid;
+            }
+            
+            .cta-section {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div class="header-badge">📚 Guía Gratuita Exclusiva</div>
+                <h1>7 Errores Comunes que Empeoran tu Dolor de Espalda</h1>
+                <p>Descubre qué estás haciendo mal y cómo corregirlo para recuperar tu bienestar</p>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <!-- Intro -->
+            <div class="intro">
+                <p>El dolor de espalda afecta a millones de personas en todo el mundo. Pero lo que muchos no saben es que <strong>la mayoría de los casos se pueden prevenir o mejorar significativamente</strong> evitando ciertos errores comunes.</p>
+                <p>En esta guía te revelaremos los 7 errores más comunes que empeoran tu dolor de espalda y, lo más importante, <strong>cómo corregirlos</strong> para recuperar tu calidad de vida.</p>
+            </div>
+            
+            <!-- Error 1 -->
+            <div class="error-card">
+                <div class="error-number">1</div>
+                <div class="error-title">Postura Incorrecta Durante el Trabajo</div>
+                
+                <div class="error-problem">
+                    <p><strong>❌ El Problema:</strong> Pasar 8+ horas sentado con la espalda encorvada, cabeza hacia adelante y hombros hundidos comprime los discos vertebrales y sobrecarga los músculos de la espalda.</p>
+                </div>
+                
+                <div class="error-solution">
+                    <p><strong>✓ La Solución:</strong> Mantén la espalda recta, los hombros relajados, y la pantalla a la altura de los ojos. Tu cabeza debe estar en línea con tu columna vertebral, no hacia adelante.</p>
+                </div>
+                
+                <div class="error-tips">
+                    <p><strong>💡 Tip:</strong> Ajusta tu silla para que tus pies toquen el suelo y tus rodillas estén a 90 grados. Cada hora, levántate y estira durante 2-3 minutos.</p>
+                </div>
+            </div>
+            
+            <!-- Error 2 -->
+            <div class="error-card">
+                <div class="error-number">2</div>
+                <div class="error-title">Levantar Objetos Incorrectamente</div>
+                
+                <div class="error-problem">
+                    <p><strong>❌ El Problema:</strong> Doblar la espalda para levantar algo pesado en lugar de usar las piernas es una de las causas más comunes de lesiones agudas en la espalda.</p>
+                </div>
+                
+                <div class="error-solution">
+                    <p><strong>✓ La Solución:</strong> Siempre dobla las rodillas, mantén la espalda recta, y levanta usando la fuerza de tus piernas, no de tu espalda. Mantén el objeto cerca de tu cuerpo.</p>
+                </div>
+                
+                <div class="error-tips">
+                    <p><strong>💡 Tip:</strong> Si el objeto es muy pesado, pide ayuda o usa herramientas. Tu espalda te lo agradecerá a largo plazo.</p>
+                </div>
+            </div>
+            
+            <!-- Error 3 -->
+            <div class="error-card">
+                <div class="error-number">3</div>
+                <div class="error-title">Sedentarismo y Falta de Movimiento</div>
+                
+                <div class="error-problem">
+                    <p><strong>❌ El Problema:</strong> Pasar todo el día sentado debilita los músculos estabilizadores de la espalda, aumenta la rigidez y reduce la flexibilidad, empeorando el dolor.</p>
+                </div>
+                
+                <div class="error-solution">
+                    <p><strong>✓ La Solución:</strong> Incorpora movimiento regular en tu día. Camina 30 minutos diarios, estira cada hora, y realiza ejercicios específicos para fortalecer la espalda.</p>
+                </div>
+                
+                <div class="error-tips">
+                    <p><strong>💡 Tip:</strong> No necesitas ir al gimnasio. Caminar, nadar o yoga son excelentes opciones para mantener tu espalda fuerte y flexible.</p>
+                </div>
+            </div>
+            
+            <!-- Error 4 -->
+            <div class="error-card">
+                <div class="error-number">4</div>
+                <div class="error-title">Dormir en una Posición Incorrecta</div>
+                
+                <div class="error-problem">
+                    <p><strong>❌ El Problema:</strong> Dormir boca abajo o en una posición que no alinea tu columna vertebral puede causar tensión nocturna que se acumula durante años.</p>
+                </div>
+                
+                <div class="error-solution">
+                    <p><strong>✓ La Solución:</strong> Duerme de lado o boca arriba con una almohada que mantenga tu cuello alineado. Si duermes de lado, coloca una almohada entre las rodillas.</p>
+                </div>
+                
+                <div class="error-tips">
+                    <p><strong>💡 Tip:</strong> Invierte en un colchón de buena calidad y una almohada ergonómica. Pasas 8 horas durmiendo, así que vale la pena.</p>
+                </div>
+            </div>
+            
+            <!-- Error 5 -->
+            <div class="error-card">
+                <div class="error-number">5</div>
+                <div class="error-title">Ignorar el Estrés y la Tensión Emocional</div>
+                
+                <div class="error-problem">
+                    <p><strong>❌ El Problema:</strong> El estrés crónico causa tensión muscular involuntaria en la espalda y el cuello, perpetuando el ciclo de dolor.</p>
+                </div>
+                
+                <div class="error-solution">
+                    <p><strong>✓ La Solución:</strong> Practica técnicas de relajación como meditación, respiración profunda, o yoga. Dedica tiempo a actividades que disfrutes y que reduzcan tu estrés.</p>
+                </div>
+                
+                <div class="error-tips">
+                    <p><strong>💡 Tip:</strong> 10 minutos de meditación diaria puede reducir significativamente la tensión en tu espalda. Tu mente y tu cuerpo están conectados.</p>
+                </div>
+            </div>
+            
+            <!-- Error 6 -->
+            <div class="error-card">
+                <div class="error-number">6</div>
+                <div class="error-title">Usar Mochilas o Bolsas Incorrectamente</div>
+                
+                <div class="error-problem">
+                    <p><strong>❌ El Problema:</strong> Llevar una mochila pesada en un solo hombro o bolsas desequilibradas causa asimetría en tu columna vertebral y sobrecarga muscular.</p>
+                </div>
+                
+                <div class="error-solution">
+                    <p><strong>✓ La Solución:</strong> Usa mochilas con dos correas y distribúyelas equitativamente. La mochila debe pesar menos del 10% de tu peso corporal.</p>
+                </div>
+                
+                <div class="error-tips">
+                    <p><strong>💡 Tip:</strong> Si trabajas en oficina, deja en casa lo que no necesites. Menos peso = menos carga en tu espalda.</p>
+                </div>
+            </div>
+            
+            <!-- Error 7 -->
+            <div class="error-card">
+                <div class="error-number">7</div>
+                <div class="error-title">Mala Alimentación y Falta de Hidratación</div>
+                
+                <div class="error-problem">
+                    <p><strong>❌ El Problema:</strong> Una dieta pobre en nutrientes y la deshidratación debilitan los discos vertebrales y ralentizan la recuperación de lesiones.</p>
+                </div>
+                
+                <div class="error-solution">
+                    <p><strong>✓ La Solución:</strong> Come alimentos ricos en calcio, magnesio y vitaminas D. Bebe suficiente agua (2-3 litros diarios) para mantener los discos vertebrales hidratados.</p>
+                </div>
+                
+                <div class="error-tips">
+                    <p><strong>💡 Tip:</strong> Incluye alimentos como pescado, frutos secos, verduras de hoja verde y productos lácteos. Tu espalda se beneficiará de una nutrición adecuada.</p>
+                </div>
+            </div>
+            
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <h2>¿Listo para Transformar tu Espalda?</h2>
+                <p>Ahora que conoces los 7 errores comunes, es momento de tomar acción. El Método RESET te proporciona un programa integral diseñado específicamente para eliminar el dolor de espalda y mejorar tu calidad de vida.</p>
+                <a href="https://reset.bestronger.es" class="cta-button">Descubre el Método RESET</a>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Método RESET</strong> - Una solución integral para tu dolor lumbar y cervical</p>
+            <p>Transformando vidas desde el dolor lumbar hacía el bienestar.</p>
+            <p style="margin-top: 20px; opacity: 0.6;">© 2026 Método RESET. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</body>
+</html>

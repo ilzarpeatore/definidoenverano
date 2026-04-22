@@ -358,3 +358,38 @@
 - [x] Actualizar PriceDisplay para integrar Bizum manual
 - [x] Crear dashboard para visualizar pagos y métodos
 - [x] Probar flujo completo
+
+
+## Lead Generation Strategy (Current Session)
+- [x] Crear PDF "7 Errores Comunes que Empeoran tu Dolor de Espalda"
+- [ ] Integrar descargable de PDF en la landing
+- [ ] Crear Email Sequence de 5 emails educativos
+- [ ] Implementar Quiz Interactivo de diagnóstico
+- [ ] Configurar Ads en Facebook/Instagram
+- [ ] Crear página de agradecimiento post-descarga
+
+
+## Interactive Quiz Implementation (Current Session)
+- [ ] Crear componente Quiz.tsx en React
+- [ ] Crear router tRPC para guardar respuestas
+- [ ] Crear página de resultados personalizada
+- [ ] Diseñar 4 emails por perfil en Brevo
+- [ ] Agregar pestaña "Quiz Results" al dashboard
+- [ ] Integrar rutas en App.tsx
+- [ ] Probar flujo completo del quiz
+
+
+## Interactive Quiz System (Current Session)
+- [x] Create quizResponses table in database schema
+- [x] Push database migration for quizResponses
+- [x] Create Quiz.tsx frontend component (7 questions)
+- [x] Create QuizResults.tsx results page with personalized diagnosis
+- [x] Create quiz-router.ts backend with submit and getResults procedures
+- [x] Register quizRouter in server/routers.ts
+- [x] Add Quiz and QuizResults routes to App.tsx
+- [x] Create sendQuizResultsEmail function in email-service.ts
+- [x] Create quiz-router.test.ts with business logic tests
+- [x] All tests passing (116/116)
+- [ ] Create 4 profile-specific email templates in Brevo (IDs 10-13)
+- [ ] Test complete quiz flow (Quiz → Results → Email)
+- [ ] Add quiz link to landing page CTAs
