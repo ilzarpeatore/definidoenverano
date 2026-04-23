@@ -156,26 +156,45 @@ export const quizRouter = router({
           resourceType: input.resourceType
         };
 
-        switch (input.resourceType) {
-          case 'pausas_activas':
-            pdfBuffer = generatePausasActivasPDF(pdfOptions);
-            break;
-          case 'tecnicas_respiracion':
-            pdfBuffer = generateTecnicasRespiracionPDF(pdfOptions);
-            break;
-          case 'fortalecimiento':
-            pdfBuffer = generateFortalecimientoPDF(pdfOptions);
-            break;
-          case 'limites_trabajo':
-            pdfBuffer = generateLimitesTrabajoPDF(pdfOptions);
-            break;
-          default:
-            // Fallback for other resource types
-            pdfBuffer = generateGenericFillablePDF(
-              pdfOptions,
-              `Guía: ${input.resourceType}`,
-              'Contenido de la guía. Esta es una guía personalizada para tu recuperación.'
-            );
+        try {
+          switch (input.resourceType) {
+            case 'pausas_activas':
+              pdfBuffer = generatePausasActivasPDF(pdfOptions);
+              break;
+            case 'tecnicas_respiracion':
+              pdfBuffer = generateTecnicasRespiracionPDF(pdfOptions);
+              break;
+            case 'fortalecimiento':
+              pdfBuffer = generateFortalecimientoPDF(pdfOptions);
+              break;
+            case 'limites_trabajo':
+              pdfBuffer = generateLimitesTrabajoPDF(pdfOptions);
+              break;
+            default:
+              const resourceNames: Record<string, string> = {
+                'postura_escritorio': 'Guía: Mejora tu Postura en el Escritorio',
+                'recuperacion_intensiva': 'Guía: Programa de Recuperación Intensiva',
+                'consulta_especialista': 'Guía: Consulta con Especialista',
+                'movimiento_diario': 'Guía: Movimiento Diario',
+                'rehabilitacion_progresiva': 'Guía: Rehabilitación Progresiva',
+                'fortalecimiento_especifico': 'Guía: Fortalecimiento Específico',
+                'vuelta_actividad': 'Guía: Vuelta a la Actividad',
+                'seguimiento_progreso': 'Guía: Seguimiento del Progreso',
+                'movilidad_basica': 'Guía: Movilidad Básica',
+                'factores_riesgo': 'Guía: Factores de Riesgo',
+                'rutina_prevencion': 'Guía: Rutina de Prevención',
+                'educacion_postura': 'Guía: Educación sobre Postura'
+              };
+              const title = resourceNames[input.resourceType] || `Guía: ${input.resourceType}`;
+              pdfBuffer = generateGenericFillablePDF(
+                pdfOptions,
+                title,
+                'Esta es tu guía personalizada para tu recuperación. Completa los ejercicios y monitorea tu progreso.'
+              );
+          }
+        } catch (pdfError) {
+          console.error('Error generating PDF:', pdfError);
+          throw new Error(`Error al generar PDF para ${input.resourceType}`);
         }
 
         // Track download
