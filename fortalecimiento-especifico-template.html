@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortalecimiento Específico - Método RESET</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #0f172a;
+            --foreground: #ffffff;
+            --card: #1e293b;
+            --accent: #1e40af;
+            --border: #334155;
+            --muted: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        @page {
+            size: A4;
+            margin: 0.75in 1.25in 0.75in 1.25in;
+            @bottom-center {
+                content: "Página " counter(page) " de " counter(pages);
+                font-size: 11px;
+                color: var(--muted);
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .pdf-container {
+            padding: 0 1.5rem;
+            max-width: 100%;
+        }
+
+        .pdf-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .pdf-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-header .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .pdf-header .profile-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .content-card {
+            background-color: var(--card);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .content-card p {
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+        }
+
+        .content-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .exercise-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .exercise-box .title {
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 0.75rem;
+            font-size: 16px;
+        }
+
+        .exercise-box .duration {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .exercise-box ol {
+            margin-left: 1.5rem;
+            margin-bottom: 0;
+        }
+
+        .exercise-box li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: rgba(30, 64, 175, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .info-box strong {
+            color: var(--accent);
+        }
+
+        .warning-box {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .warning-box strong {
+            color: var(--danger);
+        }
+
+        .success-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .success-box strong {
+            color: var(--success);
+        }
+
+        .injury-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .injury-table th {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .injury-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .injury-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .injury-table tr:nth-child(even) {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .workout-plan {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .workout-day {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .workout-day:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .workout-day strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .progression-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progression-table th {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .progression-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        .progression-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .progression-table tr:nth-child(even) {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .pdf-footer {
+            background-color: var(--card);
+            border-top: 2px solid var(--accent);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .pdf-footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .text-small {
+            font-size: 12px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-bold {
+            font-weight: 600;
+        }
+
+        ul {
+            margin-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        em {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- HEADER -->
+    <div class="pdf-container">
+    <div class="pdf-header">
+        <h1>💪 Fortalecimiento Específico</h1>
+        <p class="subtitle">Ejercicios personalizados según tu tipo de lesión</p>
+        <div class="profile-badge">Perfil: Atleta Lesionado</div>
+    </div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">Introducción</div>
+        <div class="content-card">
+            <p>
+                Cada lesión es diferente. El fortalecimiento específico significa trabajar exactamente los músculos y 
+                articulaciones que necesitan recuperación. No es genérico. Es personalizado.
+            </p>
+            <p>
+                Esta guía te proporciona ejercicios específicos según tu tipo de lesión. Sigue los ejercicios para tu lesión 
+                particular, no los de otras lesiones.
+            </p>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Verdad importante:</strong> El fortalecimiento específico acelera la recuperación y previene 
+            compensaciones que causan nuevas lesiones.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 1: IDENTIFY YOUR INJURY -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">1. Identifica tu Tipo de Lesión</div>
+        
+        <table class="injury-table">
+            <thead>
+                <tr>
+                    <th>Tipo de Lesión</th>
+                    <th>Síntomas</th>
+                    <th>Músculos Afectados</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Esguince de Tobillo</strong></td>
+                    <td>Dolor lateral, hinchazón, inestabilidad</td>
+                    <td>Ligamentos laterales, estabilizadores</td>
+                </tr>
+                <tr>
+                    <td><strong>Lesión de Rodilla</strong></td>
+                    <td>Dolor anterior/lateral, hinchazón, debilidad</td>
+                    <td>Cuádriceps, isquiotibiales, estabilizadores</td>
+                </tr>
+                <tr>
+                    <td><strong>Lesión de Cadera</strong></td>
+                    <td>Dolor en cadera/ingle, limitación de movimiento</td>
+                    <td>Glúteos, abductores, flexores</td>
+                </tr>
+                <tr>
+                    <td><strong>Lesión de Hombro</strong></td>
+                    <td>Dolor superior, debilidad, rango limitado</td>
+                    <td>Rotadores, deltoides, pectoral</td>
+                </tr>
+                <tr>
+                    <td><strong>Lesión de Codo</strong></td>
+                    <td>Dolor en codo, debilidad de agarre</td>
+                    <td>Extensores/flexores de antebrazo</td>
+                </tr>
+                <tr>
+                    <td><strong>Lesión de Muñeca</strong></td>
+                    <td>Dolor de muñeca, hinchazón, debilidad</td>
+                    <td>Flexores/extensores de muñeca</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="warning-box">
+            <strong>⚠️ Importante:</strong> Si no estás seguro de tu lesión, consulta a un médico o fisioterapeuta. El 
+            diagnóstico correcto es crucial para el tratamiento correcto.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 2: ANKLE INJURY -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">2. Ejercicios para Esguince de Tobillo</div>
+        
+        <div class="exercise-box">
+            <div class="title">Fortalecimiento de Estabilizadores Laterales</div>
+            <div class="duration">3 series de 12-15 repeticiones, 3x por semana</div>
+            <ol>
+                <li>Elevaciones laterales en posición de lado</li>
+                <li>Rotaciones de tobillo con resistencia</li>
+                <li>Caminar en línea recta (equilibrio)</li>
+                <li>De pie en una pierna (30-60 segundos)</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Fortalecimiento de Pantorrilla</div>
+            <div class="duration">3 series de 15-20 repeticiones, 3x por semana</div>
+            <ol>
+                <li>Elevaciones de talones (de pie o sentado)</li>
+                <li>Caminar en puntillas</li>
+                <li>Saltos suaves (cuando sea seguro)</li>
+                <li>Resistencia con banda elástica</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Propiocepción (Conciencia Corporal)</div>
+            <div class="duration">Diariamente, 10-15 minutos</div>
+            <ol>
+                <li>De pie en una pierna con ojos abiertos (30 seg)</li>
+                <li>De pie en una pierna con ojos cerrados (20 seg)</li>
+                <li>De pie en superficie inestable (almohada, colchoneta)</li>
+                <li>Aumenta dificultad gradualmente</li>
+            </ol>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 3: KNEE INJURY -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">3. Ejercicios para Lesión de Rodilla</div>
+        
+        <div class="exercise-box">
+            <div class="title">Fortalecimiento de Cuádriceps</div>
+            <div class="duration">3 series de 12-15 repeticiones, 3x por semana</div>
+            <ol>
+                <li>Extensiones de rodilla (sentado o acostado)</li>
+                <li>Sentadillas parciales (sin dolor)</li>
+                <li>Sentadillas en pared (mantén 30-60 seg)</li>
+                <li>Levantamientos de pierna recta</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Fortalecimiento de Isquiotibiales</div>
+            <div class="duration">3 series de 12-15 repeticiones, 3x por semana</div>
+            <ol>
+                <li>Flexiones de rodilla acostado</li>
+                <li>Puente de glúteos (mantén 30-60 seg)</li>
+                <li>Flexiones con banda elástica</li>
+                <li>Peso muerto parcial (cuando sea seguro)</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Fortalecimiento de Glúteos</div>
+            <div class="duration">3 series de 15-20 repeticiones, 3x por semana</div>
+            <ol>
+                <li>Puente de glúteos</li>
+                <li>Abducción de cadera (de lado)</li>
+                <li>Patadas hacia atrás</li>
+                <li>Sentadillas completas (cuando sea seguro)</li>
+            </ol>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 4: HIP INJURY -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">4. Ejercicios para Lesión de Cadera</div>
+        
+        <div class="exercise-box">
+            <div class="title">Fortalecimiento de Glúteos (Abductores)</div>
+            <div class="duration">3 series de 15-20 repeticiones, 3x por semana</div>
+            <ol>
+                <li>Abducción de cadera de lado</li>
+                <li>Abducción con banda elástica</li>
+                <li>Patadas laterales</li>
+                <li>Sentadillas laterales</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Fortalecimiento de Flexores de Cadera</div>
+            <div class="duration">3 series de 12-15 repeticiones, 3x por semana</div>
+            <ol>
+                <li>Levantamientos de rodilla (de pie)</li>
+                <li>Levantamientos de rodilla acostado</li>
+                <li>Flexiones de cadera con resistencia</li>
+                <li>Marcha en el lugar (levantando rodillas)</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Estiramientos de Cadera</div>
+            <div class="duration">Mantén 30-45 segundos cada uno, 2x por día</div>
+            <ol>
+                <li>Estiramiento de flexores (posición de estocada)</li>
+                <li>Estiramiento de glúteos (cruzar pierna)</li>
+                <li>Estiramiento de abductores (piernas abiertas)</li>
+                <li>Rotaciones de cadera</li>
+            </ol>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 5: SHOULDER INJURY -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">5. Ejercicios para Lesión de Hombro</div>
+        
+        <div class="exercise-box">
+            <div class="title">Fortalecimiento de Rotadores</div>
+            <div class="duration">3 series de 12-15 repeticiones, 3x por semana</div>
+            <ol>
+                <li>Rotación interna con banda elástica</li>
+                <li>Rotación externa con banda elástica</li>
+                <li>Flexiones de pared (pecho)</li>
+                <li>Remo invertido (cuando sea seguro)</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Fortalecimiento de Deltoides</div>
+            <div class="duration">3 series de 12-15 repeticiones, 3x por semana</div>
+            <ol>
+                <li>Elevaciones laterales con banda</li>
+                <li>Elevaciones frontales con banda</li>
+                <li>Flexiones de pared (hombro)</li>
+                <li>Flexiones de pared modificadas</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Movilidad de Hombro</div>
+            <div class="duration">Diariamente, 10-15 minutos</div>
+            <ol>
+                <li>Círculos de brazos (hacia adelante y atrás)</li>
+                <li>Estiramiento de pecho (puerta)</li>
+                <li>Estiramiento de espalda (abrazo)</li>
+                <li>Rotaciones de hombro</li>
+            </ol>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 6: PROGRESSION SCHEDULE -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">6. Plan de Progresión (8 Semanas)</div>
+        
+        <table class="progression-table">
+            <thead>
+                <tr>
+                    <th>Semanas</th>
+                    <th>Volumen</th>
+                    <th>Intensidad</th>
+                    <th>Frecuencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1-2</strong></td>
+                    <td>2 series x 10 reps</td>
+                    <td>Bajo (peso corporal)</td>
+                    <td>2x por semana</td>
+                </tr>
+                <tr>
+                    <td><strong>3-4</strong></td>
+                    <td>3 series x 12 reps</td>
+                    <td>Bajo-Medio (banda ligera)</td>
+                    <td>3x por semana</td>
+                </tr>
+                <tr>
+                    <td><strong>5-6</strong></td>
+                    <td>3 series x 15 reps</td>
+                    <td>Medio (banda media)</td>
+                    <td>3x por semana</td>
+                </tr>
+                <tr>
+                    <td><strong>7-8</strong></td>
+                    <td>3 series x 15 reps</td>
+                    <td>Medio-Alto (banda fuerte)</td>
+                    <td>3-4x por semana</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="info-box">
+            <strong>💡 Regla de Progresión:</strong> Aumenta volumen o intensidad solo si el ejercicio anterior fue sin dolor. 
+            Si hay dolor, mantén el mismo nivel.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 7: WARNING SIGNS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">7. Señales de Alerta</div>
+        
+        <div class="warning-box">
+            <strong>⚠️ Detente si experimentas:</strong>
+            <ul>
+                <li>Dolor agudo durante el ejercicio</li>
+                <li>Aumento de hinchazón después del ejercicio</li>
+                <li>Dolor que persiste después de 2 horas de descanso</li>
+                <li>Inestabilidad o sensación de "ceder"</li>
+                <li>Dolor que empeora cada día</li>
+                <li>Limitación de movimiento que regresa</li>
+            </ul>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Señales de Progreso:</strong> Menos dolor, más fuerza, mejor estabilidad, rango de movimiento 
+            mejorado, confianza aumentada en la articulación.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 8: FINAL TIPS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">8. Consejos Finales</div>
+        
+        <div class="success-box">
+            <strong>✓ Consejo 1:</strong> La especificidad es clave. Trabaja exactamente los músculos que necesitan 
+            fortalecimiento, no ejercicios genéricos.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 2:</strong> La consistencia vence la intensidad. Mejor 3x por semana ligero que 1x intenso.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 3:</strong> Documenta tu progreso. Toma notas de dolor, fuerza, rango de movimiento. Te 
+            motivará ver el progreso.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 4:</strong> Trabaja con un fisioterapeuta si es posible. Pueden verificar tu técnica y ajustar 
+            ejercicios.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 5:</strong> Una vez recuperado, continúa con ejercicios de prevención. Prevenir recaída es 
+            más fácil que recuperarse nuevamente.
+        </div>
+    </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="pdf-container">
+    <div class="pdf-footer">
+        <p><strong>Método RESET - Fortalecimiento Específico</strong></p>
+        <p>El fortalecimiento específico acelera la recuperación y previene compensaciones. Trabaja exactamente los músculos 
+        que necesitan fortalecimiento. Con consistencia y progresión gradual, recuperarás tu fuerza completa.</p>
+        <p class="text-small">© 2026 Método RESET. Todos los derechos reservados.</p>
+    </div>
+    </div>
+
+    <!-- BOTTOM SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- COPYRIGHT & DISTRIBUTION NOTICE -->
+    <div class="pdf-container">
+    <div style="background-color: rgba(30, 64, 175, 0.08); border: 1px solid var(--border); padding: 1.25rem; border-radius: 4px; margin-top: 2rem; font-size: 12px; color: var(--muted); line-height: 1.6;">
+        <p style="margin-bottom: 0.75rem;"><strong style="color: var(--foreground);">© 2026 Método RESET. Todos los derechos reservados.</strong></p>
+        <p style="margin-bottom: 0.75rem;">Este documento es confidencial y está destinado únicamente al usuario que lo recibió. Contiene información propietaria y estratégica de Método RESET.</p>
+        <p style="margin-bottom: 0.75rem;"><strong style="color: #ef4444;">⚠️ PROHIBIDA LA DISTRIBUCIÓN:</strong> No está permitida la reproducción, distribución, transmisión o divulgación de este documento, en su totalidad o en parte, sin autorización expresa por escrito de los documentos del Método RESET.</p>
+        <p style="margin-bottom: 0;">El incumplimiento de estas restricciones puede resultar en acciones legales. Para consultas sobre permisos, contacta con nosotros en contacto@bestronger.es</p>
+    </div>
+    </div>
+
+    <!-- FINAL SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+</body>
+</html>

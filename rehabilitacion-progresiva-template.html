@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rehabilitación Progresiva - Método RESET</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #0f172a;
+            --foreground: #ffffff;
+            --card: #1e293b;
+            --accent: #1e40af;
+            --border: #334155;
+            --muted: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        @page {
+            size: A4;
+            margin: 0.75in 1.25in 0.75in 1.25in;
+            @bottom-center {
+                content: "Página " counter(page) " de " counter(pages);
+                font-size: 11px;
+                color: var(--muted);
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .pdf-container {
+            padding: 0 1.5rem;
+            max-width: 100%;
+        }
+
+        .pdf-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .pdf-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-header .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .pdf-header .profile-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .content-card {
+            background-color: var(--card);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .content-card p {
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+        }
+
+        .content-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .exercise-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .exercise-box .title {
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 0.75rem;
+            font-size: 16px;
+        }
+
+        .exercise-box .duration {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .exercise-box ol {
+            margin-left: 1.5rem;
+            margin-bottom: 0;
+        }
+
+        .exercise-box li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: rgba(30, 64, 175, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .info-box strong {
+            color: var(--accent);
+        }
+
+        .warning-box {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .warning-box strong {
+            color: var(--danger);
+        }
+
+        .success-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .success-box strong {
+            color: var(--success);
+        }
+
+        .phase-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .phase-table th {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .phase-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .phase-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .phase-table tr:nth-child(even) {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .phase-plan {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .phase-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .phase-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .phase-item strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .checklist {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .checklist-item {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checklist-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .checklist-item label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .pdf-footer {
+            background-color: var(--card);
+            border-top: 2px solid var(--accent);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .pdf-footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .text-small {
+            font-size: 12px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-bold {
+            font-weight: 600;
+        }
+
+        ul {
+            margin-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        em {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- HEADER -->
+    <div class="pdf-container">
+    <div class="pdf-header">
+        <h1>🏥 Rehabilitación Progresiva</h1>
+        <p class="subtitle">Vuelve a la actividad de forma segura y sostenible</p>
+        <div class="profile-badge">Perfil: Atleta Lesionado</div>
+    </div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">Introducción</div>
+        <div class="content-card">
+            <p>
+                Una lesión no es el fin de tu carrera atlética. Es una oportunidad para construir una base más fuerte. La 
+                rehabilitación correcta puede hacerte más resistente que antes de la lesión.
+            </p>
+            <p>
+                Este programa de 12 semanas te guía a través de 4 fases de rehabilitación progresiva: desde el descanso 
+                inicial hasta el retorno completo a la actividad. Cada fase tiene objetivos específicos y ejercicios 
+                progresivos.
+            </p>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Verdad importante:</strong> La rehabilitación correcta previene recaídas. Apresurarse es la causa 
+            número 1 de lesiones recurrentes. Paciencia ahora = éxito a largo plazo.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 1: ASSESSMENT -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">1. Evaluación de tu Lesión</div>
+        
+        <div class="content-card">
+            <p><strong>Antes de comenzar, responde estas preguntas:</strong></p>
+            <ul>
+                <li>¿Cuándo ocurrió la lesión? (Semanas/meses)</li>
+                <li>¿Qué tipo de lesión? (Esguince, desgarro, fractura, etc.)</li>
+                <li>¿Has visto a un fisioterapeuta o médico?</li>
+                <li>¿Tienes dolor actual? (Escala 0-10)</li>
+                <li>¿Tienes rango de movimiento limitado?</li>
+                <li>¿Tienes debilidad o inestabilidad?</li>
+            </ul>
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ Importante:</strong> Si tienes dolor severo (7+), hinchazón, o inestabilidad, consulta a un médico 
+            o fisioterapeuta antes de comenzar este programa.
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Consejo:</strong> Este programa es para lesiones leves-moderadas en fase de recuperación. Si tu lesión 
+            es severa, trabaja con un fisioterapeuta profesional.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 2: PHASES OVERVIEW -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">2. Las 4 Fases de Rehabilitación</div>
+        
+        <table class="phase-table">
+            <thead>
+                <tr>
+                    <th>Fase</th>
+                    <th>Semanas</th>
+                    <th>Objetivo</th>
+                    <th>Actividad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Fase 1: Protección</strong></td>
+                    <td>Semanas 1-3</td>
+                    <td>Reducir dolor e hinchazón</td>
+                    <td>Descanso, hielo, compresión, elevación</td>
+                </tr>
+                <tr>
+                    <td><strong>Fase 2: Movilización</strong></td>
+                    <td>Semanas 4-6</td>
+                    <td>Recuperar rango de movimiento</td>
+                    <td>Movimiento suave, estiramientos</td>
+                </tr>
+                <tr>
+                    <td><strong>Fase 3: Fortalecimiento</strong></td>
+                    <td>Semanas 7-9</td>
+                    <td>Recuperar fuerza y estabilidad</td>
+                    <td>Ejercicios de resistencia progresiva</td>
+                </tr>
+                <tr>
+                    <td><strong>Fase 4: Retorno a Actividad</strong></td>
+                    <td>Semanas 10-12</td>
+                    <td>Retorno seguro a deporte</td>
+                    <td>Actividad específica del deporte</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="success-box">
+            <strong>✓ Regla de Oro:</strong> Si tienes dolor durante un ejercicio, detente. El dolor es una señal de alerta. 
+            Progresa solo cuando el ejercicio anterior es sin dolor.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 3: PHASE 1 -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">3. Fase 1: Protección (Semanas 1-3)</div>
+        
+        <div class="content-card">
+            <p><strong>Objetivo:</strong> Reducir dolor e hinchazón, proteger la lesión de más daño.</p>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Protocolo RICE</div>
+            <div class="duration">Aplicar cada 2-3 horas durante los primeros 3 días</div>
+            <ol>
+                <li><strong>Rest (Descanso):</strong> Evita actividades que causen dolor</li>
+                <li><strong>Ice (Hielo):</strong> 15-20 minutos, 3-4 veces al día</li>
+                <li><strong>Compression (Compresión):</strong> Usa vendaje o manga de compresión</li>
+                <li><strong>Elevation (Elevación):</strong> Mantén la lesión elevada por encima del corazón</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Movimiento Suave (Días 3-7)</div>
+            <div class="duration">2-3 sesiones de 10-15 minutos</div>
+            <ol>
+                <li>Movimientos activos sin resistencia (solo gravedad)</li>
+                <li>Rango de movimiento suave: 10-15 repeticiones</li>
+                <li>Mantén cada posición 2-3 segundos</li>
+                <li>Si hay dolor, reduce el rango de movimiento</li>
+            </ol>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Consejo:</strong> La inflamación es parte del proceso de curación. No intentes eliminarla completamente. 
+            Solo mantenla bajo control.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 4: PHASE 2 -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">4. Fase 2: Movilización (Semanas 4-6)</div>
+        
+        <div class="content-card">
+            <p><strong>Objetivo:</strong> Recuperar rango de movimiento completo, reducir rigidez.</p>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Ejercicios de Rango de Movimiento</div>
+            <div class="duration">3 sesiones de 15-20 minutos por semana</div>
+            <ol>
+                <li>Movimientos activos con rango completo: 15-20 repeticiones</li>
+                <li>Estiramientos suaves: 30 segundos cada uno</li>
+                <li>Movimientos en diferentes direcciones</li>
+                <li>Progresa lentamente cada semana</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Ejercicios de Movilidad Articular</div>
+            <div class="duration">Diariamente, 10 minutos</div>
+            <ol>
+                <li>Rotaciones suaves de la articulación lesionada</li>
+                <li>Movimientos circulares: 10 en cada dirección</li>
+                <li>Mantén movimientos dentro de rango sin dolor</li>
+                <li>Aumenta rango gradualmente cada día</li>
+            </ol>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Señal de Progreso:</strong> Deberías poder mover la articulación con rango completo sin dolor al final 
+            de esta fase.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 5: PHASE 3 -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">5. Fase 3: Fortalecimiento (Semanas 7-9)</div>
+        
+        <div class="content-card">
+            <p><strong>Objetivo:</strong> Recuperar fuerza muscular, mejorar estabilidad articular.</p>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Ejercicios de Resistencia Progresiva</div>
+            <div class="duration">3-4 sesiones de 20-30 minutos por semana</div>
+            <ol>
+                <li>Semana 7: Resistencia con peso corporal (sin equipo)</li>
+                <li>Semana 8: Añade bandas elásticas de resistencia</li>
+                <li>Semana 9: Aumenta resistencia o repeticiones</li>
+                <li>3 series de 12-15 repeticiones cada ejercicio</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Ejercicios de Estabilidad</div>
+            <div class="duration">3 sesiones de 15 minutos por semana</div>
+            <ol>
+                <li>Ejercicios de equilibrio: 30-60 segundos</li>
+                <li>Ejercicios de propiocepción (conciencia corporal)</li>
+                <li>Movimientos en superficies inestables (si es seguro)</li>
+                <li>Aumenta dificultad gradualmente</li>
+            </ol>
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ Importante:</strong> No aumentes resistencia más del 10% por semana. Aumentos rápidos causan recaídas.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 6: PHASE 4 -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">6. Fase 4: Retorno a Actividad (Semanas 10-12)</div>
+        
+        <div class="content-card">
+            <p><strong>Objetivo:</strong> Retorno seguro a deporte específico, prevenir recaídas.</p>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Actividad Específica del Deporte</div>
+            <div class="duration">Progresivo, 3-4 sesiones por semana</div>
+            <ol>
+                <li>Semana 10: Movimientos del deporte a baja intensidad (50%)</li>
+                <li>Semana 11: Intensidad media (75%)</li>
+                <li>Semana 12: Intensidad completa (100%)</li>
+                <li>Monitorea dolor o inestabilidad en cada sesión</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Mantenimiento de Fuerza</div>
+            <div class="duration">2 sesiones de 20 minutos por semana (continuo)</div>
+            <ol>
+                <li>Continúa ejercicios de fortalecimiento</li>
+                <li>Continúa ejercicios de estabilidad</li>
+                <li>Previene debilidad y recaída</li>
+                <li>Hazlo parte de tu rutina de entrenamiento</li>
+            </ol>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Criterios para Retorno Completo:</strong> Sin dolor, fuerza igual en ambos lados, rango de movimiento 
+            completo, confianza en la articulación.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 7: RED FLAGS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">7. Señales de Alerta - Cuándo Detener</div>
+        
+        <div class="warning-box">
+            <strong>⚠️ Detente inmediatamente si:</strong>
+            <ul>
+                <li>Dolor severo (7+) durante o después del ejercicio</li>
+                <li>Hinchazón repentina o aumento de hinchazón</li>
+                <li>Inestabilidad o sensación de "ceder"</li>
+                <li>Dolor que no mejora después de 2 horas de descanso</li>
+                <li>Dolor que empeora cada día</li>
+                <li>Sensación de que algo "no está bien"</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Acción:</strong> Si experimentas estas señales, consulta a un médico o fisioterapeuta. Mejor prevenir 
+            una recaída que tratarla después.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 8: TRACKING PROGRESS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">8. Monitorea tu Progreso</div>
+        
+        <div class="checklist">
+            <div class="checklist-item">
+                <input type="checkbox" id="check1">
+                <label for="check1">Semana 3: Dolor reducido a 3-4/10, hinchazón controlada</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check2">
+                <label for="check2">Semana 6: Rango de movimiento completo sin dolor</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check3">
+                <label for="check3">Semana 9: Fuerza similar a lado no lesionado</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check4">
+                <label for="check4">Semana 12: Retorno completo a deporte sin limitaciones</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check5">
+                <label for="check5">Continuó: Ejercicios de mantenimiento 2x por semana</label>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Expectativa realista:</strong> Cada persona se recupera a diferente velocidad. Si necesitas más tiempo, 
+            está bien. Mejor ir lento que tener una recaída.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 9: FINAL TIPS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">9. Consejos Finales</div>
+        
+        <div class="success-box">
+            <strong>✓ Consejo 1:</strong> La paciencia es tu mejor aliado. Las lesiones que se recuperan correctamente raramente 
+            vuelven.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 2:</strong> Documenta tu progreso. Toma notas de dolor, rango de movimiento, fuerza. Te motivará 
+            ver el progreso.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 3:</strong> No compares tu recuperación con otros. Cada lesión es diferente. Tu ritmo es el 
+            correcto.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 4:</strong> Trabaja con un fisioterapeuta si es posible. Pueden ajustar el programa a tu lesión 
+            específica.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 5:</strong> Una vez recuperado, continúa con ejercicios de prevención. Prevenir una recaída es 
+            más fácil que recuperarse nuevamente.
+        </div>
+    </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="pdf-container">
+    <div class="pdf-footer">
+        <p><strong>Método RESET - Rehabilitación Progresiva</strong></p>
+        <p>Una lesión no es el fin. Es una oportunidad para construir una base más fuerte. Con paciencia, consistencia y el 
+        programa correcto, volverás a tu nivel anterior y serás más resistente que antes.</p>
+        <p class="text-small">© 2026 Método RESET. Todos los derechos reservados.</p>
+    </div>
+    </div>
+
+    <!-- BOTTOM SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- COPYRIGHT & DISTRIBUTION NOTICE -->
+    <div class="pdf-container">
+    <div style="background-color: rgba(30, 64, 175, 0.08); border: 1px solid var(--border); padding: 1.25rem; border-radius: 4px; margin-top: 2rem; font-size: 12px; color: var(--muted); line-height: 1.6;">
+        <p style="margin-bottom: 0.75rem;"><strong style="color: var(--foreground);">© 2026 Método RESET. Todos los derechos reservados.</strong></p>
+        <p style="margin-bottom: 0.75rem;">Este documento es confidencial y está destinado únicamente al usuario que lo recibió. Contiene información propietaria y estratégica de Método RESET.</p>
+        <p style="margin-bottom: 0.75rem;"><strong style="color: #ef4444;">⚠️ PROHIBIDA LA DISTRIBUCIÓN:</strong> No está permitida la reproducción, distribución, transmisión o divulgación de este documento, en su totalidad o en parte, sin autorización expresa por escrito de los documentos del Método RESET.</p>
+        <p style="margin-bottom: 0;">El incumplimiento de estas restricciones puede resultar en acciones legales. Para consultas sobre permisos, contacta con nosotros en contacto@bestronger.es</p>
+    </div>
+    </div>
+
+    <!-- FINAL SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+</body>
+</html>

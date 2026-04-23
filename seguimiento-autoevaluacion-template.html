@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento y Autoevaluación - Método RESET</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #0f172a;
+            --foreground: #ffffff;
+            --card: #1e293b;
+            --accent: #1e40af;
+            --border: #334155;
+            --muted: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        @page {
+            size: A4;
+            margin: 0.75in 1.25in 0.75in 1.25in;
+            @bottom-center {
+                content: "Página " counter(page) " de " counter(pages);
+                font-size: 11px;
+                color: var(--muted);
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .pdf-container {
+            padding: 0 1.5rem;
+            max-width: 100%;
+        }
+
+        .pdf-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .pdf-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-header .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .pdf-header .profile-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .content-card {
+            background-color: var(--card);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .content-card p {
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+        }
+
+        .content-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .metric-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .metric-box .title {
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 0.75rem;
+            font-size: 16px;
+        }
+
+        .metric-box .duration {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .metric-box ol {
+            margin-left: 1.5rem;
+            margin-bottom: 0;
+        }
+
+        .metric-box li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: rgba(30, 64, 175, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .info-box strong {
+            color: var(--accent);
+        }
+
+        .warning-box {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .warning-box strong {
+            color: var(--danger);
+        }
+
+        .success-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .success-box strong {
+            color: var(--success);
+        }
+
+        .tracking-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            font-size: 13px;
+        }
+
+        .tracking-table th {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 700;
+        }
+
+        .tracking-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tracking-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tracking-table tr:nth-child(even) {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .assessment-form {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .form-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .form-item label {
+            display: block;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-item input[type="text"],
+        .form-item input[type="date"],
+        .form-item input[type="number"] {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .scale-options {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .scale-options label {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-weight: normal;
+            margin-bottom: 0;
+        }
+
+        .scale-options input[type="radio"] {
+            width: 16px;
+            height: 16px;
+        }
+
+        .weekly-log {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .week-entry {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .week-entry:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .week-entry strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .checklist {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .checklist-item {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checklist-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .checklist-item label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .pdf-footer {
+            background-color: var(--card);
+            border-top: 2px solid var(--accent);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .pdf-footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .text-small {
+            font-size: 12px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-bold {
+            font-weight: 600;
+        }
+
+        ul {
+            margin-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        em {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- HEADER -->
+    <div class="pdf-container">
+    <div class="pdf-header">
+        <h1>📊 Seguimiento y Autoevaluación</h1>
+        <p class="subtitle">Monitorea tu progreso de recuperación semana a semana</p>
+        <div class="profile-badge">Perfil: Atleta Lesionado</div>
+    </div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">Introducción</div>
+        <div class="content-card">
+            <p>
+                El seguimiento es crítico para la recuperación. Lo que se mide, se mejora. Este documento te proporciona 
+                herramientas para monitorear tu progreso de forma objetiva.
+            </p>
+            <p>
+                Completa esta evaluación cada semana. Documenta todo: dolor, rango de movimiento, fuerza, confianza mental. 
+                Al final de 12 semanas, verás cuánto has progresado.
+            </p>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Verdad importante:</strong> Ver tu progreso documentado es motivador. Incluso pequeñas mejoras son 
+            victorias. Celebra cada una.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 1: KEY METRICS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">1. Métricas Clave de Seguimiento</div>
+        
+        <div class="metric-box">
+            <div class="title">Dolor (Escala 0-10)</div>
+            <div class="duration">Evalúa cada día</div>
+            <ol>
+                <li>0 = Sin dolor</li>
+                <li>1-3 = Dolor leve (no interfiere con actividad)</li>
+                <li>4-6 = Dolor moderado (interfiere con actividad)</li>
+                <li>7-10 = Dolor severo (no puedes hacer actividad)</li>
+                <li>Registra: dolor en reposo, con actividad, después de actividad</li>
+            </ol>
+        </div>
+
+        <div class="metric-box">
+            <div class="title">Rango de Movimiento</div>
+            <div class="duration">Evalúa cada semana</div>
+            <ol>
+                <li>Compara con el lado no lesionado</li>
+                <li>Registra en grados (si es posible)</li>
+                <li>Objetivo: 100% del lado no lesionado</li>
+                <li>Mejora esperada: 5-10% por semana</li>
+            </ol>
+        </div>
+
+        <div class="metric-box">
+            <div class="title">Fuerza (Comparación con lado no lesionado)</div>
+            <div class="duration">Evalúa cada semana</div>
+            <ol>
+                <li>Usa test de fuerza simple (flexión, extensión, etc.)</li>
+                <li>Registra como porcentaje del lado no lesionado</li>
+                <li>Objetivo: 90%+ antes de retorno a deporte</li>
+                <li>Mejora esperada: 5-10% por semana</li>
+            </ol>
+        </div>
+
+        <div class="metric-box">
+            <div class="title">Confianza Mental (Escala 0-10)</div>
+            <div class="duration">Evalúa cada día</div>
+            <ol>
+                <li>0 = Sin confianza, miedo a relesionarse</li>
+                <li>5 = Confianza moderada</li>
+                <li>10 = Confianza completa, listo para retornar</li>
+                <li>Registra cómo te sientes emocionalmente</li>
+            </ol>
+        </div>
+
+        <div class="metric-box">
+            <div class="title">Hinchazón/Inflamación</div>
+            <div class="duration">Evalúa cada día</div>
+            <ol>
+                <li>Compara con el lado no lesionado</li>
+                <li>Registra como: Ninguna, Leve, Moderada, Severa</li>
+                <li>Objetivo: Ninguna o leve</li>
+                <li>Nota: Hinchazón después de actividad es normal</li>
+            </ol>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 2: WEEKLY ASSESSMENT FORM -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">2. Formulario de Evaluación Semanal</div>
+        
+        <div class="assessment-form">
+            <div class="form-item">
+                <label>Semana #: _____ Fecha: _____/_____/_____</label>
+            </div>
+
+            <div class="form-item">
+                <label>Dolor en Reposo (0-10): _____</label>
+            </div>
+
+            <div class="form-item">
+                <label>Dolor con Actividad (0-10): _____</label>
+            </div>
+
+            <div class="form-item">
+                <label>Dolor después de Actividad (0-10): _____</label>
+            </div>
+
+            <div class="form-item">
+                <label>Rango de Movimiento vs Lado No Lesionado: _____%</label>
+            </div>
+
+            <div class="form-item">
+                <label>Fuerza vs Lado No Lesionado: _____%</label>
+            </div>
+
+            <div class="form-item">
+                <label>Confianza Mental (0-10): _____</label>
+            </div>
+
+            <div class="form-item">
+                <label>Hinchazón:</label>
+                <div class="scale-options">
+                    <label><input type="radio" name="swelling"> Ninguna</label>
+                    <label><input type="radio" name="swelling"> Leve</label>
+                    <label><input type="radio" name="swelling"> Moderada</label>
+                    <label><input type="radio" name="swelling"> Severa</label>
+                </div>
+            </div>
+
+            <div class="form-item">
+                <label>Actividades Realizadas esta Semana:</label>
+                <p style="font-size: 13px; margin-top: 0.5rem;">_________________________________________________________________</p>
+            </div>
+
+            <div class="form-item">
+                <label>Cómo te Sientes Emocionalmente:</label>
+                <p style="font-size: 13px; margin-top: 0.5rem;">_________________________________________________________________</p>
+            </div>
+
+            <div class="form-item">
+                <label>Notas/Observaciones:</label>
+                <p style="font-size: 13px; margin-top: 0.5rem;">_________________________________________________________________</p>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 3: TRACKING TABLE -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">3. Tabla de Seguimiento de 12 Semanas</div>
+        
+        <table class="tracking-table">
+            <thead>
+                <tr>
+                    <th>Semana</th>
+                    <th>Dolor (0-10)</th>
+                    <th>ROM (%)</th>
+                    <th>Fuerza (%)</th>
+                    <th>Confianza (0-10)</th>
+                    <th>Hinchazón</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1</strong></td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                </tr>
+                <tr>
+                    <td><strong>2</strong></td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                </tr>
+                <tr>
+                    <td><strong>3</strong></td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                </tr>
+                <tr>
+                    <td><strong>4</strong></td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                </tr>
+                <tr>
+                    <td><strong>5</strong></td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                </tr>
+                <tr>
+                    <td><strong>6</strong></td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                </tr>
+                <tr>
+                    <td><strong>7</strong></td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                </tr>
+                <tr>
+                    <td><strong>8</strong></td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                </tr>
+                <tr>
+                    <td><strong>9</strong></td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                </tr>
+                <tr>
+                    <td><strong>10</strong></td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                </tr>
+                <tr>
+                    <td><strong>11</strong></td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                </tr>
+                <tr>
+                    <td><strong>12</strong></td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                    <td>_____</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="info-box">
+            <strong>💡 Cómo Usar:</strong> Completa esta tabla cada semana. Al final, verás tu progreso total. Espera ver 
+            mejoras consistentes semana a semana.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 4: PROGRESS INDICATORS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">4. Indicadores de Progreso Esperado</div>
+        
+        <table class="tracking-table">
+            <thead>
+                <tr>
+                    <th>Semanas</th>
+                    <th>Dolor Esperado</th>
+                    <th>ROM Esperado</th>
+                    <th>Fuerza Esperada</th>
+                    <th>Fase</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1-3</strong></td>
+                    <td>7-9 → 3-5</td>
+                    <td>30% → 60%</td>
+                    <td>20% → 40%</td>
+                    <td>Protección</td>
+                </tr>
+                <tr>
+                    <td><strong>4-6</strong></td>
+                    <td>3-5 → 1-2</td>
+                    <td>60% → 90%</td>
+                    <td>40% → 70%</td>
+                    <td>Movilización</td>
+                </tr>
+                <tr>
+                    <td><strong>7-9</strong></td>
+                    <td>1-2 → 0-1</td>
+                    <td>90% → 100%</td>
+                    <td>70% → 90%</td>
+                    <td>Fortalecimiento</td>
+                </tr>
+                <tr>
+                    <td><strong>10-12</strong></td>
+                    <td>0-1</td>
+                    <td>100%</td>
+                    <td>90% → 100%</td>
+                    <td>Retorno</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="warning-box">
+            <strong>⚠️ Importante:</strong> Si tu progreso está por debajo de lo esperado, consulta a un profesional. Puede 
+            haber un problema que necesita atención.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 5: WEEKLY ACTIVITY LOG -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">5. Registro de Actividades Semanales</div>
+        
+        <div class="weekly-log">
+            <div class="week-entry">
+                <strong>Semana 1:</strong>
+                <p>Lunes: _____________ | Martes: _____________ | Miércoles: _____________</p>
+                <p>Jueves: _____________ | Viernes: _____________ | Fin de semana: _____________</p>
+            </div>
+
+            <div class="week-entry">
+                <strong>Semana 2:</strong>
+                <p>Lunes: _____________ | Martes: _____________ | Miércoles: _____________</p>
+                <p>Jueves: _____________ | Viernes: _____________ | Fin de semana: _____________</p>
+            </div>
+
+            <div class="week-entry">
+                <strong>Semana 3:</strong>
+                <p>Lunes: _____________ | Martes: _____________ | Miércoles: _____________</p>
+                <p>Jueves: _____________ | Viernes: _____________ | Fin de semana: _____________</p>
+            </div>
+
+            <div class="week-entry">
+                <strong>Semana 4:</strong>
+                <p>Lunes: _____________ | Martes: _____________ | Miércoles: _____________</p>
+                <p>Jueves: _____________ | Viernes: _____________ | Fin de semana: _____________</p>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Consejo:</strong> Registra qué actividades hiciste cada día. Esto te ayudará a correlacionar actividades 
+            con dolor o progreso.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 6: MILESTONE CHECKLIST -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">6. Checklist de Hitos de Recuperación</div>
+        
+        <div class="checklist">
+            <div class="checklist-item">
+                <input type="checkbox" id="check1">
+                <label for="check1">Semana 3: Dolor reducido a 3-5/10, hinchazón controlada</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check2">
+                <label for="check2">Semana 6: Rango de movimiento 90%+, fuerza 70%+</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check3">
+                <label for="check3">Semana 9: Fuerza 90%+, sin dolor con actividad normal</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check4">
+                <label for="check4">Semana 12: Retorno completo a deporte, confianza 9+/10</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check5">
+                <label for="check5">Post-12: Comprometido con mantenimiento preventivo 2x/semana</label>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 7: RED FLAGS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">7. Señales de Alerta - Cuándo Consultar a Profesional</div>
+        
+        <div class="warning-box">
+            <strong>⚠️ Consulta a un profesional si:</strong>
+            <ul>
+                <li>Dolor que empeora semana a semana (en lugar de mejorar)</li>
+                <li>Hinchazón que no disminuye</li>
+                <li>Fuerza que no mejora después de 4 semanas</li>
+                <li>Limitación de movimiento que regresa</li>
+                <li>Inestabilidad o sensación de "ceder"</li>
+                <li>Miedo severo a relesionarse (impide progreso)</li>
+            </ul>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Señales de Progreso Normal:</strong> Dolor disminuye, rango de movimiento mejora, fuerza aumenta, 
+            confianza crece, hinchazón se reduce.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 8: FINAL TIPS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">8. Consejos Finales</div>
+        
+        <div class="success-box">
+            <strong>✓ Consejo 1:</strong> Sé honesto en tus evaluaciones. Los números no mienten. Si estás mejorando, los 
+            números lo mostrarán.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 2:</strong> Celebra cada mejora, sin importar cuán pequeña. Progreso es progreso.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 3:</strong> Si no estás progresando como se esperaba, no desesperes. Consulta a un profesional. 
+            Puede haber un ajuste simple que acelere la recuperación.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 4:</strong> Usa estos datos para motivarte. Ver tu progreso documentado es poderoso.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 5:</strong> Después de 12 semanas, continúa con seguimiento mensual para prevenir recaídas.
+        </div>
+    </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="pdf-container">
+    <div class="pdf-footer">
+        <p><strong>Método RESET - Seguimiento y Autoevaluación</strong></p>
+        <p>Lo que se mide, se mejora. El seguimiento consistente te mantiene en el camino correcto y acelera la recuperación. 
+        Documenta tu progreso y celebra cada victoria.</p>
+        <p class="text-small">© 2026 Método RESET. Todos los derechos reservados.</p>
+    </div>
+    </div>
+
+    <!-- BOTTOM SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- COPYRIGHT & DISTRIBUTION NOTICE -->
+    <div class="pdf-container">
+    <div style="background-color: rgba(30, 64, 175, 0.08); border: 1px solid var(--border); padding: 1.25rem; border-radius: 4px; margin-top: 2rem; font-size: 12px; color: var(--muted); line-height: 1.6;">
+        <p style="margin-bottom: 0.75rem;"><strong style="color: var(--foreground);">© 2026 Método RESET. Todos los derechos reservados.</strong></p>
+        <p style="margin-bottom: 0.75rem;">Este documento es confidencial y está destinado únicamente al usuario que lo recibió. Contiene información propietaria y estratégica de Método RESET.</p>
+        <p style="margin-bottom: 0.75rem;"><strong style="color: #ef4444;">⚠️ PROHIBIDA LA DISTRIBUCIÓN:</strong> No está permitida la reproducción, distribución, transmisión o divulgación de este documento, en su totalidad o en parte, sin autorización expresa por escrito de los documentos del Método RESET.</p>
+        <p style="margin-bottom: 0;">El incumplimiento de estas restricciones puede resultar en acciones legales. Para consultas sobre permisos, contacta con nosotros en contacto@bestronger.es</p>
+    </div>
+    </div>
+
+    <!-- FINAL SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+</body>
+</html>

@@ -91,11 +91,11 @@ export function getPDFTemplate(resourceType?: string): string {
     'recuperacion_intensiva': 'recuperacion-intensiva-template.html',
     'consulta_especialista': 'consulta-especialista-template.html',
     'movimiento_diario': 'movimiento-diario-template.html',
-    // Atleta Lesionado (placeholders)
-    'rehabilitacion_progresiva': 'pdf-template.html',
-    'fortalecimiento_especifico': 'pdf-template.html',
-    'vuelta_actividad': 'pdf-template.html',
-    'seguimiento_progreso': 'pdf-template.html',
+    // Atleta Lesionado
+    'rehabilitacion_progresiva': 'rehabilitacion-progresiva-template.html',
+    'fortalecimiento_especifico': 'fortalecimiento-especifico-template.html',
+    'vuelta_actividad': 'vuelta-deporte-template.html',
+    'seguimiento_progreso': 'seguimiento-autoevaluacion-template.html',
     // Recién Diagnosticado (placeholders)
     'movilidad_basica': 'pdf-template.html',
     'factores_riesgo': 'pdf-template.html',

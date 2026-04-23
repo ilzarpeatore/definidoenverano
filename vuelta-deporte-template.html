@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vuelta al Deporte - Método RESET</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #0f172a;
+            --foreground: #ffffff;
+            --card: #1e293b;
+            --accent: #1e40af;
+            --border: #334155;
+            --muted: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        @page {
+            size: A4;
+            margin: 0.75in 1.25in 0.75in 1.25in;
+            @bottom-center {
+                content: "Página " counter(page) " de " counter(pages);
+                font-size: 11px;
+                color: var(--muted);
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .pdf-container {
+            padding: 0 1.5rem;
+            max-width: 100%;
+        }
+
+        .pdf-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .pdf-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-header .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .pdf-header .profile-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .content-card {
+            background-color: var(--card);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .content-card p {
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+        }
+
+        .content-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .phase-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .phase-box .title {
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 0.75rem;
+            font-size: 16px;
+        }
+
+        .phase-box .duration {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .phase-box ol {
+            margin-left: 1.5rem;
+            margin-bottom: 0;
+        }
+
+        .phase-box li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: rgba(30, 64, 175, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .info-box strong {
+            color: var(--accent);
+        }
+
+        .warning-box {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .warning-box strong {
+            color: var(--danger);
+        }
+
+        .success-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .success-box strong {
+            color: var(--success);
+        }
+
+        .criteria-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .criteria-table th {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .criteria-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .criteria-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .criteria-table tr:nth-child(even) {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .protocol-plan {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .protocol-week {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .protocol-week:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .protocol-week strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .checklist {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .checklist-item {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checklist-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .checklist-item label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .pdf-footer {
+            background-color: var(--card);
+            border-top: 2px solid var(--accent);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .pdf-footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .text-small {
+            font-size: 12px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-bold {
+            font-weight: 600;
+        }
+
+        ul {
+            margin-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        em {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- HEADER -->
+    <div class="pdf-container">
+    <div class="pdf-header">
+        <h1>🏆 Vuelta al Deporte</h1>
+        <p class="subtitle">Return to Play: Protocolo seguro para retorno completo</p>
+        <div class="profile-badge">Perfil: Atleta Lesionado</div>
+    </div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">Introducción</div>
+        <div class="content-card">
+            <p>
+                El retorno al deporte es el objetivo final de la rehabilitación. Pero no es simplemente "volver a jugar". 
+                Es un proceso estructurado que asegura que estés completamente listo, física y mentalmente.
+            </p>
+            <p>
+                Este protocolo de "Return to Play" te guía a través de un retorno seguro y progresivo. Cada fase tiene 
+                criterios específicos que debes cumplir antes de avanzar. No saltes fases.
+            </p>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Verdad importante:</strong> El retorno apresurado es la causa número 1 de lesiones recurrentes. 
+            Mejor esperar una semana más que tener una recaída que te saque 3 meses.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 1: READINESS CRITERIA -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">1. Criterios de Preparación para Retorno</div>
+        
+        <div class="content-card">
+            <p><strong>Antes de retornar al deporte, debes cumplir TODOS estos criterios:</strong></p>
+        </div>
+
+        <table class="criteria-table">
+            <thead>
+                <tr>
+                    <th>Criterio</th>
+                    <th>Objetivo</th>
+                    <th>Cómo Medir</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Sin Dolor</strong></td>
+                    <td>0-1/10 en reposo, 0-2/10 con actividad</td>
+                    <td>Escala de dolor 0-10</td>
+                </tr>
+                <tr>
+                    <td><strong>Rango de Movimiento</strong></td>
+                    <td>Igual al lado no lesionado</td>
+                    <td>Medición con goniómetro o visual</td>
+                </tr>
+                <tr>
+                    <td><strong>Fuerza</strong></td>
+                    <td>90% de la fuerza del lado no lesionado</td>
+                    <td>Test de fuerza muscular</td>
+                </tr>
+                <tr>
+                    <td><strong>Estabilidad</strong></td>
+                    <td>Confianza en la articulación lesionada</td>
+                    <td>Test de estabilidad, equilibrio</td>
+                </tr>
+                <tr>
+                    <td><strong>Función</strong></td>
+                    <td>Capaz de realizar movimientos del deporte</td>
+                    <td>Test de movimientos específicos</td>
+                </tr>
+                <tr>
+                    <td><strong>Psicológico</strong></td>
+                    <td>Confianza mental para retornar</td>
+                    <td>Autoevaluación de confianza</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="warning-box">
+            <strong>⚠️ Importante:</strong> Si no cumples TODOS los criterios, no retornes. Espera una semana más y 
+            reevalúa. Mejor prevenir que lamentar.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 2: PHASE 1 -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">2. Fase 1: Retorno Gradual (Semana 1-2)
+</div>
+        
+        <div class="phase-box">
+            <div class="title">Actividades Permitidas</div>
+            <div class="duration">50% de intensidad del deporte</div>
+            <ol>
+                <li>Movimientos específicos del deporte a baja intensidad</li>
+                <li>Sin contacto o competencia</li>
+                <li>Duración: 20-30 minutos</li>
+                <li>Frecuencia: 2-3 veces por semana</li>
+                <li>Monitorea dolor: debe ser 0-1/10</li>
+            </ol>
+        </div>
+
+        <div class="phase-box">
+            <div class="title">Criterios para Avanzar a Fase 2</div>
+            <div class="duration">Debe cumplir TODOS antes de avanzar</div>
+            <ol>
+                <li>Sin dolor durante actividad (0-1/10)</li>
+                <li>Sin dolor después de actividad</li>
+                <li>Sin hinchazón o inflamación</li>
+                <li>Sensación de estabilidad en la articulación</li>
+                <li>Confianza mental aumentada</li>
+            </ol>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Consejo:</strong> Si tienes cualquier dolor o inestabilidad, regresa a la fase anterior. No hay prisa.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 3: PHASE 2 -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">3. Fase 2: Intensidad Progresiva (Semana 3-4)</div>
+        
+        <div class="phase-box">
+            <div class="title">Actividades Permitidas</div>
+            <div class="duration">75% de intensidad del deporte</div>
+            <ol>
+                <li>Movimientos específicos del deporte a intensidad media</li>
+                <li>Contacto limitado (si es aplicable)</li>
+                <li>Duración: 30-45 minutos</li>
+                <li>Frecuencia: 3-4 veces por semana</li>
+                <li>Monitorea dolor: debe ser 0-2/10</li>
+            </ol>
+        </div>
+
+        <div class="phase-box">
+            <div class="title">Criterios para Avanzar a Fase 3</div>
+            <div class="duration">Debe cumplir TODOS antes de avanzar</div>
+            <ol>
+                <li>Sin dolor durante actividad (0-2/10)</li>
+                <li>Sin dolor después de actividad</li>
+                <li>Desempeño técnico similar al pre-lesión</li>
+                <li>Confianza mental alta (8+/10)</li>
+                <li>Capaz de realizar movimientos explosivos</li>
+            </ol>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 4: PHASE 3 -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">4. Fase 3: Retorno Completo (Semana 5+)</div>
+        
+        <div class="phase-box">
+            <div class="title">Actividades Permitidas</div>
+            <div class="duration">100% de intensidad del deporte</div>
+            <ol>
+                <li>Retorno completo a entrenamientos regulares</li>
+                <li>Contacto completo (si es aplicable)</li>
+                <li>Competencia completa</li>
+                <li>Duración: Normal para tu deporte</li>
+                <li>Frecuencia: Normal para tu deporte</li>
+            </ol>
+        </div>
+
+        <div class="phase-box">
+            <div class="title">Mantenimiento Preventivo</div>
+            <div class="duration">Continuo, 2-3 veces por semana</div>
+            <ol>
+                <li>Continúa ejercicios de fortalecimiento específicos</li>
+                <li>Continúa ejercicios de estabilidad</li>
+                <li>Calentamiento adecuado antes de actividad</li>
+                <li>Enfriamiento y estiramientos después</li>
+                <li>Escucha a tu cuerpo: si hay dolor, reduce intensidad</li>
+            </ol>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Objetivo Alcanzado:</strong> Retorno completo y seguro al deporte. Continúa con mantenimiento preventivo 
+            para evitar recaídas.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 5: SPORT-SPECIFIC TESTS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">5. Tests Específicos del Deporte</div>
+        
+        <div class="content-card">
+            <p><strong>Antes de retornar a competencia, debes pasar estos tests:</strong></p>
+        </div>
+
+        <div class="phase-box">
+            <div class="title">Tests de Movimiento</div>
+            <div class="duration">Ejecuta cada movimiento 10 veces sin dolor</div>
+            <ol>
+                <li>Movimiento 1 específico de tu deporte</li>
+                <li>Movimiento 2 específico de tu deporte</li>
+                <li>Movimiento 3 específico de tu deporte</li>
+                <li>Movimiento explosivo (salto, cambio de dirección)</li>
+                <li>Movimiento bajo presión (simulación de juego)</li>
+            </ol>
+        </div>
+
+        <div class="phase-box">
+            <div class="title">Tests de Resistencia</div>
+            <div class="duration">Ejecuta a intensidad completa</div>
+            <ol>
+                <li>Duración completa del deporte sin fatiga excesiva</li>
+                <li>Rendimiento técnico sin degradación</li>
+                <li>Sin dolor o inestabilidad al final</li>
+                <li>Capaz de repetir al día siguiente</li>
+            </ol>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 6: RED FLAGS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">6. Señales de Alerta - Cuándo Pausar</div>
+        
+        <div class="warning-box">
+            <strong>⚠️ Pausa inmediatamente si experimentas:</strong>
+            <ul>
+                <li>Dolor agudo (3+/10) durante actividad</li>
+                <li>Aumento de hinchazón después de actividad</li>
+                <li>Inestabilidad o sensación de "ceder"</li>
+                <li>Dolor que persiste más de 2 horas después</li>
+                <li>Limitación de movimiento que regresa</li>
+                <li>Miedo o falta de confianza mental</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Acción:</strong> Si experimentas estas señales, regresa a la fase anterior. Consulta a un médico o 
+            fisioterapeuta si persiste.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 7: PSYCHOLOGICAL READINESS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">7. Preparación Psicológica</div>
+        
+        <div class="content-card">
+            <p><strong>La confianza mental es tan importante como la física. Evalúa tu estado mental:</strong></p>
+        </div>
+
+        <div class="checklist">
+            <div class="checklist-item">
+                <input type="checkbox" id="check1">
+                <label for="check1">Confianza en la articulación lesionada (8+/10)</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check2">
+                <label for="check2">Sin miedo a relesionarse</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check3">
+                <label for="check3">Motivación alta para retornar</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check4">
+                <label for="check4">Aceptación de que puede tomar tiempo recuperar el 100%</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check5">
+                <label for="check5">Disposición a seguir protocolo de mantenimiento</label>
+            </div>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo:</strong> Si no te sientes psicológicamente listo, no retornes. Trabaja con un psicólogo 
+            deportivo si es necesario.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 8: LONG-TERM PREVENTION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">8. Prevención a Largo Plazo</div>
+        
+        <div class="phase-box">
+            <div class="title">Plan de Mantenimiento Permanente</div>
+            <div class="duration">2-3 sesiones de 20-30 minutos por semana</div>
+            <ol>
+                <li>Ejercicios de fortalecimiento específicos (continuos)</li>
+                <li>Ejercicios de estabilidad (continuos)</li>
+                <li>Flexibilidad y movilidad (continuos)</li>
+                <li>Calentamiento adecuado antes de actividad</li>
+                <li>Enfriamiento y recuperación después</li>
+            </ol>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Verdad Final:</strong> Las lesiones que se recuperan correctamente raramente vuelven. Pero solo si 
+            continúas con mantenimiento preventivo.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Inversión:</strong> 2-3 horas por semana de mantenimiento = 0 recaídas. Es la mejor inversión que 
+            puedes hacer.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 9: FINAL TIPS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">9. Consejos Finales</div>
+        
+        <div class="success-box">
+            <strong>✓ Consejo 1:</strong> No saltes fases. Cada fase tiene un propósito. Respetar el proceso previene 
+            recaídas.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 2:</strong> Escucha a tu cuerpo. Si algo no se siente bien, no es. Regresa a la fase anterior.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 3:</strong> La confianza mental es clave. Si no te sientes listo, no retornes. Trabaja en ello.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 4:</strong> Documenta tu progreso. Toma notas de cómo te sientes, dolor, rendimiento. Te 
+            motivará ver el progreso.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 5:</strong> Una vez recuperado, continúa con mantenimiento. Prevenir una recaída es más fácil 
+            que recuperarse nuevamente.
+        </div>
+    </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="pdf-container">
+    <div class="pdf-footer">
+        <p><strong>Método RESET - Vuelta al Deporte</strong></p>
+        <p>El retorno al deporte no es una línea recta. Es un proceso gradual con fases claras. Respeta el protocolo, escucha 
+        a tu cuerpo, y retornarás más fuerte que antes.</p>
+        <p class="text-small">© 2026 Método RESET. Todos los derechos reservados.</p>
+    </div>
+    </div>
+
+    <!-- BOTTOM SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- COPYRIGHT & DISTRIBUTION NOTICE -->
+    <div class="pdf-container">
+    <div style="background-color: rgba(30, 64, 175, 0.08); border: 1px solid var(--border); padding: 1.25rem; border-radius: 4px; margin-top: 2rem; font-size: 12px; color: var(--muted); line-height: 1.6;">
+        <p style="margin-bottom: 0.75rem;"><strong style="color: var(--foreground);">© 2026 Método RESET. Todos los derechos reservados.</strong></p>
+        <p style="margin-bottom: 0.75rem;">Este documento es confidencial y está destinado únicamente al usuario que lo recibió. Contiene información propietaria y estratégica de Método RESET.</p>
+        <p style="margin-bottom: 0.75rem;"><strong style="color: #ef4444;">⚠️ PROHIBIDA LA DISTRIBUCIÓN:</strong> No está permitida la reproducción, distribución, transmisión o divulgación de este documento, en su totalidad o en parte, sin autorización expresa por escrito de los documentos del Método RESET.</p>
+        <p style="margin-bottom: 0;">El incumplimiento de estas restricciones puede resultar en acciones legales. Para consultas sobre permisos, contacta con nosotros en contacto@bestronger.es</p>
+    </div>
+    </div>
+
+    <!-- FINAL SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+</body>
+</html>
