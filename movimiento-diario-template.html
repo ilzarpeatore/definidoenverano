@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movimiento Diario - Método RESET</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #0f172a;
+            --foreground: #ffffff;
+            --card: #1e293b;
+            --accent: #1e40af;
+            --border: #334155;
+            --muted: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        @page {
+            size: A4;
+            margin: 0.75in 1.25in 0.75in 1.25in;
+            @bottom-center {
+                content: "Página " counter(page) " de " counter(pages);
+                font-size: 11px;
+                color: var(--muted);
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .pdf-container {
+            padding: 0 1.5rem;
+            max-width: 100%;
+        }
+
+        .pdf-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .pdf-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-header .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .pdf-header .profile-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .content-card {
+            background-color: var(--card);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .content-card p {
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+        }
+
+        .content-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .exercise-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .exercise-box .title {
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 0.75rem;
+            font-size: 16px;
+        }
+
+        .exercise-box .duration {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .exercise-box ol {
+            margin-left: 1.5rem;
+            margin-bottom: 0;
+        }
+
+        .exercise-box li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: rgba(30, 64, 175, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .info-box strong {
+            color: var(--accent);
+        }
+
+        .warning-box {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .warning-box strong {
+            color: var(--danger);
+        }
+
+        .success-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .success-box strong {
+            color: var(--success);
+        }
+
+        .routine-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .routine-table th {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .routine-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .routine-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .routine-table tr:nth-child(even) {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .weekly-plan {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .day-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .day-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .day-item strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .checklist {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .checklist-item {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checklist-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .checklist-item label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .pdf-footer {
+            background-color: var(--card);
+            border-top: 2px solid var(--accent);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .pdf-footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .text-small {
+            font-size: 12px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-bold {
+            font-weight: 600;
+        }
+
+        ul {
+            margin-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        em {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- HEADER -->
+    <div class="pdf-container">
+    <div class="pdf-header">
+        <h1>🚶 Movimiento Diario</h1>
+        <p class="subtitle">Integra actividad física en tu rutina sin sacrificar productividad</p>
+        <div class="profile-badge">Perfil: Emprendedor Quemado</div>
+    </div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">Introducción</div>
+        <div class="content-card">
+            <p>
+                Como emprendedor quemado, probablemente piensas que no tienes tiempo para ejercicio. La realidad es que no 
+                tienes tiempo para NO hacer ejercicio. El movimiento es lo que te permite trabajar mejor, dormir mejor, 
+                pensar mejor y vivir mejor.
+            </p>
+            <p>
+                Este programa no requiere ir al gimnasio 2 horas al día. Requiere integrar movimiento en tu rutina diaria: 
+                caminar, estiramientos, ejercicios simples. 30-45 minutos diarios pueden cambiar tu vida.
+            </p>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Verdad comprobada:</strong> El ejercicio es tan efectivo como medicación para depresión y ansiedad. 
+            Es tu herramienta más poderosa para recuperarte del burnout.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 1: WHY MOVEMENT MATTERS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">1. ¿Por qué el Movimiento es Crítico?</div>
+        
+        <div class="content-card">
+            <p><strong>Beneficios del Movimiento Diario:</strong></p>
+            <ul>
+                <li>Reduce estrés y ansiedad (libera endorfinas)</li>
+                <li>Mejora sueño (duermes más profundo)</li>
+                <li>Aumenta energía (paradójicamente, movimiento da más energía)</li>
+                <li>Mejora concentración y creatividad</li>
+                <li>Reduce dolor de espalda y cuello</li>
+                <li>Mejora humor y motivación</li>
+                <li>Fortalece sistema inmunológico</li>
+                <li>Aumenta productividad (30% más según estudios)</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Dato científico:</strong> 30 minutos de movimiento moderado produce cambios químicos en el cerebro 
+            equivalentes a medicación antidepresiva. Es tu medicina natural.
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ Realidad:</strong> Sin movimiento, el burnout empeora. El sedentarismo amplifica estrés, ansiedad y 
+            depresión.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 2: TYPES OF MOVEMENT -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">2. Tipos de Movimiento (Elige lo que Disfrutes)</div>
+        
+        <table class="routine-table">
+            <thead>
+                <tr>
+                    <th>Tipo de Movimiento</th>
+                    <th>Duración</th>
+                    <th>Beneficio Principal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Caminar</strong></td>
+                    <td>30-45 min</td>
+                    <td>Bajo impacto, reduce estrés, accesible</td>
+                </tr>
+                <tr>
+                    <td><strong>Correr/Trote</strong></td>
+                    <td>20-30 min</td>
+                    <td>Alto impacto, libera endorfinas, energía</td>
+                </tr>
+                <tr>
+                    <td><strong>Ciclismo</strong></td>
+                    <td>30-45 min</td>
+                    <td>Bajo impacto, diversión, aire libre</td>
+                </tr>
+                <tr>
+                    <td><strong>Yoga/Pilates</strong></td>
+                    <td>30-45 min</td>
+                    <td>Flexibilidad, calma mental, fuerza</td>
+                </tr>
+                <tr>
+                    <td><strong>Natación</strong></td>
+                    <td>30-45 min</td>
+                    <td>Bajo impacto, full body, relajante</td>
+                </tr>
+                <tr>
+                    <td><strong>Deportes</strong></td>
+                    <td>45-60 min</td>
+                    <td>Diversión, comunidad, motivación</td>
+                </tr>
+                <tr>
+                    <td><strong>Entrenamiento Fuerza</strong></td>
+                    <td>30-45 min</td>
+                    <td>Fortaleza, confianza, metabolismo</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="success-box">
+            <strong>✓ Regla de Oro:</strong> El mejor ejercicio es el que harás consistentemente. Si odias correr, no corras. 
+            Si amas caminar, camina.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 3: DAILY ROUTINE -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">3. Rutina Diaria de Movimiento (30-45 minutos)</div>
+        
+        <div class="exercise-box">
+            <div class="title">Opción 1: Caminar + Estiramientos (30 min)</div>
+            <div class="duration">Ideal para: Principiantes, recuperación del burnout</div>
+            <ol>
+                <li>Calentamiento: 2 minutos de caminar lentamente</li>
+                <li>Caminar moderado: 20 minutos a ritmo conversacional</li>
+                <li>Estiramientos: 8 minutos (cuello, hombros, espalda, piernas)</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Opción 2: Yoga Suave (30 min)</div>
+            <div class="duration">Ideal para: Estrés, flexibilidad, calma mental</div>
+            <ol>
+                <li>Respiración y calentamiento: 5 minutos</li>
+                <li>Posturas suaves: 20 minutos</li>
+                <li>Relajación final: 5 minutos</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Opción 3: Caminar + Ejercicios Simples (40 min)</div>
+            <div class="duration">Ideal para: Fuerza y cardio combinados</div>
+            <ol>
+                <li>Caminar: 20 minutos</li>
+                <li>Ejercicios: 15 minutos (flexiones de pared, sentadillas, planchas)</li>
+                <li>Estiramientos: 5 minutos</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Opción 4: Correr/Trote (30 min)</div>
+            <div class="duration">Ideal para: Energía, liberación de estrés</div>
+            <ol>
+                <li>Calentamiento: 5 minutos de caminar/trote lento</li>
+                <li>Trote moderado: 20 minutos</li>
+                <li>Enfriamiento: 5 minutos de caminar lentamente</li>
+            </ol>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Consejo:</strong> Elige una opción y hazla consistentemente. La consistencia importa más que la 
+            intensidad.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 4: WEEKLY SCHEDULE -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">4. Plan Semanal (5-6 días/semana)</div>
+        
+        <div class="weekly-plan">
+            <div class="day-item">
+                <strong>Lunes: Caminar + Estiramientos (30 min)</strong>
+                <p>Comienza la semana con movimiento moderado. Objetivo: activar tu cuerpo.</p>
+            </div>
+
+            <div class="day-item">
+                <strong>Martes: Yoga Suave (30 min)</strong>
+                <p>Enfócate en flexibilidad y calma mental. Reduce tensión acumulada.</p>
+            </div>
+
+            <div class="day-item">
+                <strong>Miércoles: Caminar + Ejercicios Simples (40 min)</strong>
+                <p>Mitad de semana: añade un poco de fuerza. Aumenta energía.</p>
+            </div>
+
+            <div class="day-item">
+                <strong>Jueves: Descanso Activo (15-20 min)</strong>
+                <p>Camina lentamente o estira. Recuperación sin sedentarismo.</p>
+            </div>
+
+            <div class="day-item">
+                <strong>Viernes: Caminar + Estiramientos (30 min)</strong>
+                <p>Prepárate para el fin de semana. Libera estrés de la semana.</p>
+            </div>
+
+            <div class="day-item">
+                <strong>Sábado: Actividad que Disfrutes (45-60 min)</strong>
+                <p>Deporte, ciclismo, natación, o lo que disfrutes. Diversión primero.</p>
+            </div>
+
+            <div class="day-item">
+                <strong>Domingo: Descanso o Movimiento Suave (20-30 min)</strong>
+                <p>Camina, estira, o descansa completamente. Tu elección.</p>
+            </div>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Objetivo:</strong> 150 minutos de movimiento moderado por semana (recomendación OMS). Este plan 
+            proporciona 170-200 minutos.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 5: SIMPLE EXERCISES -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">5. Ejercicios Simples (Sin Equipo)</div>
+        
+        <div class="exercise-box">
+            <div class="title">Flexiones de Pared</div>
+            <div class="duration">3 series de 10-15 repeticiones</div>
+            <ol>
+                <li>Párate frente a una pared, a un brazo de distancia</li>
+                <li>Coloca manos en la pared a la altura del pecho</li>
+                <li>Inclínate hacia la pared, doblando codos</li>
+                <li>Vuelve a la posición inicial</li>
+                <li>Beneficio: Fortalece pecho, hombros, espalda</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Sentadillas</div>
+            <div class="duration">3 series de 15-20 repeticiones</div>
+            <ol>
+                <li>Párate con pies al ancho de hombros</li>
+                <li>Baja como si fueras a sentarte en una silla</li>
+                <li>Mantén espalda recta, rodillas alineadas con tobillos</li>
+                <li>Vuelve a posición inicial</li>
+                <li>Beneficio: Fortalece piernas, glúteos, core</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Planchas</div>
+            <div class="duration">3 series de 20-30 segundos</div>
+            <ol>
+                <li>Acuéstate boca abajo, apoyado en antebrazos y puntillas</li>
+                <li>Mantén cuerpo en línea recta (no dejes cadera)</li>
+                <li>Respira normalmente, mantén posición</li>
+                <li>Descansa 30 segundos entre series</li>
+                <li>Beneficio: Fortalece core, espalda, hombros</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Estiramiento de Espalda</div>
+            <div class="duration">3 series de 30 segundos cada una</div>
+            <ol>
+                <li>Párate con pies al ancho de hombros</li>
+                <li>Cruza brazos sobre pecho, abraza tu cuerpo</li>
+                <li>Inclínate hacia adelante suavemente</li>
+                <li>Siente el estiramiento en espalda y hombros</li>
+                <li>Beneficio: Libera tensión acumulada</li>
+            </ol>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Importante:</strong> Estos ejercicios son suaves. No busques dolor. Busca consistencia. La consistencia 
+            es más importante que la intensidad.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 6: TIPS FOR SUCCESS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">6. Consejos para el Éxito</div>
+        
+        <div class="success-box">
+            <strong>✓ Consejo 1: Hazlo Parte de tu Rutina</strong>
+            <p>Movimiento a la misma hora cada día. Tu cuerpo se adapta. Después de 2 semanas, es automático.</p>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 2: Comienza Pequeño</strong>
+            <p>Si no haces ejercicio, comienza con 15 minutos. Aumenta gradualmente. No es una carrera.</p>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 3: Encuentra Compañía</strong>
+            <p>Camina con un amigo, únete a una clase, o usa una app. La compañía aumenta consistencia.</p>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 4: Muévete al Aire Libre</strong>
+            <p>Cuando sea posible, muévete afuera. Luz solar, aire fresco y naturaleza potencian beneficios.</p>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 5: No Necesitas Perfección</strong>
+            <p>Si faltas un día, no abandones. Vuelve al día siguiente. La consistencia importa, no la perfección.</p>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 6: Escucha tu Cuerpo</strong>
+            <p>Si sientes dolor (no cansancio), detente. Movimiento debe sentirse bien, no dañar.</p>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 7: TRACKING PROGRESS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">7. Monitorea tu Progreso</div>
+        
+        <div class="checklist">
+            <div class="checklist-item">
+                <input type="checkbox" id="check1">
+                <label for="check1">Semana 1: Completé al menos 3 sesiones de movimiento</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check2">
+                <label for="check2">Semana 2: Completé 5 sesiones, siento menos estrés</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check3">
+                <label for="check3">Semana 3: Duermo mejor, tengo más energía</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check4">
+                <label for="check4">Semana 4: El movimiento es parte de mi rutina</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check5">
+                <label for="check5">Semana 5-6: Menos dolor de espalda/cuello</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check6">
+                <label for="check6">Semana 8: Mejor concentración y productividad</label>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Expectativas realistas:</strong> Semana 1-2 será difícil (tu cuerpo está acostumbrado al sedentarismo). 
+            Semana 3-4 verás mejoras en sueño y energía. Semana 5-8 cambios significativos en estrés y mood.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 8: FINAL TIPS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">8. Consejos Finales</div>
+        
+        <div class="success-box">
+            <strong>✓ Verdad Final:</strong> El movimiento es tu medicina. Es gratis, sin efectos secundarios, y más efectivo 
+            que muchas medicaciones.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Recuerda:</strong> No necesitas ser atleta. Solo necesitas moverte. 30 minutos de caminar es tan 
+            beneficioso como 30 minutos de correr para tu salud mental.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Inversión:</strong> 30 minutos de movimiento hoy = 2-3 horas de mayor productividad mañana. Es la mejor 
+            inversión de tu tiempo.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Compromiso:</strong> Comprométete a 4 semanas. Después de 4 semanas, el movimiento será automático y 
+            no querrás dejarlo.
+        </div>
+    </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="pdf-container">
+    <div class="pdf-footer">
+        <p><strong>Método RESET - Movimiento Diario</strong></p>
+        <p>El movimiento es el antídoto para el burnout. No requiere ir al gimnasio ni ser atleta. Solo requiere consistencia. 
+        30 minutos diarios de movimiento pueden cambiar tu vida completamente. Comienza hoy.</p>
+        <p class="text-small">© 2026 Método RESET. Todos los derechos reservados.</p>
+    </div>
+    </div>
+
+    <!-- BOTTOM SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- COPYRIGHT & DISTRIBUTION NOTICE -->
+    <div class="pdf-container">
+    <div style="background-color: rgba(30, 64, 175, 0.08); border: 1px solid var(--border); padding: 1.25rem; border-radius: 4px; margin-top: 2rem; font-size: 12px; color: var(--muted); line-height: 1.6;">
+        <p style="margin-bottom: 0.75rem;"><strong style="color: var(--foreground);">© 2026 Método RESET. Todos los derechos reservados.</strong></p>
+        <p style="margin-bottom: 0.75rem;">Este documento es confidencial y está destinado únicamente al usuario que lo recibió. Contiene información propietaria y estratégica de Método RESET.</p>
+        <p style="margin-bottom: 0.75rem;"><strong style="color: #ef4444;">⚠️ PROHIBIDA LA DISTRIBUCIÓN:</strong> No está permitida la reproducción, distribución, transmisión o divulgación de este documento, en su totalidad o en parte, sin autorización expresa por escrito de los documentos del Método RESET.</p>
+        <p style="margin-bottom: 0;">El incumplimiento de estas restricciones puede resultar en acciones legales. Para consultas sobre permisos, contacta con nosotros en contacto@bestronger.es</p>
+    </div>
+    </div>
+
+    <!-- FINAL SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+</body>
+</html>

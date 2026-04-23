@@ -81,9 +81,26 @@ export function getPDFTemplate(resourceType?: string): string {
   
   // Map resource types to template files
   const resourceMap: Record<string, string> = {
+    // Ejecutivo Atrapado
     'pausas_activas': 'pausas-activas-template.html',
     'tecnicas_respiracion': 'tecnicas-respiracion-template.html',
     'fortalecimiento': 'fortalecimiento-ejecutivo-template.html',
+    'postura_escritorio': 'pdf-template.html', // Placeholder
+    // Emprendedor Quemado
+    'limites_trabajo': 'limites-trabajo-template.html',
+    'recuperacion_intensiva': 'recuperacion-intensiva-template.html',
+    'consulta_especialista': 'consulta-especialista-template.html',
+    'movimiento_diario': 'movimiento-diario-template.html',
+    // Atleta Lesionado (placeholders)
+    'rehabilitacion_progresiva': 'pdf-template.html',
+    'fortalecimiento_especifico': 'pdf-template.html',
+    'vuelta_actividad': 'pdf-template.html',
+    'seguimiento_progreso': 'pdf-template.html',
+    // Recién Diagnosticado (placeholders)
+    'movilidad_basica': 'pdf-template.html',
+    'factores_riesgo': 'pdf-template.html',
+    'rutina_prevencion': 'pdf-template.html',
+    'educacion_postura': 'pdf-template.html',
   };
   
   if (resourceType && resourceMap[resourceType]) {

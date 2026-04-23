@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta con Especialista - Método RESET</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #0f172a;
+            --foreground: #ffffff;
+            --card: #1e293b;
+            --accent: #1e40af;
+            --border: #334155;
+            --muted: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        @page {
+            size: A4;
+            margin: 0.75in 1.25in 0.75in 1.25in;
+            @bottom-center {
+                content: "Página " counter(page) " de " counter(pages);
+                font-size: 11px;
+                color: var(--muted);
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .pdf-container {
+            padding: 0 1.5rem;
+            max-width: 100%;
+        }
+
+        .pdf-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .pdf-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-header .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .pdf-header .profile-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .content-card {
+            background-color: var(--card);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .content-card p {
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+        }
+
+        .content-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .specialist-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .specialist-box .title {
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 0.75rem;
+            font-size: 16px;
+        }
+
+        .specialist-box ul {
+            margin-left: 1.5rem;
+            margin-bottom: 0;
+        }
+
+        .specialist-box li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: rgba(30, 64, 175, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .info-box strong {
+            color: var(--accent);
+        }
+
+        .warning-box {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .warning-box strong {
+            color: var(--danger);
+        }
+
+        .success-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .success-box strong {
+            color: var(--success);
+        }
+
+        .specialist-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .specialist-table th {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .specialist-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .specialist-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .specialist-table tr:nth-child(even) {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .question-list {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .question-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .question-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .question-item strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-footer {
+            background-color: var(--card);
+            border-top: 2px solid var(--accent);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .pdf-footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .text-small {
+            font-size: 12px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-bold {
+            font-weight: 600;
+        }
+
+        ul {
+            margin-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        em {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- HEADER -->
+    <div class="pdf-container">
+    <div class="pdf-header">
+        <h1>🏥 Consulta con Especialista</h1>
+        <p class="subtitle">Guía para buscar y maximizar la ayuda profesional</p>
+        <div class="profile-badge">Perfil: Emprendedor Quemado</div>
+    </div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">Introducción</div>
+        <div class="content-card">
+            <p>
+                A veces, cambios de estilo de vida y límites de trabajo no son suficientes. Si experimentas burnout severo, 
+                ansiedad crónica, depresión o problemas de sueño persistentes, necesitas ayuda profesional. Buscar ayuda no 
+                es debilidad. Es inteligencia.
+            </p>
+            <p>
+                Esta guía te ayudará a identificar cuándo necesitas un especialista, qué tipo de profesional buscar, cómo 
+                elegir el correcto, y cómo maximizar los resultados de la terapia.
+            </p>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Verdad importante:</strong> Los emprendedores más exitosos trabajan con psicólogos, coaches y médicos. 
+            No es una admisión de fracaso. Es una inversión en tu mayor activo: tu mente y tu cuerpo.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 1: WHEN TO SEEK HELP -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">1. ¿Cuándo Buscar Ayuda Profesional?</div>
+        
+        <div class="content-card">
+            <p><strong>Busca un especialista si experimentas:</strong></p>
+            <ul>
+                <li>Depresión persistente (tristeza, falta de motivación durante semanas)</li>
+                <li>Ansiedad severa (ataques de pánico, preocupación constante)</li>
+                <li>Insomnio crónico que no mejora con cambios de estilo de vida</li>
+                <li>Pensamientos de autolesión o suicidio</li>
+                <li>Dolor físico crónico sin causa médica clara</li>
+                <li>Problemas de sustancias (alcohol, drogas, medicamentos)</li>
+                <li>Relaciones deterioradas o aislamiento social</li>
+                <li>Burnout que no mejora después de 4 semanas de cambios</li>
+            </ul>
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ Urgente:</strong> Si tienes pensamientos suicidas, llama a emergencias o a una línea de crisis 
+            inmediatamente. Tu vida importa.
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Dato importante:</strong> El burnout severo es una condición médica. Requiere intervención profesional, 
+            no solo cambios de comportamiento.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 2: TYPES OF SPECIALISTS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">2. Tipos de Especialistas</div>
+        
+        <table class="specialist-table">
+            <thead>
+                <tr>
+                    <th>Especialista</th>
+                    <th>Enfoque</th>
+                    <th>Cuándo Buscar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Psicólogo Clínico</strong></td>
+                    <td>Terapia, diagnóstico, tratamiento de problemas mentales</td>
+                    <td>Ansiedad, depresión, burnout, traumas</td>
+                </tr>
+                <tr>
+                    <td><strong>Psiquiatra</strong></td>
+                    <td>Medicación, diagnóstico médico, problemas severos</td>
+                    <td>Depresión severa, trastorno bipolar, esquizofrenia</td>
+                </tr>
+                <tr>
+                    <td><strong>Coach de Vida</strong></td>
+                    <td>Objetivos, hábitos, cambios de estilo de vida</td>
+                    <td>Transiciones, metas, burnout leve-moderado</td>
+                </tr>
+                <tr>
+                    <td><strong>Médico General</strong></td>
+                    <td>Evaluación física, descartar problemas médicos</td>
+                    <td>Síntomas físicos, dolor crónico, fatiga</td>
+                </tr>
+                <tr>
+                    <td><strong>Fisioterapeuta</strong></td>
+                    <td>Tratamiento de dolor físico, movimiento</td>
+                    <td>Dolor de espalda/cuello crónico por estrés</td>
+                </tr>
+                <tr>
+                    <td><strong>Nutricionista</strong></td>
+                    <td>Nutrición, energía, recuperación física</td>
+                    <td>Fatiga, problemas de sueño, energía baja</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="info-box">
+            <strong>💡 Recomendación:</strong> Para burnout severo, comienza con un psicólogo clínico. Él/ella puede 
+            referirte a otros especialistas si es necesario.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 3: HOW TO CHOOSE A SPECIALIST -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">3. Cómo Elegir el Especialista Correcto</div>
+        
+        <div class="specialist-box">
+            <div class="title">Criterios de Selección</div>
+            <ul>
+                <li><strong>Credenciales:</strong> Licenciado, colegiado, con experiencia en burnout/estrés</li>
+                <li><strong>Especialización:</strong> Experiencia específica con emprendedores o profesionales</li>
+                <li><strong>Enfoque:</strong> Busca terapia basada en evidencia (TCC, EMDR, etc.)</li>
+                <li><strong>Disponibilidad:</strong> Horarios que funcionen para ti (online o presencial)</li>
+                <li><strong>Costo:</strong> Accesible y sostenible a largo plazo</li>
+                <li><strong>Conexión Personal:</strong> Te sientes cómodo y escuchado en la primera sesión</li>
+            </ul>
+        </div>
+
+        <div class="specialist-box">
+            <div class="title">Dónde Buscar</div>
+            <ul>
+                <li>Recomendaciones de amigos o colegas</li>
+                <li>Plataformas especializadas (Psicólogos Online, Therapify, etc.)</li>
+                <li>Colegio profesional de psicólogos de tu región</li>
+                <li>Seguros de salud (muchos cubren sesiones)</li>
+                <li>Universidades (estudiantes supervisados, más económico)</li>
+                <li>Programas de asistencia para empleados (si aplica)</li>
+            </ul>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo:</strong> No dudes en entrevistar a varios especialistas. La relación terapéutica es crucial. 
+            Si no te sientes cómodo, busca otro.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 4: FIRST CONSULTATION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">4. Preparación para la Primera Consulta</div>
+        
+        <div class="content-card">
+            <p><strong>Antes de la Primera Sesión:</strong></p>
+            <ul>
+                <li>Escribe tu historia: Cuándo comenzó el estrés, qué lo causó, cómo ha evolucionado</li>
+                <li>Lista de síntomas: Físicos, emocionales, conductuales</li>
+                <li>Medicamentos actuales: Todo lo que tomas (incluyendo suplementos)</li>
+                <li>Historial familiar: Depresión, ansiedad, suicidio en la familia</li>
+                <li>Objetivos: Qué esperas lograr con la terapia</li>
+                <li>Preguntas: Escribe preguntas que quieras hacer</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <p><strong>Durante la Primera Sesión:</strong></p>
+            <ul>
+                <li>Sé honesto: Comparte todo, incluso lo que te avergüenza</li>
+                <li>Escucha: El especialista hará preguntas para entender tu situación</li>
+                <li>Observa: ¿Te sientes escuchado? ¿Hay conexión?</li>
+                <li>Pregunta: Sobre el enfoque de tratamiento, duración, costo</li>
+                <li>Toma notas: Información importante para recordar</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Expectativa realista:</strong> La primera sesión es principalmente evaluación. No esperes soluciones 
+            inmediatas. El proceso terapéutico toma tiempo.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 5: QUESTIONS TO ASK -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">5. Preguntas Importantes a Hacer</div>
+        
+        <div class="question-list">
+            <div class="question-item">
+                <strong>¿Cuál es tu enfoque terapéutico?</strong>
+                <p>Busca respuestas como: Terapia Cognitivo-Conductual (TCC), EMDR, Mindfulness, etc. Enfoques basados en evidencia.</p>
+            </div>
+
+            <div class="question-item">
+                <strong>¿Tienes experiencia con burnout en emprendedores?</strong>
+                <p>La experiencia específica es valiosa. Los emprendedores tienen desafíos únicos.</p>
+            </div>
+
+            <div class="question-item">
+                <strong>¿Cuántas sesiones típicamente necesitaré?</strong>
+                <p>Burnout leve: 8-12 sesiones. Burnout severo: 20-30 sesiones. Depresión: variable.</p>
+            </div>
+
+            <div class="question-item">
+                <strong>¿Cuál es tu costo y opciones de pago?</strong>
+                <p>Rango típico: €50-150 por sesión. Pregunta sobre descuentos por paquetes o seguros.</p>
+            </div>
+
+            <div class="question-item">
+                <strong>¿Ofreces sesiones online?</strong>
+                <p>Importante para flexibilidad y accesibilidad.</p>
+            </div>
+
+            <div class="question-item">
+                <strong>¿Qué debo hacer entre sesiones?</strong>
+                <p>Tareas, ejercicios, cambios de comportamiento. La terapia es trabajo activo.</p>
+            </div>
+
+            <div class="question-item">
+                <strong>¿Cómo mediremos el progreso?</strong>
+                <p>Busca métodos claros: escalas, objetivos específicos, evaluaciones regulares.</p>
+            </div>
+
+            <div class="question-item">
+                <strong>¿Cuándo sabré si la terapia está funcionando?</strong>
+                <p>Típicamente: mejoras en 4-6 semanas. Si no hay progreso, reevalúa.</p>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 6: MAXIMIZING THERAPY -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">6. Cómo Maximizar los Resultados de la Terapia</div>
+        
+        <div class="specialist-box">
+            <div class="title">Durante el Tratamiento</div>
+            <ul>
+                <li>Sé consistente: Asiste a todas las sesiones programadas</li>
+                <li>Sé honesto: Comparte tus verdaderos sentimientos, no lo que crees que quieren escuchar</li>
+                <li>Haz las tareas: La terapia entre sesiones es tan importante como las sesiones</li>
+                <li>Comunica cambios: Dile al especialista qué está funcionando y qué no</li>
+                <li>Combina enfoques: Terapia + cambios de estilo de vida + medicación si es necesaria</li>
+                <li>Paciencia: Los cambios toman tiempo. No esperes resultados en 1-2 sesiones</li>
+            </ul>
+        </div>
+
+        <div class="specialist-box">
+            <div class="title">Señales de Progreso</div>
+            <ul>
+                <li>Mejor sueño y energía</li>
+                <li>Menos ansiedad o depresión</li>
+                <li>Mejor relaciones personales</li>
+                <li>Más claridad mental y enfoque</li>
+                <li>Menos dolor físico relacionado con estrés</li>
+                <li>Mayor capacidad de manejar estrés</li>
+                <li>Recuperación de intereses y hobbies</li>
+            </ul>
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ Señal de alerta:</strong> Si después de 6-8 sesiones no ves mejoras, o si el especialista no te 
+            escucha, busca otro. La relación terapéutica es crucial.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 7: MEDICATION CONSIDERATIONS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">7. Consideraciones sobre Medicación</div>
+        
+        <div class="content-card">
+            <p><strong>¿Necesitaré medicación?</strong></p>
+            <p>
+                Depende de la severidad. Para burnout leve-moderado, cambios de estilo de vida + terapia pueden ser suficientes. 
+                Para depresión severa o ansiedad, la medicación puede ser necesaria.
+            </p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>Tipos de Medicación Comunes:</strong></p>
+            <ul>
+                <li>Antidepresivos (ISRS): Sertraline, Paroxetine, Escitalopram</li>
+                <li>Anti-ansiedad: Lorazepam, Alprazolam (uso a corto plazo)</li>
+                <li>Estabilizadores del sueño: Melatonina, Valeriana</li>
+                <li>Otros: Bupropión, Venlafaxina (para burnout específicamente)</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Importante:</strong> La medicación no es debilidad. Es una herramienta. Combinada con terapia y cambios 
+            de estilo de vida, es muy efectiva.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo:</strong> Si un psiquiatra recomienda medicación, pruébala por al menos 4-6 semanas antes de 
+            decidir si funciona. Los cambios toman tiempo.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 8: LONG-TERM PLAN -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">8. Plan a Largo Plazo</div>
+        
+        <div class="content-card">
+            <p><strong>Después de la Terapia Intensiva (12-20 sesiones):</strong></p>
+            <ul>
+                <li>Sesiones de mantenimiento: 1-2 veces al mes</li>
+                <li>Seguimiento a largo plazo: Especialmente si hay historial de depresión</li>
+                <li>Prevención: Mantener hábitos saludables para evitar recaída</li>
+                <li>Apoyo continuo: Grupos de apoyo, comunidad, red de amigos</li>
+            </ul>
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ Prevención de Recaída:</strong> El burnout vuelve si regresas a los viejos patrones. Mantén los límites 
+            de trabajo, el ejercicio, el sueño y la desconexión.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Visión a Largo Plazo:</strong> El objetivo no es solo recuperarse del burnout. Es construir una vida 
+            sostenible donde el burnout no pueda volver a ocurrir.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 9: FINAL TIPS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">9. Consejos Finales</div>
+        
+        <div class="success-box">
+            <strong>✓ Consejo 1:</strong> Buscar ayuda es el primer paso más importante. Muchas personas sufren en silencio 
+            cuando la ayuda está disponible.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 2:</strong> La terapia es inversión, no gasto. El ROI es tu salud, tu felicidad y tu 
+            productividad.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 3:</strong> No todos los terapeutas son iguales. Si no conectas con el primero, prueba otro. 
+            La relación importa.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 4:</strong> La terapia + cambios de estilo de vida + medicación (si es necesaria) = recuperación 
+            completa. No es uno u otro. Es todo junto.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 5:</strong> Tu salud mental es tan importante como tu salud física. Trátala con la misma 
+            seriedad.
+        </div>
+    </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="pdf-container">
+    <div class="pdf-footer">
+        <p><strong>Método RESET - Consulta con Especialista</strong></p>
+        <p>Buscar ayuda profesional no es debilidad. Es inteligencia. Los emprendedores más exitosos trabajan con especialistas 
+        para mantener su salud mental y física. Si experimentas burnout severo, ansiedad o depresión, busca ayuda hoy. Tu 
+        vida mejorará.</p>
+        <p class="text-small">© 2026 Método RESET. Todos los derechos reservados.</p>
+    </div>
+    </div>
+
+    <!-- BOTTOM SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- COPYRIGHT & DISTRIBUTION NOTICE -->
+    <div class="pdf-container">
+    <div style="background-color: rgba(30, 64, 175, 0.08); border: 1px solid var(--border); padding: 1.25rem; border-radius: 4px; margin-top: 2rem; font-size: 12px; color: var(--muted); line-height: 1.6;">
+        <p style="margin-bottom: 0.75rem;"><strong style="color: var(--foreground);">© 2026 Método RESET. Todos los derechos reservados.</strong></p>
+        <p style="margin-bottom: 0.75rem;">Este documento es confidencial y está destinado únicamente al usuario que lo recibió. Contiene información propietaria y estratégica de Método RESET.</p>
+        <p style="margin-bottom: 0.75rem;"><strong style="color: #ef4444;">⚠️ PROHIBIDA LA DISTRIBUCIÓN:</strong> No está permitida la reproducción, distribución, transmisión o divulgación de este documento, en su totalidad o en parte, sin autorización expresa por escrito de los documentos del Método RESET.</p>
+        <p style="margin-bottom: 0;">El incumplimiento de estas restricciones puede resultar en acciones legales. Para consultas sobre permisos, contacta con nosotros en contacto@bestronger.es</p>
+    </div>
+    </div>
+
+    <!-- FINAL SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+</body>
+</html>

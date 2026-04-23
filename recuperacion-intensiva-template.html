@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperación Intensiva - Método RESET</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #0f172a;
+            --foreground: #ffffff;
+            --card: #1e293b;
+            --accent: #1e40af;
+            --border: #334155;
+            --muted: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        @page {
+            size: A4;
+            margin: 0.75in 1.25in 0.75in 1.25in;
+            @bottom-center {
+                content: "Página " counter(page) " de " counter(pages);
+                font-size: 11px;
+                color: var(--muted);
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .pdf-container {
+            padding: 0 1.5rem;
+            max-width: 100%;
+        }
+
+        .pdf-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .pdf-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-header .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .pdf-header .profile-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .content-card {
+            background-color: var(--card);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .content-card p {
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+        }
+
+        .content-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .week-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .week-box .title {
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 0.75rem;
+            font-size: 16px;
+        }
+
+        .week-box ul {
+            margin-left: 1.5rem;
+            margin-bottom: 0;
+        }
+
+        .week-box li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: rgba(30, 64, 175, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .info-box strong {
+            color: var(--accent);
+        }
+
+        .warning-box {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .warning-box strong {
+            color: var(--danger);
+        }
+
+        .success-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .success-box strong {
+            color: var(--success);
+        }
+
+        .pillar-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .pillar-table th {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .pillar-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .pillar-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .pillar-table tr:nth-child(even) {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .checklist {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .checklist-item {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checklist-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .checklist-item label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .pdf-footer {
+            background-color: var(--card);
+            border-top: 2px solid var(--accent);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .pdf-footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .text-small {
+            font-size: 12px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-bold {
+            font-weight: 600;
+        }
+
+        ul {
+            margin-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        em {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- HEADER -->
+    <div class="pdf-container">
+    <div class="pdf-header">
+        <h1>🔄 Recuperación Intensiva</h1>
+        <p class="subtitle">Programa de 8 semanas para recuperar tu salud y energía</p>
+        <div class="profile-badge">Perfil: Emprendedor Quemado</div>
+    </div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">Introducción</div>
+        <div class="content-card">
+            <p>
+                Si estás aquí, probablemente has llegado a un punto de quiebre. Tu cuerpo está gritando. El dolor de espalda 
+                es constante, no puedes dormir, tu energía es cero y la idea de trabajar más te genera ansiedad. Esto no es 
+                normal. Esto es burnout.
+            </p>
+            <p>
+                La buena noticia: el burnout es reversible. Con un programa intensivo de 8 semanas, puedes recuperar tu salud, 
+                tu energía y tu capacidad de disfrutar la vida. Este no es un programa de "tips" superficiales. Es un programa 
+                estructurado de recuperación real.
+            </p>
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ Importante:</strong> Este programa requiere compromiso total. No es posible recuperarse del burnout 
+            mientras continúas con los mismos hábitos. Necesitas cambio radical, no mejoras graduales.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 1: BURNOUT ASSESSMENT -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">1. Evaluación de tu Nivel de Burnout</div>
+        
+        <div class="content-card">
+            <p><strong>Síntomas de Burnout Severo (Necesitas Este Programa):</strong></p>
+            <ul>
+                <li>Agotamiento físico y mental constante (incluso después de dormir)</li>
+                <li>Cinismo o desprecio por tu trabajo</li>
+                <li>Reducción dramática de productividad</li>
+                <li>Problemas de sueño severos (insomnio o dormir demasiado)</li>
+                <li>Dolor físico crónico (espalda, cuello, cabeza)</li>
+                <li>Ansiedad o depresión</li>
+                <li>Aislamiento social</li>
+                <li>Pérdida de motivación incluso en cosas que antes disfrutabas</li>
+            </ul>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Buena noticia:</strong> El burnout severo requiere intervención intensiva, pero es completamente reversible 
+            en 8-12 semanas con el programa correcto.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 2: THE 4 PILLARS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">2. Los 4 Pilares de la Recuperación</div>
+        
+        <table class="pillar-table">
+            <thead>
+                <tr>
+                    <th>Pilar</th>
+                    <th>Objetivo</th>
+                    <th>Tiempo Semanal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Sueño</strong></td>
+                    <td>Recuperar ciclos de sueño normales (7-8 horas)</td>
+                    <td>Diario (todas las noches)</td>
+                </tr>
+                <tr>
+                    <td><strong>Movimiento</strong></td>
+                    <td>Reducir estrés físico y mejorar circulación</td>
+                    <td>5-6 días/semana (30 min)</td>
+                </tr>
+                <tr>
+                    <td><strong>Nutrición</strong></td>
+                    <td>Estabilizar energía y reducir inflamación</td>
+                    <td>Diario (3 comidas + snacks)</td>
+                </tr>
+                <tr>
+                    <td><strong>Desconexión</strong></td>
+                    <td>Reducir estrés mental y recuperar perspectiva</td>
+                    <td>Diario (1-2 horas) + 1 día completo/semana</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="info-box">
+            <strong>💡 Clave:</strong> No puedes recuperarte del burnout trabajando en solo uno de estos pilares. Necesitas 
+            abordar los 4 simultáneamente.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 3: WEEK BY WEEK PLAN -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">3. Plan Semana por Semana (8 Semanas)</div>
+        
+        <div class="week-box">
+            <div class="title">Semana 1-2: Crisis Management (Detener el Sangrado)</div>
+            <ul>
+                <li><strong>Sueño:</strong> Duerme 8 horas cada noche (sin negociación)</li>
+                <li><strong>Trabajo:</strong> Máximo 6 horas/día, no trabajo después de 5pm</li>
+                <li><strong>Movimiento:</strong> Caminar 20 minutos diarios (sin intensidad)</li>
+                <li><strong>Nutrición:</strong> Comidas regulares, evita cafeína después de 2pm</li>
+                <li><strong>Objetivo:</strong> Estabilizar tu sistema nervioso</li>
+            </ul>
+        </div>
+
+        <div class="week-box">
+            <div class="title">Semana 3-4: Reconstrucción Física</div>
+            <ul>
+                <li><strong>Sueño:</strong> Mantener 8 horas + ritual antes de dormir (30 min sin pantallas)</li>
+                <li><strong>Movimiento:</strong> Caminar 30 minutos + 2 sesiones de yoga/estiramientos</li>
+                <li><strong>Nutrición:</strong> Añade proteína en cada comida, aumenta agua</li>
+                <li><strong>Desconexión:</strong> 1 hora diaria sin trabajo, 1 día completo sin trabajo/emails</li>
+                <li><strong>Objetivo:</strong> Recuperar energía física</li>
+            </ul>
+        </div>
+
+        <div class="week-box">
+            <div class="title">Semana 5-6: Fortalecimiento Mental</div>
+            <ul>
+                <li><strong>Sueño:</strong> Mantener rutina + meditación 10 minutos antes de dormir</li>
+                <li><strong>Movimiento:</strong> 30-40 minutos de actividad, incluye algo que disfrutes</li>
+                <li><strong>Nutrición:</strong> Elimina ultra-procesados, enfócate en alimentos reales</li>
+                <li><strong>Desconexión:</strong> 2 horas diarias sin trabajo, 1 día completo + hobby</li>
+                <li><strong>Objetivo:</strong> Recuperar claridad mental</li>
+            </ul>
+        </div>
+
+        <div class="week-box">
+            <div class="title">Semana 7-8: Consolidación y Prevención</div>
+            <ul>
+                <li><strong>Sueño:</strong> Rutina establecida, duermes bien naturalmente</li>
+                <li><strong>Movimiento:</strong> 45-60 minutos, 5 días/semana (actividades que disfrutas)</li>
+                <li><strong>Nutrición:</strong> Hábitos saludables automatizados</li>
+                <li><strong>Desconexión:</strong> Límites claros de trabajo establecidos</li>
+                <li><strong>Objetivo:</strong> Crear nuevos hábitos sostenibles</li>
+            </ul>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 4: DAILY ROUTINE -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">4. Rutina Diaria (Semanas 1-4)</div>
+        
+        <div class="content-card">
+            <p><strong>6:00am - Despertar</strong></p>
+            <p>Despierta a la misma hora cada día (incluso fines de semana). Tu cuerpo necesita consistencia.</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>6:00-6:30am - Movimiento Suave</strong></p>
+            <p>Camina 20-30 minutos o haz yoga suave. Objetivo: activar tu cuerpo sin estrés.</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>6:30-7:30am - Desayuno + Preparación</strong></p>
+            <p>Desayuno con proteína (huevos, yogur, etc.). Prepárate sin prisa.</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>8:00am-12:00pm - Trabajo Enfocado</strong></p>
+            <p>Máximo 4 horas de trabajo. Enfócate en tareas importantes, no urgentes.</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>12:00-1:00pm - Almuerzo + Descanso</strong></p>
+            <p>Almuerzo sin trabajar. Descansa, camina, o lee algo no relacionado con trabajo.</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>1:00-5:00pm - Trabajo Enfocado</strong></p>
+            <p>Máximo 4 horas más. Total: 8 horas máximo (no 12-14).</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>5:00-7:00pm - Desconexión Total</strong></p>
+            <p>Apaga laptop. Actividad personal: ejercicio, hobby, tiempo con familia.</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>7:00-8:00pm - Cena</strong></p>
+            <p>Cena sin pantallas. Conversación o lectura.</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>8:00-10:00pm - Preparación para Dormir</strong></p>
+            <p>Sin pantallas. Lectura, meditación, o simplemente relajación.</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>10:00pm - Dormir</strong></p>
+            <p>8 horas de sueño. No negociables.</p>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 5: NUTRITION GUIDE -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">5. Guía de Nutrición para Recuperación</div>
+        
+        <div class="content-card">
+            <p><strong>Desayuno (Proteína + Grasas Saludables)</strong></p>
+            <ul>
+                <li>Opción 1: 3 huevos + tostada integral + aguacate</li>
+                <li>Opción 2: Yogur griego + granola + frutos secos</li>
+                <li>Opción 3: Avena + plátano + almendras</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <p><strong>Almuerzo (Proteína + Verduras + Carbohidratos Complejos)</strong></p>
+            <ul>
+                <li>Opción 1: Pollo + arroz integral + brócoli</li>
+                <li>Opción 2: Salmón + batata + espinacas</li>
+                <li>Opción 3: Pavo + quinoa + zanahorias</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <p><strong>Cena (Proteína + Verduras Ligeras)</strong></p>
+            <ul>
+                <li>Opción 1: Pescado blanco + ensalada</li>
+                <li>Opción 2: Pechuga de pollo + verduras al vapor</li>
+                <li>Opción 3: Sopa de verduras + legumbres</li>
+            </ul>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Regla de Oro:</strong> Proteína en cada comida. Evita azúcares refinados y ultra-procesados. 
+            Bebe 2-3 litros de agua diaria.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 6: IMPLEMENTATION CHECKLIST -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">6. Checklist de Implementación</div>
+        
+        <div class="checklist">
+            <div class="checklist-item">
+                <input type="checkbox" id="check1">
+                <label for="check1">Semana 1: Establecer horario de trabajo (máx 6 horas/día)</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check2">
+                <label for="check2">Semana 1: Dormir 8 horas cada noche</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check3">
+                <label for="check3">Semana 2: Comenzar a caminar 20 minutos diarios</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check4">
+                <label for="check4">Semana 3: Añadir yoga/estiramientos 2x/semana</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check5">
+                <label for="check5">Semana 4: Establecer 1 día completo sin trabajo</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check6">
+                <label for="check6">Semana 5: Meditación 10 minutos diarios</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check7">
+                <label for="check7">Semana 6: Eliminar ultra-procesados de dieta</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check8">
+                <label for="check8">Semana 8: Evaluar recuperación y crear plan de mantenimiento</label>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 7: MONITORING PROGRESS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">7. Monitorea tu Progreso</div>
+        
+        <div class="content-card">
+            <p><strong>Semana 2:</strong> ¿Duermes mejor? ¿Menos dolor de espalda?</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>Semana 4:</strong> ¿Más energía? ¿Mejor concentración? ¿Menos ansiedad?</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>Semana 6:</strong> ¿Disfrutas actividades nuevamente? ¿Mejor humor?</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>Semana 8:</strong> ¿Recuperaste tu vida? ¿Puedes trabajar sin burnout?</p>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Expectativas realistas:</strong> Semanas 1-2 serán difíciles. Tu cuerpo está acostumbrado al estrés. 
+            Semanas 3-4 verás mejoras significativas. Semanas 5-8 consolidarás los cambios.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 8: FINAL TIPS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">8. Consejos Finales</div>
+        
+        <div class="success-box">
+            <strong>✓ Consejo 1:</strong> Este programa es intensivo porque tu burnout es intensivo. No es posible recuperarse 
+            con cambios superficiales.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 2:</strong> Si fallas un día, no abandones. Vuelve al día siguiente. La consistencia es más 
+            importante que la perfección.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 3:</strong> Comunica a tu equipo que estás en recuperación. Pide apoyo, no disculpas.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 4:</strong> Después de 8 semanas, mantén los hábitos. El burnout vuelve si regresas a los 
+            viejos patrones.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 5:</strong> Si después de 4 semanas no ves mejoras, considera buscar ayuda profesional 
+            (psicólogo, médico).
+        </div>
+    </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="pdf-container">
+    <div class="pdf-footer">
+        <p><strong>Método RESET - Recuperación Intensiva</strong></p>
+        <p>El burnout es una crisis, pero también es una oportunidad. Este programa te ayudará a recuperar tu salud, tu 
+        energía y tu vida. Los próximos 8 semanas serán desafiantes, pero el resultado vale cada esfuerzo. Tu salud es 
+        tu prioridad número uno.</p>
+        <p class="text-small">© 2026 Método RESET. Todos los derechos reservados.</p>
+    </div>
+    </div>
+
+    <!-- BOTTOM SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- COPYRIGHT & DISTRIBUTION NOTICE -->
+    <div class="pdf-container">
+    <div style="background-color: rgba(30, 64, 175, 0.08); border: 1px solid var(--border); padding: 1.25rem; border-radius: 4px; margin-top: 2rem; font-size: 12px; color: var(--muted); line-height: 1.6;">
+        <p style="margin-bottom: 0.75rem;"><strong style="color: var(--foreground);">© 2026 Método RESET. Todos los derechos reservados.</strong></p>
+        <p style="margin-bottom: 0.75rem;">Este documento es confidencial y está destinado únicamente al usuario que lo recibió. Contiene información propietaria y estratégica de Método RESET.</p>
+        <p style="margin-bottom: 0.75rem;"><strong style="color: #ef4444;">⚠️ PROHIBIDA LA DISTRIBUCIÓN:</strong> No está permitida la reproducción, distribución, transmisión o divulgación de este documento, en su totalidad o en parte, sin autorización expresa por escrito de los documentos del Método RESET.</p>
+        <p style="margin-bottom: 0;">El incumplimiento de estas restricciones puede resultar en acciones legales. Para consultas sobre permisos, contacta con nosotros en contacto@bestronger.es</p>
+    </div>
+    </div>
+
+    <!-- FINAL SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+</body>
+</html>

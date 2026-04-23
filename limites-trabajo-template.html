@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Establecer Límites de Trabajo - Método RESET</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #0f172a;
+            --foreground: #ffffff;
+            --card: #1e293b;
+            --accent: #1e40af;
+            --border: #334155;
+            --muted: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        @page {
+            size: A4;
+            margin: 0.75in 1.25in 0.75in 1.25in;
+            @bottom-center {
+                content: "Página " counter(page) " de " counter(pages);
+                font-size: 11px;
+                color: var(--muted);
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .pdf-container {
+            padding: 0 1.5rem;
+            max-width: 100%;
+        }
+
+        .pdf-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .pdf-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-header .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .pdf-header .profile-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .content-card {
+            background-color: var(--card);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .content-card p {
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+        }
+
+        .content-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .strategy-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .strategy-box .title {
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 0.5rem;
+            font-size: 16px;
+        }
+
+        .strategy-box ol {
+            margin-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .strategy-box li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: rgba(30, 64, 175, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .info-box strong {
+            color: var(--accent);
+        }
+
+        .warning-box {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .warning-box strong {
+            color: var(--danger);
+        }
+
+        .success-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .success-box strong {
+            color: var(--success);
+        }
+
+        .boundary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .boundary-table th {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .boundary-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .boundary-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .boundary-table tr:nth-child(even) {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .checklist {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .checklist-item {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checklist-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .checklist-item label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .pdf-footer {
+            background-color: var(--card);
+            border-top: 2px solid var(--accent);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .pdf-footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .text-small {
+            font-size: 12px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-bold {
+            font-weight: 600;
+        }
+
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+
+        ul {
+            margin-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        em {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- HEADER -->
+    <div class="pdf-container">
+    <div class="pdf-header">
+        <h1>🚧 Establecer Límites de Trabajo</h1>
+        <p class="subtitle">Recupera tu vida personal y protege tu salud</p>
+        <div class="profile-badge">Perfil: Emprendedor Quemado</div>
+    </div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">Introducción</div>
+        <div class="content-card">
+            <p>
+                Como emprendedor, probablemente trabajas 12-14 horas al día, respondiendo emails a las 11 de la noche 
+                y pensando en problemas de negocio mientras intentas dormir. Tu cuerpo está pidiendo ayuda. El estrés 
+                crónico y la falta de descanso están afectando tu salud física, mental y emocional.
+            </p>
+            <p>
+                Establecer límites de trabajo no es debilidad. Es inteligencia empresarial. Los emprendedores más 
+                exitosos entienden que su productividad depende de su salud. Sin límites, te quemas. Con límites, 
+                prosperas.
+            </p>
+        </div>
+
+        <div class="danger-box" style="background-color: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--danger); padding: 1.25rem; margin: 1rem 0; border-radius: 4px; font-size: 14px;">
+            <strong style="color: var(--danger);">⚠️ Urgente:</strong> Si continúas sin límites, tu cuerpo te forzará a parar. 
+            El burnout no es una opción: es una consecuencia inevitable del trabajo sin límites.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 1: WHY LIMITS MATTER -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">1. ¿Por qué los límites son críticos?</div>
+        
+        <div class="content-card">
+            <p><strong>Sin límites, experimentas:</strong></p>
+            <ul>
+                <li>Agotamiento mental y físico constante</li>
+                <li>Dolor de espalda y cuello por estrés crónico</li>
+                <li>Insomnio y problemas de sueño</li>
+                <li>Ansiedad y depresión</li>
+                <li>Deterioro de relaciones personales</li>
+                <li>Decisiones empresariales pobres por fatiga</li>
+                <li>Debilitamiento del sistema inmunológico</li>
+            </ul>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Beneficio comprobado:</strong> Emprendedores que establecen límites de trabajo tienen 40% más 
+            productividad, mejor toma de decisiones y 60% menos estrés según estudios de Harvard Business Review.
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Dato importante:</strong> Tu productividad no aumenta con más horas. Después de 8 horas de trabajo 
+            cognitivo intenso, tu eficiencia cae dramáticamente. Trabajar 14 horas no es 75% más productivo que 8 horas. 
+            Es menos productivo.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 2: TYPES OF BOUNDARIES -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">2. Tipos de Límites que Debes Establecer</div>
+        
+        <table class="boundary-table">
+            <thead>
+                <tr>
+                    <th>Tipo de Límite</th>
+                    <th>Definición</th>
+                    <th>Ejemplo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Horario</strong></td>
+                    <td>Horas específicas de trabajo</td>
+                    <td>Trabajo 9am-6pm, no trabajo después</td>
+                </tr>
+                <tr>
+                    <td><strong>Comunicación</strong></td>
+                    <td>Cuándo respondes mensajes</td>
+                    <td>No emails después de 7pm o fines de semana</td>
+                </tr>
+                <tr>
+                    <td><strong>Espacial</strong></td>
+                    <td>Dónde trabajas</td>
+                    <td>Oficina solo para trabajo, no en dormitorio</td>
+                </tr>
+                <tr>
+                    <td><strong>Mental</strong></td>
+                    <td>Cuándo dejas de pensar en trabajo</td>
+                    <td>Meditación/respiración para desconectar</td>
+                </tr>
+                <tr>
+                    <td><strong>Delegación</strong></td>
+                    <td>Qué tareas no haces tú</td>
+                    <td>Delegar administrativo, no hacer todo personalmente</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+
+    <!-- SECTION 3: IMPLEMENTATION STRATEGIES -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">3. Estrategias de Implementación</div>
+        
+        <div class="strategy-box">
+            <div class="title">Estrategia 1: Horario de Trabajo No Negociable</div>
+            <ol>
+                <li>Define tu horario: Ejemplo: 9am-6pm, lunes-viernes</li>
+                <li>Comunícalo a tu equipo: "Estoy disponible en estas horas"</li>
+                <li>Apaga notificaciones fuera de horario</li>
+                <li>Establece un ritual de "fin de jornada": Cierra laptop, cambia de ropa, sal de la oficina</li>
+                <li>Sé consistente: Los límites débiles son peor que no tener límites</li>
+            </ol>
+        </div>
+
+        <div class="strategy-box">
+            <div class="title">Estrategia 2: Comunicación Automática</div>
+            <ol>
+                <li>Configura respuesta automática en email: "Respondo emails entre 10am-12pm y 3pm-5pm"</li>
+                <li>Usa Slack/Teams para comunicar disponibilidad: "Disponible 9am-6pm"</li>
+                <li>Crea un mensaje en tu teléfono: "Trabajo 9am-6pm, responderé mañana"</li>
+                <li>Comunica a clientes: "Entregas se hacen en horario laboral"</li>
+                <li>Sé profesional pero firme: No necesitas disculparte por tener límites</li>
+            </ol>
+        </div>
+
+        <div class="strategy-box">
+            <div class="title">Estrategia 3: Delegación Estratégica</div>
+            <ol>
+                <li>Identifica tareas que NO solo tú puedes hacer</li>
+                <li>Delega: administrativo, redes sociales, contabilidad, etc.</li>
+                <li>Invierte en herramientas: Automatización > tu tiempo</li>
+                <li>Entrena a tu equipo: Empodera a otros para tomar decisiones</li>
+                <li>Acepta que otros harán las cosas diferente (pero bien)</li>
+            </ol>
+        </div>
+
+        <div class="strategy-box">
+            <div class="title">Estrategia 4: Desconexión Mental</div>
+            <ol>
+                <li>Práctica de respiración al salir del trabajo (5 minutos)</li>
+                <li>Actividad física: Caminar, correr, yoga (30 minutos)</li>
+                <li>Tiempo con familia/amigos: Sin hablar de trabajo</li>
+                <li>Hobby o actividad que disfrutes: Lectura, música, arte</li>
+                <li>Sueño de calidad: 7-8 horas sin pensar en trabajo</li>
+            </ol>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Consejo clave:</strong> Los primeros 2-3 semanas serán difíciles. Tu mente querrá volver al trabajo. 
+            Resiste. Después de 4 semanas, los límites se vuelven automáticos.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 4: HANDLING RESISTANCE -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">4. Cómo Manejar la Resistencia</div>
+        
+        <div class="content-card">
+            <p><strong>"¿Y si mi equipo me necesita?"</strong></p>
+            <p>Tu equipo necesita un líder sano, no un mártir quemado. Si no puedes estar fuera 1 hora sin que todo se derrumbe, 
+            tu negocio tiene un problema de estructura, no de tu disponibilidad.</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>"¿Y si pierdo clientes?"</strong></p>
+            <p>Clientes que requieren que trabajes 24/7 no son clientes rentables. Son vampiros de energía. Los clientes valiosos 
+            respetan los límites profesionales.</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>"¿Y si mi negocio sufre?"</strong></p>
+            <p>Tu negocio sufre MÁS si tú sufres burnout. Un emprendedor quemado toma decisiones pobres, pierde creatividad y 
+            eventualmente se detiene completamente.</p>
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ Verdad incómoda:</strong> Si tu negocio depende completamente de ti sin límites, no tienes un negocio. 
+            Tienes un trabajo muy exigente que te posee.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 5: IMPLEMENTATION PLAN -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">5. Plan de Implementación (4 Semanas)</div>
+        
+        <div class="content-card">
+            <p><strong>Semana 1: Comunicación</strong></p>
+            <ul>
+                <li>Define tu horario de trabajo</li>
+                <li>Comunica a tu equipo y clientes</li>
+                <li>Configura respuestas automáticas</li>
+                <li>Objetivo: Establecer expectativas claras</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <p><strong>Semana 2: Implementación</strong></p>
+            <ul>
+                <li>Comienza a respetar tu horario</li>
+                <li>Apaga notificaciones fuera de horario</li>
+                <li>Practica ritual de "fin de jornada"</li>
+                <li>Objetivo: Crear el hábito</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <p><strong>Semana 3-4: Consolidación</strong></p>
+            <ul>
+                <li>Mantén los límites consistentemente</li>
+                <li>Identifica tareas para delegar</li>
+                <li>Comienza delegación</li>
+                <li>Objetivo: Automatizar y delegar trabajo</li>
+            </ul>
+        </div>
+
+        <div class="checklist">
+            <div class="checklist-item">
+                <input type="checkbox" id="check1">
+                <label for="check1">Semana 1: Defino mi horario de trabajo</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check2">
+                <label for="check2">Semana 1: Comunico a mi equipo y clientes</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check3">
+                <label for="check3">Semana 2: Respeto mi horario consistentemente</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check4">
+                <label for="check4">Semana 3: Identifico tareas para delegar</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check5">
+                <label for="check5">Semana 4: Evalúo mi nivel de estrés y energía</label>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 6: TIPS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">6. Consejos Prácticos</div>
+        
+        <div class="success-box">
+            <strong>✓ Consejo 1:</strong> Los límites no son egoístas. Son necesarios. Tu salud es tu responsabilidad.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 2:</strong> Comunica con claridad pero sin culpa. No necesitas justificarte: "Estoy disponible 
+            9am-6pm" es suficiente.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 3:</strong> Los primeros que se quejarán son los que se beneficiaban de tu falta de límites. 
+            Eso es una buena señal.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 4:</strong> Combina límites con delegación. Límites sin delegación solo significa menos trabajo 
+            hecho. Delega para que el trabajo continúe.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 5:</strong> Monitorea tu salud: Dolor de espalda, sueño, energía, ansiedad. Verás mejoras en 
+            2-4 semanas.
+        </div>
+    </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="pdf-container">
+    <div class="pdf-footer">
+        <p><strong>Método RESET - Establecer Límites de Trabajo</strong></p>
+        <p>Los límites son el primer paso para recuperar tu salud como emprendedor. Sin límites, el estrés crónico causará 
+        dolor físico, problemas de sueño y eventualmente burnout. Establece límites ahora, delega estratégicamente, y 
+        recupera tu vida.</p>
+        <p class="text-small">© 2026 Método RESET. Todos los derechos reservados.</p>
+    </div>
+    </div>
+
+    <!-- BOTTOM SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- COPYRIGHT & DISTRIBUTION NOTICE -->
+    <div class="pdf-container">
+    <div style="background-color: rgba(30, 64, 175, 0.08); border: 1px solid var(--border); padding: 1.25rem; border-radius: 4px; margin-top: 2rem; font-size: 12px; color: var(--muted); line-height: 1.6;">
+        <p style="margin-bottom: 0.75rem;"><strong style="color: var(--foreground);">© 2026 Método RESET. Todos los derechos reservados.</strong></p>
+        <p style="margin-bottom: 0.75rem;">Este documento es confidencial y está destinado únicamente al usuario que lo recibió. Contiene información propietaria y estratégica de Método RESET.</p>
+        <p style="margin-bottom: 0.75rem;"><strong style="color: #ef4444;">⚠️ PROHIBIDA LA DISTRIBUCIÓN:</strong> No está permitida la reproducción, distribución, transmisión o divulgación de este documento, en su totalidad o en parte, sin autorización expresa por escrito de los documentos del Método RESET.</p>
+        <p style="margin-bottom: 0;">El incumplimiento de estas restricciones puede resultar en acciones legales. Para consultas sobre permisos, contacta con nosotros en contacto@bestronger.es</p>
+    </div>
+    </div>
+
+    <!-- FINAL SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+</body>
+</html>
