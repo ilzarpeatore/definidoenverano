@@ -1,8 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Loader2, CheckCircle, AlertCircle, TrendingUp } from 'lucide-react';
 import { trpc } from '@/lib/trpc';
 import { toast } from 'sonner';
+import { DownloadGuideButton } from '@/components/DownloadGuideButton';
+
+
 
 interface ProfileInfo {
   name: string;
@@ -188,7 +191,17 @@ export default function QuizResults() {
             {profile.recommendations.map((rec, idx) => (
               <div key={idx} className="flex items-start gap-3 p-4 bg-card rounded-lg border border-border">
                 <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-                <p className="text-gray-300">{rec}</p>
+                <div className="flex-1">
+                  <p className="text-gray-300 mb-2">{rec}</p>
+                  {quizId && (
+                    <DownloadGuideButton
+                      quizId={quizId}
+                      resourceType={`rec_${idx}`}
+                      resourceName="Guía"
+                      className="text-sm py-1 px-3 h-auto"
+                    />
+                  )}
+                </div>
               </div>
             ))}
           </div>

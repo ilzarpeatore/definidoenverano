@@ -78,6 +78,13 @@
       "when": 1776881895327,
       "tag": "0010_classy_satana",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1776966089285,
+      "tag": "0011_sleepy_chronomancer",
+      "breakpoints": true
     }
   ]
 }

@@ -1,8 +1,9 @@
 import { z } from 'zod';
 import { publicProcedure, router } from './_core/trpc';
 import { getDb } from './db';
-import { quizResponses } from '../drizzle/schema';
+import { quizResponses, resourceDownloads } from '../drizzle/schema';
 import { sendQuizResultsEmail } from './email-service';
+import { generatePDF, getPDFTemplate } from './pdf-service';
 import { eq } from 'drizzle-orm';
 
 const submitQuizSchema = z.object({
@@ -113,6 +114,61 @@ export const quizRouter = router({
       } catch (error) {
         console.error('Error getting quiz results:', error);
         throw new Error('Error al obtener resultados');
+      }
+    }),
+
+  downloadGuide: publicProcedure
+    .input(z.object({
+      quizId: z.number(),
+      resourceType: z.string()
+    }))
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          throw new Error('Database not available');
+        }
+
+        // Get quiz data
+        const quizResult = await db.select().from(quizResponses).where(eq(quizResponses.id, input.quizId)).limit(1);
+        if (!quizResult || quizResult.length === 0) {
+          throw new Error('Quiz no encontrado');
+        }
+
+        const quizData = quizResult[0];
+        const userName = `${quizData.firstName} ${quizData.lastName}`;
+
+        // Get PDF template
+        const pdfTemplate = getPDFTemplate();
+
+        // Generate personalized PDF
+        const pdfBuffer = await generatePDF(
+          pdfTemplate,
+          `guia-${input.resourceType}`,
+          userName
+        );
+
+        // Track download
+        const userAgent = ctx.req.get('user-agent') || 'unknown';
+        const ipAddress = ctx.req.ip || ctx.req.socket.remoteAddress || 'unknown';
+
+        await db.insert(resourceDownloads).values({
+          quizResponseId: input.quizId,
+          resourceType: input.resourceType,
+          resourceName: `Guía: ${input.resourceType}`,
+          userAgent,
+          ipAddress
+        });
+
+        // Return PDF as base64 for download
+        return {
+          success: true,
+          pdfBase64: pdfBuffer.toString('base64'),
+          fileName: `Metodo-RESET-${input.resourceType}-${new Date().toISOString().split('T')[0]}.pdf`
+        };
+      } catch (error) {
+        console.error('Error downloading guide:', error);
+        throw new Error('Error al descargar la guía');
       }
     })
 });

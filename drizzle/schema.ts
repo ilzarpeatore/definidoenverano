@@ -206,3 +206,19 @@ export const quizResponses = mysqlTable("quizResponses", {
 
 export type QuizResponse = typeof quizResponses.$inferSelect;
 export type InsertQuizResponse = typeof quizResponses.$inferInsert;
+
+/**
+ * Resource Downloads table - Track PDF and resource downloads
+ */
+export const resourceDownloads = mysqlTable("resourceDownloads", {
+  id: int("id").autoincrement().primaryKey(),
+  quizResponseId: int("quizResponseId").notNull().references(() => quizResponses.id, { onDelete: "cascade" }),
+  resourceType: varchar("resourceType", { length: 50 }).notNull(), // 'postura_escritorio', 'pausas_activas', etc.
+  resourceName: varchar("resourceName", { length: 255 }).notNull(),
+  downloadedAt: timestamp("downloadedAt").defaultNow().notNull(),
+  userAgent: text("userAgent"), // Browser info
+  ipAddress: varchar("ipAddress", { length: 45 }), // IPv4 or IPv6
+});
+
+export type ResourceDownload = typeof resourceDownloads.$inferSelect;
+export type InsertResourceDownload = typeof resourceDownloads.$inferInsert;
