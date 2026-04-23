@@ -159,16 +159,16 @@ export const quizRouter = router({
         try {
           switch (input.resourceType) {
             case 'pausas_activas':
-              pdfBuffer = generatePausasActivasPDF(pdfOptions);
+              pdfBuffer = await generatePausasActivasPDF(pdfOptions);
               break;
             case 'tecnicas_respiracion':
-              pdfBuffer = generateTecnicasRespiracionPDF(pdfOptions);
+              pdfBuffer = await generateTecnicasRespiracionPDF(pdfOptions);
               break;
             case 'fortalecimiento':
-              pdfBuffer = generateFortalecimientoPDF(pdfOptions);
+              pdfBuffer = await generateFortalecimientoPDF(pdfOptions);
               break;
             case 'limites_trabajo':
-              pdfBuffer = generateLimitesTrabajoPDF(pdfOptions);
+              pdfBuffer = await generateLimitesTrabajoPDF(pdfOptions);
               break;
             default:
               const resourceNames: Record<string, string> = {
@@ -186,7 +186,7 @@ export const quizRouter = router({
                 'educacion_postura': 'Guía: Educación sobre Postura'
               };
               const title = resourceNames[input.resourceType] || `Guía: ${input.resourceType}`;
-              pdfBuffer = generateGenericFillablePDF(
+              pdfBuffer = await generateGenericFillablePDF(
                 pdfOptions,
                 title,
                 'Esta es tu guía personalizada para tu recuperación. Completa los ejercicios y monitorea tu progreso.'
