@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factores de Riesgo - Método RESET</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #0f172a;
+            --foreground: #ffffff;
+            --card: #1e293b;
+            --accent: #1e40af;
+            --border: #334155;
+            --muted: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        @page {
+            size: A4;
+            margin: 0.75in 1.25in 0.75in 1.25in;
+            @bottom-center {
+                content: "Página " counter(page) " de " counter(pages);
+                font-size: 11px;
+                color: var(--muted);
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .pdf-container {
+            padding: 0 1.5rem;
+            max-width: 100%;
+        }
+
+        .pdf-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .pdf-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-header .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .pdf-header .profile-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .content-card {
+            background-color: var(--card);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .content-card p {
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+        }
+
+        .content-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .risk-box {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .risk-box .title {
+            font-weight: 700;
+            color: var(--danger);
+            margin-bottom: 0.75rem;
+            font-size: 16px;
+        }
+
+        .risk-box ul {
+            margin-left: 1.5rem;
+        }
+
+        .risk-box li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: rgba(30, 64, 175, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .info-box strong {
+            color: var(--accent);
+        }
+
+        .warning-box {
+            background-color: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .warning-box strong {
+            color: var(--warning);
+        }
+
+        .success-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .success-box strong {
+            color: var(--success);
+        }
+
+        .risk-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .risk-table th {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .risk-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .risk-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .risk-table tr:nth-child(even) {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .checklist {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .checklist-item {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checklist-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .checklist-item label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .action-plan {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .action-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .action-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .action-item strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-footer {
+            background-color: var(--card);
+            border-top: 2px solid var(--accent);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .pdf-footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .text-small {
+            font-size: 12px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-bold {
+            font-weight: 600;
+        }
+
+        ul {
+            margin-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        em {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- HEADER -->
+    <div class="pdf-container">
+    <div class="pdf-header">
+        <h1>⚠️ Factores de Riesgo</h1>
+        <p class="subtitle">Identifica y elimina lo que está causando tu dolor</p>
+        <div class="profile-badge">Perfil: Recién Diagnosticado</div>
+    </div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">Introducción</div>
+        <div class="content-card">
+            <p>
+                Tu dolor no apareció de la nada. Hay factores específicos que lo causaron. Algunos son obvios. Otros, no.
+            </p>
+            <p>
+                Esta guía te enseña a identificar los factores de riesgo que están causando tu dolor. Una vez que los 
+                identifiques, puedes eliminarlos. Sin eliminar los factores de riesgo, la recuperación es lenta.
+            </p>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Verdad importante:</strong> No es suficiente hacer ejercicios. Debes eliminar lo que está causando 
+            el problema. Factores de riesgo + Ejercicios = Recuperación rápida.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 1: COMMON RISK FACTORS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">1. Factores de Riesgo Comunes</div>
+        
+        <div class="risk-box">
+            <div class="title">Factor 1: Sedentarismo (Estar sentado todo el día)</div>
+            <ul>
+                <li>Más de 8 horas sentado</li>
+                <li>Postura incorrecta en el escritorio</li>
+                <li>Sin pausas activas</li>
+                <li>Debilidad muscular por falta de movimiento</li>
+            </ul>
+        </div>
+
+        <div class="risk-box">
+            <div class="title">Factor 2: Estrés Crónico</div>
+            <ul>
+                <li>Estrés laboral constante</li>
+                <li>Tensión muscular por estrés</li>
+                <li>Mala calidad de sueño</li>
+                <li>Inflamación aumentada por cortisol elevado</li>
+            </ul>
+        </div>
+
+        <div class="risk-box">
+            <div class="title">Factor 3: Mala Postura</div>
+            <ul>
+                <li>Cabeza adelantada (tech neck)</li>
+                <li>Espalda redondeada</li>
+                <li>Pelvis inclinada</li>
+                <li>Sobrecarga en articulaciones específicas</li>
+            </ul>
+        </div>
+
+        <div class="risk-box">
+            <div class="title">Factor 4: Debilidad Muscular</div>
+            <ul>
+                <li>Músculos débiles no soportan articulaciones</li>
+                <li>Desequilibrio muscular</li>
+                <li>Falta de estabilidad</li>
+                <li>Compensaciones que causan más dolor</li>
+            </ul>
+        </div>
+
+        <div class="risk-box">
+            <div class="title">Factor 5: Mala Nutrición</div>
+            <ul>
+                <li>Deficiencia de proteína (músculos débiles)</li>
+                <li>Falta de vitaminas (recuperación lenta)</li>
+                <li>Inflamación por alimentos ultraprocesados</li>
+                <li>Deshidratación</li>
+            </ul>
+        </div>
+
+        <div class="risk-box">
+            <div class="title">Factor 6: Sueño Insuficiente</div>
+            <ul>
+                <li>Menos de 7 horas de sueño</li>
+                <li>Recuperación muscular lenta</li>
+                <li>Inflamación aumentada</li>
+                <li>Sistema inmunológico débil</li>
+            </ul>
+        </div>
+
+        <div class="risk-box">
+            <div class="title">Factor 7: Sobrepeso</div>
+            <ul>
+                <li>Carga adicional en articulaciones</li>
+                <li>Inflamación sistémica</li>
+                <li>Mala postura por peso extra</li>
+                <li>Movimiento limitado</li>
+            </ul>
+        </div>
+
+        <div class="risk-box">
+            <div class="title">Factor 8: Falta de Movimiento Variado</div>
+            <ul>
+                <li>Mismo movimiento repetido todo el día</li>
+                <li>Falta de variedad de movimiento</li>
+                <li>Músculos acortados y débiles</li>
+                <li>Desequilibrio muscular</li>
+            </ul>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 2: IDENTIFY YOUR RISK FACTORS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">2. Identifica Tus Factores de Riesgo</div>
+        
+        <div class="checklist">
+            <div class="checklist-item">
+                <input type="checkbox" id="risk1">
+                <label for="risk1"><strong>Sedentarismo:</strong> Paso más de 8 horas sentado</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="risk2">
+                <label for="risk2"><strong>Estrés:</strong> Tengo estrés laboral constante</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="risk3">
+                <label for="risk3"><strong>Postura:</strong> Mi postura es mala (cabeza adelantada, espalda redondeada)</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="risk4">
+                <label for="risk4"><strong>Debilidad:</strong> Mis músculos son débiles</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="risk5">
+                <label for="risk5"><strong>Nutrición:</strong> Mi dieta no es óptima</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="risk6">
+                <label for="risk6"><strong>Sueño:</strong> Duermo menos de 7 horas</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="risk7">
+                <label for="risk7"><strong>Peso:</strong> Tengo sobrepeso</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="risk8">
+                <label for="risk8"><strong>Movimiento:</strong> Mi movimiento es limitado y repetitivo</label>
+            </div>
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ Importante:</strong> Cuantos más factores marques, más lenta será tu recuperación. Pero cada factor 
+            que elimines acelerará tu recuperación.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 3: ELIMINATION PLAN -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">3. Plan de Eliminación de Factores de Riesgo</div>
+        
+        <table class="risk-table">
+            <thead>
+                <tr>
+                    <th>Factor de Riesgo</th>
+                    <th>Acción Inmediata</th>
+                    <th>Acción a Largo Plazo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Sedentarismo</strong></td>
+                    <td>Pausas cada 2 horas</td>
+                    <td>Movimiento diario consistente</td>
+                </tr>
+                <tr>
+                    <td><strong>Estrés</strong></td>
+                    <td>Técnicas de respiración</td>
+                    <td>Meditación, yoga, coaching</td>
+                </tr>
+                <tr>
+                    <td><strong>Postura</strong></td>
+                    <td>Ajusta tu escritorio</td>
+                    <td>Ejercicios de postura, movilidad</td>
+                </tr>
+                <tr>
+                    <td><strong>Debilidad</strong></td>
+                    <td>Comienza con movilidad</td>
+                    <td>Programa de fortalecimiento</td>
+                </tr>
+                <tr>
+                    <td><strong>Nutrición</strong></td>
+                    <td>Aumenta proteína y agua</td>
+                    <td>Plan nutricional personalizado</td>
+                </tr>
+                <tr>
+                    <td><strong>Sueño</strong></td>
+                    <td>Duerme 30 min más</td>
+                    <td>Rutina de sueño consistente</td>
+                </tr>
+                <tr>
+                    <td><strong>Peso</strong></td>
+                    <td>Camina 30 min diarios</td>
+                    <td>Programa de pérdida de peso</td>
+                </tr>
+                <tr>
+                    <td><strong>Movimiento</strong></td>
+                    <td>Varía tus movimientos</td>
+                    <td>Rutina de movilidad diversa</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+
+    <!-- SECTION 4: PRIORITY ACTION PLAN -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">4. Plan de Acción Prioritario (Próximas 4 Semanas)</div>
+        
+        <div class="action-plan">
+            <div class="action-item">
+                <strong>Semana 1: Identificación</strong>
+                <p>Identifica tus factores de riesgo principales (máximo 3). Documenta cómo cada uno afecta tu dolor.</p>
+            </div>
+
+            <div class="action-item">
+                <strong>Semana 2: Cambios Inmediatos</strong>
+                <p>Implementa cambios inmediatos para los 3 factores principales. Ejemplo: si es sedentarismo, haz pausas 
+                cada 2 horas.</p>
+            </div>
+
+            <div class="action-item">
+                <strong>Semana 3: Monitoreo</strong>
+                <p>Monitorea cómo se siente tu dolor. ¿Mejoró? ¿Empeoró? Documenta los cambios.</p>
+            </div>
+
+            <div class="action-item">
+                <strong>Semana 4: Consolidación</strong>
+                <p>Consolida los cambios. Convierte los cambios en hábitos. Prepárate para atacar el siguiente factor de 
+                riesgo.</p>
+            </div>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Objetivo:</strong> Eliminar al menos 1-2 factores de riesgo en las primeras 4 semanas. Esto 
+            acelerará tu recuperación significativamente.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 5: QUICK WINS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">5. Cambios Rápidos (Puedes Hacer Hoy)</div>
+        
+        <div class="success-box">
+            <strong>✓ Cambio 1:</strong> Ajusta tu escritorio. Monitor a la altura de los ojos. Teclado a la altura de los 
+            codos. Pies apoyados.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Cambio 2:</strong> Establece alarmas para pausas cada 2 horas. Levántate y muévete 5 minutos.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Cambio 3:</strong> Bebe más agua. Objetivo: 2-3 litros diarios.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Cambio 4:</strong> Acuéstate 30 minutos más temprano. Objetivo: 7-8 horas de sueño.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Cambio 5:</strong> Añade proteína a cada comida. Objetivo: 1.6-2g por kg de peso corporal.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 6: TRACKING PROGRESS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">6. Monitorea tu Progreso</div>
+        
+        <div class="checklist">
+            <div class="checklist-item">
+                <input type="checkbox" id="track1">
+                <label for="track1">Identifiqué mis 3 factores de riesgo principales</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="track2">
+                <label for="track2">Implementé cambios inmediatos para los 3 factores</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="track3">
+                <label for="track3">Monitoreo cómo afectan los cambios a mi dolor</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="track4">
+                <label for="track4">Eliminé al menos 1 factor de riesgo completamente</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="track5">
+                <label for="track5">Los cambios se han convertido en hábitos</label>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 7: FINAL TIPS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">7. Consejos Finales</div>
+        
+        <div class="success-box">
+            <strong>✓ Consejo 1:</strong> No intentes eliminar todos los factores a la vez. Elige los 3 principales y 
+            trabaja en ellos.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 2:</strong> Los cambios pequeños consistentes son mejor que cambios grandes inconsistentes.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 3:</strong> Documenta tu progreso. Escribe cómo te sientes cada semana. Te motivará ver el 
+            cambio.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 4:</strong> Una vez que elimines un factor, mantén el cambio. No vuelvas a los viejos 
+            hábitos.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 5:</strong> Si después de 4 semanas no ves mejora, consulta a un profesional. Puede haber 
+            algo que necesita atención.
+        </div>
+    </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="pdf-container">
+    <div class="pdf-footer">
+        <p><strong>Método RESET - Factores de Riesgo</strong></p>
+        <p>Tu dolor tiene causa. Identifica los factores de riesgo. Elimínalos. La recuperación seguirá. No es suficiente 
+        hacer ejercicios. Debes eliminar lo que está causando el problema.</p>
+        <p class="text-small">© 2026 Método RESET. Todos los derechos reservados.</p>
+    </div>
+    </div>
+
+    <!-- BOTTOM SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- COPYRIGHT & DISTRIBUTION NOTICE -->
+    <div class="pdf-container">
+    <div style="background-color: rgba(30, 64, 175, 0.08); border: 1px solid var(--border); padding: 1.25rem; border-radius: 4px; margin-top: 2rem; font-size: 12px; color: var(--muted); line-height: 1.6;">
+        <p style="margin-bottom: 0.75rem;"><strong style="color: var(--foreground);">© 2026 Método RESET. Todos los derechos reservados.</strong></p>
+        <p style="margin-bottom: 0.75rem;">Este documento es confidencial y está destinado únicamente al usuario que lo recibió. Contiene información propietaria y estratégica de Método RESET.</p>
+        <p style="margin-bottom: 0.75rem;"><strong style="color: #ef4444;">⚠️ PROHIBIDA LA DISTRIBUCIÓN:</strong> No está permitida la reproducción, distribución, transmisión o divulgación de este documento, en su totalidad o en parte, sin autorización expresa por escrito de los documentos del Método RESET.</p>
+        <p style="margin-bottom: 0;">El incumplimiento de estas restricciones puede resultar en acciones legales. Para consultas sobre permisos, contacta con nosotros en contacto@bestronger.es</p>
+    </div>
+    </div>
+
+    <!-- FINAL SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+</body>
+</html>

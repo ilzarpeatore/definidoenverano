@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movilidad Básica - Método RESET</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #0f172a;
+            --foreground: #ffffff;
+            --card: #1e293b;
+            --accent: #1e40af;
+            --border: #334155;
+            --muted: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        @page {
+            size: A4;
+            margin: 0.75in 1.25in 0.75in 1.25in;
+            @bottom-center {
+                content: "Página " counter(page) " de " counter(pages);
+                font-size: 11px;
+                color: var(--muted);
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .pdf-container {
+            padding: 0 1.5rem;
+            max-width: 100%;
+        }
+
+        .pdf-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .pdf-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-header .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .pdf-header .profile-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .content-card {
+            background-color: var(--card);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .content-card p {
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+        }
+
+        .content-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .exercise-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .exercise-box .title {
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 0.75rem;
+            font-size: 16px;
+        }
+
+        .exercise-box .duration {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .exercise-box ol {
+            margin-left: 1.5rem;
+            margin-bottom: 0;
+        }
+
+        .exercise-box li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: rgba(30, 64, 175, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .info-box strong {
+            color: var(--accent);
+        }
+
+        .warning-box {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .warning-box strong {
+            color: var(--danger);
+        }
+
+        .success-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .success-box strong {
+            color: var(--success);
+        }
+
+        .routine-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .routine-table th {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .routine-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .routine-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .routine-table tr:nth-child(even) {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .daily-routine {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .routine-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .routine-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .routine-item strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .checklist {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .checklist-item {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checklist-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .checklist-item label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .pdf-footer {
+            background-color: var(--card);
+            border-top: 2px solid var(--accent);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .pdf-footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .text-small {
+            font-size: 12px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-bold {
+            font-weight: 600;
+        }
+
+        ul {
+            margin-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        em {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- HEADER -->
+    <div class="pdf-container">
+    <div class="pdf-header">
+        <h1>🌱 Movilidad Básica</h1>
+        <p class="subtitle">Primeros pasos para recuperar el movimiento sin dolor</p>
+        <div class="profile-badge">Perfil: Recién Diagnosticado</div>
+    </div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">Introducción</div>
+        <div class="content-card">
+            <p>
+                Has sido diagnosticado recientemente. Ahora es el momento perfecto para actuar. La movilidad básica es tu 
+                primer paso hacia la recuperación. No es sobre ser fuerte. Es sobre mover sin dolor.
+            </p>
+            <p>
+                Este programa de 4 semanas te enseña ejercicios de movilidad suave que puedes hacer en casa. Sin equipo. 
+                Sin complicaciones. Solo movimiento controlado y progresivo.
+            </p>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Verdad importante:</strong> La movilidad es la base de todo. Si puedes moverte sin dolor, puedes 
+            recuperarte. Comienza aquí.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 1: WHAT IS MOBILITY -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">1. ¿Qué es la Movilidad?</div>
+        
+        <div class="content-card">
+            <p><strong>Movilidad = Capacidad de mover una articulación a través de su rango de movimiento completo, sin dolor.</strong></p>
+            <p>
+                No es flexibilidad (que es pasiva). Es movimiento activo y controlado. Es la base para todo lo demás: 
+                fortalecimiento, deporte, vida diaria.
+            </p>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Por qué es importante:</strong> Movilidad completa = menos dolor, mejor función, recuperación más 
+            rápida, prevención de lesiones futuras.
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Consejo:</strong> La movilidad es el primer paso. No intentes fortalecer antes de tener movilidad 
+            completa. El orden importa.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 2: PRINCIPLES -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">2. Principios de Movilidad Básica</div>
+        
+        <div class="exercise-box">
+            <div class="title">Principio 1: Sin Dolor</div>
+            <ol>
+                <li>Muévete solo dentro de tu rango sin dolor</li>
+                <li>Si hay dolor, reduce el rango</li>
+                <li>El dolor es una señal de alerta, no ignores</li>
+                <li>Objetivo: 0 dolor durante y después del ejercicio</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Principio 2: Movimiento Controlado</div>
+            <ol>
+                <li>Muévete lentamente (3-5 segundos por movimiento)</li>
+                <li>Controla cada parte del movimiento</li>
+                <li>No hagas movimientos rápidos o bruscos</li>
+                <li>Respira continuamente, nunca aguantes la respiración</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Principio 3: Progresión Gradual</div>
+            <ol>
+                <li>Semana 1: Rango pequeño, movimientos suaves</li>
+                <li>Semana 2: Rango medio, movimientos controlados</li>
+                <li>Semana 3: Rango más grande, movimientos fluidos</li>
+                <li>Semana 4: Rango completo, movimientos naturales</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Principio 4: Consistencia</div>
+            <ol>
+                <li>Haz los ejercicios TODOS LOS DÍAS</li>
+                <li>Mejor 10 minutos diarios que 1 hora una vez a la semana</li>
+                <li>La consistencia es más importante que la intensidad</li>
+                <li>Objetivo: Convertir esto en hábito</li>
+            </ol>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 3: BASIC EXERCISES -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">3. 5 Ejercicios Básicos de Movilidad</div>
+        
+        <div class="exercise-box">
+            <div class="title">Ejercicio 1: Rotación Suave de Cuello</div>
+            <div class="duration">Diariamente, 2 series de 10 repeticiones</div>
+            <ol>
+                <li>Siéntate erguido, hombros relajados</li>
+                <li>Gira la cabeza lentamente hacia la derecha (3 seg)</li>
+                <li>Vuelve al centro (3 seg)</li>
+                <li>Gira hacia la izquierda (3 seg)</li>
+                <li>Repite 10 veces cada lado</li>
+                <li>Sin dolor: si duele, reduce el rango</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Ejercicio 2: Flexión de Hombros</div>
+            <div class="duration">Diariamente, 2 series de 10 repeticiones</div>
+            <ol>
+                <li>Siéntate o de pie, brazos a los lados</li>
+                <li>Levanta los brazos lentamente hacia adelante (3 seg)</li>
+                <li>Sube hasta donde puedas sin dolor</li>
+                <li>Baja lentamente (3 seg)</li>
+                <li>Repite 10 veces</li>
+                <li>Objetivo: Levantar más alto cada semana</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Ejercicio 3: Rotación de Tronco</div>
+            <div class="duration">Diariamente, 2 series de 10 repeticiones</div>
+            <ol>
+                <li>Siéntate erguido, brazos cruzados sobre el pecho</li>
+                <li>Gira el tronco lentamente hacia la derecha (3 seg)</li>
+                <li>Vuelve al centro (3 seg)</li>
+                <li>Gira hacia la izquierda (3 seg)</li>
+                <li>Repite 10 veces cada lado</li>
+                <li>Movimiento suave, sin forzar</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Ejercicio 4: Flexión de Cadera</div>
+            <div class="duration">Diariamente, 2 series de 10 repeticiones</div>
+            <ol>
+                <li>Acuéstate boca arriba, rodillas flexionadas</li>
+                <li>Levanta una rodilla lentamente hacia el pecho (3 seg)</li>
+                <li>Baja lentamente (3 seg)</li>
+                <li>Repite 10 veces con cada pierna</li>
+                <li>Mantén la otra pierna apoyada</li>
+                <li>Sin dolor: si duele, reduce el movimiento</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Ejercicio 5: Estiramiento de Espalda</div>
+            <div class="duration">Diariamente, 2 series de 30 segundos</div>
+            <ol>
+                <li>Acuéstate boca arriba, rodillas flexionadas</li>
+                <li>Abraza las rodillas hacia el pecho</li>
+                <li>Mantén la posición 30 segundos</li>
+                <li>Respira profundamente</li>
+                <li>Relaja y repite 2 veces</li>
+                <li>Estiramiento suave, sin forzar</li>
+            </ol>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 4: WEEKLY PROGRESSION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">4. Progresión de 4 Semanas</div>
+        
+        <table class="routine-table">
+            <thead>
+                <tr>
+                    <th>Semana</th>
+                    <th>Rango de Movimiento</th>
+                    <th>Velocidad</th>
+                    <th>Frecuencia</th>
+                    <th>Objetivo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1</strong></td>
+                    <td>50% del rango completo</td>
+                    <td>Muy lento (5 seg/movimiento)</td>
+                    <td>Diariamente, 10 min</td>
+                    <td>Movimiento sin dolor</td>
+                </tr>
+                <tr>
+                    <td><strong>2</strong></td>
+                    <td>70% del rango completo</td>
+                    <td>Lento (4 seg/movimiento)</td>
+                    <td>Diariamente, 12 min</td>
+                    <td>Rango aumentado</td>
+                </tr>
+                <tr>
+                    <td><strong>3</strong></td>
+                    <td>85% del rango completo</td>
+                    <td>Moderado (3 seg/movimiento)</td>
+                    <td>Diariamente, 15 min</td>
+                    <td>Movimiento más fluido</td>
+                </tr>
+                <tr>
+                    <td><strong>4</strong></td>
+                    <td>100% del rango completo</td>
+                    <td>Normal (2 seg/movimiento)</td>
+                    <td>Diariamente, 15 min</td>
+                    <td>Rango completo sin dolor</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="success-box">
+            <strong>✓ Objetivo al final de 4 semanas:</strong> Rango de movimiento completo sin dolor. Listo para pasar a 
+            fortalecimiento.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 5: DAILY ROUTINE -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">5. Rutina Diaria Recomendada</div>
+        
+        <div class="daily-routine">
+            <div class="routine-item">
+                <strong>Calentamiento (2 minutos)</strong>
+                <p>Rotación suave de cuello: 10 repeticiones cada lado</p>
+            </div>
+
+            <div class="routine-item">
+                <strong>Ejercicios Principales (10-15 minutos)</strong>
+                <p>
+                    • Flexión de hombros: 2 series de 10 reps<br/>
+                    • Rotación de tronco: 2 series de 10 reps<br/>
+                    • Flexión de cadera: 2 series de 10 reps<br/>
+                    • Estiramiento de espalda: 2 series de 30 seg
+                </p>
+            </div>
+
+            <div class="routine-item">
+                <strong>Enfriamiento (3 minutos)</strong>
+                <p>Estiramiento general: 3 minutos de estiramientos suaves</p>
+            </div>
+
+            <div class="routine-item">
+                <strong>Total: 15-20 minutos diarios</strong>
+                <p>Mejor en la mañana o después de una ducha caliente</p>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Consejo:</strong> Haz esto a la misma hora cada día. Crea un hábito. La consistencia es clave.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 6: RED FLAGS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">6. Señales de Alerta</div>
+        
+        <div class="warning-box">
+            <strong>⚠️ Detente si experimentas:</strong>
+            <ul>
+                <li>Dolor agudo (3+/10) durante el ejercicio</li>
+                <li>Dolor que persiste después de 2 horas</li>
+                <li>Hinchazón o inflamación aumentada</li>
+                <li>Sensación de inestabilidad o "ceder"</li>
+                <li>Dolor que empeora día a día</li>
+            </ul>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Señales de Progreso:</strong> Menos dolor, rango de movimiento aumentado, movimientos más fluidos, 
+            confianza aumentada.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 7: TRACKING PROGRESS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">7. Monitorea tu Progreso</div>
+        
+        <div class="checklist">
+            <div class="checklist-item">
+                <input type="checkbox" id="check1">
+                <label for="check1">Semana 1: Completé todos los ejercicios sin dolor</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check2">
+                <label for="check2">Semana 2: Rango de movimiento aumentó, menos dolor</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check3">
+                <label for="check3">Semana 3: Movimientos más fluidos, rango mayor</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check4">
+                <label for="check4">Semana 4: Rango completo sin dolor, listo para fortalecer</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check5">
+                <label for="check5">Continuaré con movilidad 2-3 veces por semana como mantenimiento</label>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 8: FINAL TIPS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">8. Consejos Finales</div>
+        
+        <div class="success-box">
+            <strong>✓ Consejo 1:</strong> La movilidad es el primer paso. No intentes fortalecer antes de tener movilidad 
+            completa.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 2:</strong> Sé paciente. 4 semanas es el mínimo. Si necesitas más tiempo, está bien.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 3:</strong> Documenta tu progreso. Toma notas de cómo te sientes cada día. Te motivará ver 
+            el progreso.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 4:</strong> Una vez que tengas movilidad completa, continúa con estos ejercicios 2-3 veces 
+            por semana como mantenimiento.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 5:</strong> Si el dolor no mejora después de 4 semanas, consulta a un profesional. Puede 
+            haber algo que necesita atención.
+        </div>
+    </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="pdf-container">
+    <div class="pdf-footer">
+        <p><strong>Método RESET - Movilidad Básica</strong></p>
+        <p>La movilidad es la base de la recuperación. Sin movimiento, no hay recuperación. Comienza aquí, con paciencia y 
+        consistencia. En 4 semanas, tendrás rango de movimiento completo.</p>
+        <p class="text-small">© 2026 Método RESET. Todos los derechos reservados.</p>
+    </div>
+    </div>
+
+    <!-- BOTTOM SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- COPYRIGHT & DISTRIBUTION NOTICE -->
+    <div class="pdf-container">
+    <div style="background-color: rgba(30, 64, 175, 0.08); border: 1px solid var(--border); padding: 1.25rem; border-radius: 4px; margin-top: 2rem; font-size: 12px; color: var(--muted); line-height: 1.6;">
+        <p style="margin-bottom: 0.75rem;"><strong style="color: var(--foreground);">© 2026 Método RESET. Todos los derechos reservados.</strong></p>
+        <p style="margin-bottom: 0.75rem;">Este documento es confidencial y está destinado únicamente al usuario que lo recibió. Contiene información propietaria y estratégica de Método RESET.</p>
+        <p style="margin-bottom: 0.75rem;"><strong style="color: #ef4444;">⚠️ PROHIBIDA LA DISTRIBUCIÓN:</strong> No está permitida la reproducción, distribución, transmisión o divulgación de este documento, en su totalidad o en parte, sin autorización expresa por escrito de los documentos del Método RESET.</p>
+        <p style="margin-bottom: 0;">El incumplimiento de estas restricciones puede resultar en acciones legales. Para consultas sobre permisos, contacta con nosotros en contacto@bestronger.es</p>
+    </div>
+    </div>
+
+    <!-- FINAL SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+</body>
+</html>

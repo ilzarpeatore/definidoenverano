@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educación sobre Postura y Movimiento - Método RESET</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #0f172a;
+            --foreground: #ffffff;
+            --card: #1e293b;
+            --accent: #1e40af;
+            --border: #334155;
+            --muted: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        @page {
+            size: A4;
+            margin: 0.75in 1.25in 0.75in 1.25in;
+            @bottom-center {
+                content: "Página " counter(page) " de " counter(pages);
+                font-size: 11px;
+                color: var(--muted);
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .pdf-container {
+            padding: 0 1.5rem;
+            max-width: 100%;
+        }
+
+        .pdf-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .pdf-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-header .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .pdf-header .profile-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .content-card {
+            background-color: var(--card);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .content-card p {
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+        }
+
+        .content-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .posture-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .posture-box .title {
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 0.75rem;
+            font-size: 16px;
+        }
+
+        .posture-box ul {
+            margin-left: 1.5rem;
+        }
+
+        .posture-box li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .comparison-box {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .comparison-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .comparison-item .bad {
+            color: var(--danger);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .comparison-item .good {
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .info-box {
+            background-color: rgba(30, 64, 175, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .info-box strong {
+            color: var(--accent);
+        }
+
+        .warning-box {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .warning-box strong {
+            color: var(--danger);
+        }
+
+        .success-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .success-box strong {
+            color: var(--success);
+        }
+
+        .checklist {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .checklist-item {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checklist-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .checklist-item label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .pdf-footer {
+            background-color: var(--card);
+            border-top: 2px solid var(--accent);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .pdf-footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .text-small {
+            font-size: 12px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-bold {
+            font-weight: 600;
+        }
+
+        ul {
+            margin-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        em {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- HEADER -->
+    <div class="pdf-container">
+    <div class="pdf-header">
+        <h1>📚 Educación sobre Postura y Movimiento</h1>
+        <p class="subtitle">Entiende cómo tu cuerpo funciona. Aprende a cuidarlo.</p>
+        <div class="profile-badge">Perfil: Recién Diagnosticado</div>
+    </div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">Introducción</div>
+        <div class="content-card">
+            <p>
+                La mayoría de las personas no entienden cómo funciona su cuerpo. No saben por qué duele. No saben qué 
+                hacer. Eso cambia hoy.
+            </p>
+            <p>
+                Esta guía te enseña los fundamentos. Cómo funciona tu cuerpo. Por qué la postura importa. Cómo el 
+                movimiento te cura. Cuando entiendas esto, recuperarte será fácil.
+            </p>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Verdad importante:</strong> La educación es poder. Cuando entiendas cómo funciona tu cuerpo, 
+            sabrás exactamente qué hacer para recuperarte.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 1: HOW YOUR BODY WORKS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">1. Cómo Funciona Tu Cuerpo</div>
+        
+        <div class="content-card">
+            <p><strong>Tu cuerpo es un sistema integrado:</strong></p>
+            <ul>
+                <li><strong>Huesos:</strong> Estructura. Soportan tu peso.</li>
+                <li><strong>Músculos:</strong> Movimiento. Protegen articulaciones.</li>
+                <li><strong>Articulaciones:</strong> Conexiones. Permiten movimiento.</li>
+                <li><strong>Nervios:</strong> Comunicación. Envían señales de dolor.</li>
+                <li><strong>Sangre:</strong> Nutrición. Trae oxígeno y nutrientes.</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Concepto clave:</strong> Cuando una parte falla, todo el sistema sufre. Tu dolor no es solo en un 
+            lugar. Es un problema del sistema completo.
+        </div>
+
+        <div class="posture-box">
+            <div class="title">Las 3 Causas Principales de Dolor</div>
+            <ul>
+                <li><strong>Mala Postura:</strong> Sobrecarga en articulaciones y músculos</li>
+                <li><strong>Debilidad Muscular:</strong> Falta de soporte para articulaciones</li>
+                <li><strong>Falta de Movimiento:</strong> Rigidez y atrofia muscular</li>
+            </ul>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 2: POSTURE BASICS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">2. Fundamentos de la Postura</div>
+        
+        <div class="content-card">
+            <p><strong>¿Por qué la postura importa?</strong></p>
+            <p>
+                La postura correcta distribuye tu peso uniformemente. La postura incorrecta sobrecarga ciertas áreas. 
+                Después de meses, esa sobrecarga causa dolor.
+            </p>
+        </div>
+
+        <div class="comparison-box">
+            <div class="comparison-item">
+                <div class="bad">❌ Postura Incorrecta (Tech Neck)</div>
+                <p>• Cabeza adelantada 5-10 cm</p>
+                <p>• Sobrecarga en cuello: 20-30 kg extra</p>
+                <p>• Espalda redondeada</p>
+                <p>• Resultado: Dolor en cuello y espalda</p>
+            </div>
+
+            <div class="comparison-item">
+                <div class="good">✓ Postura Correcta</div>
+                <p>• Cabeza alineada con columna</p>
+                <p>• Peso distribuido uniformemente</p>
+                <p>• Espalda recta, hombros relajados</p>
+                <p>• Resultado: Sin dolor, movimiento eficiente</p>
+            </div>
+        </div>
+
+        <div class="posture-box">
+            <div class="title">Postura Correcta: Checklist</div>
+            <ul>
+                <li>Cabeza: Orejas alineadas con hombros</li>
+                <li>Hombros: Relajados, no tensionados</li>
+                <li>Espalda: Recta, no redondeada</li>
+                <li>Pelvis: Neutral, no inclinada</li>
+                <li>Rodillas: Ligeramente flexionadas</li>
+                <li>Pies: Separados al ancho de hombros</li>
+            </ul>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 3: MOVEMENT PRINCIPLES -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">3. Principios del Movimiento</div>
+        
+        <div class="posture-box">
+            <div class="title">Principio 1: Movimiento es Medicina</div>
+            <ul>
+                <li>El movimiento trae sangre a la zona afectada</li>
+                <li>La sangre trae oxígeno y nutrientes</li>
+                <li>Eso acelera la recuperación</li>
+                <li>Sin movimiento, la recuperación es lenta</li>
+            </ul>
+        </div>
+
+        <div class="posture-box">
+            <div class="title">Principio 2: Progresión es Crítica</div>
+            <ul>
+                <li>No comiences con movimiento intenso</li>
+                <li>Comienza suave, aumenta gradualmente</li>
+                <li>Tu cuerpo necesita tiempo para adaptarse</li>
+                <li>Prisa = Recaída</li>
+            </ul>
+        </div>
+
+        <div class="posture-box">
+            <div class="title">Principio 3: Consistencia Vence Intensidad</div>
+            <ul>
+                <li>15 minutos diarios es mejor que 2 horas una vez a la semana</li>
+                <li>Tu cuerpo se adapta a la consistencia</li>
+                <li>Hábitos pequeños crean cambios grandes</li>
+                <li>Objetivo: Convertir en rutina automática</li>
+            </ul>
+        </div>
+
+        <div class="posture-box">
+            <div class="title">Principio 4: Escucha Tu Cuerpo</div>
+            <ul>
+                <li>Dolor es una señal, no algo a ignorar</li>
+                <li>Incomodidad es normal, dolor no</li>
+                <li>Si duele, reduce el rango o intensidad</li>
+                <li>Tu cuerpo te dirá qué necesita</li>
+            </ul>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 4: COMMON MISTAKES -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">4. Errores Comunes (Evítalos)</div>
+        
+        <div class="warning-box">
+            <strong>❌ Error 1: Ignorar el Dolor</strong>
+            <p>Muchas personas ignoran el dolor y continúan. Eso empeora las cosas. El dolor es una señal. Escúchalo.</p>
+        </div>
+
+        <div class="warning-box">
+            <strong>❌ Error 2: Intensidad Demasiado Rápido</strong>
+            <p>Comienzan con ejercicios intensos. Su cuerpo no está listo. Resultado: Recaída. Comienza suave.</p>
+        </div>
+
+        <div class="warning-box">
+            <strong>❌ Error 3: Inconsistencia</strong>
+            <p>Hacen ejercicios algunos días, otros no. El cuerpo necesita consistencia. Compromiso diario es crítico.</p>
+        </div>
+
+        <div class="warning-box">
+            <strong>❌ Error 4: Solo Ejercicios</strong>
+            <p>Hacen ejercicios pero no cambian su estilo de vida. Postura mala, sueño insuficiente, estrés alto. 
+            Resultado: Progreso lento.</p>
+        </div>
+
+        <div class="warning-box">
+            <strong>❌ Error 5: Compararse con Otros</strong>
+            <p>Se comparan con otros que recuperaron más rápido. Cada cuerpo es diferente. Tu progreso es lo que 
+            importa.</p>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 5: ERGONOMICS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">5. Ergonomía: Configuración Correcta</div>
+        
+        <div class="posture-box">
+            <div class="title">Escritorio Correcto</div>
+            <ul>
+                <li><strong>Monitor:</strong> A la altura de los ojos, 50-70 cm de distancia</li>
+                <li><strong>Teclado:</strong> A la altura de los codos, brazos en 90 grados</li>
+                <li><strong>Ratón:</strong> Al lado del teclado, mismo nivel</li>
+                <li><strong>Silla:</strong> Altura de rodillas en 90 grados, pies apoyados</li>
+                <li><strong>Pies:</strong> Completamente apoyados en el suelo o reposapiés</li>
+            </ul>
+        </div>
+
+        <div class="posture-box">
+            <div class="title">Posición de Sentado Correcto</div>
+            <ul>
+                <li>Espalda recta, apoyada en la silla</li>
+                <li>Hombros relajados, no tensionados</li>
+                <li>Codos en 90 grados</li>
+                <li>Muñecas neutras, no dobladas</li>
+                <li>Caderas en 90 grados o ligeramente más</li>
+                <li>Rodillas en 90 grados</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Consejo:</strong> Ajusta tu escritorio HOY. Esto solo te toma 15 minutos y puede reducir tu dolor 
+            significativamente.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 6: DAILY HABITS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">6. Hábitos Diarios para Postura Correcta</div>
+        
+        <div class="checklist">
+            <div class="checklist-item">
+                <input type="checkbox" id="habit1">
+                <label for="habit1">Cada hora: Verifica tu postura. ¿Cabeza adelantada? Corrige.</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="habit2">
+                <label for="habit2">Cada 2 horas: Levántate y muévete 5 minutos</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="habit3">
+                <label for="habit3">Mañana: Estiramientos suave al despertar</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="habit4">
+                <label for="habit4">Noche: Estiramientos antes de dormir</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="habit5">
+                <label for="habit5">Siempre: Respira profundamente. Oxígeno es medicina.</label>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 7: UNDERSTANDING PAIN -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">7. Entendiendo el Dolor</div>
+        
+        <div class="content-card">
+            <p><strong>¿Qué es el dolor?</strong></p>
+            <p>
+                El dolor es una señal. Tu cuerpo te dice que algo está mal. No es enemigo. Es información. Aprende a 
+                escucharlo.
+            </p>
+        </div>
+
+        <div class="posture-box">
+            <div class="title">Tipos de Dolor</div>
+            <ul>
+                <li><strong>Dolor Agudo:</strong> Nuevo, intenso. Señal de lesión. Descansa.</li>
+                <li><strong>Dolor Crónico:</strong> Persistente, bajo. Señal de debilidad. Fortalece.</li>
+                <li><strong>Incomodidad:</strong> Sensación de trabajo. Normal durante ejercicio. Continúa.</li>
+                <li><strong>Dolor Referido:</strong> Sientes en un lugar, problema en otro. Consulta profesional.</li>
+            </ul>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Regla de Oro:</strong> Si el dolor aumenta después del ejercicio y persiste más de 2 horas, 
+            redujiste demasiado. Reduce intensidad la próxima vez.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 8: FINAL TIPS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">8. Consejos Finales</div>
+        
+        <div class="success-box">
+            <strong>✓ Consejo 1:</strong> Educación es poder. Entiende tu cuerpo. Eso acelera tu recuperación.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 2:</strong> Postura correcta es el 50% de la recuperación. Invierte en una silla buena y 
+            un escritorio ergonómico.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 3:</strong> Movimiento es medicina. Sin movimiento, no hay recuperación. Muévete todos los 
+            días.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 4:</strong> Escucha tu cuerpo. No ignores el dolor. Ajusta tu rutina según lo que sientas.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 5:</strong> Paciencia. La recuperación toma tiempo. Pero con educación y consistencia, 
+            llegarás.
+        </div>
+    </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="pdf-container">
+    <div class="pdf-footer">
+        <p><strong>Método RESET - Educación sobre Postura y Movimiento</strong></p>
+        <p>Entiende cómo funciona tu cuerpo. Aprende a cuidarlo. La educación es el primer paso hacia la recuperación. 
+        Cuando entiendas, sabrás exactamente qué hacer.</p>
+        <p class="text-small">© 2026 Método RESET. Todos los derechos reservados.</p>
+    </div>
+    </div>
+
+    <!-- BOTTOM SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- COPYRIGHT & DISTRIBUTION NOTICE -->
+    <div class="pdf-container">
+    <div style="background-color: rgba(30, 64, 175, 0.08); border: 1px solid var(--border); padding: 1.25rem; border-radius: 4px; margin-top: 2rem; font-size: 12px; color: var(--muted); line-height: 1.6;">
+        <p style="margin-bottom: 0.75rem;"><strong style="color: var(--foreground);">© 2026 Método RESET. Todos los derechos reservados.</strong></p>
+        <p style="margin-bottom: 0.75rem;">Este documento es confidencial y está destinado únicamente al usuario que lo recibió. Contiene información propietaria y estratégica de Método RESET.</p>
+        <p style="margin-bottom: 0.75rem;"><strong style="color: #ef4444;">⚠️ PROHIBIDA LA DISTRIBUCIÓN:</strong> No está permitida la reproducción, distribución, transmisión o divulgación de este documento, en su totalidad o en parte, sin autorización expresa por escrito de los documentos del Método RESET.</p>
+        <p style="margin-bottom: 0;">El incumplimiento de estas restricciones puede resultar en acciones legales. Para consultas sobre permisos, contacta con nosotros en contacto@bestronger.es</p>
+    </div>
+    </div>
+
+    <!-- FINAL SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+</body>
+</html>

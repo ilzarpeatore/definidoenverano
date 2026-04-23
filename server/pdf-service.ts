@@ -96,11 +96,11 @@ export function getPDFTemplate(resourceType?: string): string {
     'fortalecimiento_especifico': 'fortalecimiento-especifico-template.html',
     'vuelta_actividad': 'vuelta-deporte-template.html',
     'seguimiento_progreso': 'seguimiento-autoevaluacion-template.html',
-    // Recién Diagnosticado (placeholders)
-    'movilidad_basica': 'pdf-template.html',
-    'factores_riesgo': 'pdf-template.html',
-    'rutina_prevencion': 'pdf-template.html',
-    'educacion_postura': 'pdf-template.html',
+    // Recién Diagnosticado
+    'movilidad_basica': 'movilidad-basica-template.html',
+    'factores_riesgo': 'factores-riesgo-template.html',
+    'rutina_prevencion': 'rutina-prevencion-template.html',
+    'educacion_postura': 'educacion-postura-template.html',
   };
   
   if (resourceType && resourceMap[resourceType]) {
