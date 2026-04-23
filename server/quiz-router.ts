@@ -3,13 +3,7 @@ import { publicProcedure, router } from './_core/trpc';
 import { getDb } from './db';
 import { quizResponses, resourceDownloads } from '../drizzle/schema';
 import { sendQuizResultsEmail } from './email-service';
-import {
-  generatePausasActivasPDF,
-  generateTecnicasRespiracionPDF,
-  generateFortalecimientoPDF,
-  generateLimitesTrabajoPDF,
-  generateGenericFillablePDF
-} from './fillable-pdf-service';
+import { generatePDFFromTemplate } from './html-to-pdf-service';
 import { eq } from 'drizzle-orm';
 
 const submitQuizSchema = z.object({
@@ -157,41 +151,8 @@ export const quizRouter = router({
         };
 
         try {
-          switch (input.resourceType) {
-            case 'pausas_activas':
-              pdfBuffer = await generatePausasActivasPDF(pdfOptions);
-              break;
-            case 'tecnicas_respiracion':
-              pdfBuffer = await generateTecnicasRespiracionPDF(pdfOptions);
-              break;
-            case 'fortalecimiento':
-              pdfBuffer = await generateFortalecimientoPDF(pdfOptions);
-              break;
-            case 'limites_trabajo':
-              pdfBuffer = await generateLimitesTrabajoPDF(pdfOptions);
-              break;
-            default:
-              const resourceNames: Record<string, string> = {
-                'postura_escritorio': 'Guía: Mejora tu Postura en el Escritorio',
-                'recuperacion_intensiva': 'Guía: Programa de Recuperación Intensiva',
-                'consulta_especialista': 'Guía: Consulta con Especialista',
-                'movimiento_diario': 'Guía: Movimiento Diario',
-                'rehabilitacion_progresiva': 'Guía: Rehabilitación Progresiva',
-                'fortalecimiento_especifico': 'Guía: Fortalecimiento Específico',
-                'vuelta_actividad': 'Guía: Vuelta a la Actividad',
-                'seguimiento_progreso': 'Guía: Seguimiento del Progreso',
-                'movilidad_basica': 'Guía: Movilidad Básica',
-                'factores_riesgo': 'Guía: Factores de Riesgo',
-                'rutina_prevencion': 'Guía: Rutina de Prevención',
-                'educacion_postura': 'Guía: Educación sobre Postura'
-              };
-              const title = resourceNames[input.resourceType] || `Guía: ${input.resourceType}`;
-              pdfBuffer = await generateGenericFillablePDF(
-                pdfOptions,
-                title,
-                'Esta es tu guía personalizada para tu recuperación. Completa los ejercicios y monitorea tu progreso.'
-              );
-          }
+          // Generate PDF from HTML template
+          pdfBuffer = await generatePDFFromTemplate(pdfOptions);
         } catch (pdfError) {
           console.error('Error generating PDF:', pdfError);
           throw new Error(`Error al generar PDF para ${input.resourceType}`);
