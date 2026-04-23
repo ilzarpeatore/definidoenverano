@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Postura en el Escritorio - Método RESET</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Color Scheme from Landing */
+        :root {
+            --background: #0f172a;
+            --foreground: #ffffff;
+            --card: #1e293b;
+            --accent: #1e40af;
+            --accent-light: #3b82f6;
+            --border: #334155;
+            --muted: #64748b;
+            --success: #10b981;
+        }
+
+        /* PDF Optimization */
+        @page {
+            size: A4;
+            margin: 0.75in 1.25in 0.75in 1.25in; /* Visible but reduced side margins */
+            @bottom-center {
+                content: "Página " counter(page) " de " counter(pages);
+                font-size: 11px;
+                color: var(--muted);
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* Header Section */
+        .pdf-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            page-break-after: avoid;
+        }
+
+        .pdf-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .pdf-header .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .pdf-header .profile-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        /* Content Sections */
+        .section {
+            margin-bottom: 2rem;
+            page-break-inside: avoid;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background-color: var(--card);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+            border-radius: 4px;
+            page-break-inside: avoid;
+        }
+
+        .content-card h3 {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--foreground);
+            margin-bottom: 0.75rem;
+        }
+
+        .content-card p {
+            font-size: 15px;
+            color: #cbd5e1;
+            line-height: 1.8;
+            margin-bottom: 0.75rem;
+        }
+
+        .content-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            font-size: 15px;
+            color: #cbd5e1;
+            margin-bottom: 0.6rem;
+            line-height: 1.7;
+        }
+
+        /* Emphasis Elements */
+        .highlight {
+            background-color: rgba(30, 64, 175, 0.15);
+            padding: 0.2rem 0.4rem;
+            border-radius: 2px;
+            font-weight: 600;
+            color: var(--accent-light);
+        }
+
+        .warning-box {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .warning-box strong {
+            color: #fca5a5;
+        }
+
+        .success-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .success-box strong {
+            color: #86efac;
+        }
+
+        .info-box {
+            background-color: rgba(30, 64, 175, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 15px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 15px;
+        }
+
+        th {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.85rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 0.85rem;
+            border-bottom: 1px solid var(--border);
+            color: #cbd5e1;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            padding-left: 0;
+        }
+
+        .checklist li::before {
+            content: '☐';
+            display: inline-block;
+            width: 1.5rem;
+            margin-right: 0.75rem;
+            color: var(--accent);
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border), transparent);
+            margin: 2rem 0;
+            page-break-after: avoid;
+        }
+
+        /* Footer */
+        .pdf-footer {
+            background-color: var(--card);
+            border-top: 2px solid var(--accent);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+            font-size: 14px;
+            color: var(--muted);
+            page-break-inside: avoid;
+        }
+
+        .pdf-footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            .pdf-header {
+                background: linear-gradient(135deg, #1e40af 0%, #1e40af 100%);
+            }
+
+            a {
+                color: #1e40af;
+                text-decoration: none;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+
+        /* Container with side padding */
+        .pdf-container {
+            padding: 0 1.5rem;
+            max-width: 100%;
+        }
+
+        /* Spacing Utilities */
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+
+        /* Text Utilities */
+        .text-center { text-align: center; }
+        .text-bold { font-weight: 600; }
+        .text-small { font-size: 12px; }
+        .text-muted { color: var(--muted); }
+
+        /* Page Break Control */
+        .page-break {
+            page-break-before: always;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- HEADER -->
+    <div class="pdf-container">
+    <div class="pdf-header">
+        <h1>🪑 Guía de Postura en el Escritorio</h1>
+        <p class="subtitle">Optimiza tu ergonomía y reduce el dolor de espalda y cuello</p>
+        <div class="profile-badge">Generado para: <strong>hamza elouafa</strong><br/>Perfil: Ejecutivo Atrapado</div>
+    </div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">Introducción</div>
+        <div class="content-card">
+            <p>
+                Pasas <span class="highlight">6-8 horas diarias</span> sentado en tu escritorio. Sin una postura correcta, 
+                esta posición puede generar tensión acumulativa en tu espalda, cuello y hombros, contribuyendo al dolor crónico.
+            </p>
+            <p>
+                Esta guía te proporciona un <span class="highlight">protocolo paso a paso</span> para optimizar tu espacio de trabajo 
+                y mejorar tu postura, reduciendo significativamente el riesgo de lesiones.
+            </p>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Dato importante:</strong> Estudios demuestran que una postura correcta puede reducir el dolor de espalda 
+            en un 30-40% en las primeras 2 semanas de implementación.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 1: MONITOR -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">1. Posición del Monitor</div>
+        
+        <div class="content-card">
+            <h3>Altura del Monitor</h3>
+            <p>
+                El monitor debe estar a la altura de tus ojos cuando estés sentado con la espalda recta. 
+                La parte superior de la pantalla debe estar <span class="highlight">ligeramente por debajo del nivel de los ojos</span>.
+            </p>
+            <ul>
+                <li><strong>Distancia:</strong> 50-70 cm (aproximadamente la longitud de tu brazo extendido)</li>
+                <li><strong>Altura:</strong> El centro del monitor debe estar 15-20 cm por debajo del nivel de los ojos</li>
+                <li><strong>Ángulo:</strong> Ligeramente inclinado hacia arriba (5-10 grados)</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <h3>Múltiples Monitores</h3>
+            <p>Si usas dos monitores, coloca el que uses más frecuentemente directamente frente a ti.</p>
+            <ul>
+                <li>El monitor secundario debe estar a 30 grados de ángulo</li>
+                <li>Ambos a la misma altura</li>
+                <li>Evita girar constantemente la cabeza</li>
+            </ul>
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ Error común:</strong> Colocar el monitor demasiado bajo obliga a tu cuello a flexionarse hacia adelante, 
+            causando tensión cervical.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 2: SILLA -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">2. Ajuste de la Silla</div>
+        
+        <div class="content-card">
+            <h3>Altura de la Silla</h3>
+            <p>
+                La altura correcta es crucial para mantener una postura neutral. Tus pies deben estar 
+                completamente apoyados en el suelo o en un reposapiés.
+            </p>
+            <ul>
+                <li><strong>Posición correcta:</strong> Caderas y rodillas a 90 grados</li>
+                <li><strong>Pies:</strong> Completamente apoyados en el suelo</li>
+                <li><strong>Muslos:</strong> Paralelos al suelo</li>
+                <li><strong>Espacio:</strong> 2-3 dedos entre la silla y la parte posterior de las rodillas</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <h3>Respaldo y Soporte Lumbar</h3>
+            <p>
+                El respaldo de la silla debe soportar la curva natural de tu espalda baja (lordosis lumbar).
+            </p>
+            <ul>
+                <li><strong>Ángulo del respaldo:</strong> 100-110 grados (ligeramente reclinado)</li>
+                <li><strong>Soporte lumbar:</strong> Debe estar a la altura de tu cintura</li>
+                <li><strong>Firmeza:</strong> Debe ser firme pero cómodo</li>
+                <li><strong>Almohada lumbar:</strong> Considera añadir una si tu silla no tiene soporte lumbar</li>
+            </ul>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Recomendación:</strong> Invierte en una silla ergonómica de calidad. Es una de las mejores inversiones 
+            para tu salud a largo plazo.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 3: TECLADO Y RATÓN -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">3. Teclado y Ratón</div>
+        
+        <div class="content-card">
+            <h3>Posición del Teclado</h3>
+            <p>
+                El teclado debe estar posicionado de manera que tus codos estén a 90 grados y tus muñecas rectas.
+            </p>
+            <ul>
+                <li><strong>Altura:</strong> Los codos deben estar a 90 grados cuando estés sentado</li>
+                <li><strong>Distancia:</strong> Aproximadamente 10-15 cm del borde de la mesa</li>
+                <li><strong>Inclinación:</strong> Ligeramente inclinado hacia ti (5 grados máximo)</li>
+                <li><strong>Muñecas:</strong> Rectas, no flexionadas hacia arriba ni hacia abajo</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <h3>Posición del Ratón</h3>
+            <p>
+                El ratón debe estar al mismo nivel que el teclado y cerca de tu cuerpo.
+            </p>
+            <ul>
+                <li><strong>Altura:</strong> Igual a la del teclado</li>
+                <li><strong>Distancia:</strong> Junto al teclado, sin estirar el brazo</li>
+                <li><strong>Tipo:</strong> Considera un ratón ergonómico vertical</li>
+                <li><strong>Movimiento:</strong> Mueve todo el brazo, no solo la muñeca</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Consejo:</strong> Usa un reposamuñecas para mantener tus muñecas en posición neutral 
+            durante largas sesiones de trabajo.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 4: ILUMINACIÓN -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">4. Iluminación</div>
+        
+        <div class="content-card">
+            <h3>Luz Natural y Artificial</h3>
+            <p>
+                Una iluminación adecuada reduce la fatiga ocular y te ayuda a mantener una postura correcta.
+            </p>
+            <ul>
+                <li><strong>Luz natural:</strong> Posiciona tu escritorio perpendicular a las ventanas</li>
+                <li><strong>Evita reflejos:</strong> No coloques la ventana directamente detrás del monitor</li>
+                <li><strong>Luz artificial:</strong> 300-500 lux en el área de trabajo</li>
+                <li><strong>Temperatura de color:</strong> 4000-5000K (luz blanca neutral)</li>
+                <li><strong>Lámpara de escritorio:</strong> Dirigida hacia el área de trabajo, no hacia los ojos</li>
+            </ul>
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ Problema común:</strong> La fatiga ocular puede hacer que inclines la cabeza hacia adelante, 
+            empeorando la postura del cuello.
+        </div>
+    </div>
+    </div>
+
+    <!-- CHECKLIST -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">Checklist de Auditoría de tu Espacio</div>
+        
+        <div class="content-card">
+            <p class="mb-2"><strong>Usa esta lista para verificar tu configuración actual:</strong></p>
+            <ul class="checklist">
+                <li>Monitor a la altura de los ojos (parte superior 15-20 cm por debajo)</li>
+                <li>Monitor a 50-70 cm de distancia</li>
+                <li>Silla con altura ajustada (caderas y rodillas a 90 grados)</li>
+                <li>Pies completamente apoyados en el suelo</li>
+                <li>Respaldo con soporte lumbar</li>
+                <li>Teclado a la altura de los codos (90 grados)</li>
+                <li>Muñecas rectas al escribir</li>
+                <li>Ratón al mismo nivel que el teclado</li>
+                <li>Iluminación adecuada sin reflejos</li>
+                <li>Espacio despejado para movimiento</li>
+            </ul>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 5: IMPLEMENTACIÓN -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">5. Plan de Implementación</div>
+        
+        <div class="content-card">
+            <h3>Semana 1: Evaluación y Ajustes Básicos</h3>
+            <ul>
+                <li>Realiza la auditoría usando el checklist anterior</li>
+                <li>Ajusta la altura de la silla y monitor</li>
+                <li>Reorganiza teclado y ratón</li>
+                <li>Nota cómo te sientes (dolor, incomodidad)</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <h3>Semana 2-3: Ajustes Finos</h3>
+            <ul>
+                <li>Realiza pequeños ajustes basados en tu comodidad</li>
+                <li>Añade almohada lumbar si es necesario</li>
+                <li>Ajusta la iluminación</li>
+                <li>Practica pausas activas cada 2 horas</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <h3>Semana 4+: Mantenimiento</h3>
+            <ul>
+                <li>Mantén la postura correcta consistentemente</li>
+                <li>Realiza pausas activas regularmente</li>
+                <li>Revisa tu postura cada semana</li>
+                <li>Continúa con ejercicios de fortalecimiento</li>
+            </ul>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Objetivo:</strong> En 4 semanas deberías notar una reducción significativa en el dolor 
+            y una mejora en tu comodidad general.
+        </div>
+    </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="pdf-container">
+    <div class="pdf-footer">
+        <p><strong>Método RESET - Guía de Postura en el Escritorio</strong></p>
+        <p>Esta guía es parte de tu plan personalizado de recuperación. Para mejores resultados, combina estos ajustes con las pausas activas y ejercicios de fortalecimiento.</p>
+        <p class="text-small">© 2026 Método RESET. Todos los derechos reservados.</p>
+    </div>
+    </div>
+
+    <!-- BOTTOM SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- COPYRIGHT & DISTRIBUTION NOTICE -->
+    <div class="pdf-container">
+    <div style="background-color: rgba(30, 64, 175, 0.08); border: 1px solid var(--border); padding: 1.25rem; border-radius: 4px; margin-top: 2rem; font-size: 12px; color: var(--muted); line-height: 1.6;">
+        <p style="margin-bottom: 0.75rem;"><strong style="color: var(--foreground);">© 2026 Método RESET. Todos los derechos reservados.</strong></p>
+        <p style="margin-bottom: 0.75rem;">Este documento es confidencial y está destinado únicamente al usuario que lo recibió. Contiene información propietaria y estratégica de Método RESET.</p>
+        <p style="margin-bottom: 0.75rem;"><strong style="color: #ef4444;">⚠️ PROHIBIDA LA DISTRIBUCIÓN:</strong> No está permitida la reproducción, distribución, transmisión o divulgación de este documento, en su totalidad o en parte, sin autorización expresa por escrito de los documentos del Método RESET.</p>
+        <p style="margin-bottom: 0;">El incumplimiento de estas restricciones puede resultar en acciones legales. Para consultas sobre permisos, contacta con nosotros en contacto@bestronger.es</p>
+    </div>
+    </div>
+
+    <!-- FINAL SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+</body>
+</html>

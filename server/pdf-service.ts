@@ -74,10 +74,30 @@ export async function generatePDF(
 }
 
 /**
- * Get PDF template HTML
+ * Get PDF template HTML by resource type
  */
-export function getPDFTemplate(): string {
-  const templatePath = path.join(__dirname, '..', 'pdf-template.html');
+export function getPDFTemplate(resourceType?: string): string {
+  let templateName = 'pdf-template.html';
+  
+  // Map resource types to template files
+  const resourceMap: Record<string, string> = {
+    'pausas_activas': 'pausas-activas-template.html',
+    'tecnicas_respiracion': 'tecnicas-respiracion-template.html',
+    'fortalecimiento': 'fortalecimiento-ejecutivo-template.html',
+  };
+  
+  if (resourceType && resourceMap[resourceType]) {
+    templateName = resourceMap[resourceType];
+  }
+  
+  const templatePath = path.join(__dirname, '..', templateName);
+  
+  if (!fs.existsSync(templatePath)) {
+    console.warn(`[PDF Service] Template not found: ${templatePath}, using default`);
+    const defaultPath = path.join(__dirname, '..', 'pdf-template.html');
+    return fs.readFileSync(defaultPath, 'utf-8');
+  }
+  
   return fs.readFileSync(templatePath, 'utf-8');
 }
 

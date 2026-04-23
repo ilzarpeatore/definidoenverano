@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Pausas Activas - Método RESET</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #0f172a;
+            --foreground: #ffffff;
+            --card: #1e293b;
+            --accent: #1e40af;
+            --border: #334155;
+            --muted: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        @page {
+            size: A4;
+            margin: 0.75in 1.25in 0.75in 1.25in;
+            @bottom-center {
+                content: "Página " counter(page) " de " counter(pages);
+                font-size: 11px;
+                color: var(--muted);
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .pdf-container {
+            padding: 0 1.5rem;
+            max-width: 100%;
+        }
+
+        .pdf-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .pdf-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-header .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .pdf-header .profile-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .content-card {
+            background-color: var(--card);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .content-card p {
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+        }
+
+        .content-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .exercise-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .exercise-box .title {
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 0.5rem;
+            font-size: 16px;
+        }
+
+        .exercise-box .duration {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+            font-style: italic;
+        }
+
+        .exercise-box ol {
+            margin-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .exercise-box li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: rgba(30, 64, 175, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .info-box strong {
+            color: var(--accent);
+        }
+
+        .warning-box {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .warning-box strong {
+            color: var(--danger);
+        }
+
+        .success-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .success-box strong {
+            color: var(--success);
+        }
+
+        .checklist {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .checklist-item {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checklist-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .checklist-item label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .schedule-table th {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .schedule-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .schedule-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .schedule-table tr:nth-child(even) {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .pdf-footer {
+            background-color: var(--card);
+            border-top: 2px solid var(--accent);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .pdf-footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .text-small {
+            font-size: 12px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-bold {
+            font-weight: 600;
+        }
+
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+
+        ul {
+            margin-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        em {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- HEADER -->
+    <div class="pdf-container">
+    <div class="pdf-header">
+        <h1>⏸️ Guía de Pausas Activas</h1>
+        <p class="subtitle">Revitaliza tu cuerpo y mente durante la jornada laboral</p>
+        <div class="profile-badge">Perfil: Ejecutivo Atrapado</div>
+    </div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">Introducción</div>
+        <div class="content-card">
+            <p>
+                Las pausas activas son interrupciones breves en tu jornada laboral donde realizas movimientos simples y ejercicios 
+                ligeros. No se trata de descansar pasivamente, sino de activar tu cuerpo de forma estratégica para mejorar tu 
+                circulación, reducir la tensión muscular y aumentar tu energía y concentración.
+            </p>
+            <p>
+                Como ejecutivo atrapado en el escritorio, las pausas activas son tu aliado más poderoso para combatir los efectos 
+                negativos del sedentarismo prolongado.
+            </p>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Beneficio comprobado:</strong> Realizar pausas activas cada 2 horas puede reducir el dolor de espalda 
+            en un 40% y aumentar la productividad en un 15% según estudios de ergonomía laboral.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 1: WHY ACTIVE BREAKS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">1. ¿Por qué son importantes las pausas activas?</div>
+        
+        <div class="content-card">
+            <p><strong>Problemas del sedentarismo prolongado:</strong></p>
+            <ul>
+                <li>Rigidez muscular y dolor de espalda/cuello</li>
+                <li>Mala circulación y fatiga</li>
+                <li>Disminución de la concentración</li>
+                <li>Aumento del estrés y la ansiedad</li>
+                <li>Problemas posturales crónicos</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Dato importante:</strong> El cuerpo humano no está diseñado para estar sentado más de 30 minutos 
+            seguidos. Después de este tiempo, la circulación disminuye y los músculos comienzan a tensionarse.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 2: WHEN TO TAKE BREAKS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">2. ¿Cuándo hacer pausas activas?</div>
+        
+        <div class="content-card">
+            <p>
+                La recomendación ideal es hacer una pausa activa cada <strong>2 horas de trabajo continuo</strong>, 
+                o cada <strong>30-45 minutos</strong> si tu trabajo es muy sedentario (principalmente en el escritorio).
+            </p>
+        </div>
+
+        <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th>Hora del día</th>
+                    <th>Recomendación</th>
+                    <th>Duración</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>09:00 - 11:00</td>
+                    <td>Pausa activa a las 10:00</td>
+                    <td>5-10 minutos</td>
+                </tr>
+                <tr>
+                    <td>11:00 - 13:00</td>
+                    <td>Pausa activa a las 12:00</td>
+                    <td>5-10 minutos</td>
+                </tr>
+                <tr>
+                    <td>13:00 - 15:00</td>
+                    <td>Pausa activa a las 14:00 (post-almuerzo)</td>
+                    <td>5-10 minutos</td>
+                </tr>
+                <tr>
+                    <td>15:00 - 17:00</td>
+                    <td>Pausa activa a las 16:00</td>
+                    <td>5-10 minutos</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="warning-box">
+            <strong>⚠️ Importante:</strong> No esperes a sentir dolor para hacer una pausa. La prevención es más efectiva 
+            que la curación. Establece alarmas en tu calendario para recordarte.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 3: EXERCISES -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">3. Ejercicios de Pausas Activas (5-10 minutos)</div>
+        
+        <div class="exercise-box">
+            <div class="title">Ejercicio 1: Rotación de Cuello</div>
+            <div class="duration">⏱️ 1-2 minutos</div>
+            <ol>
+                <li>Siéntate con la espalda recta</li>
+                <li>Gira lentamente la cabeza hacia la derecha hasta sentir un estiramiento suave</li>
+                <li>Mantén durante 15 segundos</li>
+                <li>Repite hacia la izquierda</li>
+                <li>Realiza 3 series de cada lado</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Ejercicio 2: Estiramiento de Hombros</div>
+            <div class="duration">⏱️ 1-2 minutos</div>
+            <ol>
+                <li>De pie o sentado, lleva tu mano derecha sobre tu cabeza</li>
+                <li>Tira suavemente tu cabeza hacia la derecha</li>
+                <li>Siente el estiramiento en el lado izquierdo del cuello</li>
+                <li>Mantén durante 20 segundos</li>
+                <li>Repite del otro lado</li>
+                <li>Realiza 3 series de cada lado</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Ejercicio 3: Flexión de Tronco</div>
+            <div class="duration">⏱️ 1-2 minutos</div>
+            <ol>
+                <li>De pie, con las piernas separadas al ancho de los hombros</li>
+                <li>Inclina lentamente el tronco hacia adelante</li>
+                <li>Deja que los brazos cuelguen naturalmente</li>
+                <li>Mantén durante 20-30 segundos</li>
+                <li>Sube lentamente, vértebra por vértebra</li>
+                <li>Realiza 3 series</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Ejercicio 4: Círculos de Brazos</div>
+            <div class="duration">⏱️ 1-2 minutos</div>
+            <ol>
+                <li>De pie, con los brazos extendidos a los lados</li>
+                <li>Realiza círculos hacia adelante durante 20 segundos</li>
+                <li>Realiza círculos hacia atrás durante 20 segundos</li>
+                <li>Reduce el tamaño de los círculos gradualmente</li>
+                <li>Realiza 2 series</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Ejercicio 5: Marcha en el Lugar</div>
+            <div class="duration">⏱️ 1-2 minutos</div>
+            <ol>
+                <li>De pie, comienza a marchar en el lugar</li>
+                <li>Levanta las rodillas a la altura de la cadera</li>
+                <li>Mueve los brazos de forma natural</li>
+                <li>Mantén durante 1-2 minutos</li>
+                <li>Aumenta gradualmente la intensidad</li>
+            </ol>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Consejo:</strong> Combina 2-3 ejercicios en cada pausa. Por ejemplo: Rotación de cuello + 
+            Estiramiento de hombros + Marcha en el lugar = pausa de 5 minutos perfecta.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 4: IMPLEMENTATION PLAN -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">4. Plan de Implementación (4 Semanas)</div>
+        
+        <div class="content-card">
+            <p><strong>Semana 1-2: Establecimiento del hábito</strong></p>
+            <ul>
+                <li>Realiza pausas activas cada 2 horas</li>
+                <li>Elige 2-3 ejercicios que te gusten</li>
+                <li>Configura alarmas en tu teléfono/calendario</li>
+                <li>Objetivo: Crear el hábito sin presión</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <p><strong>Semana 3-4: Consolidación</strong></p>
+            <ul>
+                <li>Aumenta a pausas cada 90 minutos</li>
+                <li>Añade nuevos ejercicios a tu rutina</li>
+                <li>Practica mindfulness durante los ejercicios</li>
+                <li>Evalúa cómo te sientes (energía, dolor, concentración)</li>
+            </ul>
+        </div>
+
+        <div class="checklist">
+            <div class="checklist-item">
+                <input type="checkbox" id="check1">
+                <label for="check1">Semana 1: Configura alarmas cada 2 horas</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check2">
+                <label for="check2">Semana 1: Realiza al menos 3 pausas activas</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check3">
+                <label for="check3">Semana 2: Aumenta a 4-5 pausas diarias</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check4">
+                <label for="check4">Semana 3: Aprende 2 nuevos ejercicios</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check5">
+                <label for="check5">Semana 4: Evalúa los cambios en tu cuerpo</label>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 5: TIPS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">5. Consejos Prácticos</div>
+        
+        <div class="success-box">
+            <strong>✓ Consejo 1:</strong> Invita a tus colegas a hacer pausas activas contigo. Es más motivador 
+            y crea una cultura de bienestar en tu equipo.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 2:</strong> Combina pausas activas con hidratación. Bebe agua durante cada pausa 
+            para mejorar la circulación y la concentración.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 3:</strong> Realiza los ejercicios con intención. No se trata solo de movimiento, 
+            sino de conectar con tu cuerpo y respirar conscientemente.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 4:</strong> Varía los ejercicios cada semana para mantener el interés y trabajar 
+            diferentes grupos musculares.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 5:</strong> Registra cómo te sientes antes y después de cada pausa. Notarás mejoras 
+            en energía, concentración y dolor.
+        </div>
+    </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="pdf-container">
+    <div class="pdf-footer">
+        <p><strong>Método RESET - Guía de Pausas Activas</strong></p>
+        <p>Esta guía es parte de tu plan personalizado de recuperación. Las pausas activas son fundamentales para 
+        prevenir y reducir el dolor de espalda. Combina esta guía con los otros recursos de tu perfil para obtener 
+        resultados óptimos.</p>
+        <p class="text-small">© 2026 Método RESET. Todos los derechos reservados.</p>
+    </div>
+    </div>
+
+    <!-- BOTTOM SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- COPYRIGHT & DISTRIBUTION NOTICE -->
+    <div class="pdf-container">
+    <div style="background-color: rgba(30, 64, 175, 0.08); border: 1px solid var(--border); padding: 1.25rem; border-radius: 4px; margin-top: 2rem; font-size: 12px; color: var(--muted); line-height: 1.6;">
+        <p style="margin-bottom: 0.75rem;"><strong style="color: var(--foreground);">© 2026 Método RESET. Todos los derechos reservados.</strong></p>
+        <p style="margin-bottom: 0.75rem;">Este documento es confidencial y está destinado únicamente al usuario que lo recibió. Contiene información propietaria y estratégica de Método RESET.</p>
+        <p style="margin-bottom: 0.75rem;"><strong style="color: #ef4444;">⚠️ PROHIBIDA LA DISTRIBUCIÓN:</strong> No está permitida la reproducción, distribución, transmisión o divulgación de este documento, en su totalidad o en parte, sin autorización expresa por escrito de los documentos del Método RESET.</p>
+        <p style="margin-bottom: 0;">El incumplimiento de estas restricciones puede resultar en acciones legales. Para consultas sobre permisos, contacta con nosotros en contacto@bestronger.es</p>
+    </div>
+    </div>
+
+    <!-- FINAL SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+</body>
+</html>

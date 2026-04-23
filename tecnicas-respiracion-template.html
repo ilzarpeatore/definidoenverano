@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Técnicas de Respiración - Método RESET</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #0f172a;
+            --foreground: #ffffff;
+            --card: #1e293b;
+            --accent: #1e40af;
+            --border: #334155;
+            --muted: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        @page {
+            size: A4;
+            margin: 0.75in 1.25in 0.75in 1.25in;
+            @bottom-center {
+                content: "Página " counter(page) " de " counter(pages);
+                font-size: 11px;
+                color: var(--muted);
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .pdf-container {
+            padding: 0 1.5rem;
+            max-width: 100%;
+        }
+
+        .pdf-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .pdf-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-header .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .pdf-header .profile-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .content-card {
+            background-color: var(--card);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .content-card p {
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+        }
+
+        .content-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .technique-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .technique-box .title {
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 0.5rem;
+            font-size: 16px;
+        }
+
+        .technique-box .duration {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+            font-style: italic;
+        }
+
+        .technique-box ol {
+            margin-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .technique-box li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: rgba(30, 64, 175, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .info-box strong {
+            color: var(--accent);
+        }
+
+        .warning-box {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .warning-box strong {
+            color: var(--danger);
+        }
+
+        .success-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .success-box strong {
+            color: var(--success);
+        }
+
+        .checklist {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .checklist-item {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checklist-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .checklist-item label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .benefit-item {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 4px;
+        }
+
+        .benefit-item strong {
+            color: var(--success);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-footer {
+            background-color: var(--card);
+            border-top: 2px solid var(--accent);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .pdf-footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .text-small {
+            font-size: 12px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-bold {
+            font-weight: 600;
+        }
+
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+
+        ul {
+            margin-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        em {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- HEADER -->
+    <div class="pdf-container">
+    <div class="pdf-header">
+        <h1>🫁 Técnicas de Respiración</h1>
+        <p class="subtitle">Controla el estrés y recupera la calma en segundos</p>
+        <div class="profile-badge">Perfil: Ejecutivo Atrapado</div>
+    </div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">Introducción</div>
+        <div class="content-card">
+            <p>
+                La respiración es tu herramienta más poderosa para gestionar el estrés y la ansiedad. Cuando estás bajo presión, 
+                tu cuerpo entra en modo "lucha o huida", acelerando tu ritmo cardíaco y tensionando tus músculos. Una respiración 
+                controlada activa tu sistema nervioso parasimpático, que es responsable de la relajación y la recuperación.
+            </p>
+            <p>
+                Como ejecutivo atrapado en reuniones y plazos, estas técnicas de respiración te permitirán recuperar el control 
+                en cualquier momento, sin necesidad de dejar tu escritorio.
+            </p>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Beneficio comprobado:</strong> Practicar técnicas de respiración durante solo 5 minutos puede reducir 
+            los niveles de cortisol (hormona del estrés) en un 25% según estudios de neurofisiología.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 1: WHY BREATHING MATTERS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">1. ¿Por qué es importante la respiración?</div>
+        
+        <div class="content-card">
+            <p><strong>El estrés crónico causa:</strong></p>
+            <ul>
+                <li>Respiración superficial y acelerada</li>
+                <li>Tensión en el cuello y hombros</li>
+                <li>Falta de concentración y claridad mental</li>
+                <li>Insomnio y problemas de sueño</li>
+                <li>Aumento del dolor de espalda</li>
+                <li>Debilitamiento del sistema inmunológico</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Dato importante:</strong> La mayoría de las personas respiran solo con la parte superior del pecho 
+            (respiración superficial). La respiración diafragmática profunda es 3 veces más efectiva para activar la relajación.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 2: BENEFITS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">2. Beneficios de la Respiración Controlada</div>
+        
+        <div class="benefits-grid">
+            <div class="benefit-item">
+                <strong>🧠 Mental</strong>
+                Mejora la concentración, claridad mental y toma de decisiones
+            </div>
+            <div class="benefit-item">
+                <strong>❤️ Cardiovascular</strong>
+                Reduce la presión arterial y la frecuencia cardíaca
+            </div>
+            <div class="benefit-item">
+                <strong>😌 Emocional</strong>
+                Reduce la ansiedad, estrés y depresión
+            </div>
+            <div class="benefit-item">
+                <strong>💪 Físico</strong>
+                Reduce la tensión muscular y el dolor
+            </div>
+            <div class="benefit-item">
+                <strong>😴 Sueño</strong>
+                Mejora la calidad del sueño y la recuperación
+            </div>
+            <div class="benefit-item">
+                <strong>🛡️ Inmunidad</strong>
+                Fortalece el sistema inmunológico
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 3: TECHNIQUES -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">3. Técnicas de Respiración (Paso a Paso)</div>
+        
+        <div class="technique-box">
+            <div class="title">Técnica 1: Respiración Diafragmática (4-7-8)</div>
+            <div class="duration">⏱️ 3-5 minutos | Mejor para: Reducir ansiedad inmediata</div>
+            <ol>
+                <li>Siéntate cómodamente con la espalda recta</li>
+                <li>Coloca una mano en el pecho y otra en el abdomen</li>
+                <li>Inhala lentamente por la nariz contando hasta 4 (el abdomen debe expandirse, no el pecho)</li>
+                <li>Mantén la respiración contando hasta 7</li>
+                <li>Exhala lentamente por la boca contando hasta 8</li>
+                <li>Repite 4-5 ciclos</li>
+                <li>Realiza esto 2-3 veces al día, especialmente antes de reuniones importantes</li>
+            </ol>
+        </div>
+
+        <div class="technique-box">
+            <div class="title">Técnica 2: Respiración Cuadrada (Box Breathing)</div>
+            <div class="duration">⏱️ 2-3 minutos | Mejor para: Calmar la mente rápidamente</div>
+            <ol>
+                <li>Siéntate con la espalda recta</li>
+                <li>Inhala por la nariz contando hasta 4</li>
+                <li>Mantén la respiración contando hasta 4</li>
+                <li>Exhala por la boca contando hasta 4</li>
+                <li>Mantén vacío contando hasta 4</li>
+                <li>Repite este ciclo 5-10 veces</li>
+                <li>Esta técnica es perfecta durante una pausa de trabajo o antes de una llamada importante</li>
+            </ol>
+        </div>
+
+        <div class="technique-box">
+            <div class="title">Técnica 3: Respiración Alternada (Nadi Shodhana)</div>
+            <div class="duration">⏱️ 3-5 minutos | Mejor para: Equilibrar mente y cuerpo</div>
+            <ol>
+                <li>Siéntate cómodamente</li>
+                <li>Cierra tu fosa nasal derecha con el pulgar</li>
+                <li>Inhala lentamente por la fosa nasal izquierda contando hasta 4</li>
+                <li>Cierra la fosa nasal izquierda y abre la derecha</li>
+                <li>Exhala lentamente por la fosa nasal derecha contando hasta 4</li>
+                <li>Inhala por la fosa nasal derecha</li>
+                <li>Cierra la derecha, abre la izquierda y exhala</li>
+                <li>Repite 5-10 ciclos completos</li>
+            </ol>
+        </div>
+
+        <div class="technique-box">
+            <div class="title">Técnica 4: Respiración de Energía (Ujjayi)</div>
+            <div class="duration">⏱️ 2-3 minutos | Mejor para: Aumentar energía y concentración</div>
+            <ol>
+                <li>Siéntate con la espalda recta</li>
+                <li>Inhala profundamente por la nariz</li>
+                <li>Al exhalar, crea un sonido suave en la garganta (como si susurraras "ha")</li>
+                <li>Mantén la boca cerrada durante la exhalación</li>
+                <li>El sonido debe ser suave y relajante, no forzado</li>
+                <li>Repite 10-15 ciclos</li>
+                <li>Ideal para después del almuerzo cuando sientes fatiga</li>
+            </ol>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Consejo:</strong> Comienza con la Respiración Cuadrada si eres principiante. Es la más fácil de 
+            aprender y muy efectiva. Luego progresa a las otras técnicas.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 4: WHEN TO USE -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">4. ¿Cuándo Usar Cada Técnica?</div>
+        
+        <div class="content-card">
+            <p><strong>Antes de una reunión importante:</strong> Respiración Cuadrada (2 minutos)</p>
+            <p>Te ayudará a llegar con la mente clara y confianza.</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>Durante una situación estresante:</strong> Respiración 4-7-8 (3-5 minutos)</p>
+            <p>Reduce la ansiedad y activa tu sistema nervioso parasimpático.</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>Después del almuerzo (baja energía):</strong> Respiración de Energía (2-3 minutos)</p>
+            <p>Te revitalizará sin necesidad de cafeína.</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>Antes de dormir:</strong> Respiración Diafragmática (5-10 minutos)</p>
+            <p>Prepara tu cuerpo para el descanso profundo.</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>Para equilibrar mente y cuerpo:</strong> Respiración Alternada (3-5 minutos)</p>
+            <p>Ideal para cualquier momento del día cuando sientas desbalance emocional.</p>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 5: IMPLEMENTATION PLAN -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">5. Plan de Implementación (4 Semanas)</div>
+        
+        <div class="content-card">
+            <p><strong>Semana 1: Aprendizaje</strong></p>
+            <ul>
+                <li>Aprende la Respiración Cuadrada (la más simple)</li>
+                <li>Practica 2 minutos cada mañana</li>
+                <li>Practica 2 minutos antes de dormir</li>
+                <li>Objetivo: Familiarizarte con la técnica</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <p><strong>Semana 2: Consolidación</strong></p>
+            <ul>
+                <li>Practica Respiración Cuadrada 3 veces al día (mañana, mediodía, noche)</li>
+                <li>Aprende la Respiración Diafragmática 4-7-8</li>
+                <li>Practica la nueva técnica 1 vez al día</li>
+                <li>Objetivo: Automatizar la práctica</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <p><strong>Semana 3-4: Dominio</strong></p>
+            <ul>
+                <li>Domina ambas técnicas</li>
+                <li>Aprende las otras técnicas (Alternada y de Energía)</li>
+                <li>Usa la técnica apropiada según la situación</li>
+                <li>Objetivo: Tener herramientas para cada momento</li>
+            </ul>
+        </div>
+
+        <div class="checklist">
+            <div class="checklist-item">
+                <input type="checkbox" id="check1">
+                <label for="check1">Semana 1: Aprendo Respiración Cuadrada</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check2">
+                <label for="check2">Semana 1: Practico 2 minutos mañana y noche</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check3">
+                <label for="check3">Semana 2: Practico 3 veces al día</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check4">
+                <label for="check4">Semana 2: Aprendo Respiración 4-7-8</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check5">
+                <label for="check5">Semana 3-4: Domino 4 técnicas diferentes</label>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 6: TIPS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">6. Consejos Prácticos</div>
+        
+        <div class="success-box">
+            <strong>✓ Consejo 1:</strong> La consistencia es más importante que la intensidad. 2 minutos diarios es mejor 
+            que 30 minutos una vez a la semana.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 2:</strong> Practica en un lugar tranquilo al principio. Luego podrás hacerlo en cualquier lugar 
+            (reunión, coche, etc.).
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 3:</strong> No fuerces la respiración. Debe ser natural y cómoda. Si te mareas, reduce la duración.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 4:</strong> Combina la respiración con visualización. Imagina un lugar tranquilo mientras respiras.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 5:</strong> Registra cómo te sientes antes y después. Verás cambios en tu nivel de estrés, 
+            energía y claridad mental.
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ Nota importante:</strong> Si tienes problemas respiratorios o cardíacos, consulta con tu médico antes 
+            de practicar estas técnicas.
+        </div>
+    </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="pdf-container">
+    <div class="pdf-footer">
+        <p><strong>Método RESET - Técnicas de Respiración</strong></p>
+        <p>La respiración es tu herramienta más accesible y poderosa para gestionar el estrés. Combina estas técnicas con 
+        pausas activas y ejercicios de fortalecimiento para obtener resultados óptimos en tu recuperación.</p>
+        <p class="text-small">© 2026 Método RESET. Todos los derechos reservados.</p>
+    </div>
+    </div>
+
+    <!-- BOTTOM SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- COPYRIGHT & DISTRIBUTION NOTICE -->
+    <div class="pdf-container">
+    <div style="background-color: rgba(30, 64, 175, 0.08); border: 1px solid var(--border); padding: 1.25rem; border-radius: 4px; margin-top: 2rem; font-size: 12px; color: var(--muted); line-height: 1.6;">
+        <p style="margin-bottom: 0.75rem;"><strong style="color: var(--foreground);">© 2026 Método RESET. Todos los derechos reservados.</strong></p>
+        <p style="margin-bottom: 0.75rem;">Este documento es confidencial y está destinado únicamente al usuario que lo recibió. Contiene información propietaria y estratégica de Método RESET.</p>
+        <p style="margin-bottom: 0.75rem;"><strong style="color: #ef4444;">⚠️ PROHIBIDA LA DISTRIBUCIÓN:</strong> No está permitida la reproducción, distribución, transmisión o divulgación de este documento, en su totalidad o en parte, sin autorización expresa por escrito de los documentos del Método RESET.</p>
+        <p style="margin-bottom: 0;">El incumplimiento de estas restricciones puede resultar en acciones legales. Para consultas sobre permisos, contacta con nosotros en contacto@bestronger.es</p>
+    </div>
+    </div>
+
+    <!-- FINAL SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+</body>
+</html>

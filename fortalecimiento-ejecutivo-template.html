@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programa de Fortalecimiento - Método RESET</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #0f172a;
+            --foreground: #ffffff;
+            --card: #1e293b;
+            --accent: #1e40af;
+            --border: #334155;
+            --muted: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        @page {
+            size: A4;
+            margin: 0.75in 1.25in 0.75in 1.25in;
+            @bottom-center {
+                content: "Página " counter(page) " de " counter(pages);
+                font-size: 11px;
+                color: var(--muted);
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .pdf-container {
+            padding: 0 1.5rem;
+            max-width: 100%;
+        }
+
+        .pdf-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .pdf-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-header .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .pdf-header .profile-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .content-card {
+            background-color: var(--card);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .content-card p {
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+        }
+
+        .content-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .exercise-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .exercise-box .title {
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 0.5rem;
+            font-size: 16px;
+        }
+
+        .exercise-box .details {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+            font-style: italic;
+        }
+
+        .exercise-box ol {
+            margin-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .exercise-box li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: rgba(30, 64, 175, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .info-box strong {
+            color: var(--accent);
+        }
+
+        .warning-box {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .warning-box strong {
+            color: var(--danger);
+        }
+
+        .success-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .success-box strong {
+            color: var(--success);
+        }
+
+        .workout-schedule {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .workout-day {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .workout-day:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .workout-day strong {
+            color: var(--success);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .workout-day ul {
+            margin-left: 1.5rem;
+        }
+
+        .workout-day li {
+            margin-bottom: 0.3rem;
+            font-size: 14px;
+        }
+
+        .checklist {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .checklist-item {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checklist-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .checklist-item label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .progression-box {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            margin: 0.75rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .progression-box strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .pdf-footer {
+            background-color: var(--card);
+            border-top: 2px solid var(--accent);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .pdf-footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .text-small {
+            font-size: 12px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-bold {
+            font-weight: 600;
+        }
+
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+
+        ul {
+            margin-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        em {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- HEADER -->
+    <div class="pdf-container">
+    <div class="pdf-header">
+        <h1>💪 Programa de Fortalecimiento</h1>
+        <p class="subtitle">Construye una espalda fuerte y resistente en 12 semanas</p>
+        <div class="profile-badge">Perfil: Ejecutivo Atrapado</div>
+    </div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">Introducción</div>
+        <div class="content-card">
+            <p>
+                El fortalecimiento muscular es la piedra angular de la prevención y recuperación del dolor de espalda. 
+                Como ejecutivo atrapado en el escritorio, tus músculos de la espalda, cuello y core están debilitados, 
+                lo que causa mala postura y dolor crónico.
+            </p>
+            <p>
+                Este programa de 12 semanas está diseñado específicamente para fortalecer los grupos musculares que más 
+                sufren por el sedentarismo: espalda baja, espalda media, cuello y core. Solo necesitas 30 minutos, 3 veces 
+                por semana.
+            </p>
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Beneficio comprobado:</strong> Realizar ejercicios de fortalecimiento 3 veces por semana durante 
+            12 semanas puede reducir el dolor de espalda en un 60-70% según estudios clínicos.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 1: PRINCIPLES -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">1. Principios del Fortalecimiento</div>
+        
+        <div class="content-card">
+            <p><strong>Regla de Progresión:</strong> Comienza con ejercicios básicos y aumenta la dificultad gradualmente.</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>Regla de Consistencia:</strong> 3 veces por semana es mejor que 1 vez intenso. La consistencia 
+            construye fuerza.</p>
+        </div>
+
+        <div class="content-card">
+            <p><strong>Regla de Descanso:</strong> Descansa 48 horas entre sesiones para permitir que los músculos se recuperen.</p>
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ Importante:</strong> Si sientes dolor agudo (no fatiga muscular), detente inmediatamente. 
+            El dolor es una señal de que algo no está bien.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 2: EXERCISES -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">2. Ejercicios del Programa (Semanas 1-4)</div>
+        
+        <div class="exercise-box">
+            <div class="title">Ejercicio 1: Superman (Espalda Baja)</div>
+            <div class="details">⏱️ 3 series x 10 repeticiones | Descanso: 60 segundos entre series</div>
+            <ol>
+                <li>Acuéstate boca abajo en el suelo</li>
+                <li>Extiende los brazos hacia adelante y las piernas hacia atrás</li>
+                <li>Levanta simultáneamente brazos, pecho y piernas del suelo</li>
+                <li>Mantén la posición durante 2 segundos</li>
+                <li>Baja lentamente y repite</li>
+                <li>Asegúrate de no forzar el cuello</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Ejercicio 2: Flexiones de Pared (Pecho y Espalda)</div>
+            <div class="details">⏱️ 3 series x 12 repeticiones | Descanso: 60 segundos entre series</div>
+            <ol>
+                <li>De pie, frente a una pared a un brazo de distancia</li>
+                <li>Coloca las manos en la pared a la altura de los hombros</li>
+                <li>Inclina el cuerpo hacia la pared manteniendo los pies en el suelo</li>
+                <li>Empuja para volver a la posición inicial</li>
+                <li>Realiza movimientos controlados</li>
+                <li>Conforme ganes fuerza, aléjate más de la pared</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Ejercicio 3: Planchas (Core)</div>
+            <div class="details">⏱️ 3 series x 20-30 segundos | Descanso: 60 segundos entre series</div>
+            <ol>
+                <li>Acuéstate boca abajo</li>
+                <li>Apoya los antebrazos en el suelo, codos bajo los hombros</li>
+                <li>Levanta el cuerpo del suelo, formando una línea recta</li>
+                <li>Mantén el core contraído y no dejes caer las caderas</li>
+                <li>Respira constantemente, no retengas la respiración</li>
+                <li>Aumenta el tiempo gradualmente cada semana</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Ejercicio 4: Remo Invertido (Espalda Media)</div>
+            <div class="details">⏱️ 3 series x 10 repeticiones | Descanso: 60 segundos entre series</div>
+            <ol>
+                <li>Necesitas una mesa o barra baja</li>
+                <li>Acuéstate bajo la mesa con los brazos extendidos</li>
+                <li>Agarra la mesa con las manos</li>
+                <li>Tira de tu cuerpo hacia la mesa</li>
+                <li>Baja lentamente hasta la posición inicial</li>
+                <li>Mantén el cuerpo recto como una tabla</li>
+            </ol>
+        </div>
+
+        <div class="exercise-box">
+            <div class="title">Ejercicio 5: Puente de Glúteos (Espalda Baja y Glúteos)</div>
+            <div class="details">⏱️ 3 series x 15 repeticiones | Descanso: 60 segundos entre series</div>
+            <ol>
+                <li>Acuéstate boca arriba con las rodillas dobladas</li>
+                <li>Los pies deben estar planos en el suelo, separados al ancho de las caderas</li>
+                <li>Levanta las caderas del suelo, contrayendo los glúteos</li>
+                <li>Forma una línea recta desde las rodillas hasta los hombros</li>
+                <li>Mantén durante 2 segundos en la parte superior</li>
+                <li>Baja lentamente y repite</li>
+            </ol>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Consejo:</strong> Realiza estos ejercicios en este orden: Superman → Flexiones → Planchas → 
+            Remo Invertido → Puente. Descansa 2 minutos entre ejercicios.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 3: PROGRESSION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">3. Progresión (Semanas 5-12)</div>
+        
+        <div class="progression-box">
+            <strong>Semanas 5-8: Aumenta Repeticiones</strong>
+            Superman: 15 reps | Flexiones: 15 reps | Planchas: 45 segundos | Remo: 15 reps | Puente: 20 reps
+        </div>
+
+        <div class="progression-box">
+            <strong>Semanas 9-12: Aumenta Dificultad</strong>
+            Superman: 20 reps | Flexiones: 20 reps (más lejos de la pared) | Planchas: 60 segundos | 
+            Remo: 20 reps | Puente: 25 reps
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Regla de Progresión:</strong> Cuando puedas completar todas las repeticiones cómodamente, 
+            aumenta el número de repeticiones o la dificultad del ejercicio.
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 4: WEEKLY SCHEDULE -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">4. Horario Semanal Recomendado</div>
+        
+        <div class="workout-schedule">
+            <div class="workout-day">
+                <strong>Lunes: Sesión Completa (30 minutos)</strong>
+                <ul>
+                    <li>Calentamiento: 5 minutos (caminar, estiramientos)</li>
+                    <li>Ejercicios: 20 minutos (todos los 5 ejercicios)</li>
+                    <li>Enfriamiento: 5 minutos (estiramientos)</li>
+                </ul>
+            </div>
+
+            <div class="workout-day">
+                <strong>Martes: Descanso o Pausas Activas</strong>
+                <ul>
+                    <li>Realiza pausas activas si lo deseas</li>
+                    <li>Practica técnicas de respiración</li>
+                    <li>Descansa completamente</li>
+                </ul>
+            </div>
+
+            <div class="workout-day">
+                <strong>Miércoles: Sesión Completa (30 minutos)</strong>
+                <ul>
+                    <li>Mismo formato que el lunes</li>
+                    <li>Aumenta repeticiones si es posible</li>
+                </ul>
+            </div>
+
+            <div class="workout-day">
+                <strong>Jueves: Descanso</strong>
+                <ul>
+                    <li>Descansa completamente</li>
+                    <li>Hidratación y nutrición adecuada</li>
+                </ul>
+            </div>
+
+            <div class="workout-day">
+                <strong>Viernes: Sesión Completa (30 minutos)</strong>
+                <ul>
+                    <li>Mismo formato que lunes y miércoles</li>
+                    <li>Intenta mejorar tu rendimiento anterior</li>
+                </ul>
+            </div>
+
+            <div class="workout-day">
+                <strong>Sábado y Domingo: Descanso</strong>
+                <ul>
+                    <li>Recuperación activa (caminar, estiramientos suaves)</li>
+                    <li>Prepárate para la próxima semana</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 5: IMPLEMENTATION -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">5. Plan de Implementación (12 Semanas)</div>
+        
+        <div class="checklist">
+            <div class="checklist-item">
+                <input type="checkbox" id="check1">
+                <label for="check1">Semana 1: Aprendo todos los ejercicios con buena forma</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check2">
+                <label for="check2">Semana 2-4: Completo 3 sesiones por semana</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check3">
+                <label for="check3">Semana 5-8: Aumento repeticiones según el plan</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check4">
+                <label for="check4">Semana 9-12: Aumento dificultad de ejercicios</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check5">
+                <label for="check5">Semana 12: Evalúo mi fuerza y dolor de espalda</label>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- SECTION 6: TIPS -->
+    <div class="pdf-container">
+    <div class="section">
+        <div class="section-title">6. Consejos Prácticos</div>
+        
+        <div class="success-box">
+            <strong>✓ Consejo 1:</strong> La forma es más importante que la cantidad. Mejor 5 repeticiones perfectas 
+            que 20 mal ejecutadas.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 2:</strong> Registra tu progreso. Anota cuántas repeticiones haces cada sesión. 
+            Ver el progreso es motivador.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 3:</strong> Combina con pausas activas y técnicas de respiración para máximos resultados.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 4:</strong> Duerme 7-8 horas. El sueño es cuando los músculos se reparan y fortalecen.
+        </div>
+
+        <div class="success-box">
+            <strong>✓ Consejo 5:</strong> Mantén una buena nutrición. Proteína y agua son esenciales para la recuperación muscular.
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ Nota importante:</strong> Si tienes lesiones previas o condiciones médicas, consulta con tu médico 
+            o fisioterapeuta antes de comenzar este programa.
+        </div>
+    </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="pdf-container">
+    <div class="pdf-footer">
+        <p><strong>Método RESET - Programa de Fortalecimiento</strong></p>
+        <p>El fortalecimiento es fundamental para la recuperación a largo plazo. Combina este programa con pausas activas, 
+        técnicas de respiración y buena postura para obtener resultados óptimos en 12 semanas.</p>
+        <p class="text-small">© 2026 Método RESET. Todos los derechos reservados.</p>
+    </div>
+    </div>
+
+    <!-- BOTTOM SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+    <!-- COPYRIGHT & DISTRIBUTION NOTICE -->
+    <div class="pdf-container">
+    <div style="background-color: rgba(30, 64, 175, 0.08); border: 1px solid var(--border); padding: 1.25rem; border-radius: 4px; margin-top: 2rem; font-size: 12px; color: var(--muted); line-height: 1.6;">
+        <p style="margin-bottom: 0.75rem;"><strong style="color: var(--foreground);">© 2026 Método RESET. Todos los derechos reservados.</strong></p>
+        <p style="margin-bottom: 0.75rem;">Este documento es confidencial y está destinado únicamente al usuario que lo recibió. Contiene información propietaria y estratégica de Método RESET.</p>
+        <p style="margin-bottom: 0.75rem;"><strong style="color: #ef4444;">⚠️ PROHIBIDA LA DISTRIBUCIÓN:</strong> No está permitida la reproducción, distribución, transmisión o divulgación de este documento, en su totalidad o en parte, sin autorización expresa por escrito de los documentos del Método RESET.</p>
+        <p style="margin-bottom: 0;">El incumplimiento de estas restricciones puede resultar en acciones legales. Para consultas sobre permisos, contacta con nosotros en contacto@bestronger.es</p>
+    </div>
+    </div>
+
+    <!-- FINAL SPACING -->
+    <div style="height: 1.5rem;"></div>
+
+</body>
+</html>

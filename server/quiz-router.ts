@@ -138,8 +138,8 @@ export const quizRouter = router({
         const quizData = quizResult[0];
         const userName = `${quizData.firstName} ${quizData.lastName}`;
 
-        // Get PDF template
-        const pdfTemplate = getPDFTemplate();
+        // Get PDF template based on resource type
+        const pdfTemplate = getPDFTemplate(input.resourceType);
 
         // Generate personalized PDF
         const pdfBuffer = await generatePDF(

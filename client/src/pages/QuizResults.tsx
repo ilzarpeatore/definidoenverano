@@ -12,7 +12,7 @@ interface ProfileInfo {
   description: string;
   color: string;
   icon: string;
-  recommendations: string[];
+  recommendations: Array<{ text: string; resourceType: string }>;
 }
 
 const PROFILE_INFO: Record<string, ProfileInfo> = {
@@ -22,10 +22,10 @@ const PROFILE_INFO: Record<string, ProfileInfo> = {
     color: 'from-blue-500 to-blue-600',
     icon: '💼',
     recommendations: [
-      'Implementar pausas activas cada 2 horas',
-      'Mejorar la postura en el escritorio',
-      'Reducir estrés con técnicas de respiración',
-      'Ejercicio de fortalecimiento 3x por semana'
+      { text: 'Implementar pausas activas cada 2 horas', resourceType: 'pausas_activas' },
+      { text: 'Mejorar la postura en el escritorio', resourceType: 'postura_escritorio' },
+      { text: 'Reducir estrés con técnicas de respiración', resourceType: 'tecnicas_respiracion' },
+      { text: 'Ejercicio de fortalecimiento 3x por semana', resourceType: 'fortalecimiento' }
     ]
   },
   emprendedor_quemado: {
@@ -34,10 +34,10 @@ const PROFILE_INFO: Record<string, ProfileInfo> = {
     color: 'from-red-500 to-red-600',
     icon: '🔥',
     recommendations: [
-      'Urgente: Establecer límites de trabajo',
-      'Programa de recuperación intensiva',
-      'Consulta con especialista recomendada',
-      'Integrar movimiento en tu rutina diaria'
+      { text: 'Urgente: Establecer límites de trabajo', resourceType: 'limites_trabajo' },
+      { text: 'Programa de recuperación intensiva', resourceType: 'recuperacion_intensiva' },
+      { text: 'Consulta con especialista recomendada', resourceType: 'consulta_especialista' },
+      { text: 'Integrar movimiento en tu rutina diaria', resourceType: 'movimiento_diario' }
     ]
   },
   atleta_lesionado: {
@@ -46,10 +46,10 @@ const PROFILE_INFO: Record<string, ProfileInfo> = {
     color: 'from-orange-500 to-orange-600',
     icon: '⚡',
     recommendations: [
-      'Rehabilitación progresiva personalizada',
-      'Fortalecimiento específico de la zona afectada',
-      'Vuelta gradual a la actividad física',
-      'Seguimiento periódico del progreso'
+      { text: 'Rehabilitación progresiva personalizada', resourceType: 'rehabilitacion_progresiva' },
+      { text: 'Fortalecimiento específico de la zona afectada', resourceType: 'fortalecimiento_especifico' },
+      { text: 'Vuelta gradual a la actividad física', resourceType: 'vuelta_actividad' },
+      { text: 'Seguimiento periódico del progreso', resourceType: 'seguimiento_progreso' }
     ]
   },
   recien_diagnosticado: {
@@ -58,10 +58,10 @@ const PROFILE_INFO: Record<string, ProfileInfo> = {
     color: 'from-green-500 to-green-600',
     icon: '🌱',
     recommendations: [
-      'Empezar con ejercicios básicos de movilidad',
-      'Identificar y eliminar factores de riesgo',
-      'Crear una rutina de prevención',
-      'Educación sobre postura y movimiento'
+      { text: 'Empezar con ejercicios básicos de movilidad', resourceType: 'movilidad_basica' },
+      { text: 'Identificar y eliminar factores de riesgo', resourceType: 'factores_riesgo' },
+      { text: 'Crear una rutina de prevención', resourceType: 'rutina_prevencion' },
+      { text: 'Educación sobre postura y movimiento', resourceType: 'educacion_postura' }
     ]
   }
 };
@@ -101,27 +101,12 @@ export default function QuizResults() {
     );
   }
 
-  if (!quizId || quizId === 0) {
-    return (
-      <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
-        <div className="text-center">
-          <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold mb-2">Quiz no encontrado</h1>
-          <p className="text-gray-400 mb-4">No pudimos encontrar tu evaluación. ID inválido.</p>
-          <Button onClick={() => window.location.href = '/quiz'}>
-            Volver al Quiz
-          </Button>
-        </div>
-      </div>
-    );
-  }
-
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4 text-accent" />
-          <p className="text-gray-400">Cargando tu reporte personalizado...</p>
+          <p className="text-gray-400">Generando tu reporte...</p>
         </div>
       </div>
     );
@@ -131,50 +116,30 @@ export default function QuizResults() {
     return (
       <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
         <div className="text-center">
-          <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold mb-2">Error al cargar resultados</h1>
-          <p className="text-gray-400 mb-4">{error?.message || 'Algo salió mal'}</p>
-          <Button onClick={() => window.location.href = '/quiz'}>
-            Volver al Quiz
-          </Button>
+          <AlertCircle className="w-12 h-12 mx-auto mb-4 text-danger" />
+          <h2 className="text-2xl font-bold mb-2">Quiz no encontrado</h2>
+          <p className="text-gray-400 mb-6">No pudimos encontrar tu evaluación.</p>
+          <Button onClick={() => window.location.href = '/quiz'}>Realizar Quiz Nuevamente</Button>
         </div>
       </div>
     );
   }
 
-  const profile = PROFILE_INFO[results.profile] || PROFILE_INFO.recien_diagnosticado;
-  const severityLabel = results.severity <= 3 ? 'Leve' : results.severity <= 6 ? 'Moderado' : 'Severo';
-  const severityColor = results.severity <= 3 ? 'text-green-400' : results.severity <= 6 ? 'text-yellow-400' : 'text-red-400';
+  const profile = PROFILE_INFO[results.profile] || PROFILE_INFO.ejecutivo_atrapado;
 
   return (
     <div className="min-h-screen bg-background text-foreground py-12 px-4">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Tu Reporte Personalizado</h1>
-          <p className="text-gray-400 text-lg">Basado en tu evaluación de {results.totalScore} puntos</p>
-        </div>
-
-        {/* Profile Card */}
-        <div className={`bg-gradient-to-r ${profile.color} rounded-lg p-8 mb-8 text-white shadow-lg`}>
-          <div className="flex items-start gap-4 mb-6">
-            <span className="text-5xl">{profile.icon}</span>
+      <div className="max-w-3xl mx-auto">
+        {/* Profile Header */}
+        <div className={`bg-gradient-to-r ${profile.color} rounded-lg p-8 mb-8 text-white`}>
+          <div className="flex items-start gap-4">
+            <div className="text-5xl">{profile.icon}</div>
             <div className="flex-1">
-              <h2 className="text-3xl font-bold mb-2">{profile.name}</h2>
-              <p className="text-white/90">{profile.description}</p>
-            </div>
-          </div>
-
-          {/* Severity Indicator */}
-          <div className="bg-white/20 rounded-lg p-4 backdrop-blur-sm">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-white/80 mb-1">Nivel de Severidad</p>
-                <p className={`text-2xl font-bold ${severityColor}`}>{severityLabel}</p>
-              </div>
-              <div className="text-right">
-                <p className="text-sm text-white/80 mb-1">Puntuación</p>
-                <p className="text-2xl font-bold">{results.severity}/10</p>
+              <h1 className="text-3xl font-bold mb-2">{profile.name}</h1>
+              <p className="text-lg opacity-95">{profile.description}</p>
+              <div className="mt-4 text-sm opacity-90">
+                <p><strong>Puntuación:</strong> {results.totalScore} / 20</p>
+                <p><strong>Severidad:</strong> {results.severity} / 10</p>
               </div>
             </div>
           </div>
@@ -192,11 +157,11 @@ export default function QuizResults() {
               <div key={idx} className="flex items-start gap-3 p-4 bg-card rounded-lg border border-border">
                 <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
                 <div className="flex-1">
-                  <p className="text-gray-300 mb-2">{rec}</p>
+                  <p className="text-gray-300 mb-2">{rec.text}</p>
                   {quizId && (
                     <DownloadGuideButton
                       quizId={quizId}
-                      resourceType={`rec_${idx}`}
+                      resourceType={rec.resourceType}
                       resourceName="Guía"
                       className="text-sm py-1 px-3 h-auto"
                     />
@@ -210,61 +175,35 @@ export default function QuizResults() {
         {/* User Info */}
         <div className="card-glass border border-border rounded-lg p-8 mb-8">
           <h3 className="text-xl font-bold mb-4">Tu Información</h3>
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <p className="text-sm text-gray-400 mb-1">Nombre</p>
-              <p className="text-white">{results.firstName} {results.lastName}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-400 mb-1">Email</p>
-              <p className="text-white">{results.email}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-400 mb-1">Fecha de Evaluación</p>
-              <p className="text-white">
-                {new Date(results.createdAt).toLocaleDateString('es-ES', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-400 mb-1">Perfil</p>
-              <p className="text-white">{profile.name}</p>
-            </div>
+          <div className="space-y-2 text-gray-300">
+            <p><strong>Nombre:</strong> {results.firstName} {results.lastName}</p>
+            <p><strong>Email:</strong> {results.email}</p>
+            <p><strong>Fecha de Evaluación:</strong> {new Date(results.createdAt).toLocaleDateString('es-ES')}</p>
           </div>
         </div>
 
-        {/* CTA Section */}
-        <div className="card-glass border border-border rounded-lg p-8 text-center">
-          <h3 className="text-2xl font-bold mb-4">¿Listo para transformar tu salud?</h3>
-          <p className="text-gray-400 mb-6 max-w-2xl mx-auto">
-            El Método RESET está diseñado específicamente para personas como tú. Acceso inmediato a tu programa personalizado, ejercicios, y seguimiento continuo.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              variant="outline"
-              onClick={() => window.location.href = '/'}
-              className="flex-1 sm:flex-none"
-            >
-              Volver al Inicio
-            </Button>
-            <Button
-              onClick={() => window.location.href = '/price'}
-              className="flex-1 sm:flex-none bg-gradient-to-r from-accent to-green-500 hover:from-accent/90 hover:to-green-500/90"
-            >
-              Ver Planes y Precios
-            </Button>
-          </div>
+        {/* Next Steps */}
+        <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-6 mb-8">
+          <h3 className="text-lg font-bold mb-3 flex items-center gap-2">
+            <CheckCircle className="w-5 h-5 text-accent" />
+            Próximos Pasos
+          </h3>
+          <ul className="space-y-2 text-gray-300 text-sm">
+            <li>✓ Descarga las guías personalizadas para tu perfil</li>
+            <li>✓ Comienza con la guía de pausas activas esta semana</li>
+            <li>✓ Implementa gradualmente cada recomendación</li>
+            <li>✓ Monitorea tu progreso y ajusta según sea necesario</li>
+          </ul>
         </div>
 
-        {/* Footer Note */}
-        <div className="mt-12 text-center text-gray-500 text-sm">
-          <p>
-            Este reporte es una evaluación inicial. Para un diagnóstico completo, consulta con un profesional de salud.
-          </p>
+        {/* CTA */}
+        <div className="text-center">
+          <Button 
+            onClick={() => window.location.href = '/'}
+            className="bg-accent hover:bg-accent/90"
+          >
+            Volver a Inicio
+          </Button>
         </div>
       </div>
     </div>
