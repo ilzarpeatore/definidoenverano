@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Loader2, CheckCircle, AlertCircle, TrendingUp } from 'lucide-react';
 import { trpc } from '@/lib/trpc';
@@ -65,29 +64,47 @@ const PROFILE_INFO: Record<string, ProfileInfo> = {
 };
 
 export default function QuizResults() {
-  const [location] = useLocation();
   const [quizId, setQuizId] = useState<number | null>(null);
 
   useEffect(() => {
-    const params = new URLSearchParams(location.split('?')[1]);
-    const id = params.get('id');
-    if (id) {
-      setQuizId(parseInt(id));
+    try {
+      // Extract query string from window.location
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      
+      if (id && !isNaN(parseInt(id))) {
+        setQuizId(parseInt(id));
+      } else {
+        console.error('Invalid or missing quiz ID in URL:', id);
+      }
+    } catch (error) {
+      console.error('Error parsing quiz ID from URL:', error);
     }
-  }, [location]);
+  }, []);
 
   const { data: results, isLoading, error } = trpc.quiz.getResults.useQuery(
     { quizId: quizId! },
     { enabled: quizId !== null }
   );
 
-  if (!quizId) {
+  if (quizId === null) {
+    return (
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4 text-accent" />
+          <p className="text-gray-400">Cargando tu reporte personalizado...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!quizId || quizId === 0) {
     return (
       <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
         <div className="text-center">
           <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
           <h1 className="text-2xl font-bold mb-2">Quiz no encontrado</h1>
-          <p className="text-gray-400 mb-4">No pudimos encontrar tu evaluación.</p>
+          <p className="text-gray-400 mb-4">No pudimos encontrar tu evaluación. ID inválido.</p>
           <Button onClick={() => window.location.href = '/quiz'}>
             Volver al Quiz
           </Button>
