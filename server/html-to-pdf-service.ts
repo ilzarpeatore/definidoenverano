@@ -1,5 +1,6 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
+import { html2pdf } from 'node-html2pdf';
 
 interface PDFOptions {
   userName: string;
@@ -57,7 +58,7 @@ function personalizeHTMLTemplate(htmlContent: string, options: PDFOptions): stri
 }
 
 /**
- * Generate PDF from HTML template using Puppeteer (headless Chrome)
+ * Generate PDF from HTML template using node-html2pdf
  */
 export async function generatePDFFromTemplate(options: PDFOptions): Promise<Buffer> {
   try {
@@ -69,30 +70,22 @@ export async function generatePDFFromTemplate(options: PDFOptions): Promise<Buff
     
     // Read the HTML template file
     const templatePath = join(process.cwd(), templateFileName);
+    console.log(`[PDF] Reading template from: ${templatePath}`);
     let htmlContent = readFileSync(templatePath, 'utf-8');
+    console.log(`[PDF] Template content length: ${htmlContent.length} bytes`);
     
     // Personalize the HTML with user data
     htmlContent = personalizeHTMLTemplate(htmlContent, options);
     
-    // Use Puppeteer to convert HTML to PDF
-    const puppeteer = await import('puppeteer');
-    const browser = await puppeteer.default.launch({ headless: true });
-    const page = await browser.newPage();
-    
-    // Set content and wait for images to load
-    await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
-    
-    // Generate PDF
-    const pdfUint8Array = await page.pdf({
-      format: 'A4',
-      margin: { top: '0.5in', right: '0.5in', bottom: '0.5in', left: '0.5in' },
-      printBackground: true,
+    // Use node-html2pdf to convert HTML to PDF
+    const pdfBuffer = await html2pdf(htmlContent, {
+      launchOptions: {
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      },
     });
     
-    await browser.close();
-    
-    // Convert Uint8Array to Buffer
-    return Buffer.from(pdfUint8Array);
+    console.log(`[PDF] Generated PDF size: ${pdfBuffer.length} bytes`);
+    return pdfBuffer;
   } catch (error) {
     console.error('Error generating PDF from template:', error);
     throw new Error(`Error al generar PDF para ${options.resourceType}: ${error instanceof Error ? error.message : 'Unknown error'}`);
