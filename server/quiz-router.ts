@@ -3,7 +3,13 @@ import { publicProcedure, router } from './_core/trpc';
 import { getDb } from './db';
 import { quizResponses, resourceDownloads } from '../drizzle/schema';
 import { sendQuizResultsEmail } from './email-service';
-import { generatePDF, getPDFTemplate } from './pdf-service';
+import {
+  generatePausasActivasPDF,
+  generateTecnicasRespiracionPDF,
+  generateFortalecimientoPDF,
+  generateLimitesTrabajoPDF,
+  generateGenericFillablePDF
+} from './fillable-pdf-service';
 import { eq } from 'drizzle-orm';
 
 const submitQuizSchema = z.object({
@@ -137,16 +143,40 @@ export const quizRouter = router({
 
         const quizData = quizResult[0];
         const userName = `${quizData.firstName} ${quizData.lastName}`;
+        const userEmail = quizData.email;
+        const profileType = quizData.profile;
 
-        // Get PDF template based on resource type
-        const pdfTemplate = getPDFTemplate(input.resourceType);
+        // Generate fillable PDF based on resource type using pdfkit
+        let pdfBuffer: Buffer;
 
-        // Generate personalized PDF
-        const pdfBuffer = await generatePDF(
-          pdfTemplate,
-          `guia-${input.resourceType}`,
-          userName
-        );
+        const pdfOptions = {
+          userName,
+          userEmail,
+          profileType,
+          resourceType: input.resourceType
+        };
+
+        switch (input.resourceType) {
+          case 'pausas_activas':
+            pdfBuffer = generatePausasActivasPDF(pdfOptions);
+            break;
+          case 'tecnicas_respiracion':
+            pdfBuffer = generateTecnicasRespiracionPDF(pdfOptions);
+            break;
+          case 'fortalecimiento':
+            pdfBuffer = generateFortalecimientoPDF(pdfOptions);
+            break;
+          case 'limites_trabajo':
+            pdfBuffer = generateLimitesTrabajoPDF(pdfOptions);
+            break;
+          default:
+            // Fallback for other resource types
+            pdfBuffer = generateGenericFillablePDF(
+              pdfOptions,
+              `Guía: ${input.resourceType}`,
+              'Contenido de la guía. Esta es una guía personalizada para tu recuperación.'
+            );
+        }
 
         // Track download
         const userAgent = ctx.req.get('user-agent') || 'unknown';
