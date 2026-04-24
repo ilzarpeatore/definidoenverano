@@ -393,3 +393,23 @@
 - [ ] Create 4 profile-specific email templates in Brevo (IDs 10-13)
 - [ ] Test complete quiz flow (Quiz → Results → Email)
 - [ ] Add quiz link to landing page CTAs
+
+
+## SEO Critical Fixes (Seomator Audit)
+- [ ] Add H1 tag to HeroSection component (currently missing)
+- [ ] Reduce meta description to 120-160 characters (currently 198)
+- [ ] Remove max-snippet:-1 from meta robots tag in index.html
+- [ ] Add semantic HTML5 structure (header, main, footer landmarks)
+- [ ] Fix sitemap domain configuration (100% incorrect)
+- [ ] Add internal navigation links (currently no internal links)
+- [ ] Optimize HTML size (currently 367.8 KB, target < 250 KB)
+- [ ] Fix 404 error handling (soft 404 issue)
+- [ ] Remove intrusive mobile interstitial (cookie banner)
+- [ ] Add privacy policy and about page links to footer
+- [ ] Add author expertise indicators
+- [ ] Add content date signals
+- [ ] Add YMYL disclaimers for health content
+- [ ] Add social share buttons
+- [ ] Add more social profiles (LinkedIn, YouTube, TikTok)
+- [ ] Implement proper cookie consent mechanism
+- [ ] Fix JavaScript redirects
