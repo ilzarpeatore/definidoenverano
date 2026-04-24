@@ -14,7 +14,7 @@ import {
  * - Builds trust through transparency
  */
 
-export default function FAQSection() {
+export default function FAQSection({ id }: { id?: string } = {}) {
   const faqs = [
     {
       question: '¿Cuánto tiempo necesito dedicar?',
@@ -59,7 +59,7 @@ export default function FAQSection() {
   ];
 
   return (
-    <section className="relative py-8 md:py-32 bg-background overflow-hidden">
+    <section id={id || 'faq'} className="relative py-8 md:py-32 bg-background overflow-hidden">
       <div className="container max-w-3xl mx-auto px-4">
         {/* Header */}
         <motion.div

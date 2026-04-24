@@ -41,7 +41,7 @@ export default function ProblemSection() {
   ];
 
   return (
-    <section className="relative py-8 md:py-32 bg-background overflow-hidden">
+    <section id="problem" className="relative py-8 md:py-32 bg-background overflow-hidden">
       <div className="container max-w-6xl mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left: Before/After Image */}

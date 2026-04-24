@@ -27,6 +27,20 @@ import PricingOfferBlock from '@/components/PricingOfferBlock';
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
+      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+        <nav className="container max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+          <a href="/" className="flex items-center gap-2 font-display text-xl font-bold text-accent hover:text-accent/80 transition-colors">
+            <span>MÉTODO RESET</span>
+          </a>
+          <div className="flex items-center gap-6">
+            <a href="#solution" className="text-sm font-semibold hover:text-accent transition-colors">Solución</a>
+            <a href="/quiz" className="text-sm font-semibold hover:text-accent transition-colors">Quiz</a>
+            <a href="/quick-assessment" className="text-sm font-semibold hover:text-accent transition-colors">Valoración</a>
+            <a href="#cta" className="text-sm font-semibold hover:text-accent transition-colors">Precios</a>
+            <a href="#faq" className="text-sm font-semibold hover:text-accent transition-colors">FAQ</a>
+          </div>
+        </nav>
+      </header>
       <main className="flex-1">
         <HeroSection />
         

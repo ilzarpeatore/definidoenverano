@@ -73,7 +73,7 @@ export default function SolutionSection() {
   ];
 
   return (
-    <section className="relative py-8 md:py-32 bg-background overflow-hidden">
+    <section id="solution" className="relative py-8 md:py-32 bg-background overflow-hidden">
       <div className="container max-w-6xl mx-auto px-4">
         {/* Header */}
         <motion.div

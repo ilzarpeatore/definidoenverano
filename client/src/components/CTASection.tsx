@@ -53,7 +53,7 @@ export default function CTASection() {
   ];
 
   return (
-    <section className="relative py-8 md:py-32 bg-background overflow-hidden">
+    <section id="cta" className="relative py-8 md:py-32 bg-background overflow-hidden">
       <div className="container max-w-4xl mx-auto px-4">
         <motion.div
           className="text-center mb-12"
