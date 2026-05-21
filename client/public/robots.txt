@@ -4,7 +4,7 @@ Disallow: /admin
 Disallow: /private
 Disallow: /__manus__
 
-Sitemap: https://definidoenverano.com/sitemap.xml
+Sitemap: https://reset.bestronger.es/sitemap.xml
 
 # Crawl delay
 Crawl-delay: 1

@@ -202,18 +202,18 @@ export default function QuickAssessment() {
 
   if (showPersonalDataForm) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-background to-slate-900 py-12 px-4">
-        <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-12">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-background to-slate-900 py-8 sm:py-12 px-4 overflow-x-hidden">
+        <div className="max-w-2xl mx-auto w-full">
+          <div className="text-center mb-8 sm:mb-12">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-2 sm:mb-4">
                 Casi listo
               </h1>
-              <p className="text-lg text-muted-foreground">
+              <p className="text-sm sm:text-base md:text-lg text-muted-foreground px-2">
                 Completa tus datos para recibir recomendaciones personalizadas basadas en tu valoración
               </p>
             </motion.div>
@@ -223,49 +223,49 @@ export default function QuickAssessment() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
-            className="bg-card border border-border rounded-lg p-8 mb-8"
+            className="bg-card border border-border rounded-lg p-4 sm:p-6 md:p-8 mb-6 sm:mb-8 overflow-x-hidden"
           >
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-white mb-2">Nombre</label>
+            <div className="space-y-3 sm:space-y-4 overflow-x-hidden">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                <div className="min-w-0">
+                  <label className="block text-xs sm:text-sm font-medium text-white mb-2">Nombre</label>
                   <input
                     type="text"
                     value={personalData.firstName}
                     onChange={(e) => handlePersonalDataChange('firstName', e.target.value)}
                     placeholder="Tu nombre"
-                    className="w-full px-4 py-2 bg-slate-800 border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent"
+                    className="w-full px-3 sm:px-4 py-2 bg-slate-800 border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent text-sm"
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-white mb-2">Apellidos</label>
+                <div className="min-w-0">
+                  <label className="block text-xs sm:text-sm font-medium text-white mb-2">Apellidos</label>
                   <input
                     type="text"
                     value={personalData.lastName}
                     onChange={(e) => handlePersonalDataChange('lastName', e.target.value)}
                     placeholder="Tus apellidos"
-                    className="w-full px-4 py-2 bg-slate-800 border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent"
+                    className="w-full px-3 sm:px-4 py-2 bg-slate-800 border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent text-sm"
                   />
                 </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-white mb-2">Email</label>
+              <div className="min-w-0">
+                <label className="block text-xs sm:text-sm font-medium text-white mb-2">Email</label>
                 <input
                   type="email"
                   value={personalData.email}
                   onChange={(e) => handlePersonalDataChange('email', e.target.value)}
                   placeholder="tu@email.com"
-                  className="w-full px-4 py-2 bg-slate-800 border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent"
+                  className="w-full px-3 sm:px-4 py-2 bg-slate-800 border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent text-sm"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-white mb-2">Teléfono</label>
+              <div className="min-w-0">
+                <label className="block text-xs sm:text-sm font-medium text-white mb-2">Teléfono</label>
                 <input
                   type="tel"
                   value={personalData.phone}
                   onChange={(e) => handlePersonalDataChange('phone', e.target.value)}
                   placeholder="+34 600 000 000"
-                  className="w-full px-4 py-2 bg-slate-800 border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent"
+                  className="w-full px-3 sm:px-4 py-2 bg-slate-800 border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent text-sm"
                 />
               </div>
             </div>
@@ -286,17 +286,17 @@ export default function QuickAssessment() {
             </div>
           </motion.div>
 
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 overflow-x-hidden">
             <Button
               variant="outline"
               onClick={() => setShowPersonalDataForm(false)}
-              className="flex-1"
+              className="flex-1 text-sm sm:text-base"
             >
               Volver
             </Button>
             <Button
               onClick={handleFinalSubmit}
-              className="flex-1 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700"
+              className="flex-1 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-sm sm:text-base"
             >
               Ver Resultados <ChevronRight className="w-4 h-4 ml-2" />
             </Button>

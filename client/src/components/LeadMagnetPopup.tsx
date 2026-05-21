@@ -91,29 +91,30 @@ export default function LeadMagnetPopup() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 overflow-y-auto"
           onClick={handleClose}
         >
           <motion.div
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
-            className="bg-card border border-border rounded-lg max-w-md w-full overflow-hidden"
+            className="bg-card border border-border rounded-lg w-full max-w-md overflow-hidden my-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header */}
-            <div className="bg-gradient-to-r from-accent/20 to-secondary/20 p-6 relative">
+            {/* Header with close button */}
+            <div className="bg-gradient-to-r from-accent/20 to-secondary/20 p-4 sm:p-6 relative">
               <button
                 onClick={handleClose}
-                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+                className="absolute top-3 right-3 sm:top-4 sm:right-4 p-1 text-gray-400 hover:text-white transition-colors z-10 flex-shrink-0"
+                aria-label="Cerrar"
               >
-                <X size={20} />
+                <X size={24} className="w-6 h-6" />
               </button>
 
-              <h2 className="text-2xl font-bold text-white mb-2">
+              <h2 className="text-xl sm:text-2xl font-bold text-white mb-2 pr-8">
                 {isControl ? 'Valoración Personalizada Gratuita' : '🎯 Descubre Tu Plan Personalizado'}
               </h2>
-              <p className="text-gray-300 text-sm mb-3">
+              <p className="text-gray-300 text-xs sm:text-sm mb-3">
                 {isControl ? 'Descubre cómo el Método RESET puede aliviar tu dolor lumbar en 6 semanas.' : 'Análisis personalizado + recomendaciones específicas para tu tipo de dolor.'}
               </p>
               <div className="pt-3 border-t border-accent/20">
@@ -122,7 +123,7 @@ export default function LeadMagnetPopup() {
                   href="https://wa.me/34666777888"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-semibold text-sm transition-colors hover:underline"
+                  className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-semibold text-xs sm:text-sm transition-colors hover:underline"
                 >
                   <span>📱 +34 666 777 888</span>
                 </a>
@@ -130,10 +131,10 @@ export default function LeadMagnetPopup() {
             </div>
 
             {/* Form */}
-            <form onSubmit={handleSubmit} className="p-6 space-y-4">
+            <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 max-h-[70vh] overflow-y-auto">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm font-medium text-white mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-white mb-2">
                     Nombre
                   </label>
                   <input
@@ -141,12 +142,12 @@ export default function LeadMagnetPopup() {
                     value={formData.firstName}
                     onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                     placeholder="Tu nombre"
-                    className="w-full px-4 py-2 bg-background border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent transition-colors"
+                    className="w-full px-3 sm:px-4 py-2 bg-background border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent transition-colors text-sm"
                     disabled={isLoading}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-white mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-white mb-2">
                     Apellido
                   </label>
                   <input
@@ -154,14 +155,14 @@ export default function LeadMagnetPopup() {
                     value={formData.lastName}
                     onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                     placeholder="Tu apellido"
-                    className="w-full px-4 py-2 bg-background border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent transition-colors"
+                    className="w-full px-3 sm:px-4 py-2 bg-background border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent transition-colors text-sm"
                     disabled={isLoading}
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-white mb-2">
                   Teléfono
                 </label>
                 <input
@@ -169,13 +170,13 @@ export default function LeadMagnetPopup() {
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   placeholder="+34 666 777 888"
-                  className="w-full px-4 py-2 bg-background border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent transition-colors"
+                  className="w-full px-3 sm:px-4 py-2 bg-background border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent transition-colors text-sm"
                   disabled={isLoading}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-white mb-2">
                   Email
                 </label>
                 <input
@@ -183,13 +184,13 @@ export default function LeadMagnetPopup() {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="tu@email.com"
-                  className="w-full px-4 py-2 bg-background border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent transition-colors"
+                  className="w-full px-3 sm:px-4 py-2 bg-background border border-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent transition-colors text-sm"
                   disabled={isLoading}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-white mb-2">
                   ¿Cuál es tu nivel de dolor? (1-10)
                 </label>
                 <div className="flex items-center gap-4">
@@ -202,7 +203,7 @@ export default function LeadMagnetPopup() {
                     className="flex-1 h-2 bg-border rounded-lg appearance-none cursor-pointer accent-accent"
                     disabled={isLoading}
                   />
-                  <span className="text-white font-bold text-lg w-8 text-center">
+                  <span className="text-white font-bold text-lg w-8 text-center flex-shrink-0">
                     {formData.painLevel}
                   </span>
                 </div>
@@ -218,7 +219,7 @@ export default function LeadMagnetPopup() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-accent hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed text-black font-bold py-3 rounded-lg transition-all duration-300 transform hover:scale-105"
+                className="w-full bg-accent hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed text-black font-bold py-3 rounded-lg transition-all duration-300 transform hover:scale-105 text-sm sm:text-base"
                 onClick={() => trackConversion('popup_cta_click')}
               >
                 {isLoading ? 'Enviando...' : isControl ? 'Recibir Valoración Gratuita' : '✓ Obtener Análisis Personalizado'}
@@ -230,19 +231,19 @@ export default function LeadMagnetPopup() {
             </form>
 
             {/* Benefits */}
-            <div className="px-6 pb-6 border-t border-border">
+            <div className="px-4 sm:px-6 pb-4 sm:pb-6 border-t border-border">
               <p className="text-xs font-semibold text-accent mb-3">Tu valoración incluye:</p>
               <ul className="space-y-2 text-xs text-gray-300">
                 <li className="flex items-start gap-2">
-                  <span className="text-secondary mt-1">✓</span>
+                  <span className="text-secondary mt-1 flex-shrink-0">✓</span>
                   <span>Análisis de tu tipo de dolor</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-secondary mt-1">✓</span>
+                  <span className="text-secondary mt-1 flex-shrink-0">✓</span>
                   <span>Plan personalizado para ti</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-secondary mt-1">✓</span>
+                  <span className="text-secondary mt-1 flex-shrink-0">✓</span>
                   <span>Acceso a recursos exclusivos</span>
                 </li>
               </ul>
